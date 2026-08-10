@@ -1,0 +1,12 @@
+{
+  "name": "SHADOW SPIRE — หอคอยเงาสะท้อน",
+  "short_name": "Shadow Spire",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0814",
+  "theme_color": "#0a0814",
+  "icons": [
+    { "src": "icon/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

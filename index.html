@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHADOW SPIRE — หอคอยเงาสะท้อน</title>
+<link rel="icon" type="image/png" sizes="16x16" href="icon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icon/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0a0814">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/menu.css">
+<link rel="stylesheet" href="css/battle.css">
+</head>
+<body>
+<div id="app-root">
+
+  <!-- MAIN MENU -->
+  <section id="screen-menu" class="screen">
+    <div class="menu-backdrop">
+      <div class="menu-tower" id="menu-tower-icon"></div>
+      <div class="menu-bat menu-bat-1" id="menu-bat-1"></div>
+      <div class="menu-bat menu-bat-2" id="menu-bat-2"></div>
+    </div>
+    <div class="menu-panel">
+      <div class="game-logo">
+        <img class="game-emblem" src="icon/icon-512.png" alt="Shadow Spire">
+        <h1 class="game-title-banner"><span class="game-title">SHADOW SPIRE</span></h1>
+        <p class="game-subtitle" id="game-subtitle">หอคอยเงาสะท้อน 50 ชั้น</p>
+      </div>
+      <div id="menu-actions" class="menu-actions"></div>
+      <p class="menu-footer" id="menu-footer">ไต่หอคอย เอาชนะเงามืด ค้นหาจุดอ่อน สร้างสายฟ้าแห่งชัยชนะ</p>
+      <p class="push-start" id="push-start">PUSH START</p>
+    </div>
+  </section>
+
+  <!-- STORY SCREEN (intro before a new run, ending after the final boss) -->
+  <section id="screen-story" class="screen">
+    <div class="story-panel">
+      <div id="story-icon" class="story-icon"></div>
+      <h2 id="story-title" class="story-title"></h2>
+      <div id="story-body" class="story-body"></div>
+      <button class="btn-primary" id="story-continue"></button>
+    </div>
+  </section>
+
+  <!-- DIFFICULTY SELECT -->
+  <section id="screen-difficulty" class="screen">
+    <header class="screen-header">
+      <button class="btn-icon" id="diff-back" aria-label="ย้อนกลับ"></button>
+      <h2 id="diff-title">เลือกระดับความยาก</h2>
+    </header>
+    <div id="difficulty-cards" class="card-grid"></div>
+  </section>
+
+  <!-- CLASS SELECT -->
+  <section id="screen-class" class="screen">
+    <header class="screen-header">
+      <button class="btn-icon" id="class-back" aria-label="ย้อนกลับ"></button>
+      <h2 id="class-title">เลือกคลาสตัวละคร</h2>
+    </header>
+    <div id="class-cards" class="card-grid"></div>
+  </section>
+
+  <!-- TOWER MAP -->
+  <section id="screen-tower" class="screen">
+    <header class="screen-header tower-header">
+      <div class="tower-header-left">
+        <button class="btn-icon btn-icon-8bit" id="tower-home" aria-label="กลับสู่เมนูหลัก"></button>
+        <div id="tower-hero-summary" class="hero-summary"></div>
+      </div>
+      <button class="btn-secondary" id="tower-status-btn">สถานะ &amp; อุปกรณ์</button>
+    </header>
+    <h2 class="tower-title" id="tower-title">หอคอยเงาสะท้อน</h2>
+    <div id="tower-floors" class="tower-floors"></div>
+  </section>
+
+  <!-- BATTLE SCREEN -->
+  <section id="screen-battle" class="screen">
+    <div class="battle-backdrop">
+      <div class="tower-wall"></div>
+      <div class="tower-pillar tower-pillar-left"></div>
+      <div class="tower-pillar tower-pillar-right"></div>
+      <div class="tower-window"></div>
+      <div class="tower-moon"></div>
+      <div class="tower-torch tower-torch-left"></div>
+      <div class="tower-torch tower-torch-right"></div>
+      <div class="tower-floor"></div>
+    </div>
+    <div class="battle-topbar">
+      <div class="battle-topbar-left">
+        <button class="btn-icon btn-icon-8bit" id="battle-home" aria-label="กลับสู่หอคอย"></button>
+        <div id="battle-floor-label" class="battle-floor-label"></div>
+      </div>
+      <div id="battle-turn-order" class="turn-order"></div>
+    </div>
+    <div id="battle-enemies" class="battle-enemies"></div>
+    <div class="battle-ground-strip"></div>
+    <div class="battle-lower">
+      <div id="battle-log" class="battle-log" aria-live="polite"></div>
+      <div id="battle-player-panel" class="battle-player-panel"></div>
+      <div id="battle-actions" class="battle-actions"></div>
+    </div>
+    <div id="battle-submenu" class="battle-submenu hidden"></div>
+    <div id="allout-modal" class="modal-overlay hidden"></div>
+    <div id="battle-toast" class="battle-toast hidden"></div>
+  </section>
+
+  <!-- REWARD SCREEN -->
+  <section id="screen-reward" class="screen">
+    <header class="screen-header">
+      <h2 id="reward-title">ผ่านด่านสำเร็จ!</h2>
+    </header>
+    <p class="reward-sub" id="reward-sub">เลือกของรางวัล 1 ชิ้น</p>
+    <div id="reward-cards" class="card-grid"></div>
+  </section>
+
+  <!-- WAYPOINT SCREEN (rest / shop / treasure, gates floors 5/10/15) -->
+  <section id="screen-waypoint" class="screen">
+    <header class="screen-header">
+      <div id="waypoint-icon" class="waypoint-icon"></div>
+      <h2 id="waypoint-title"></h2>
+    </header>
+    <p class="reward-sub" id="waypoint-desc"></p>
+    <div id="waypoint-body"></div>
+    <div id="waypoint-actions" class="menu-actions"></div>
+  </section>
+
+  <!-- STATUS / EQUIP SCREEN -->
+  <section id="screen-status" class="screen">
+    <header class="screen-header">
+      <button class="btn-icon" id="status-back" aria-label="ย้อนกลับ"></button>
+      <h2 id="status-header-title">สถานะตัวละคร</h2>
+    </header>
+    <div class="status-grid">
+      <div id="status-stats" class="status-stats"></div>
+      <div id="status-equipment" class="status-equipment"></div>
+      <div id="status-inventory" class="status-inventory"></div>
+    </div>
+  </section>
+
+  <!-- GAME OVER / VICTORY -->
+  <section id="screen-end" class="screen">
+    <div class="end-panel">
+      <div id="end-icon" class="end-icon"></div>
+      <h2 id="end-title"></h2>
+      <p id="end-message"></p>
+      <div id="end-actions" class="menu-actions"></div>
+    </div>
+  </section>
+
+  <div id="modal-root" class="modal-overlay hidden"></div>
+  <div class="top-right-controls">
+    <button id="lang-toggle" class="lang-toggle" aria-label="เปลี่ยนภาษา">TH</button>
+    <div class="audio-panel">
+      <button id="audio-toggle" class="audio-toggle" aria-label="เปิด/ปิดเสียง"></button>
+      <input type="range" id="music-volume" class="music-volume" min="0" max="100" step="1" aria-label="ระดับเสียงเพลง">
+    </div>
+  </div>
+</div>
+
+<script src="js/pixel-art.js"></script>
+<script src="js/pixel-sprites.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/data-classes.js"></script>
+<script src="js/data-skills.js"></script>
+<script src="js/data-enemies.js"></script>
+<script src="js/data-items.js"></script>
+<script src="js/formulas.js"></script>
+<script src="js/save.js"></script>
+<script src="js/state.js"></script>
+<script src="js/battle-engine.js"></script>
+<script src="js/ui-menu.js"></script>
+<script src="js/ui-tower.js"></script>
+<script src="js/ui-battle.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

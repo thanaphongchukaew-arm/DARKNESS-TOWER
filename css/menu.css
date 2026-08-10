@@ -1,0 +1,316 @@
+/* ---- Hero summary (tower header) ---- */
+.hero-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 1rem;
+}
+
+.hero-summary-icon {
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--accent-gold);
+  flex-shrink: 0;
+}
+
+.hero-summary-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 160px;
+}
+
+.hero-summary-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.hero-summary-name .lvl {
+  color: var(--accent-gold);
+  margin-left: 0.4rem;
+  font-weight: 600;
+}
+
+.hero-summary-name .gold-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  color: var(--accent-gold);
+  margin-left: 0.6rem;
+  font-weight: 600;
+  font-size: 0.85em;
+}
+
+.gold-chip .icon {
+  font-size: 0.9em;
+}
+
+/* ---- Waypoint screen (rest / shop / treasure) ---- */
+.waypoint-icon {
+  font-size: 1.8rem;
+  color: var(--accent-gold);
+  line-height: 1;
+}
+
+.waypoint-icon .icon {
+  font-size: 1.8rem;
+}
+
+.waypoint-gold-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--accent-gold);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.waypoint-rest-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 420px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.25rem;
+}
+
+/* ---- Tower floor rows ---- */
+.floor-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 0.8rem 1.1rem;
+  transition: transform 0.15s ease, border-color 0.12s ease, box-shadow 0.15s ease;
+  animation: floor-row-in 0.3s ease backwards;
+}
+
+@keyframes floor-row-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.floor-row.current {
+  border-color: var(--accent-gold);
+  box-shadow: var(--shadow-glow-gold);
+  cursor: pointer;
+  animation: floor-row-in 0.3s ease backwards, floor-current-glow 2s ease-in-out infinite;
+}
+
+.floor-row.current:hover {
+  transform: translateX(6px) scale(1.01);
+  box-shadow: 0 0 0 1px rgba(255,204,51,0.6), 0 0 26px rgba(255,204,51,0.4);
+  animation-play-state: paused;
+}
+
+@keyframes floor-current-glow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(255,204,51,0.4), 0 0 18px rgba(255,204,51,0.25); }
+  50% { box-shadow: 0 0 0 1px rgba(255,204,51,0.55), 0 0 24px rgba(255,204,51,0.4); }
+}
+
+.floor-row.cleared {
+  opacity: 0.65;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+
+.floor-row.cleared:hover {
+  opacity: 0.95;
+  transform: translateX(4px);
+  border-color: var(--success);
+}
+
+.floor-row.locked {
+  opacity: 0.35;
+}
+
+.floor-row.boss-row {
+  border-color: var(--accent-red);
+}
+
+.floor-row.boss-row.current {
+  box-shadow: var(--shadow-glow-red);
+}
+
+.floor-num {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 0;
+  background: var(--bg-panel-raised);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  border: 1px solid var(--border-soft);
+}
+
+.floor-row.current .floor-num {
+  background: var(--accent-gold);
+  color: var(--bg-void);
+  border-color: var(--accent-gold);
+}
+
+.floor-row.boss-row .floor-num {
+  color: var(--accent-red);
+}
+
+.floor-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.floor-info-title {
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+.floor-info-sub {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.floor-status-icon {
+  font-size: 1.4rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.floor-row.cleared .floor-status-icon { color: var(--success); }
+.floor-row.current .floor-status-icon { color: var(--accent-gold); }
+
+/* ---- Reward screen ---- */
+.reward-sub {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+}
+
+/* ---- Status / equip screen ---- */
+.status-panel-title {
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.status-stats, .status-equipment, .status-inventory {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border-soft);
+  font-size: 0.88rem;
+}
+
+.stat-row:last-child { border-bottom: none; }
+
+.stat-row-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.stat-row-value {
+  font-weight: 700;
+}
+
+.equip-slot {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem;
+  border: 1px dashed var(--border-soft);
+  border-radius: var(--radius-md);
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+}
+
+.equip-slot:hover {
+  border-color: var(--accent-gold-dim);
+}
+
+.equip-slot-icon {
+  font-size: 2rem;
+  color: var(--accent-gold);
+  flex-shrink: 0;
+}
+
+.equip-slot-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.equip-slot-name {
+  font-weight: 700;
+  font-size: 0.86rem;
+}
+
+.equip-slot-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.equip-slot-empty {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.inv-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.3rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.inv-item:last-child { border-bottom: none; }
+
+.inv-item-icon {
+  font-size: 1.7rem;
+  color: var(--accent-gold);
+  flex-shrink: 0;
+}
+
+.inv-item-info {
+  flex: 1;
+  font-size: 0.82rem;
+}
+
+.inv-item-name { font-weight: 700; }
+.inv-item-desc { color: var(--text-muted); font-size: 0.72rem; }
+
+.inv-item-count {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  background: var(--bg-panel-raised);
+  border-radius: 0;
+  padding: 0.1rem 0.55rem;
+}
+
+.empty-note {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 1rem;
+}

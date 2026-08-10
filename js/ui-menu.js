@@ -1,0 +1,201 @@
+// Main menu, difficulty select, class select screens + shared modal/confirm helper.
+(function () {
+  function I(name, cls) { return window.Game.Icons.get(name, cls); }
+  function SFX(name) { if (window.Game.Audio) window.Game.Audio.sfx(name); }
+  function T(key) { return window.Game.I18n.t(key); }
+  function L(obj, field) { return window.Game.I18n.L(obj, field); }
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+    if (window.Game.Audio) window.Game.Audio.playMusic(id === 'screen-battle' ? 'battle' : 'menu');
+  }
+
+  function confirmModal(opts) {
+    var root = document.getElementById('modal-root');
+    root.innerHTML =
+      '<div class="modal-box">' +
+        '<h3>' + opts.title + '</h3>' +
+        '<p class="note">' + opts.message + '</p>' +
+        '<div class="modal-actions">' +
+          '<button class="btn-ghost" id="modal-cancel">' + T('cancel') + '</button>' +
+          '<button class="' + (opts.danger ? 'btn-danger' : 'btn-primary') + '" id="modal-confirm">' + opts.confirmLabel + '</button>' +
+        '</div>' +
+      '</div>';
+    root.classList.remove('hidden');
+    document.getElementById('modal-cancel').onclick = function () { SFX('ui_cancel'); root.classList.add('hidden'); root.innerHTML = ''; };
+    document.getElementById('modal-confirm').onclick = function () {
+      SFX(opts.danger ? 'ui_error' : 'ui_confirm');
+      root.classList.add('hidden'); root.innerHTML = '';
+      opts.onConfirm && opts.onConfirm();
+    };
+  }
+
+  function renderMainMenu() {
+    document.getElementById('menu-tower-icon').innerHTML = window.Game.PixelArt.render('towerSpire');
+    document.getElementById('menu-bat-1').innerHTML = window.Game.PixelArt.render('bat');
+    document.getElementById('menu-bat-2').innerHTML = window.Game.PixelArt.render('bat');
+    var hasSave = window.Game.Save.exists();
+    var el = document.getElementById('menu-actions');
+    var html = '';
+    if (hasSave) {
+      html += '<button class="btn-primary" id="btn-continue">' + I('doorway') + '<span>' + T('continueGame') + '</span></button>';
+    }
+    html += '<button class="' + (hasSave ? 'btn-secondary' : 'btn-primary') + '" id="btn-new">' + I('towerSpire') + '<span>' + T('newGame') + '</span></button>';
+    if (hasSave) {
+      html += '<button class="btn-danger" id="btn-clear">' + I('trash') + '<span>' + T('clearSave') + '</span></button>';
+    }
+    el.innerHTML = html;
+
+    if (hasSave) {
+      document.getElementById('btn-continue').onclick = function () {
+        SFX('ui_confirm');
+        var run = window.Game.Save.read();
+        if (!run) { renderMainMenu(); return; }
+        window.Game.State.current = run;
+        window.Game.TowerUI.renderTower();
+        showScreen('screen-tower');
+      };
+    }
+    function startIntroStory() {
+      renderStory('intro', function () {
+        renderDifficulty();
+        showScreen('screen-difficulty');
+      });
+      showScreen('screen-story');
+    }
+    document.getElementById('btn-new').onclick = function () {
+      SFX('ui_confirm');
+      if (hasSave) {
+        confirmModal({
+          title: T('confirmNewGameTitle'),
+          message: T('confirmNewGameMsg'),
+          confirmLabel: T('confirmNewGameBtn'),
+          danger: true,
+          onConfirm: function () {
+            window.Game.State.clearRun();
+            startIntroStory();
+          }
+        });
+      } else {
+        startIntroStory();
+      }
+    };
+    if (hasSave) {
+      document.getElementById('btn-clear').onclick = function () {
+        SFX('ui_back');
+        confirmModal({
+          title: T('confirmClearTitle'),
+          message: T('confirmClearMsg'),
+          confirmLabel: T('confirmClearBtn'),
+          danger: true,
+          onConfirm: function () { window.Game.State.clearRun(); renderMainMenu(); }
+        });
+      };
+    }
+  }
+
+  // Story screen: reused for both the pre-run intro and the post-final-boss ending.
+  // lastStory keeps the currently-shown kind/callback so a language toggle can re-render it.
+  var lastStory = { kind: null, onContinue: null };
+  var STORY_ICON = { intro: 'towerSpire', ending: 'sparkles' };
+
+  function renderStory(kind, onContinue) {
+    lastStory = { kind: kind, onContinue: onContinue };
+    var isIntro = kind === 'intro';
+    document.getElementById('story-icon').innerHTML = I(STORY_ICON[kind], 'icon-xl');
+    document.getElementById('story-title').textContent = T(isIntro ? 'storyIntroTitle' : 'storyEndTitle');
+    var bodyText = T(isIntro ? 'storyIntroBody' : 'storyEndBody');
+    document.getElementById('story-body').innerHTML = bodyText.split('\n\n').map(function (p) { return '<p>' + p + '</p>'; }).join('');
+    var btn = document.getElementById('story-continue');
+    btn.textContent = T(isIntro ? 'storyIntroBtn' : 'storyEndBtn');
+    btn.onclick = function () { SFX('ui_confirm'); onContinue(); };
+  }
+
+  var DIFF_DESC_KEY = { easy: 'diffEasyDesc', normal: 'diffNormalDesc', hard: 'diffHardDesc' };
+
+  function renderDifficulty() {
+    var el = document.getElementById('difficulty-cards');
+    var F = window.Game.Formulas;
+    var order = ['easy', 'normal', 'hard'];
+    el.innerHTML = order.map(function (id) {
+      var d = F.DIFFICULTY[id];
+      return '<button class="select-card" data-id="' + id + '">' +
+        '<div class="select-card-icon">' + I(id === 'hard' ? 'skull' : id === 'easy' ? 'sparkles' : 'shieldGuard') + '</div>' +
+        '<div class="select-card-title">' + L(d, 'name') + '</div>' +
+        '<div class="select-card-desc">' + T(DIFF_DESC_KEY[id]) + '</div>' +
+        '<div class="select-card-stats">' +
+          '<span class="stat-chip">' + T('enemyPowerLabel') + d.statMult.toFixed(2) + '</span>' +
+          '<span class="stat-chip">' + T('rewardLabel') + d.rewardMult.toFixed(2) + '</span>' +
+        '</div>' +
+      '</button>';
+    }).join('');
+    Array.prototype.forEach.call(el.querySelectorAll('.select-card'), function (card) {
+      card.onclick = function () {
+        SFX('ui_confirm');
+        window.Game.State.pending.difficulty = card.getAttribute('data-id');
+        renderClassSelect();
+        showScreen('screen-class');
+      };
+    });
+    document.getElementById('diff-back').innerHTML = I('back');
+    document.getElementById('diff-back').onclick = function () { SFX('ui_back'); renderMainMenu(); showScreen('screen-menu'); };
+  }
+
+  function renderClassSelect() {
+    var el = document.getElementById('class-cards');
+    var classes = window.Game.Data.classes;
+    el.innerHTML = classes.map(function (c) {
+      return '<button class="select-card" data-id="' + c.id + '">' +
+        '<div class="select-card-icon">' + I(c.icon) + '</div>' +
+        '<div class="select-card-title">' + L(c, 'name') + '</div>' +
+        '<div class="select-card-desc">' + L(c, 'description') + '</div>' +
+        '<div class="select-card-stats">' +
+          '<span class="el-tag el-' + c.weak + '">' + I(c.weak) + ' ' + T('weakLabel') + '</span>' +
+          '<span class="el-tag el-' + c.resist + '">' + I(c.resist) + ' ' + T('resistLabel') + '</span>' +
+        '</div>' +
+        '<div class="select-card-stats">' +
+          '<span class="stat-chip">HP ' + c.baseStats.hp + '</span>' +
+          '<span class="stat-chip">MP ' + c.baseStats.mp + '</span>' +
+          '<span class="stat-chip">ATK ' + c.baseStats.atk + '</span>' +
+          '<span class="stat-chip">MAG ' + c.baseStats.mag + '</span>' +
+        '</div>' +
+      '</button>';
+    }).join('');
+    Array.prototype.forEach.call(el.querySelectorAll('.select-card'), function (card) {
+      card.onclick = function () {
+        SFX('ui_confirm');
+        var classId = card.getAttribute('data-id');
+        window.Game.State.pending.classId = classId;
+        window.Game.State.createRun(window.Game.State.pending.difficulty, classId);
+        window.Game.State.saveNow();
+        window.Game.TowerUI.renderTower();
+        showScreen('screen-tower');
+      };
+    });
+    document.getElementById('class-back').innerHTML = I('back');
+    document.getElementById('class-back').onclick = function () { SFX('ui_back'); renderDifficulty(); showScreen('screen-difficulty'); };
+  }
+
+  // Re-render whichever of these screens is currently active, called after a language switch.
+  function refreshActiveScreen() {
+    var active = document.querySelector('.screen.active');
+    if (!active) return;
+    if (active.id === 'screen-menu') renderMainMenu();
+    else if (active.id === 'screen-difficulty') renderDifficulty();
+    else if (active.id === 'screen-class') renderClassSelect();
+    else if (active.id === 'screen-story' && lastStory.kind) renderStory(lastStory.kind, lastStory.onContinue);
+  }
+
+  window.Game = window.Game || {};
+  window.Game.UI = window.Game.UI || {};
+  window.Game.UI.showScreen = showScreen;
+  window.Game.UI.confirmModal = confirmModal;
+  window.Game.MenuUI = {
+    renderMainMenu: renderMainMenu,
+    renderDifficulty: renderDifficulty,
+    renderClassSelect: renderClassSelect,
+    renderStory: renderStory,
+    refreshActiveScreen: refreshActiveScreen
+  };
+})();
