@@ -7,7 +7,7 @@
   var enemies = [
     // ---- Tier 1 : floors 1-10 ----
     {
-      id: 'shadow_wolf', name: 'หมาป่าเงา', nameEn: 'Shadow Wolf', tier: 1, icon: 'shadowFigure',
+      id: 'shadow_wolf', name: 'หมาป่าเงา', nameEn: 'Shadow Wolf', tier: 1, icon: 'wolf',
       baseStats: { hp: 22, atk: 8, mag: 2, def: 4, res: 3, spd: 11, luk: 5, exp: 14 },
       weak: ['fire'], resist: ['ice'],
       attacks: [
@@ -16,7 +16,7 @@
       ]
     },
     {
-      id: 'flame_imp', name: 'ปีศาจเปลวไฟ', nameEn: 'Flame Imp', tier: 1, icon: 'shadowFigure',
+      id: 'flame_imp', name: 'ปีศาจเปลวไฟ', nameEn: 'Flame Imp', tier: 1, icon: 'demon',
       baseStats: { hp: 20, atk: 7, mag: 8, def: 3, res: 5, spd: 9, luk: 4, exp: 14 },
       weak: ['ice'], resist: ['fire'],
       attacks: [
@@ -25,7 +25,7 @@
       ]
     },
     {
-      id: 'stone_golem', name: 'โกเลมหิน', nameEn: 'Stone Golem', tier: 1, icon: 'skull',
+      id: 'stone_golem', name: 'โกเลมหิน', nameEn: 'Stone Golem', tier: 1, icon: 'golem',
       baseStats: { hp: 34, atk: 9, mag: 1, def: 9, res: 4, spd: 4, luk: 2, exp: 18 },
       weak: ['elec'], resist: ['phys'],
       attacks: [
@@ -33,7 +33,7 @@
       ]
     },
     {
-      id: 'dark_bat', name: 'ค้างคาวรัตติกาล', nameEn: 'Nightfall Bat', tier: 1, icon: 'shadowFigure',
+      id: 'dark_bat', name: 'ค้างคาวรัตติกาล', nameEn: 'Nightfall Bat', tier: 1, icon: 'bat',
       baseStats: { hp: 18, atk: 6, mag: 7, def: 3, res: 4, spd: 13, luk: 6, exp: 13 },
       weak: ['light'], resist: ['dark'],
       attacks: [
@@ -42,7 +42,7 @@
       ]
     },
     {
-      id: 'gust_sprite', name: 'เอลฟ์สายลม', nameEn: 'Wind Sprite', tier: 1, icon: 'shadowFigure',
+      id: 'gust_sprite', name: 'เอลฟ์สายลม', nameEn: 'Wind Sprite', tier: 1, icon: 'windSprite',
       baseStats: { hp: 19, atk: 6, mag: 8, def: 3, res: 5, spd: 14, luk: 7, exp: 14 },
       weak: ['fire'], resist: ['wind'],
       attacks: [
@@ -50,7 +50,7 @@
       ]
     },
     {
-      id: 'giant_spider', name: 'แมงมุมพิษยักษ์', nameEn: 'Giant Spider', tier: 1, icon: 'shadowFigure',
+      id: 'giant_spider', name: 'แมงมุมพิษยักษ์', nameEn: 'Giant Spider', tier: 1, icon: 'spider',
       baseStats: { hp: 24, atk: 9, mag: 4, def: 4, res: 4, spd: 10, luk: 5, exp: 15 },
       weak: ['fire'], resist: ['dark'],
       attacks: [
@@ -59,7 +59,7 @@
       ]
     },
     {
-      id: 'bog_slime', name: 'เมือกหนองน้ำ', nameEn: 'Bog Slime', tier: 1, icon: 'skull',
+      id: 'bog_slime', name: 'เมือกหนองน้ำ', nameEn: 'Bog Slime', tier: 1, icon: 'slime',
       baseStats: { hp: 30, atk: 6, mag: 4, def: 8, res: 5, spd: 3, luk: 3, exp: 16 },
       weak: ['elec'], resist: ['phys'],
       attacks: [
@@ -67,7 +67,7 @@
       ]
     },
     {
-      id: 'forest_bandit', name: 'โจรป่าเจ้าเล่ห์', nameEn: 'Forest Bandit', tier: 1, icon: 'shadowFigure',
+      id: 'forest_bandit', name: 'โจรป่าเจ้าเล่ห์', nameEn: 'Forest Bandit', tier: 1, icon: 'bandit',
       baseStats: { hp: 21, atk: 10, mag: 2, def: 4, res: 3, spd: 12, luk: 9, exp: 15 },
       weak: ['ice'], resist: ['wind'],
       attacks: [
@@ -78,7 +78,7 @@
 
     // ---- Tier 2 : floors 11-20 ----
     {
-      id: 'frost_knight', name: 'อัศวินน้ำแข็ง', nameEn: 'Frost Knight', tier: 2, icon: 'skull',
+      id: 'frost_knight', name: 'อัศวินน้ำแข็ง', nameEn: 'Frost Knight', tier: 2, icon: 'knight',
       baseStats: { hp: 42, atk: 12, mag: 6, def: 10, res: 7, spd: 8, luk: 6, exp: 26 },
       weak: ['fire'], resist: ['ice'],
       attacks: [
@@ -87,7 +87,7 @@
       ]
     },
     {
-      id: 'thunder_hawk', name: 'เหยี่ยวสายฟ้า', nameEn: 'Thunder Hawk', tier: 2, icon: 'shadowFigure',
+      id: 'thunder_hawk', name: 'เหยี่ยวสายฟ้า', nameEn: 'Thunder Hawk', tier: 2, icon: 'hawk',
       baseStats: { hp: 30, atk: 10, mag: 10, def: 5, res: 6, spd: 15, luk: 8, exp: 24 },
       weak: ['ice'], resist: ['elec'],
       attacks: [
@@ -103,7 +103,7 @@
       ]
     },
     {
-      id: 'iron_sentinel', name: 'ยามเหล็กจักรกล', nameEn: 'Iron Sentinel', tier: 2, icon: 'skull',
+      id: 'iron_sentinel', name: 'ยามเหล็กจักรกล', nameEn: 'Iron Sentinel', tier: 2, icon: 'sentinel',
       baseStats: { hp: 50, atk: 11, mag: 3, def: 12, res: 6, spd: 5, luk: 4, exp: 27 },
       weak: ['elec'], resist: ['phys'],
       attacks: [
@@ -111,7 +111,7 @@
       ]
     },
     {
-      id: 'storm_harpy', name: 'ฮาร์ปี้พายุ', nameEn: 'Storm Harpy', tier: 2, icon: 'shadowFigure',
+      id: 'storm_harpy', name: 'ฮาร์ปี้พายุ', nameEn: 'Storm Harpy', tier: 2, icon: 'harpy',
       baseStats: { hp: 32, atk: 9, mag: 11, def: 6, res: 7, spd: 13, luk: 7, exp: 25 },
       weak: ['elec'], resist: ['wind'],
       attacks: [
@@ -119,7 +119,7 @@
       ]
     },
     {
-      id: 'swamp_troll', name: 'โทรลล์หนองน้ำ', nameEn: 'Swamp Troll', tier: 2, icon: 'skull',
+      id: 'swamp_troll', name: 'โทรลล์หนองน้ำ', nameEn: 'Swamp Troll', tier: 2, icon: 'troll',
       baseStats: { hp: 55, atk: 13, mag: 2, def: 11, res: 5, spd: 5, luk: 3, exp: 27 },
       weak: ['fire'], resist: ['phys'],
       attacks: [
@@ -127,7 +127,7 @@
       ]
     },
     {
-      id: 'crystal_golem', name: 'โกเลมแก้วอาถรรพ์', nameEn: 'Crystal Golem', tier: 2, icon: 'skull',
+      id: 'crystal_golem', name: 'โกเลมแก้วอาถรรพ์', nameEn: 'Crystal Golem', tier: 2, icon: 'golem',
       baseStats: { hp: 46, atk: 9, mag: 12, def: 9, res: 10, spd: 6, luk: 4, exp: 26 },
       weak: ['dark'], resist: ['light'],
       attacks: [
@@ -145,7 +145,7 @@
 
     // ---- Tier 3 : floors 21-30 ----
     {
-      id: 'abyss_knight', name: 'อัศวินก้นบึ้ง', nameEn: 'Abyss Knight', tier: 3, icon: 'skull',
+      id: 'abyss_knight', name: 'อัศวินก้นบึ้ง', nameEn: 'Abyss Knight', tier: 3, icon: 'knight',
       baseStats: { hp: 62, atk: 15, mag: 9, def: 12, res: 9, spd: 9, luk: 7, exp: 40 },
       weak: ['light'], resist: ['dark'], reflect: ['phys'],
       attacks: [
@@ -153,7 +153,7 @@
       ]
     },
     {
-      id: 'inferno_beast', name: 'อสูรเพลิงนรก', nameEn: 'Inferno Fiend', tier: 3, icon: 'shadowFigure',
+      id: 'inferno_beast', name: 'อสูรเพลิงนรก', nameEn: 'Inferno Fiend', tier: 3, icon: 'fiend',
       baseStats: { hp: 58, atk: 16, mag: 10, def: 9, res: 8, spd: 10, luk: 6, exp: 40 },
       weak: ['ice'], resist: ['fire'],
       attacks: [
@@ -178,7 +178,7 @@
       ]
     },
     {
-      id: 'void_sentinel', name: 'ผู้พิทักษ์ห้วงว่าง', nameEn: 'Void Sentinel', tier: 3, icon: 'skull',
+      id: 'void_sentinel', name: 'ผู้พิทักษ์ห้วงว่าง', nameEn: 'Void Sentinel', tier: 3, icon: 'sentinel',
       baseStats: { hp: 60, atk: 12, mag: 12, def: 10, res: 10, spd: 9, luk: 7, exp: 42 },
       weak: ['elec'], resist: [], null: ['light', 'dark'],
       attacks: [
@@ -222,7 +222,7 @@
       ]
     },
     {
-      id: 'venom_hydra', name: 'ไฮดราพิษ', nameEn: 'Venom Hydra', tier: 4, icon: 'dragon',
+      id: 'venom_hydra', name: 'ไฮดราพิษ', nameEn: 'Venom Hydra', tier: 4, icon: 'hydra',
       baseStats: { hp: 110, atk: 18, mag: 16, def: 14, res: 10, spd: 8, luk: 6, exp: 64 },
       weak: ['light'], resist: ['dark'],
       attacks: [
@@ -231,7 +231,7 @@
       ]
     },
     {
-      id: 'hell_hound', name: 'สุนัขนรกสามหัว', nameEn: 'Hellhound', tier: 4, icon: 'demon',
+      id: 'hell_hound', name: 'สุนัขนรกสามหัว', nameEn: 'Hellhound', tier: 4, icon: 'hound',
       baseStats: { hp: 88, atk: 21, mag: 12, def: 10, res: 9, spd: 16, luk: 8, exp: 62 },
       weak: ['light'], resist: ['fire'],
       attacks: [
@@ -313,7 +313,7 @@
       ]
     },
     {
-      id: 'storm_titan', name: 'ไททันสายฟ้า', nameEn: 'Storm Titan', tier: 5, icon: 'skull',
+      id: 'storm_titan', name: 'ไททันสายฟ้า', nameEn: 'Storm Titan', tier: 5, icon: 'titan',
       baseStats: { hp: 148, atk: 25, mag: 18, def: 19, res: 14, spd: 9, luk: 7, exp: 98 },
       weak: ['fire'], resist: ['elec'],
       attacks: [
@@ -351,7 +351,7 @@
   // regular enemy, but (unlike the floor-50 final boss) has no second phase.
   var minibosses = {
     5: {
-      id: 'steel_golem', name: 'โกเลมเหล็กกล้า', nameEn: 'Steel-Forged Golem', icon: 'skull', isBoss: true,
+      id: 'steel_golem', name: 'โกเลมเหล็กกล้า', nameEn: 'Steel-Forged Golem', icon: 'golem', isBoss: true,
       baseStats: { hp: 75, atk: 13, mag: 3, def: 11, res: 6, spd: 6, luk: 4, exp: 55 },
       weak: ['elec'], resist: ['phys'],
       attacks: [
@@ -361,7 +361,7 @@
       ]
     },
     10: {
-      id: 'bat_queen', name: 'ราชินีค้างคาวเลือด', nameEn: 'Blood Bat Queen', icon: 'shadowFigure', isBoss: true,
+      id: 'bat_queen', name: 'ราชินีค้างคาวเลือด', nameEn: 'Blood Bat Queen', icon: 'bat', isBoss: true,
       baseStats: { hp: 100, atk: 14, mag: 14, def: 8, res: 9, spd: 19, luk: 9, exp: 95 },
       weak: ['light'], resist: ['dark'],
       attacks: [
@@ -371,7 +371,7 @@
       ]
     },
     15: {
-      id: 'inferno_warden', name: 'เจ้าไฟผู้พิทักษ์', nameEn: 'Inferno Warden', icon: 'skull', isBoss: true,
+      id: 'inferno_warden', name: 'เจ้าไฟผู้พิทักษ์', nameEn: 'Inferno Warden', icon: 'demon', isBoss: true,
       baseStats: { hp: 155, atk: 20, mag: 20, def: 14, res: 11, spd: 11, luk: 8, exp: 150 },
       weak: ['ice'], resist: ['fire'],
       attacks: [

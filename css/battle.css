@@ -167,6 +167,198 @@
     transparent 70%, transparent 100%);
 }
 
+/* ================= Deep-tower ambience: floors 40-49 (.battle-tier-5) and the
+   floor-50 boss throne room (.battle-boss-throne). Pure recolor/overlay of the
+   existing pixel backdrop -- no new bitmap assets, still flat/hard-edged 8-bit. ================= */
+
+.battle-tier-5 .tower-wall,
+.battle-tier-5 .tower-pillar,
+.battle-tier-5 .tower-floor {
+  filter: hue-rotate(-25deg) saturate(1.6) brightness(0.55) contrast(1.2);
+}
+
+.battle-boss-throne .tower-wall,
+.battle-boss-throne .tower-pillar,
+.battle-boss-throne .tower-floor {
+  filter: hue-rotate(-65deg) saturate(1.8) brightness(0.4) contrast(1.35);
+}
+
+/* glowing fissures crawling across the brickwork */
+.battle-tier-5 .tower-wall::after,
+.battle-boss-throne .tower-wall::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(115deg, transparent 0 22px, rgba(255,90,40,0.22) 22px 24px, transparent 24px 46px);
+  mix-blend-mode: screen;
+  animation: crack-glow-pulse 2.2s steps(4) infinite;
+}
+
+.battle-boss-throne .tower-wall::after {
+  background-image: repeating-linear-gradient(115deg, transparent 0 22px, rgba(190,60,255,0.26) 22px 24px, transparent 24px 46px);
+}
+
+@keyframes crack-glow-pulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
+/* torch flames: sickly hellfire green for tier 5, unholy violet for the throne room */
+.battle-tier-5 .tower-torch::after {
+  filter: hue-rotate(110deg) saturate(1.8) brightness(1.1);
+}
+
+.battle-boss-throne .tower-torch::after {
+  filter: hue-rotate(210deg) saturate(2) brightness(1.2);
+}
+
+.battle-boss-throne .tower-torch {
+  transform: scale(1.3);
+}
+
+.battle-boss-throne .tower-torch-left { left: 20%; }
+.battle-boss-throne .tower-torch-right { right: 20%; }
+
+/* blood moon / dark-throne moon, with a pulsing halo */
+.battle-tier-5 .tower-moon {
+  filter: sepia(1) saturate(6) hue-rotate(-50deg) brightness(0.8) contrast(1.15);
+}
+
+.battle-tier-5 .tower-moon::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,50,20,0.45) 0%, transparent 70%);
+  z-index: -1;
+  animation: halo-pulse 2.4s steps(6) infinite;
+}
+
+.battle-boss-throne .tower-moon {
+  filter: sepia(1) saturate(8) hue-rotate(220deg) brightness(0.85) contrast(1.2);
+  transform: translateX(-50%) scale(1.25);
+}
+
+.battle-boss-throne .tower-moon::before {
+  content: "";
+  position: absolute;
+  inset: -90%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(160,40,255,0.55) 0%, transparent 72%);
+  z-index: -1;
+  animation: halo-pulse 2s steps(6) infinite;
+}
+
+@keyframes halo-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* the arched window glows like a portal into the throne room */
+.battle-boss-throne .tower-window::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  background: radial-gradient(ellipse at center, rgba(140,40,220,0.5) 0%, transparent 70%);
+  z-index: -1;
+  animation: halo-pulse 2.6s steps(6) infinite;
+}
+
+/* the Shadow Demon Lord's own silhouette, looming behind the wall -- rendered at
+   runtime from the existing 'demonLord' pixel sprite (see ui-battle.js), then
+   flattened to a pure black shape here so it reads as a distant, watching shadow */
+.battle-boss-silhouette {
+  position: absolute;
+  top: -6%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(220px, 34vw, 440px);
+  height: clamp(220px, 34vw, 440px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.battle-boss-silhouette svg {
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+.battle-boss-throne .battle-boss-silhouette {
+  filter: brightness(0) saturate(0) drop-shadow(0 0 14px rgba(180,60,255,0.9)) drop-shadow(0 0 30px rgba(180,60,255,0.5));
+  animation: silhouette-loom 6s steps(6) infinite;
+}
+
+@keyframes silhouette-loom {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.6; }
+}
+
+/* rising embers, quiet by default, only animated (visible) inside the two tiers */
+.battle-embers {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  background-image:
+    radial-gradient(circle 1.6px at 10% 92%, currentColor 99%, transparent 100%),
+    radial-gradient(circle 1.6px at 28% 88%, currentColor 99%, transparent 100%),
+    radial-gradient(circle 1.6px at 46% 95%, currentColor 99%, transparent 100%),
+    radial-gradient(circle 1.6px at 63% 90%, currentColor 99%, transparent 100%),
+    radial-gradient(circle 1.6px at 80% 93%, currentColor 99%, transparent 100%),
+    radial-gradient(circle 1.6px at 95% 89%, currentColor 99%, transparent 100%);
+}
+
+.battle-tier-5 .battle-embers,
+.battle-boss-throne .battle-embers {
+  animation: ember-rise 5s steps(10) infinite;
+}
+
+.battle-tier-5 .battle-embers { color: #ff4a1a; }
+
+.battle-boss-throne .battle-embers {
+  color: #b040ff;
+  animation-duration: 3.6s;
+}
+
+@keyframes ember-rise {
+  0%   { background-position: 10% 100%, 28% 100%, 46% 100%, 63% 100%, 80% 100%, 95% 100%; opacity: 0; }
+  10%  { opacity: 0.9; }
+  85%  { opacity: 0.5; }
+  100% { background-position: 6% -8%, 34% -14%, 40% -6%, 70% -12%, 74% -8%, 100% -14%; opacity: 0; }
+}
+
+/* red carpet leading toward the throne */
+.battle-boss-throne .tower-floor::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 22%;
+  height: 100%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(120,10,40,0.9) 0%, rgba(90,5,30,0.75) 100%);
+  clip-path: polygon(38% 0%, 62% 0%, 100% 100%, 0% 100%);
+  box-shadow: inset 0 0 0 2px rgba(255,200,80,0.25);
+}
+
+/* deepen the screen vignette to match each tier's mood */
+#screen-battle.battle-tier-5::before {
+  box-shadow: inset 0 0 160px rgba(120,0,0,0.55), inset 0 0 60px rgba(0,0,0,0.5);
+}
+
+#screen-battle.battle-boss-throne::before {
+  animation: boss-vignette-pulse 3s steps(8) infinite;
+}
+
+@keyframes boss-vignette-pulse {
+  0%, 100% { box-shadow: inset 0 0 200px rgba(90,0,160,0.55), inset 0 0 90px rgba(0,0,0,0.6); }
+  50% { box-shadow: inset 0 0 230px rgba(140,0,200,0.7), inset 0 0 100px rgba(0,0,0,0.65); }
+}
+
 .battle-ground-strip {
   height: 4px;
   background: rgba(0,0,0,0.4);

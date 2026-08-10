@@ -593,6 +593,23 @@
     };
   }
 
+  // Floors 40-49 shift the tower backdrop into a bloodier, more menacing palette;
+  // floor 50 goes all the way to the Shadow Demon Lord's own throne room, complete
+  // with his looming silhouette. Same flat pixel-art technique throughout (recolor
+  // via CSS filters + the existing PixelArt renderer), just a grander color story.
+  function applyBattleAmbience(floor, isBoss) {
+    var screenEl = document.getElementById('screen-battle');
+    screenEl.classList.remove('battle-tier-5', 'battle-boss-throne');
+    var silhouette = document.getElementById('battle-boss-silhouette');
+    if (isBoss) {
+      screenEl.classList.add('battle-boss-throne');
+      if (silhouette) silhouette.innerHTML = window.Game.PixelArt.render('demonLord');
+    } else {
+      if (silhouette) silhouette.innerHTML = '';
+      if (floor >= 40) screenEl.classList.add('battle-tier-5');
+    }
+  }
+
   function startBattle(floor, isBoss, isReplay) {
     var run = window.Game.State.current;
     currentBattle = window.Game.BattleEngine.createBattle(run, floor, isBoss);
@@ -600,6 +617,7 @@
     currentIsBoss = !!isBoss;
     currentIsReplay = !!isReplay;
     targetPickCallback = null;
+    applyBattleAmbience(floor, currentIsBoss);
     document.getElementById('battle-log').innerHTML = '';
     document.getElementById('battle-floor-label').textContent =
       (isBoss ? T('bossFloorTitle') : (T('floorLabel') + floor)) + (isReplay ? T('replaySuffix') : '');

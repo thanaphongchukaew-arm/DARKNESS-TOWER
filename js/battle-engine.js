@@ -194,7 +194,11 @@
   function buildPlayerHits(skill, battle, targetIndex) {
     if (skill.target === 'allEnemies') {
       var out = [];
-      battle.enemies.forEach(function (e, i) { if (e.alive) out.push({ targetIndex: i, element: skill.element, power: skill.power }); });
+      battle.enemies.forEach(function (e, i) {
+        if (!e.alive) return;
+        var el = skill.randomElement ? skill.randomElement[Math.floor(Math.random() * skill.randomElement.length)] : skill.element;
+        out.push({ targetIndex: i, element: el, power: skill.power });
+      });
       return out;
     }
     var hitsCount = skill.hits || 1;
@@ -335,11 +339,21 @@
     return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP };
   }
 
+  // A large *current* (post-buff/debuff) SPD gap grants a bonus action for the round,
+  // mirroring the one-time ambush/head-start check createBattle runs on base SPD --
+  // this is what makes Haste, Binding Shot, Veil of Night, etc. actually do something.
+  function spdAheadBonus(fastSpd, slowSpd) {
+    return slowSpd > 0 && fastSpd >= slowSpd * 1.3;
+  }
+
   function startNextRound(battle) {
     battle.round += 1;
     battle.enemies.forEach(function (e) { if (e.alive) e.downed = false; tickBuffs(e.debuffs); });
     tickBuffs(battle.player.buffs);
-    battle.playerAP = 1;
+    var alive = battle.enemies.filter(function (e) { return e.alive; });
+    var avgEnemySpd = alive.length ? alive.reduce(function (s, e) { return s + effectiveStats(e, e.debuffs).spd; }, 0) / alive.length : 0;
+    var playerSpd = effectiveStats(battle.player, battle.player.buffs).spd;
+    battle.playerAP = spdAheadBonus(playerSpd, avgEnemySpd) ? 2 : 1;
     battle.awaitingAllOut = false;
   }
 
@@ -350,7 +364,11 @@
       var enemy = battle.enemies[i];
       if (!enemy.alive) continue;
       if (enemy.downed) { events.push({ type: 'enemyPhaseSkip', targetName: enemy.name }); continue; }
-      var ap = 1;
+      var enemySpd0 = effectiveStats(enemy, enemy.debuffs).spd;
+      var playerSpd0 = effectiveStats(battle.player, battle.player.buffs).spd;
+      // round 1 already grants a full ambush phase off this same speed gap (see createBattle) --
+      // skip the bonus-action check there so a fast enemy doesn't double-dip the same lead.
+      var ap = (battle.round > 1 && spdAheadBonus(enemySpd0, playerSpd0)) ? 2 : 1;
       while (ap > 0) {
         if (battle.run.hp <= 0) break;
         var atk = pickWeighted(enemy.attacksPool);
