@@ -670,5 +670,101 @@
   P.define('tempestWitch', STAFFORB_GRID, { N: '#0a3a4a', K: '#0a0a0a', B: '#145a6a', p: '#60e8f0' });
   P.define('chronomancer', STAFFORB_GRID, { N: '#2a2a5a', K: '#0a0a0a', B: '#3a3a78', p: '#f0e8c0' });
 
+  // ---- Equipment-slot & item icons (weapon, armor, shoes, accessory, potions) ----
+
+  P.define('weaponSlot', [
+    '.....K.....',
+    '....KWK....',
+    '....KWK....',
+    '...KWWWK...',
+    '...KWWWK...',
+    '...KWWWK...',
+    '...KWWWK...',
+    '...KWWWK...',
+    '...KWWWK...',
+    '..KWWWWWK..',
+    '.KYYYYYYYK.',
+    '...KUUK....',
+    '...KUUK....',
+    '...KUUK....',
+    '..KYYYYK...',
+    '...KKKK....'
+  ], { K: '#0a0a0a', W: '#e8ecf2', Y: '#e8c050', U: '#5a3818' });
+
+  P.define('armorSlot', [
+    '...MMMMM...',
+    '..MMMMMMM..',
+    '.MMYYYYYMM.',
+    'MMMMMMMMMMM',
+    'MMMDDDDDMMM',
+    'MMMDDDDDMMM',
+    '.MMDDDDDMM.',
+    '.MMDDDDDMM.',
+    '..MDDDDDM..',
+    '..MDDDDDM..',
+    '...MDDDM...',
+    '...MDDDM...',
+    '....MMM....'
+  ], { M: '#c8ccd6', D: '#6a7488', Y: '#e8c050' });
+
+  P.define('shoesSlot', [
+    '...UUUU.....',
+    '...UUUU.....',
+    '...UUUU.....',
+    '...UUUU.....',
+    '...UUUUUU...',
+    '...UUUUUUUU.',
+    '..UUUUUUUUUU',
+    '.UUUUUUUUUUU',
+    '.GGGGGGGGGGG',
+    '.GGGGGGGGGGG',
+    '..DDDDDDDD..'
+  ], { U: '#8a5a2a', G: '#c8c8c8', D: '#4a4a50' });
+
+  P.define('accessorySlot', [
+    '....P....',
+    '...PPP...',
+    '..PPPPP..',
+    '...YYY...',
+    '..YYYYY..',
+    '.YY...YY.',
+    'YY.....YY',
+    'YY.....YY',
+    'YY.....YY',
+    '.YY...YY.',
+    '..YYYYY..',
+    '...YYY...'
+  ], { P: '#b060f0', Y: '#e8c050' });
+
+  P.define('potion', [
+    '...UUU...',
+    '...UUU...',
+    '..GGGGG..',
+    '.GRRRRRG.',
+    'GRRRRRRRG',
+    'GRRRWRRRG',
+    'GRRRRRRRG',
+    'GRRRRRRRG',
+    '.GRRRRRG.',
+    '..GRRRG..',
+    '..GGGGG..',
+    '...GGG...'
+  ], { U: '#5a3818', G: '#8a94a8', R: '#d02838', W: '#f4f0e8' });
+
+  P.define('mpPotion', [
+    '...UUU...',
+    '...UUU...',
+    '..GGGGG..',
+    '.GBBBBBG.',
+    'GBBBBBBBG',
+    'GBBBWBBBG',
+    'GBBBBBBBG',
+    'GBBBBBBBG',
+    '.GBBBBBG.',
+    '..GBBBG..',
+    '..GGGGG..',
+    '...GGG...'
+  ], { U: '#5a3818', G: '#8a94a8', B: '#3868c8', W: '#f4f0e8' });
+
   window.Game = window.Game || {};
 })();

@@ -16,6 +16,7 @@
     heart: '♥︎',
     drop: '♦︎',
     potion: '!',
+    mpPotion: '♦︎',
     scroll: '?',
     gem: '◆',
     coin: '$',
