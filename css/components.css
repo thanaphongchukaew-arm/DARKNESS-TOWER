@@ -41,7 +41,7 @@
   font-size: 0.95rem;
   letter-spacing: 0.02em;
   transition: background 0.06s steps(1), color 0.06s steps(1), transform 0.08s ease;
-  border: 2px solid currentColor;
+  border: none;
   background: transparent;
   position: relative;
 }
@@ -77,7 +77,6 @@
 
 .btn-secondary {
   color: var(--text-primary);
-  border-color: var(--border-strong);
   background: rgba(53,196,111,0.06);
 }
 
@@ -99,13 +98,11 @@
 .btn-ghost {
   background: transparent;
   color: var(--text-secondary);
-  border-color: var(--border-soft);
 }
 
 .btn-ghost:hover:not(:disabled) {
   color: var(--bg-void);
   background: var(--text-secondary);
-  border-color: var(--text-secondary);
 }
 
 button:disabled {
