@@ -10,6 +10,15 @@
     return '<div class="stat-row"><div class="stat-row-label">' + I(icon) + '<span>' + label + '</span></div><div class="stat-row-value">' + value + '</div></div>';
   }
 
+  // Newly acquired equipment (reward pick, treasure, shop purchase) auto-equips
+  // itself only when its slot is empty -- an already-equipped slot is left alone
+  // so the player's current gear choice is never silently swapped out.
+  function autoEquipIfEmpty(run, itemId) {
+    var item = window.Game.Data.getItem(itemId);
+    if (!item || ['weapon', 'armor', 'accessory'].indexOf(item.kind) === -1) return;
+    if (!run.equipment[item.kind]) window.Game.State.equip(run, itemId);
+  }
+
   // Floors 5/10/15/20/25/30/35/40/45 each gate a one-time waypoint stop before
   // their mini-boss, cycling rest -> shop -> treasure every 5 floors.
   var WAYPOINT_FLOORS = { 5: 'rest', 10: 'shop', 15: 'treasure', 20: 'rest', 25: 'shop', 30: 'treasure', 35: 'rest', 40: 'shop', 45: 'treasure' };
@@ -170,6 +179,7 @@
         var pick = choices[idx];
         var run = window.Game.State.current;
         window.Game.State.addItem(run, pick.item.id, pick.qty);
+        autoEquipIfEmpty(run, pick.item.id);
         var maxHp = window.Game.State.getMaxHp(run), maxMp = window.Game.State.getMaxMp(run);
         run.hp = Math.min(maxHp, run.hp + Math.round(maxHp * 0.3));
         run.mp = Math.min(maxMp, run.mp + Math.round(maxMp * 0.3));
@@ -298,6 +308,7 @@
         var pick = choices[idx];
         var run = window.Game.State.current;
         window.Game.State.addItem(run, pick.item.id, pick.qty);
+        autoEquipIfEmpty(run, pick.item.id);
         markWaypointSeen();
         renderTower();
         window.Game.UI.showScreen('screen-tower');
@@ -410,6 +421,7 @@
           if (!S.spendGold(run, price)) return;
           entry.qty -= 1;
           S.addItem(run, id, 1);
+          autoEquipIfEmpty(run, id);
           window.Game.State.saveNow();
           SFX('item_get');
           paint();
