@@ -382,11 +382,16 @@
         .slice(0, n)
         .map(function (it) { return { id: it.id, maxQty: maxQty, qty: maxQty }; });
     }
+    var materialMaxQty = 2 + tier + Math.floor(bonus / 2); // 3, 4, 5, 6, 7 baseline, grows with mini-boss clears too
     var stock = [].concat(
       entries('weapon', 1 + tier, 1),
       entries('armor', 1 + tier, 1),
       entries('shoes', Math.ceil(tier / 2), 1),
-      entries('accessory', 1 + tier, 1)
+      entries('accessory', 1 + tier, 1),
+      // Only a handful of materials per tier show up here (n === tier, never
+      // the full pool) -- the shop is a supplemental source, monster drops
+      // stay the main way to stock up for crafting.
+      entries('material', tier, materialMaxQty)
     );
     var potionMaxQty = 4 + (tier - 1) * 2 + bonus; // 4, 6, 8, 10, 12 baseline, +1 per mini-boss cleared
     var rareMaxQty = 2 + Math.floor((tier - 1) / 2) + Math.floor(bonus / 3); // 2, 2, 3, 3, 4 baseline -- scroll & elixir
@@ -406,8 +411,8 @@
     return run.shopStock;
   }
 
-  var SHOP_KIND_ORDER = ['weapon', 'armor', 'shoes', 'accessory', 'consumable'];
-  var SHOP_KIND_LABEL_KEY = { weapon: 'weaponLabel', armor: 'armorLabel', shoes: 'shoesLabel', accessory: 'accessoryLabel', consumable: 'shopConsumablesLabel' };
+  var SHOP_KIND_ORDER = ['weapon', 'armor', 'shoes', 'accessory', 'material', 'consumable'];
+  var SHOP_KIND_LABEL_KEY = { weapon: 'weaponLabel', armor: 'armorLabel', shoes: 'shoesLabel', accessory: 'accessoryLabel', material: 'shopMaterialsLabel', consumable: 'shopConsumablesLabel' };
 
   function renderShop() {
     var run = window.Game.State.current, S = window.Game.State, D = window.Game.Data, F = window.Game.Formulas;

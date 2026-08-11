@@ -120,7 +120,7 @@
 
   // Shop price for an item, based on its tier and kind.
   function shopPrice(item) {
-    var base = item.kind === 'consumable' ? 20 : 60;
+    var base = item.kind === 'consumable' ? 20 : item.kind === 'material' ? 35 : 60;
     return item.tier * base;
   }
 

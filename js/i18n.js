@@ -118,6 +118,7 @@
     shopOutOfStock: { th: 'ของหมด', en: 'Out of Stock' },
     shopStockLeft: { th: 'เหลือ {qty} ชิ้น', en: '{qty} left' },
     shopConsumablesLabel: { th: 'ยาและเครื่องใช้', en: 'Potions & Items' },
+    shopMaterialsLabel: { th: 'วัตถุดิบคราฟต์', en: 'Crafting Materials' },
 
     // crafting bench (persistent, always accessible from the tower map)
     craftBtn: { th: 'คราฟต์', en: 'Craft' },
