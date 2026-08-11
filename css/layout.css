@@ -35,6 +35,14 @@
   padding-bottom: 0.75rem;
 }
 
+/* Clears the top-right language/audio controls, which sit ~3.3rem tall at rest
+   on narrow screens where headers otherwise start right under them. */
+@media (max-width: 768px) {
+  .screen-header {
+    margin-top: 3.4rem;
+  }
+}
+
 .screen-header h2 {
   font-size: clamp(1.2rem, 2.5vw, 1.6rem);
   color: var(--text-primary);

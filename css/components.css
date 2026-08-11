@@ -626,6 +626,16 @@ button:disabled {
   z-index: 998;
 }
 
+/* On narrow screens most content runs edge-to-edge, so a viewport-fixed control
+   panel would permanently float over whatever scrolls underneath it (screen
+   headers at rest, battle/enemy text once scrolled). Anchoring it to the page
+   instead lets it scroll away with the content like the rest of the header. */
+@media (max-width: 768px) {
+  .top-right-controls {
+    position: absolute;
+  }
+}
+
 .lang-toggle {
   display: inline-flex;
   align-items: center;

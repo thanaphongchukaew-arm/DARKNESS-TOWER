@@ -380,6 +380,14 @@
   margin: 0 auto;
 }
 
+/* Clears the top-right language/audio controls on narrow screens, same as
+   .screen-header -- the floor label otherwise sits directly under them. */
+@media (max-width: 768px) {
+  .battle-topbar {
+    margin-top: 3.4rem;
+  }
+}
+
 .battle-topbar-left {
   display: flex;
   align-items: center;
