@@ -419,6 +419,27 @@
     return battle.enemies.reduce(function (s, e) { return s + F().goldForExp(e.expReward || 0); }, 0);
   }
 
+  // Crafting material drops: each defeated enemy independently rolls against its
+  // tier's 2-material pool (regular enemies have an explicit tier; mini-bosses
+  // and the final boss don't, so their tier is derived from the floor instead).
+  // Bosses/mini-bosses always drop, and drop more, to reward the tougher fight.
+  function getMaterialDrops(battle) {
+    var drops = {};
+    battle.enemies.forEach(function (e) {
+      var template = D().getEnemyTemplate(e.templateId);
+      if (!template) return;
+      var tier = template.tier || F().tierForFloor(battle.floor);
+      var mats = D().items.filter(function (it) { return it.kind === 'material' && it.tier === tier; });
+      if (!mats.length) return;
+      var dropChance = e.isBoss ? 1 : 0.5;
+      if (Math.random() >= dropChance) return;
+      var qty = e.isBoss ? (1 + Math.floor(Math.random() * 2)) : 1;
+      var mat = mats[Math.floor(Math.random() * mats.length)];
+      drops[mat.id] = (drops[mat.id] || 0) + qty;
+    });
+    return Object.keys(drops).map(function (id) { return { id: id, qty: drops[id] }; });
+  }
+
   window.Game = window.Game || {};
   window.Game.BattleEngine = {
     createBattle: createBattle,
@@ -427,6 +448,7 @@
     runEnemyPhase: runEnemyPhase,
     getExpReward: getExpReward,
     getGoldReward: getGoldReward,
+    getMaterialDrops: getMaterialDrops,
     effectiveStats: effectiveStats
   };
 })();

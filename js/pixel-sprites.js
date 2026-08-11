@@ -766,5 +766,74 @@
     '...GGG...'
   ], { U: '#5a3818', G: '#8a94a8', B: '#3868c8', W: '#f4f0e8' });
 
+  // ---- Crafting material icons: 4 shared silhouettes (fang, pouch of dust,
+  // shard/scale, glowing orb/core), each palette-swapped per material so every
+  // drop reads as a distinct 8-bit item without hand-authoring 10 grids. ----
+
+  var FANG_GRID = [
+    '....W....',
+    '....W....',
+    '...WWW...',
+    '...WWW...',
+    '..WWWW...',
+    '..WWWW...',
+    '.WWWWW...',
+    '.WWWWU...',
+    'WWWWWU...',
+    'WWWUUU...',
+    'WWUUU....'
+  ];
+  P.define('mat_beast_fang', FANG_GRID, { W: '#f0ece0', U: '#8a6a4a' });
+  P.define('mat_demon_fang', FANG_GRID, { W: '#1a1418', U: '#7a1420' });
+
+  var POUCH_GRID = [
+    '...UU....',
+    '...UU....',
+    '..UUUU...',
+    '.MMMMMM..',
+    'MMMMMMMM.',
+    'MMMMMMMMM',
+    'MMMGMMMMM',
+    'MMMMMMMMM',
+    '.MMMMMMM.',
+    '..MMMMM..',
+    '...MMM...'
+  ];
+  P.define('mat_spirit_dust', POUCH_GRID, { U: '#5a4a70', M: '#8a7aa0', G: '#c8b0ff' });
+
+  var SHARD_GRID = [
+    '....S....',
+    '....S....',
+    '...SSS...',
+    '...SSS...',
+    '..SSSSS..',
+    '..SSSSS..',
+    '.SSSSSSS.',
+    '.SSSSSSS.',
+    '.SSDDSSS.',
+    '..SSSSS..',
+    '...SSS...',
+    '....S....'
+  ];
+  P.define('mat_iron_shard', SHARD_GRID, { S: '#b8bcc8', D: '#6a7488' });
+  P.define('mat_wyvern_scale', SHARD_GRID, { S: '#4a9850', D: '#2a6030' });
+  P.define('mat_dragon_scale', SHARD_GRID, { S: '#e86838', D: '#a83818' });
+  P.define('mat_ancient_scale', SHARD_GRID, { S: '#e8c050', D: '#a87c1a' });
+
+  var ORB_GRID = [
+    '...OOO...',
+    '..OOOOO..',
+    '.OOOOOOO.',
+    'OOOOOOOOO',
+    'OOOOGOOOO',
+    'OOOOOOOOO',
+    '.OOOOOOO.',
+    '..OOOOO..',
+    '...OOO...'
+  ];
+  P.define('mat_storm_core', ORB_GRID, { O: '#3868c8', G: '#e8f4ff' });
+  P.define('mat_demonic_core', ORB_GRID, { O: '#7a2050', G: '#f0d040' });
+  P.define('mat_abyssal_essence', ORB_GRID, { O: '#2a1038', G: '#c860e0' });
+
   window.Game = window.Game || {};
 })();

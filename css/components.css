@@ -272,6 +272,61 @@ button:disabled {
   color: var(--text-secondary);
 }
 
+/* ---- Crafting bench cards ---- */
+.craft-card {
+  background: var(--glass-panel), var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  box-shadow: var(--shadow-card);
+}
+
+.craft-materials {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin: 0.2rem 0;
+}
+
+.craft-mat-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.craft-mat-row .icon,
+.craft-mat-row .pixel-icon {
+  font-size: 1.1rem;
+}
+
+.craft-mat-name {
+  flex: 1;
+}
+
+.craft-mat-count {
+  font-weight: 700;
+  color: var(--success);
+}
+
+.craft-mat-row.craft-mat-short .craft-mat-count {
+  color: var(--danger);
+}
+
+.craft-btn {
+  width: 100%;
+  margin-top: 0.3rem;
+}
+
+.craft-btn[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 /* ---- Bars ---- */
 .bar-track {
   width: 100%;

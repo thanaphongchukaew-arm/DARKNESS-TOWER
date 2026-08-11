@@ -21,6 +21,7 @@ const FILES = [
   'js/data-skills.js',
   'js/data-enemies.js',
   'js/data-items.js',
+  'js/data-recipes.js',
   'js/formulas.js',
   'js/save.js',
   'js/state.js',

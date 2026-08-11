@@ -34,6 +34,23 @@
     return true;
   }
 
+  // Consumes a recipe's materials + gold and adds its result item to the
+  // inventory. Returns false (no state change) if the player is short on
+  // either -- the caller (crafting UI) is expected to keep craft buttons
+  // disabled in that case, so this is mostly a safety net.
+  function craftItem(run, recipeId) {
+    deps();
+    var recipe = D.getRecipe(recipeId);
+    if (!recipe) return false;
+    var canAfford = (run.gold || 0) >= (recipe.gold || 0) &&
+      recipe.materials.every(function (m) { return (run.inventory[m.id] || 0) >= m.qty; });
+    if (!canAfford) return false;
+    recipe.materials.forEach(function (m) { removeItem(run, m.id, m.qty); });
+    if (recipe.gold) spendGold(run, recipe.gold);
+    addItem(run, recipe.resultId, recipe.resultQty || 1);
+    return true;
+  }
+
   function createRun(difficultyId, classId) {
     deps();
     var cls = D.getClass(classId);
@@ -266,6 +283,7 @@
     removeItem: removeItem,
     addGold: addGold,
     spendGold: spendGold,
+    craftItem: craftItem,
     useConsumable: useConsumable,
     saveNow: saveNow,
     clearRun: clearRun

@@ -89,6 +89,12 @@
       renderShop();
       window.Game.UI.showScreen('screen-shop');
     };
+    document.getElementById('tower-craft-btn').textContent = T('craftBtn');
+    document.getElementById('tower-craft-btn').onclick = function () {
+      SFX('ui_confirm');
+      renderCraft();
+      window.Game.UI.showScreen('screen-craft');
+    };
     document.getElementById('tower-home').innerHTML = I('doorway');
     document.getElementById('tower-home').onclick = function () {
       SFX('ui_back');
@@ -372,7 +378,7 @@
     var tier = F.tierForFloor(floor);
     var bonus = minibossesCleared(floor);
     function entries(kind, n, maxQty) {
-      return shuffled(D.items.filter(function (it) { return it.kind === kind && it.tier <= tier; }))
+      return shuffled(D.items.filter(function (it) { return it.kind === kind && it.tier <= tier && !it.craftOnly; }))
         .slice(0, n)
         .map(function (it) { return { id: it.id, maxQty: maxQty, qty: maxQty }; });
     }
@@ -449,6 +455,63 @@
           entry.qty -= 1;
           S.addItem(run, id, 1);
           autoEquipIfEmpty(run, id);
+          window.Game.State.saveNow();
+          SFX('item_get');
+          paint();
+        };
+      });
+    }
+    paint();
+  }
+
+  // Crafting bench (persistent, always accessible from the tower map). Unlike
+  // the shop, there's no stock/qty to track -- every recipe unlocked at the
+  // current floor tier is always listed, and materials in the player's
+  // inventory (dropped by defeated monsters) are what actually gate crafting.
+  function renderCraft() {
+    var run = window.Game.State.current, S = window.Game.State, D = window.Game.Data, F = window.Game.Formulas;
+    document.getElementById('craft-header-title').textContent = T('craftScreenTitle');
+    document.getElementById('craft-note').textContent = T('craftNote');
+    document.getElementById('craft-back').innerHTML = I('back');
+    document.getElementById('craft-back').onclick = function () { SFX('ui_back'); renderTower(); window.Game.UI.showScreen('screen-tower'); };
+
+    function paint() {
+      document.getElementById('craft-gold').innerHTML = I('coin') + (run.gold || 0) + ' ' + T('goldLabel');
+      var tier = F.tierForFloor(run.currentFloor);
+      var recipes = D.getRecipesByTier(tier);
+      var html = recipes.map(function (recipe) {
+        var result = D.getItem(recipe.resultId);
+        var goldCost = recipe.gold || 0;
+        var goldOk = (run.gold || 0) >= goldCost;
+        var matsOk = true;
+        var matsHtml = recipe.materials.map(function (m) {
+          var mat = D.getItem(m.id);
+          var have = run.inventory[m.id] || 0;
+          var ok = have >= m.qty;
+          if (!ok) matsOk = false;
+          return '<div class="craft-mat-row' + (ok ? '' : ' craft-mat-short') + '">' + I(mat.icon) +
+            '<span class="craft-mat-name">' + L(mat, 'name') + '</span>' +
+            '<span class="craft-mat-count">' + have + '/' + m.qty + '</span></div>';
+        }).join('');
+        var canCraft = matsOk && goldOk;
+        return '<div class="craft-card">' +
+          '<div class="select-card-icon">' + I(result.icon) + '</div>' +
+          '<div class="select-card-title">' + L(result, 'name') + '</div>' +
+          '<div class="select-card-desc">' + L(result, 'desc') + '</div>' +
+          '<div class="craft-materials">' + matsHtml + '</div>' +
+          '<div class="select-card-stats"><span class="stat-chip">' + T('craftGoldLabel') + ': ' + goldCost + ' ' + T('goldLabel') + '</span></div>' +
+          '<button class="btn-primary craft-btn" data-recipe="' + recipe.id + '"' + (canCraft ? '' : ' disabled') + '>' + T('craftBtn') + '</button>' +
+        '</div>';
+      }).join('');
+      document.getElementById('craft-content').innerHTML = recipes.length ?
+        ('<div class="card-grid">' + html + '</div>') :
+        ('<p class="empty-note">' + T('craftEmptyNote') + '</p>');
+      Array.prototype.forEach.call(document.querySelectorAll('#craft-content .craft-btn:not([disabled])'), function (btn) {
+        btn.onclick = function () {
+          var recipeId = btn.getAttribute('data-recipe');
+          if (!S.craftItem(run, recipeId)) return;
+          var recipe = D.getRecipe(recipeId);
+          autoEquipIfEmpty(run, recipe.resultId);
           window.Game.State.saveNow();
           SFX('item_get');
           paint();
@@ -540,13 +603,13 @@
       row.onclick = function () { SFX('ui_confirm'); openEquipPicker(row.getAttribute('data-slot')); };
     });
 
-    var consumables = Object.keys(run.inventory).map(function (id) { return D.getItem(id); }).filter(function (it) { return it && it.kind === 'consumable'; });
-    var invHtml = consumables.length ? consumables.map(function (it) {
+    var invItems = Object.keys(run.inventory).map(function (id) { return D.getItem(id); }).filter(function (it) { return it && (it.kind === 'consumable' || it.kind === 'material'); });
+    var invHtml = invItems.length ? invItems.map(function (it) {
       var qty = run.inventory[it.id];
       return '<div class="inv-item"><div class="inv-item-icon">' + I(it.icon) + '</div>' +
         '<div class="inv-item-info"><div class="inv-item-name">' + L(it, 'name') + '</div><div class="inv-item-desc">' + L(it, 'desc') + '</div></div>' +
         '<span class="inv-item-count">x' + qty + '</span>' +
-        '<button class="btn-secondary" data-use="' + it.id + '">' + T('useBtn') + '</button></div>';
+        (it.kind === 'consumable' ? '<button class="btn-secondary" data-use="' + it.id + '">' + T('useBtn') + '</button>' : '') + '</div>';
     }).join('') : '<p class="empty-note">' + T('emptyInventory') + '</p>';
     var invEl = document.getElementById('status-inventory');
     invEl.innerHTML = '<div class="status-panel-title">' + T('inventoryPanelTitle') + '</div>' + invHtml;
@@ -570,6 +633,7 @@
     if (active.id === 'screen-tower') renderTower();
     else if (active.id === 'screen-status') renderStatus();
     else if (active.id === 'screen-shop') renderShop();
+    else if (active.id === 'screen-craft') renderCraft();
     else if (active.id === 'screen-reward') renderReward(null);
     else if (active.id === 'screen-waypoint' && lastWaypoint.type) renderWaypoint(lastWaypoint.type, lastWaypoint.floor);
   }
@@ -580,6 +644,7 @@
     renderReward: renderReward,
     renderStatus: renderStatus,
     renderShop: renderShop,
+    renderCraft: renderCraft,
     refreshActiveScreen: refreshActiveScreen
   };
 })();

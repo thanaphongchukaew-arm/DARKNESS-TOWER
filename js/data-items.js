@@ -57,7 +57,30 @@
     { id: 'p_mp_greater', name: 'ยาฟื้นฟู MP วิเศษ', nameEn: 'Greater MP Potion', kind: 'consumable', tier: 4, icon: 'mpPotion', effect: { type: 'healMp', amount: 55 }, desc: 'ฟื้นฟู 55 MP', descEn: 'Restores 55 MP', battleUsable: true },
     { id: 'p_mp_supreme', name: 'ยาฟื้นฟู MP สูงสุด', nameEn: 'Supreme MP Potion', kind: 'consumable', tier: 5, icon: 'mpPotion', effect: { type: 'healMp', amount: 90 }, desc: 'ฟื้นฟู 90 MP', descEn: 'Restores 90 MP', battleUsable: true },
     { id: 'p_elixir', name: 'ยาอมฤต', nameEn: 'Elixir', kind: 'consumable', tier: 3, icon: 'gem', effect: { type: 'healBoth', amount: 9999 }, desc: 'ฟื้นฟู HP และ MP เต็ม', descEn: 'Fully restores HP and MP', battleUsable: true },
-    { id: 'skill_scroll', name: 'ม้วนคัมภีร์ทักษะ', nameEn: 'Skill Scroll', kind: 'consumable', tier: 2, icon: 'scroll', effect: { type: 'learnSkill' }, desc: 'เรียนรู้ทักษะใหม่ทันที (หรือแปลงเป็นค่าประสบการณ์หากเรียนครบแล้ว)', descEn: 'Instantly learn a new skill (or converts to EXP if all skills are already learned)', battleUsable: false }
+    { id: 'skill_scroll', name: 'ม้วนคัมภีร์ทักษะ', nameEn: 'Skill Scroll', kind: 'consumable', tier: 2, icon: 'scroll', effect: { type: 'learnSkill' }, desc: 'เรียนรู้ทักษะใหม่ทันที (หรือแปลงเป็นค่าประสบการณ์หากเรียนครบแล้ว)', descEn: 'Instantly learn a new skill (or converts to EXP if all skills are already learned)', battleUsable: false },
+
+    // ---- Crafting materials (kind: 'material') -- dropped by defeated monsters,
+    // never sold in the shop or offered as a reward/treasure pick. Two per tier. ----
+    { id: 'mat_beast_fang', name: 'เขี้ยวสัตว์ร้าย', nameEn: 'Beast Fang', kind: 'material', tier: 1, icon: 'mat_beast_fang', desc: 'เขี้ยวแหลมคมจากสัตว์ร้ายชั้นล่างหอคอย ใช้คราฟต์อุปกรณ์', descEn: 'A sharp fang from a lowborn tower beast, used in crafting.' },
+    { id: 'mat_spirit_dust', name: 'ผงวิญญาณจาง', nameEn: 'Faint Spirit Dust', kind: 'material', tier: 1, icon: 'mat_spirit_dust', desc: 'ผงเรืองแสงจาง ๆ จากวิญญาณเงามืด ใช้คราฟต์อุปกรณ์', descEn: 'Faintly glowing dust left by a lesser shade, used in crafting.' },
+    { id: 'mat_iron_shard', name: 'เศษเกราะเหล็ก', nameEn: 'Iron Plate Shard', kind: 'material', tier: 2, icon: 'mat_iron_shard', desc: 'เศษเกราะเหล็กแข็งแกร่ง ใช้คราฟต์อุปกรณ์', descEn: 'A sturdy shard of iron plating, used in crafting.' },
+    { id: 'mat_storm_core', name: 'แก่นธาตุพายุ', nameEn: 'Storm Elemental Core', kind: 'material', tier: 2, icon: 'mat_storm_core', desc: 'แก่นพลังงานพายุที่ยังคงสั่นไหว ใช้คราฟต์อุปกรณ์', descEn: 'A still-crackling core of storm energy, used in crafting.' },
+    { id: 'mat_wyvern_scale', name: 'เกล็ดไวเวิร์น', nameEn: 'Wyvern Scale', kind: 'material', tier: 3, icon: 'mat_wyvern_scale', desc: 'เกล็ดแข็งจากไวเวิร์นหนุ่ม ใช้คราฟต์อุปกรณ์', descEn: 'A tough scale shed by a young wyvern, used in crafting.' },
+    { id: 'mat_demon_fang', name: 'เขี้ยวปีศาจ', nameEn: 'Demon Fang', kind: 'material', tier: 3, icon: 'mat_demon_fang', desc: 'เขี้ยวดำสนิทของปีศาจชั้นกลาง ใช้คราฟต์อุปกรณ์', descEn: 'A jet-black fang from a mid-tier demon, used in crafting.' },
+    { id: 'mat_dragon_scale', name: 'เกล็ดมังกรเพลิง', nameEn: 'Dragon Scale', kind: 'material', tier: 4, icon: 'mat_dragon_scale', desc: 'เกล็ดร้อนระอุจากมังกรแท้ ใช้คราฟต์อุปกรณ์', descEn: 'A searing scale from a true dragon, used in crafting.' },
+    { id: 'mat_demonic_core', name: 'แก่นปีศาจ', nameEn: 'Demonic Core', kind: 'material', tier: 4, icon: 'mat_demonic_core', desc: 'แก่นพลังมืดจากปีศาจชั้นสูง ใช้คราฟต์อุปกรณ์', descEn: 'A dark power core from a greater demon, used in crafting.' },
+    { id: 'mat_ancient_scale', name: 'เกล็ดมังกรโบราณ', nameEn: 'Ancient Dragon Scale', kind: 'material', tier: 5, icon: 'mat_ancient_scale', desc: 'เกล็ดสีทองจากมังกรยุคโบราณ ใช้คราฟต์อุปกรณ์', descEn: 'A golden scale from an ancient dragon, used in crafting.' },
+    { id: 'mat_abyssal_essence', name: 'สาระห้วงนรก', nameEn: 'Abyssal Essence', kind: 'material', tier: 5, icon: 'mat_abyssal_essence', desc: 'สาระอันมืดมิดจากห้วงนรกลึกสุด ใช้คราฟต์อุปกรณ์', descEn: 'A pitch-dark essence drawn from the deepest abyss, used in crafting.' },
+
+    // ---- Craft-only equipment (kind matches normal equipment, but craftOnly:
+    // true keeps them out of the shop and reward/treasure pools -- the crafting
+    // bench is their only source). One per tier, each a notch above the best
+    // same-tier shop item of its kind. ----
+    { id: 'w_craft_fangblade', name: 'ดาบเขี้ยวเงา', nameEn: 'Fang-Forged Blade', kind: 'weapon', tier: 1, icon: 'weaponSlot', craftOnly: true, statBonus: { atk: 7, luk: 2 }, desc: '+7 ATK, +2 LUK', descEn: '+7 ATK, +2 LUK' },
+    { id: 'a_craft_ironward', name: 'เกราะเศษเหล็กพายุ', nameEn: 'Stormforged Plate', kind: 'armor', tier: 2, icon: 'armorSlot', craftOnly: true, statBonus: { def: 8, hp: 16 }, desc: '+8 DEF, +16 HP', descEn: '+8 DEF, +16 HP' },
+    { id: 's_craft_wyvernstride', name: 'รองเท้าเกล็ดไวเวิร์น', nameEn: 'Wyvernscale Striders', kind: 'shoes', tier: 3, icon: 'shoesSlot', craftOnly: true, statBonus: { spd: 15, luk: 3 }, desc: '+15 SPD, +3 LUK', descEn: '+15 SPD, +3 LUK' },
+    { id: 'c_craft_dragonfangring', name: 'แหวนเขี้ยวมังกรเพลิง', nameEn: 'Dragonfang Signet', kind: 'accessory', tier: 4, icon: 'accessorySlot', craftOnly: true, statBonus: { atk: 10, mag: 10 }, desc: '+10 ATK, +10 MAG', descEn: '+10 ATK, +10 MAG' },
+    { id: 'w_craft_voidreaver', name: 'ดาบผู้ล่าห้วงนิรันดร์', nameEn: 'Voidreaver Blade', kind: 'weapon', tier: 5, icon: 'weaponSlot', craftOnly: true, statBonus: { atk: 40, luk: 5 }, desc: '+40 ATK, +5 LUK', descEn: '+40 ATK, +5 LUK' }
   ];
 
   window.Game = window.Game || {};
@@ -68,6 +91,6 @@
     return null;
   };
   window.Game.Data.getItemsByKindTier = function (kind, tier) {
-    return items.filter(function (it) { return it.kind === kind && it.tier === tier; });
+    return items.filter(function (it) { return it.kind === kind && it.tier === tier && !it.craftOnly; });
   };
 })();

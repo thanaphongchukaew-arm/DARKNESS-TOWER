@@ -119,6 +119,13 @@
     shopStockLeft: { th: 'เหลือ {qty} ชิ้น', en: '{qty} left' },
     shopConsumablesLabel: { th: 'ยาและเครื่องใช้', en: 'Potions & Items' },
 
+    // crafting bench (persistent, always accessible from the tower map)
+    craftBtn: { th: 'คราฟต์', en: 'Craft' },
+    craftScreenTitle: { th: 'โต๊ะคราฟต์', en: 'Crafting Bench' },
+    craftNote: { th: 'ใช้วัตถุดิบที่ได้จากการปราบมอนสเตอร์และทองเพื่อคราฟต์อุปกรณ์เฉพาะ', en: 'Spend materials dropped by defeated monsters, plus gold, to craft exclusive gear.' },
+    craftGoldLabel: { th: 'ทองที่ต้องใช้', en: 'Gold Cost' },
+    craftEmptyNote: { th: 'ยังไม่มีสูตรคราฟต์ที่ปลดล็อกในชั้นนี้', en: 'No recipes unlocked at this floor tier yet' },
+
     // waypoint stops (floors 5/10/15, gate the mini-bosses)
     waypointRestTitle: { th: 'จุดพักฟื้น', en: 'Rest Stop' },
     waypointRestDesc: { th: 'พักฟื้นให้เต็มก่อนเผชิญหน้ากับมินิบอส', en: 'Recover fully before you face the mini-boss ahead.' },
@@ -230,6 +237,7 @@
     logInvalidAction: { th: 'ทำไม่ได้ตอนนี้', en: 'Can\'t do that right now' },
     logExpGained: { th: 'ได้รับ {exp} EXP', en: 'Gained {exp} EXP' },
     logGoldGained: { th: 'ได้รับ {gold} ทอง', en: 'Gained {gold} Gold' },
+    logMaterialGained: { th: 'ได้รับวัตถุดิบ {name} x{qty}', en: 'Got {qty}x {name}' },
     logLevelUp: { th: 'เลเวลอัพ! ตอนนี้เลเวล {level}!', en: 'Level up! Now level {level}!' },
     weakTag: { th: ' [จุดอ่อน]', en: ' [Weak Point]' },
     critTag: { th: ' [คริติคอล]', en: ' [Critical]' },
@@ -283,6 +291,9 @@
     { id: 'shop-header-title', key: 'shopScreenTitle' },
     { id: 'shop-back', key: 'ariaBack', attr: 'aria-label' },
     { id: 'shop-reset-note', key: 'shopResetNote' },
+    { id: 'craft-header-title', key: 'craftScreenTitle' },
+    { id: 'craft-back', key: 'ariaBack', attr: 'aria-label' },
+    { id: 'craft-note', key: 'craftNote' },
     { id: 'battle-home', key: 'ariaHome', attr: 'aria-label' },
     { id: 'audio-toggle', key: 'ariaAudioToggle', attr: 'aria-label' },
     { id: 'music-volume', key: 'ariaVolume', attr: 'aria-label' },

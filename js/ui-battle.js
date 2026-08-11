@@ -531,6 +531,12 @@
     SFX('victory');
     logLine(T('logExpGained', { exp: exp }), 'log-heal');
     logLine(T('logGoldGained', { gold: gold }), 'log-heal');
+    var drops = window.Game.BattleEngine.getMaterialDrops(battle);
+    drops.forEach(function (d) {
+      window.Game.State.addItem(run, d.id, d.qty);
+      var mat = window.Game.Data.getItem(d.id);
+      logLine(T('logMaterialGained', { name: L(mat, 'name'), qty: d.qty }), 'log-heal');
+    });
     if (lvlRes.leveledUp) {
       logLine(T('logLevelUp', { level: lvlRes.level }), 'log-crit');
       setTimeout(function () { SFX('level_up'); }, 450);
