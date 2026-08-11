@@ -1,9 +1,9 @@
 // Pure formulas: stat growth, damage, exp curve, floor/difficulty scaling.
 (function () {
   var DIFFICULTY = {
-    easy: { id: 'easy', name: 'ง่าย', nameEn: 'Easy', statMult: 0.82, rewardMult: 1.15, startPotions: 3 },
-    normal: { id: 'normal', name: 'ปกติ', nameEn: 'Normal', statMult: 1.0, rewardMult: 1.0, startPotions: 2 },
-    hard: { id: 'hard', name: 'ยาก', nameEn: 'Hard', statMult: 1.3, rewardMult: 1.35, startPotions: 1 }
+    easy: { id: 'easy', name: 'ง่าย', nameEn: 'Easy', statMult: 0.72, rewardMult: 1.15, startPotions: 3 },
+    normal: { id: 'normal', name: 'ปกติ', nameEn: 'Normal', statMult: 0.88, rewardMult: 1.0, startPotions: 2 },
+    hard: { id: 'hard', name: 'ยาก', nameEn: 'Hard', statMult: 1.14, rewardMult: 1.35, startPotions: 1 }
   };
 
   function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
@@ -55,7 +55,7 @@
 
   function enemyStatScale(floor, difficultyId) {
     var diff = DIFFICULTY[difficultyId] || DIFFICULTY.normal;
-    return (1 + 0.065 * (floor - 1)) * diff.statMult;
+    return (1 + 0.05 * (floor - 1)) * diff.statMult;
   }
 
   function bossStatScale(difficultyId) {
