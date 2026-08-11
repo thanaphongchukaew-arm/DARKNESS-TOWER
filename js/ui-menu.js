@@ -42,10 +42,17 @@
       html += '<button class="btn-primary" id="btn-continue">' + I('doorway') + '<span>' + T('continueGame') + '</span></button>';
     }
     html += '<button class="' + (hasSave ? 'btn-secondary' : 'btn-primary') + '" id="btn-new">' + I('towerSpire') + '<span>' + T('newGame') + '</span></button>';
+    html += '<button class="btn-secondary" id="btn-guide">' + I('scroll') + '<span>' + T('guideBtn') + '</span></button>';
     if (hasSave) {
       html += '<button class="btn-danger" id="btn-clear">' + I('trash') + '<span>' + T('clearSave') + '</span></button>';
     }
     el.innerHTML = html;
+
+    document.getElementById('btn-guide').onclick = function () {
+      SFX('ui_confirm');
+      renderGuide();
+      showScreen('screen-guide');
+    };
 
     if (hasSave) {
       document.getElementById('btn-continue').onclick = function () {
@@ -93,6 +100,57 @@
         });
       };
     }
+  }
+
+  var GUIDE_ELEMENTS = ['phys', 'fire', 'ice', 'elec', 'wind', 'light', 'dark', 'almighty'];
+
+  function renderGuide() {
+    var elementsHtml = GUIDE_ELEMENTS.map(function (el) {
+      return '<div class="element-card"><span class="el-tag el-' + el + '">' + I(el) + '</span><span class="element-card-name">' + window.Game.ElementName(el) + '</span></div>';
+    }).join('');
+
+    document.getElementById('guide-content').innerHTML =
+      '<div class="guide-section">' +
+        '<h3>' + T('guideElementsTitle') + '</h3>' +
+        '<p>' + T('guideElementsIntro') + '</p>' +
+        '<div class="element-grid">' + elementsHtml + '</div>' +
+      '</div>' +
+      '<div class="guide-section">' +
+        '<h3>' + T('guideRelationsTitle') + '</h3>' +
+        '<ul class="guide-list">' +
+          '<li><span class="el-tag el-fire tag-weak">' + I('star') + '</span>' + T('guideRelWeak') + '</li>' +
+          '<li><span class="el-tag el-ice tag-bad">' + I('shieldGuard') + '</span>' + T('guideRelResist') + '</li>' +
+          '<li><span class="el-tag el-dark tag-bad">' + I('close') + '</span>' + T('guideRelNull') + '</li>' +
+          '<li><span class="el-tag el-elec tag-bad">' + I('heart') + '</span>' + T('guideRelDrain') + '</li>' +
+          '<li><span class="el-tag el-wind tag-bad">' + I('shieldGuard') + '</span>' + T('guideRelReflect') + '</li>' +
+        '</ul>' +
+      '</div>' +
+      '<div class="guide-section">' +
+        '<h3>' + T('guideCombatTitle') + '</h3>' +
+        '<p>' + T('guideCombatAP') + '</p>' +
+        '<p>' + T('guideCombatActions') + '</p>' +
+        '<p>' + T('guideCombatStagger') + '</p>' +
+        '<p>' + T('guideCombatGroup') + '</p>' +
+      '</div>' +
+      '<div class="guide-section">' +
+        '<h3>' + T('guideTowerTitle') + '</h3>' +
+        '<p>' + T('guideTowerFloors') + '</p>' +
+        '<p>' + T('guideTowerWaypoint') + '</p>' +
+        '<p>' + T('guideTowerBoss') + '</p>' +
+        '<p>' + T('guideTowerDifficulty') + '</p>' +
+      '</div>' +
+      '<div class="guide-section">' +
+        '<h3>' + T('guideTipsTitle') + '</h3>' +
+        '<ul class="guide-list">' +
+          '<li>' + T('guideTip1') + '</li>' +
+          '<li>' + T('guideTip2') + '</li>' +
+          '<li>' + T('guideTip3') + '</li>' +
+          '<li>' + T('guideTip4') + '</li>' +
+        '</ul>' +
+      '</div>';
+
+    document.getElementById('guide-back').innerHTML = I('back');
+    document.getElementById('guide-back').onclick = function () { SFX('ui_back'); renderMainMenu(); showScreen('screen-menu'); };
   }
 
   // Story screen: reused for both the pre-run intro and the post-final-boss ending.
@@ -182,6 +240,7 @@
     var active = document.querySelector('.screen.active');
     if (!active) return;
     if (active.id === 'screen-menu') renderMainMenu();
+    else if (active.id === 'screen-guide') renderGuide();
     else if (active.id === 'screen-difficulty') renderDifficulty();
     else if (active.id === 'screen-class') renderClassSelect();
     else if (active.id === 'screen-story' && lastStory.kind) renderStory(lastStory.kind, lastStory.onContinue);
@@ -193,6 +252,7 @@
   window.Game.UI.confirmModal = confirmModal;
   window.Game.MenuUI = {
     renderMainMenu: renderMainMenu,
+    renderGuide: renderGuide,
     renderDifficulty: renderDifficulty,
     renderClassSelect: renderClassSelect,
     renderStory: renderStory,

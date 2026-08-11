@@ -15,7 +15,52 @@
     // main menu
     continueGame: { th: 'เล่นต่อ', en: 'Continue' },
     newGame: { th: 'เริ่มเกมใหม่', en: 'New Game' },
+    guideBtn: { th: 'วิธีเล่น', en: 'How to Play' },
     clearSave: { th: 'ล้างเซฟ', en: 'Clear Save' },
+
+    // how-to-play / guide screen
+    guideTitle: { th: 'วิธีเล่น', en: 'How to Play' },
+    guideElementsTitle: { th: 'ธาตุแห่งการต่อสู้', en: 'Combat Elements' },
+    guideElementsIntro: {
+      th: 'ทุกการโจมตีมีธาตุประจำตัว แสดงด้วยไอคอนสีต่าง ๆ ตามด้านล่าง ศัตรูแต่ละตัวมีจุดอ่อนและจุดต้านทานธาตุที่ต่างกัน เลือกใช้ธาตุที่ตรงจุดอ่อนของศัตรูเพื่อสร้างความได้เปรียบในการต่อสู้',
+      en: "Every attack carries an element, shown as a colored icon like the ones below. Each enemy has its own weaknesses and resistances — pick the element that exploits an enemy's weak point to gain the upper hand."
+    },
+    guideRelationsTitle: { th: 'ผลลัพธ์เมื่อโจมตีตรงธาตุ', en: 'Elemental Match Effects' },
+    guideRelWeak: { th: 'จุดอ่อน — ดาเมจเพิ่มขึ้น 1.5 เท่า และคุณได้รับแต้มการกระทำคืน 1 แต้ม', en: 'Weak Point — 1.5x damage, and you regain 1 bonus action point' },
+    guideRelResist: { th: 'ต้านทาน — ดาเมจที่ได้รับลดลงเหลือครึ่งหนึ่ง', en: 'Resist — damage dealt is cut in half' },
+    guideRelNull: { th: 'ไร้ผล — การโจมตีนั้นไม่สร้างดาเมจเลย', en: 'Null — the attack deals no damage at all' },
+    guideRelDrain: { th: 'ดูดซับ — ศัตรูฟื้นฟู HP จากธาตุนั้นแทนที่จะเสียเลือด', en: 'Drain — the enemy heals HP from that element instead of taking damage' },
+    guideRelReflect: { th: 'สะท้อนกลับ — ดาเมจย้อนกลับมาใส่ตัวผู้โจมตีเอง', en: 'Reflect — the damage bounces back at whoever attacked' },
+    guideCombatTitle: { th: 'ระบบการต่อสู้', en: 'Battle System' },
+    guideCombatAP: {
+      th: 'แต้มการกระทำ (AP) — แต่ละเทิร์นคุณเริ่มด้วย 1 แต้ม (หรือ 2 แต้มถ้าคุณเร็วกว่าศัตรูมาก) ใช้ 1 แต้มต่อคำสั่ง 1 ครั้ง โจมตีโดนจุดอ่อนหรือคริติคอลจะได้แต้มคืน แต่ถ้าโดนต้านทาน ไร้ผล ดูดซับ หรือสะท้อน จะเสียแต้มที่เหลือทั้งหมดทันที',
+      en: "Action Points (AP) — each turn starts with 1 AP (or 2 if you're much faster than the enemy). Every command costs 1 AP. A weak-point hit or a critical refunds an AP, but hitting a resist/null/drain/reflect enemy burns all remaining AP instantly."
+    },
+    guideCombatActions: { th: 'คำสั่งที่ใช้ได้: โจมตีธรรมดา, ทักษะ (ใช้ MP), ป้องกัน (ลดดาเมจที่ได้รับลงครึ่งหนึ่งในเทิร์นนั้น) และใช้ไอเทม', en: 'Available commands: basic Attack, Skills (cost MP), Guard (halves damage taken that round), and Items.' },
+    guideCombatStagger: {
+      th: 'เสียหลัก — ศัตรูที่โดนจุดอ่อนหรือคริติคอลจะเสียหลักและข้ามเทิร์นถัดไป ถ้าศัตรูทุกตัวเสียหลักพร้อมกัน คุณจะได้โอกาส "โจมตีรวมพลัง" ใส่ดาเมจก้อนใหญ่กับทุกตัวในทีเดียว',
+      en: 'Staggered — an enemy hit by a weak point or a critical is staggered and skips its next turn. When every enemy is staggered at once, you get a chance for an All-Out Attack that hits them all for heavy damage.'
+    },
+    guideCombatGroup: {
+      th: 'ศัตรูอาจปรากฏเป็นกลุ่มสูงสุด 4 ตัวในชั้นลึก ๆ ยิ่งมาเป็นกลุ่มใหญ่แต่ละตัวจะอ่อนกำลังลง แต่ก็โจมตีคุณพร้อมกันได้หลายทาง ระวังให้ดี',
+      en: 'On deeper floors enemies can appear in groups of up to 4. Larger groups are individually weaker, but they can all attack you in the same round — stay alert.'
+    },
+    guideTowerTitle: { th: 'การไต่หอคอย', en: 'Climbing the Tower' },
+    guideTowerFloors: { th: 'หอคอยมีทั้งหมด 50 ชั้น เอาชนะศัตรูในแต่ละชั้นเพื่อไต่ขึ้นไป ทุกชั้นที่ผ่านจะได้เลือกของรางวัล 1 ชิ้น พร้อม EXP และทอง', en: 'The tower has 50 floors. Defeat the enemies on each floor to climb higher. Clearing a floor lets you pick one reward, plus EXP and gold.' },
+    guideTowerWaypoint: {
+      th: 'ทุก ๆ 5 ชั้นจะมีจุดพักก่อนเจอมินิบอสประจำจุดนั้น — จุดพักฟื้น (ฟื้น HP/MP เต็ม), ร้านค้าเร่ร่อน (ใช้ทองซื้อไอเทม/อุปกรณ์), หรือห้องสมบัติ (รับของฟรี 1 ชิ้น)',
+      en: "Every 5 floors has a waypoint before that tier's mini-boss — a Rest Stop (fully restores HP/MP), a Wandering Shop (spend gold on items/gear), or a Treasure Room (pick one free item)."
+    },
+    guideTowerBoss: { th: 'ชั้น 50 คือห้องบัลลังก์ของจอมมารราชันเงา บอสใหญ่ประจำหอคอย เตรียมตัวให้พร้อมก่อนขึ้นเผชิญหน้า', en: "Floor 50 is the throne room of the Shadow Demon Lord, the tower's final boss. Come prepared before you face it." },
+    guideTowerDifficulty: {
+      th: 'เลือกระดับความยากได้ตอนเริ่มเกม: ง่าย ศัตรูอ่อนลงและได้ไอเทมเริ่มต้นมากกว่า, ปกติ สมดุลมาตรฐาน, ยาก ศัตรูแข็งแกร่งขึ้นแต่ได้รางวัลมากขึ้น',
+      en: 'Pick a difficulty at the start: Easy weakens enemies and gives extra starting items, Normal is the standard balance, Hard makes enemies tougher but pays out bigger rewards.'
+    },
+    guideTipsTitle: { th: 'เคล็ดลับ', en: 'Tips' },
+    guideTip1: { th: 'สังเกตไอคอนธาตุที่ขึ้นเหนือแถบเลือดศัตรู เกมจะจดจำจุดอ่อน/จุดต้านทานที่คุณเคยเจอไว้ให้ดูตลอดการต่อสู้', en: "Watch the element icons above each enemy's HP bar — the game remembers every weakness and resistance you've discovered and keeps it visible for the rest of the fight." },
+    guideTip2: { th: 'เปิดฉากด้วยธาตุที่คุณยังไม่รู้ว่าเป็นจุดอ่อนหรือไม่เพื่อสำรวจ แล้วเปลี่ยนไปโจมตีธาตุที่ตรงจุดอ่อนทันทีที่รู้ เพื่อรักษาแต้มการกระทำไว้ใช้ต่อ', en: "Open with an unconfirmed element to scout it out, then switch to the confirmed weak point right away to keep your action points flowing." },
+    guideTip3: { th: 'ป้องกัน (Guard) เมื่อ HP ต่ำเพื่อลดดาเมจลงครึ่งหนึ่ง และพกไอเทมฟื้นฟูติดตัวเสมอ', en: 'Guard when your HP is low to halve incoming damage, and always keep a healing item on hand.' },
+    guideTip4: { th: 'แวะร้านค้าเร่ร่อนที่จุดพักเพื่ออัปเกรดอาวุธ เกราะ และเครื่องประดับก่อนเจอมินิบอส', en: 'Stop by the Wandering Shop at waypoints to upgrade your weapon, armor, and accessory before facing the mini-boss.' },
 
     // story screen (intro / ending)
     storyIntroTitle: { th: 'หอคอยแห่งความมืด', en: 'The Shadow Spire' },
@@ -214,6 +259,8 @@
     { id: 'game-subtitle', key: 'gameSubtitle' },
     { id: 'menu-footer', key: 'menuFooter' },
     { id: 'push-start', key: 'pushStart' },
+    { id: 'guide-title', key: 'guideTitle' },
+    { id: 'guide-back', key: 'ariaBack', attr: 'aria-label' },
     { id: 'diff-title', key: 'chooseDifficultyTitle' },
     { id: 'diff-back', key: 'ariaBack', attr: 'aria-label' },
     { id: 'class-title', key: 'chooseClassTitle' },

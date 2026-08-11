@@ -1,3 +1,80 @@
+/* ---- How to Play / Guide screen ---- */
+.guide-content {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 2rem;
+}
+
+.guide-section {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem;
+}
+
+.guide-section h3 {
+  color: var(--accent-gold);
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.75rem;
+}
+
+.guide-section p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  margin-bottom: 0.6rem;
+}
+
+.guide-section p:last-child {
+  margin-bottom: 0;
+}
+
+.guide-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.guide-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.guide-list li .el-tag {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.element-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.6rem;
+}
+
+.element-card {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg-panel-raised);
+  border: 1px solid var(--border-soft);
+  padding: 0.5rem 0.7rem;
+}
+
+.element-card-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
 /* ---- Hero summary (tower header) ---- */
 .hero-summary {
   display: flex;
