@@ -75,6 +75,21 @@
   color: var(--text-primary);
 }
 
+/* ---- Shop screen ---- */
+#shop-gold,
+#shop-content {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+#shop-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 2rem;
+}
+
 /* ---- Hero summary (tower header) ---- */
 .hero-summary {
   display: flex;
