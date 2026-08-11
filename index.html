@@ -84,7 +84,10 @@
         <button class="btn-icon btn-icon-8bit" id="tower-home" aria-label="กลับสู่เมนูหลัก"></button>
         <div id="tower-hero-summary" class="hero-summary"></div>
       </div>
-      <button class="btn-secondary" id="tower-status-btn">สถานะ &amp; อุปกรณ์</button>
+      <div class="tower-header-right">
+        <button class="btn-secondary" id="tower-shop-btn">ร้านค้า</button>
+        <button class="btn-secondary" id="tower-status-btn">สถานะ &amp; อุปกรณ์</button>
+      </div>
     </header>
     <h2 class="tower-title" id="tower-title">หอคอยแห่งความมืด</h2>
     <div id="tower-floors" class="tower-floors"></div>
@@ -154,6 +157,17 @@
       <div id="status-equipment" class="status-equipment"></div>
       <div id="status-inventory" class="status-inventory"></div>
     </div>
+  </section>
+
+  <!-- SHOP -->
+  <section id="screen-shop" class="screen">
+    <header class="screen-header">
+      <button class="btn-icon" id="shop-back" aria-label="ย้อนกลับ"></button>
+      <h2 id="shop-header-title">ร้านค้า</h2>
+    </header>
+    <p class="reward-sub" id="shop-reset-note"></p>
+    <div id="shop-gold" class="waypoint-gold-display"></div>
+    <div id="shop-content"></div>
   </section>
 
   <!-- GAME OVER / VICTORY -->

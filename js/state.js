@@ -48,7 +48,8 @@
       waypointsSeen: {},
       equipment: { weapon: null, armor: null, accessory: null },
       inventory: {},
-      bonusSkills: []
+      bonusSkills: [],
+      shopStock: null
     };
     addItem(run, 'p_hp_small', diff.startPotions);
     addItem(run, 'p_mp_small', 1);

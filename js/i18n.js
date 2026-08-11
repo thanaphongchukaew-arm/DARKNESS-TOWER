@@ -111,6 +111,14 @@
     goldLabel: { th: 'ทอง', en: 'Gold' },
     continueBtn: { th: 'ดำเนินการต่อ', en: 'Continue' },
 
+    // shop screen (persistent, always accessible from the tower map)
+    shopBtn: { th: 'ร้านค้า', en: 'Shop' },
+    shopScreenTitle: { th: 'ร้านค้า', en: 'Shop' },
+    shopResetNote: { th: 'สินค้าจะเปลี่ยนใหม่ทุกครั้งที่ผ่านมินิบอส', en: "Stock refreshes every time you clear a mini-boss" },
+    shopOutOfStock: { th: 'ของหมด', en: 'Out of Stock' },
+    shopStockLeft: { th: 'เหลือ {qty} ชิ้น', en: '{qty} left' },
+    shopConsumablesLabel: { th: 'ยาและเครื่องใช้', en: 'Potions & Items' },
+
     // waypoint stops (floors 5/10/15, gate the mini-bosses)
     waypointRestTitle: { th: 'จุดพักฟื้น', en: 'Rest Stop' },
     waypointRestDesc: { th: 'พักฟื้นให้เต็มก่อนเผชิญหน้ากับมินิบอส', en: 'Recover fully before you face the mini-boss ahead.' },
@@ -270,6 +278,9 @@
     { id: 'reward-sub', key: 'rewardPickOne' },
     { id: 'status-header-title', key: 'statusScreenTitle' },
     { id: 'status-back', key: 'ariaBack', attr: 'aria-label' },
+    { id: 'shop-header-title', key: 'shopScreenTitle' },
+    { id: 'shop-back', key: 'ariaBack', attr: 'aria-label' },
+    { id: 'shop-reset-note', key: 'shopResetNote' },
     { id: 'battle-home', key: 'ariaHome', attr: 'aria-label' },
     { id: 'audio-toggle', key: 'ariaAudioToggle', attr: 'aria-label' },
     { id: 'music-volume', key: 'ariaVolume', attr: 'aria-label' },

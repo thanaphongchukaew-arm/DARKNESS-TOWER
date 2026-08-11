@@ -3,7 +3,7 @@
   function I(name, cls) { return window.Game.Icons.get(name, cls); }
   function EN(el) { return window.Game.ElementName(el); }
   function SFX(name) { if (window.Game.Audio) window.Game.Audio.sfx(name); }
-  function T(key) { return window.Game.I18n.t(key); }
+  function T(key, vars) { return window.Game.I18n.t(key, vars); }
   function L(obj, field) { return window.Game.I18n.L(obj, field); }
 
   function statRow(icon, label, value) {
@@ -65,6 +65,12 @@
       SFX('ui_confirm');
       renderStatus();
       window.Game.UI.showScreen('screen-status');
+    };
+    document.getElementById('tower-shop-btn').textContent = T('shopBtn');
+    document.getElementById('tower-shop-btn').onclick = function () {
+      SFX('ui_confirm');
+      renderShop();
+      window.Game.UI.showScreen('screen-shop');
     };
     document.getElementById('tower-home').innerHTML = I('doorway');
     document.getElementById('tower-home').onclick = function () {
@@ -167,6 +173,9 @@
         var maxHp = window.Game.State.getMaxHp(run), maxMp = window.Game.State.getMaxMp(run);
         run.hp = Math.min(maxHp, run.hp + Math.round(maxHp * 0.3));
         run.mp = Math.min(maxMp, run.mp + Math.round(maxMp * 0.3));
+        // Passing a mini-boss floor refreshes the shop's stock -- clear it here and
+        // let renderShop lazily regenerate against the new (post-clear) floor tier.
+        if (window.Game.Data.getMiniBoss(lastRewardFloor)) run.shopStock = null;
         run.currentFloor += 1;
         window.Game.State.saveNow();
         goToTowerOrWaypoint();
@@ -311,6 +320,105 @@
     else { renderTreasureWaypoint(floor); }
   }
 
+  // Persistent shop (accessible any time from the tower map). Stock is generated
+  // against the current floor's tier and stored on run.shopStock so it survives
+  // navigation/reloads; it's cleared (forcing a fresh roll) whenever the player
+  // clears a mini-boss floor -- see the reward pick handler above.
+  function shuffled(arr) {
+    var copy = arr.slice();
+    for (var i = copy.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = copy[i]; copy[i] = copy[j]; copy[j] = t;
+    }
+    return copy;
+  }
+
+  function generateShopStock(floor) {
+    var D = window.Game.Data, F = window.Game.Formulas;
+    var tier = F.tierForFloor(floor);
+    function entries(kind, n, maxQty) {
+      return shuffled(D.items.filter(function (it) { return it.kind === kind && it.tier <= tier; }))
+        .slice(0, n)
+        .map(function (it) { return { id: it.id, maxQty: maxQty, qty: maxQty }; });
+    }
+    var stock = [].concat(
+      entries('weapon', 2, 1),
+      entries('armor', 2, 1),
+      entries('accessory', 1, 1)
+    );
+    var scroll = D.getItem('skill_scroll');
+    if (scroll && scroll.tier <= tier) stock.push({ id: scroll.id, maxQty: 2, qty: 2 });
+    shuffled(D.items.filter(function (it) { return it.kind === 'consumable' && it.tier <= tier && it.id !== 'skill_scroll'; }))
+      .slice(0, 3)
+      .forEach(function (it) {
+        var maxQty = it.id === 'p_elixir' ? 2 : 4;
+        stock.push({ id: it.id, maxQty: maxQty, qty: maxQty });
+      });
+    return stock;
+  }
+
+  function ensureShopStock(run) {
+    if (!run.shopStock) run.shopStock = generateShopStock(run.currentFloor);
+    return run.shopStock;
+  }
+
+  var SHOP_KIND_ORDER = ['weapon', 'armor', 'accessory', 'consumable'];
+  var SHOP_KIND_LABEL_KEY = { weapon: 'weaponLabel', armor: 'armorLabel', accessory: 'accessoryLabel', consumable: 'shopConsumablesLabel' };
+
+  function renderShop() {
+    var run = window.Game.State.current, S = window.Game.State, D = window.Game.Data, F = window.Game.Formulas;
+    var stock = ensureShopStock(run);
+    document.getElementById('shop-header-title').textContent = T('shopScreenTitle');
+    document.getElementById('shop-reset-note').textContent = T('shopResetNote');
+    document.getElementById('shop-back').innerHTML = I('back');
+    document.getElementById('shop-back').onclick = function () { SFX('ui_back'); renderTower(); window.Game.UI.showScreen('screen-tower'); };
+
+    function paint() {
+      document.getElementById('shop-gold').innerHTML = I('coin') + (run.gold || 0) + ' ' + T('goldLabel');
+      var byKind = {};
+      stock.forEach(function (entry) {
+        var item = D.getItem(entry.id);
+        if (!item) return;
+        (byKind[item.kind] = byKind[item.kind] || []).push(entry);
+      });
+      var html = SHOP_KIND_ORDER.filter(function (k) { return byKind[k] && byKind[k].length; }).map(function (kind) {
+        var cardsHtml = byKind[kind].map(function (entry) {
+          var item = D.getItem(entry.id);
+          var price = F.shopPrice(item);
+          var soldOut = entry.qty <= 0;
+          var canAfford = (run.gold || 0) >= price;
+          return '<button class="select-card' + (soldOut ? ' locked' : '') + '" data-id="' + entry.id + '"' + ((soldOut || !canAfford) ? ' disabled' : '') + '>' +
+            '<div class="select-card-icon">' + I(item.icon) + '</div>' +
+            '<div class="select-card-title">' + L(item, 'name') + '</div>' +
+            '<div class="select-card-desc">' + L(item, 'desc') + '</div>' +
+            '<div class="select-card-stats">' +
+              '<span class="stat-chip">' + (soldOut ? T('shopOutOfStock') : (price + ' ' + T('goldLabel'))) + '</span>' +
+              (entry.maxQty > 1 ? '<span class="stat-chip">' + T('shopStockLeft', { qty: entry.qty }) + '</span>' : '') +
+            '</div>' +
+          '</button>';
+        }).join('');
+        return '<div class="guide-section"><h3>' + T(SHOP_KIND_LABEL_KEY[kind]) + '</h3><div class="card-grid">' + cardsHtml + '</div></div>';
+      }).join('');
+      document.getElementById('shop-content').innerHTML = html;
+      Array.prototype.forEach.call(document.querySelectorAll('#shop-content .select-card:not([disabled])'), function (card) {
+        card.onclick = function () {
+          var id = card.getAttribute('data-id');
+          var entry = stock.filter(function (e) { return e.id === id; })[0];
+          if (!entry || entry.qty <= 0) return;
+          var item = D.getItem(id);
+          var price = F.shopPrice(item);
+          if (!S.spendGold(run, price)) return;
+          entry.qty -= 1;
+          S.addItem(run, id, 1);
+          window.Game.State.saveNow();
+          SFX('item_get');
+          paint();
+        };
+      });
+    }
+    paint();
+  }
+
   function openEquipPicker(slot) {
     var run = window.Game.State.current, D = window.Game.Data;
     var candidates = Object.keys(run.inventory).map(function (id) { return D.getItem(id); }).filter(function (it) { return it && it.kind === slot; });
@@ -418,6 +526,7 @@
     if (!active) return;
     if (active.id === 'screen-tower') renderTower();
     else if (active.id === 'screen-status') renderStatus();
+    else if (active.id === 'screen-shop') renderShop();
     else if (active.id === 'screen-reward') renderReward(null);
     else if (active.id === 'screen-waypoint' && lastWaypoint.type) renderWaypoint(lastWaypoint.type, lastWaypoint.floor);
   }
@@ -427,6 +536,7 @@
     renderTower: renderTower,
     renderReward: renderReward,
     renderStatus: renderStatus,
+    renderShop: renderShop,
     refreshActiveScreen: refreshActiveScreen
   };
 })();
