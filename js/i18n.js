@@ -63,20 +63,20 @@
     guideTip4: { th: 'แวะร้านค้าเร่ร่อนที่จุดพักเพื่ออัปเกรดอาวุธ เกราะ และเครื่องประดับก่อนเจอมินิบอส', en: 'Stop by the Wandering Shop at waypoints to upgrade your weapon, armor, and accessory before facing the mini-boss.' },
 
     // story screen (intro / ending)
-    storyIntroTitle: { th: 'หอคอยแห่งความมืด', en: 'The Shadow Spire' },
+    storyIntroTitle: { th: 'หอคอยแห่งความมืด', en: 'The Darkness Tower' },
     storyIntroBody: {
       th: 'เงามืดปกคลุมแผ่นดินมานานนับทศวรรษ นับตั้งแต่หอคอยแห่งความมืดผุดขึ้นกลางราตรี ดูดกลืนแสงจันทร์และความหวังของผู้คนไปทีละน้อย\n\nหมู่บ้านรอบหอคอยล่มสลาย พืชผลเหี่ยวเฉา เสียงหอนของสัตว์ร้ายดังก้องอยู่ในความมืด ไม่มีใครที่เดินเข้าไปในหอคอยแล้วกลับออกมาอีกเลย\n\nแต่เจ้าไม่ใช่คนธรรมดา เจ้าคือนักผจญภัยผู้กล้าคนสุดท้ายที่ยังศรัทธาว่าแสงสว่างจะหวนคืน เจ้าตัดสินใจก้าวเข้าสู่ประตูหอคอย เพื่อไต่ขึ้นไปเผชิญหน้ากับสิ่งที่ซ่อนอยู่เบื้องบน... และนำแสงสว่างกลับคืนสู่โลกอีกครั้ง',
-      en: "Darkness has choked the land for a decade, ever since the Shadow Spire rose in the dead of night, devouring moonlight and hope alike, piece by piece.\n\nThe villages around it withered. Crops rotted in the fields. The howls of monsters echo through the dark, and no one who has entered the tower has ever returned.\n\nBut you are no ordinary soul. You are the last adventurer who still believes the light can return. You step through the tower's gate, ready to climb toward whatever waits above... and reclaim the light for the world."
+      en: "Darkness has choked the land for a decade, ever since the Darkness Tower rose in the dead of night, devouring moonlight and hope alike, piece by piece.\n\nThe villages around it withered. Crops rotted in the fields. The howls of monsters echo through the dark, and no one who has entered the tower has ever returned.\n\nBut you are no ordinary soul. You are the last adventurer who still believes the light can return. You step through the tower's gate, ready to climb toward whatever waits above... and reclaim the light for the world."
     },
     storyIntroBtn: { th: 'เริ่มการเดินทาง', en: 'Begin the Journey' },
     storyEndTitle: { th: 'รุ่งอรุณแห่งสันติภาพ', en: 'Dawn of Peace' },
     storyEndBody: {
       th: 'จอมมารราชันเงาล้มลงต่อหน้าเจ้า เสียงกรีดร้องสุดท้ายของมันสลายหายไปพร้อมกับความมืดที่เคยปกคลุมหอคอยทั้งหลัง\n\nหินทุกก้อนของหอคอยแห่งความมืดเริ่มแตกร้าวเป็นแสง สลายกลายเป็นละอองดาวลอยขึ้นสู่ท้องฟ้า ราวกับหอคอยเองก็โล่งใจที่ได้เป็นอิสระจากคำสาป\n\nรุ่งเช้าวันใหม่ แสงอาทิตย์ส่องทะลุเมฆหมอกที่ปกคลุมแผ่นดินมานานนับทศวรรษ หมู่บ้านรอบข้างเริ่มได้ยินเสียงนกร้องอีกครั้ง พืชผลผลิใบเขียวขจี และผู้คนต่างพากันมองขึ้นไปยังจุดที่หอคอยเคยตั้งตระหง่าน ด้วยรอยยิ้มแห่งความหวัง\n\nเจ้าได้กลายเป็นตำนาน... วีรบุรุษผู้นำแสงสว่างและสันติภาพกลับคืนสู่โลกอีกครั้ง',
-      en: "The Shadow Demon Lord collapses before you. Its final, shattering scream dissolves along with the darkness that once smothered the entire tower.\n\nEvery stone of the Shadow Spire begins to crack with light, crumbling into a shower of stardust drifting up into the sky, as if the tower itself sighs in relief, freed at last from its curse.\n\nAt dawn, sunlight breaks through clouds that have loomed over the land for a decade. Birdsong returns to the villages nearby, crops bloom green once more, and the people look up to where the tower once stood, smiling with hope.\n\nYou have become legend... the hero who brought light and peace back to the world."
+      en: "The Shadow Demon Lord collapses before you. Its final, shattering scream dissolves along with the darkness that once smothered the entire tower.\n\nEvery stone of the Darkness Tower begins to crack with light, crumbling into a shower of stardust drifting up into the sky, as if the tower itself sighs in relief, freed at last from its curse.\n\nAt dawn, sunlight breaks through clouds that have loomed over the land for a decade. Birdsong returns to the villages nearby, crops bloom green once more, and the people look up to where the tower once stood, smiling with hope.\n\nYou have become legend... the hero who brought light and peace back to the world."
     },
     storyEndBtn: { th: 'ดำเนินการต่อ', en: 'Continue' },
-    pageTitle: { th: 'SHADOW SPIRE — หอคอยแห่งความมืด', en: 'SHADOW SPIRE — Tower of Darkness' },
-    gameSubtitle: { th: 'หอคอยแห่งความมืด 50 ชั้น', en: '50 Floors of the Shadow Spire' },
+    pageTitle: { th: 'DARKNESS TOWER — หอคอยแห่งความมืด', en: 'DARKNESS TOWER — Tower of Darkness' },
+    gameSubtitle: { th: 'หอคอยแห่งความมืด 50 ชั้น', en: '50 Floors of the Darkness Tower' },
     menuFooter: { th: 'ไต่หอคอย เอาชนะเงามืด ค้นหาจุดอ่อน สร้างสายฟ้าแห่งชัยชนะ', en: 'Climb the spire, defeat the shadows, find their weakness, forge your path to victory' },
     pushStart: { th: 'PUSH START', en: 'PUSH START' },
     cancel: { th: 'ยกเลิก', en: 'Cancel' },
@@ -102,7 +102,7 @@
 
     // tower
     statusEquip: { th: 'สถานะ & อุปกรณ์', en: 'Status & Equipment' },
-    towerTitle: { th: 'หอคอยแห่งความมืด', en: 'Shadow Spire' },
+    towerTitle: { th: 'หอคอยแห่งความมืด', en: 'Darkness Tower' },
     bossFloorTitle: { th: 'ชั้นบัลลังก์ · จอมมารราชันเงา', en: 'Throne Floor · Shadow Demon Lord' },
     bossFloorSub: { th: 'บอสประจำหอคอย', en: 'The tower\'s guardian boss' },
     floorLabel: { th: 'ชั้นที่ ', en: 'Floor ' },
@@ -153,7 +153,7 @@
 
     // end screen
     victoryTitle: { th: 'พิชิตหอคอยสำเร็จ!', en: 'Tower Conquered!' },
-    victoryMsg: { th: 'คุณเอาชนะจอมมารราชันเงาและพิชิตหอคอยแห่งความมืดทั้ง 50 ชั้นได้สำเร็จ!', en: 'You defeated the Shadow Demon Lord and conquered all 50 floors of the Shadow Spire!' },
+    victoryMsg: { th: 'คุณเอาชนะจอมมารราชันเงาและพิชิตหอคอยแห่งความมืดทั้ง 50 ชั้นได้สำเร็จ!', en: 'You defeated the Shadow Demon Lord and conquered all 50 floors of the Darkness Tower!' },
     defeatTitle: { th: 'พ่ายแพ้...', en: 'Defeated...' },
     defeatMsg: { th: 'การไต่หอคอยของคุณจบลงเพียงเท่านี้ ลองอีกครั้งเพื่อพิชิตหอคอยให้ได้!', en: 'Your climb ends here. Try again to conquer the tower!' },
     backToMenu: { th: 'กลับสู่เมนูหลัก', en: 'Back to Main Menu' },
