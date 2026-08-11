@@ -259,7 +259,7 @@
         var j = Math.floor(Math.random() * (i + 1));
         var t = stock[i]; stock[i] = stock[j]; stock[j] = t;
       }
-      waypointState.stock = stock.slice(0, 4);
+      waypointState.stock = stock.slice(0, 2 + tier);
       waypointState.purchased = {};
     }
     var stock = waypointState.stock;
@@ -352,26 +352,44 @@
     return copy;
   }
 
+  // Counts mini-bosses (floors 5, 10, 15, ...) already cleared as of `floor` --
+  // each one nudges the shop's consumable stock depth up a notch, on top of
+  // the tier-based baseline, so restocks keep growing between tier jumps too.
+  function minibossesCleared(floor) {
+    var minibosses = window.Game.Data.minibosses;
+    var count = 0;
+    for (var f in minibosses) { if (Number(f) < floor) count++; }
+    return count;
+  }
+
+  // Both the variety (how many distinct items appear per category) and the
+  // stock depth (how many copies of each are for sale) grow with the floor
+  // tier, so higher-tier shops feel bigger and better stocked, not just
+  // pricier. slice() naturally caps at whatever the tier's item pool holds,
+  // so these counts can exceed the pool size without needing extra clamping.
   function generateShopStock(floor) {
     var D = window.Game.Data, F = window.Game.Formulas;
     var tier = F.tierForFloor(floor);
+    var bonus = minibossesCleared(floor);
     function entries(kind, n, maxQty) {
       return shuffled(D.items.filter(function (it) { return it.kind === kind && it.tier <= tier; }))
         .slice(0, n)
         .map(function (it) { return { id: it.id, maxQty: maxQty, qty: maxQty }; });
     }
     var stock = [].concat(
-      entries('weapon', 2, 1),
-      entries('armor', 2, 1),
-      entries('shoes', 1, 1),
-      entries('accessory', 2, 1)
+      entries('weapon', 1 + tier, 1),
+      entries('armor', 1 + tier, 1),
+      entries('shoes', Math.ceil(tier / 2), 1),
+      entries('accessory', 1 + tier, 1)
     );
+    var potionMaxQty = 4 + (tier - 1) * 2 + bonus; // 4, 6, 8, 10, 12 baseline, +1 per mini-boss cleared
+    var rareMaxQty = 2 + Math.floor((tier - 1) / 2) + Math.floor(bonus / 3); // 2, 2, 3, 3, 4 baseline -- scroll & elixir
     var scroll = D.getItem('skill_scroll');
-    if (scroll && scroll.tier <= tier) stock.push({ id: scroll.id, maxQty: 2, qty: 2 });
+    if (scroll && scroll.tier <= tier) stock.push({ id: scroll.id, maxQty: rareMaxQty, qty: rareMaxQty });
     shuffled(D.items.filter(function (it) { return it.kind === 'consumable' && it.tier <= tier && it.id !== 'skill_scroll'; }))
-      .slice(0, 3)
+      .slice(0, 2 + tier)
       .forEach(function (it) {
-        var maxQty = it.id === 'p_elixir' ? 2 : 4;
+        var maxQty = it.id === 'p_elixir' ? rareMaxQty : potionMaxQty;
         stock.push({ id: it.id, maxQty: maxQty, qty: maxQty });
       });
     return stock;
