@@ -32,7 +32,6 @@
   }
 
   function renderMainMenu() {
-    document.getElementById('menu-tower-icon').innerHTML = window.Game.PixelArt.render('towerSpire');
     document.getElementById('menu-bat-1').innerHTML = window.Game.PixelArt.render('bat');
     document.getElementById('menu-bat-2').innerHTML = window.Game.PixelArt.render('bat');
     var hasSave = window.Game.Save.exists();
