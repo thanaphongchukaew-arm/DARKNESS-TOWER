@@ -370,8 +370,9 @@
 
 .inv-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.5rem 0.7rem;
   padding: 0.55rem 0.3rem;
   border-bottom: 1px solid var(--border-soft);
 }
@@ -385,12 +386,20 @@
 }
 
 .inv-item-info {
-  flex: 1;
+  flex: 1 1 140px;
+  min-width: 140px;
   font-size: 0.82rem;
 }
 
 .inv-item-name { font-weight: 700; }
 .inv-item-desc { color: var(--text-muted); font-size: 0.72rem; }
+
+.inv-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
 
 .inv-item-count {
   font-size: 0.78rem;

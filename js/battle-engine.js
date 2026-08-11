@@ -369,13 +369,20 @@
       // round 1 already grants a full ambush phase off this same speed gap (see createBattle) --
       // skip the bonus-action check there so a fast enemy doesn't double-dip the same lead.
       var ap = (battle.round > 1 && spdAheadBonus(enemySpd0, playerSpd0)) ? 2 : 1;
-      while (ap > 0) {
+      // Weakness/crit hits grant bonus AP (mirrors the player's own extra-turn rule below),
+      // but without a hard cap a lucky/weakness-exploiting streak could keep one enemy
+      // attacking all round -- cap each enemy to 2 attacks per turn no matter how many
+      // bonus-AP hits it lands.
+      var hitsThisTurn = 0;
+      var maxHitsPerTurn = 2;
+      while (ap > 0 && hitsThisTurn < maxHitsPerTurn) {
         if (battle.run.hp <= 0) break;
         var atk = pickWeighted(enemy.attacksPool);
         var attackerEff = effectiveStats(enemy, enemy.debuffs);
         var playerEff = effectiveStats(battle.player, battle.player.buffs);
         var hit = resolveHit(attackerEff, battle.player, playerEff, atk.element, atk.power);
         ap -= 1;
+        hitsThisTurn += 1;
         var hadWeakCrit = false, hadNullish = false;
         if (hit.relation === 'reflect') {
           enemy.hp = Math.max(0, enemy.hp - hit.amount);

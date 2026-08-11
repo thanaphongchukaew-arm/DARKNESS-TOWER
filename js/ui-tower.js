@@ -613,8 +613,8 @@
       var qty = run.inventory[it.id];
       return '<div class="inv-item"><div class="inv-item-icon">' + I(it.icon) + '</div>' +
         '<div class="inv-item-info"><div class="inv-item-name">' + L(it, 'name') + '</div><div class="inv-item-desc">' + L(it, 'desc') + '</div></div>' +
-        '<span class="inv-item-count">x' + qty + '</span>' +
-        (it.kind === 'consumable' ? '<button class="btn-secondary" data-use="' + it.id + '">' + T('useBtn') + '</button>' : '') + '</div>';
+        '<div class="inv-item-actions"><span class="inv-item-count">x' + qty + '</span>' +
+        (it.kind === 'consumable' ? '<button class="btn-secondary" data-use="' + it.id + '">' + T('useBtn') + '</button>' : '') + '</div></div>';
     }).join('') : '<p class="empty-note">' + T('emptyInventory') + '</p>';
     var invEl = document.getElementById('status-inventory');
     invEl.innerHTML = '<div class="status-panel-title">' + T('inventoryPanelTitle') + '</div>' + invHtml;
