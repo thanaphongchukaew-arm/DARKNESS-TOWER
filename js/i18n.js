@@ -142,6 +142,8 @@
     weaponLabel: { th: 'อาวุธ', en: 'Weapon' },
     armorLabel: { th: 'เกราะ', en: 'Armor' },
     accessoryLabel: { th: 'เครื่องประดับ', en: 'Accessory' },
+    accessoryLabelN: { th: 'เครื่องประดับ {n}', en: 'Accessory {n}' },
+    shoesLabel: { th: 'รองเท้า', en: 'Shoes' },
     emptySlot: { th: 'ว่าง — แตะเพื่อเลือกอุปกรณ์', en: 'Empty — tap to choose equipment' },
     inventoryPanelTitle: { th: 'คลังไอเทม', en: 'Inventory' },
     emptyInventory: { th: 'คลังไอเทมว่างเปล่า', en: 'Inventory is empty' },

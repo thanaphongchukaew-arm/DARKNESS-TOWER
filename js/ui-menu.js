@@ -59,6 +59,7 @@
         var run = window.Game.Save.read();
         if (!run) { renderMainMenu(); return; }
         window.Game.State.current = run;
+        window.Game.State.normalizeEquipment(run);
         window.Game.TowerUI.renderTower();
         showScreen('screen-tower');
       };

@@ -85,6 +85,10 @@
 
   var RELATION_DAMAGE_MULT = { weak: 1.5, normal: 1.0, resist: 0.5, null: 0, drain: 0, reflect: 0 };
 
+  // Global damage scale-down so fights last ~2x as many turns without touching
+  // relative balance (weak/resist ratios, crit multiplier, etc).
+  var GLOBAL_DAMAGE_MULT = 0.5;
+
   function critChance(luk) {
     return clamp(0.05 + luk * 0.012, 0.05, 0.4);
   }
@@ -104,6 +108,7 @@
     var variance = rnd(0.9, 1.1);
     var dmg = raw * variance * relMult;
     if (opts.isCrit) dmg *= 1.6;
+    dmg *= GLOBAL_DAMAGE_MULT;
     return Math.max(relMult === 0 ? 0 : 1, round(dmg));
   }
 

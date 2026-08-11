@@ -2,6 +2,11 @@
 (function () {
   var F = null, D = null; // resolved lazily so script load order only needs to precede usage
 
+  // Equipment slot -> item kind it accepts. Two slots (accessory1/accessory2)
+  // share the 'accessory' kind since the player can carry two accessories at once.
+  var SLOT_KIND = { weapon: 'weapon', armor: 'armor', shoes: 'shoes', accessory1: 'accessory', accessory2: 'accessory' };
+  var EQUIP_SLOTS = Object.keys(SLOT_KIND);
+
   function deps() {
     F = window.Game.Formulas;
     D = window.Game.Data;
@@ -46,7 +51,7 @@
       mp: stats.mp,
       gold: 0,
       waypointsSeen: {},
-      equipment: { weapon: null, armor: null, accessory: null },
+      equipment: { weapon: null, armor: null, shoes: null, accessory1: null, accessory2: null },
       inventory: {},
       bonusSkills: [],
       shopStock: null
@@ -60,7 +65,7 @@
   function getEquipmentBonus(run) {
     deps();
     var total = {};
-    ['weapon', 'armor', 'accessory'].forEach(function (slot) {
+    EQUIP_SLOTS.forEach(function (slot) {
       var id = run.equipment[slot];
       if (!id) return;
       var item = D.getItem(id);
@@ -133,18 +138,45 @@
     return out;
   }
 
-  function equip(run, itemId) {
+  // slot is required for kinds with more than one slot (accessory); optional
+  // for single-slot kinds where it defaults to the kind's own name.
+  function equip(run, itemId, slot) {
     deps();
     var item = D.getItem(itemId);
-    if (!item || ['weapon', 'armor', 'accessory'].indexOf(item.kind) === -1) return false;
+    if (!item) return false;
+    slot = slot || item.kind;
+    if (SLOT_KIND[slot] !== item.kind) return false;
     if (!run.inventory[itemId]) return false;
-    var slot = item.kind;
     var prev = run.equipment[slot];
     removeItem(run, itemId, 1);
     run.equipment[slot] = itemId;
     if (prev) addItem(run, prev, 1);
     clampVitals(run);
     return true;
+  }
+
+  // Brings a run's equipment object up to the current slot schema. Older saves
+  // only have { weapon, armor, accessory } -- migrate that single accessory
+  // slot into accessory1, or into the new shoes slot if the item it held was
+  // recategorized from 'accessory' kind to 'shoes' kind (e.g. Swift Boots).
+  function normalizeEquipment(run) {
+    deps();
+    var eq = run.equipment || {};
+    var legacyAccessory = eq.accessory;
+    var next = {
+      weapon: eq.weapon || null,
+      armor: eq.armor || null,
+      shoes: eq.shoes || null,
+      accessory1: eq.accessory1 || null,
+      accessory2: eq.accessory2 || null
+    };
+    if (legacyAccessory) {
+      var item = D.getItem(legacyAccessory);
+      if (item && item.kind === 'shoes' && !next.shoes) next.shoes = legacyAccessory;
+      else if (item && item.kind === 'accessory' && !next.accessory1) next.accessory1 = legacyAccessory;
+    }
+    run.equipment = next;
+    return run;
   }
 
   function unequip(run, slot) {
@@ -229,6 +261,7 @@
     learnedSkills: learnedSkills,
     equip: equip,
     unequip: unequip,
+    normalizeEquipment: normalizeEquipment,
     addItem: addItem,
     removeItem: removeItem,
     addGold: addGold,

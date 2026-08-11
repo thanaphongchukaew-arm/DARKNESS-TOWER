@@ -28,9 +28,15 @@
     { id: 'a_demonlord_plate', name: 'เกราะจอมมาร', nameEn: "Demon Lord's Plate", kind: 'armor', tier: 5, icon: 'armorSlot', statBonus: { def: 23, hp: 63 }, desc: '+23 DEF, +63 HP', descEn: '+23 DEF, +63 HP' },
     { id: 'a_celestial_shroud', name: 'ผ้าคลุมสวรรค์', nameEn: 'Celestial Shroud', kind: 'armor', tier: 5, icon: 'armorSlot', statBonus: { res: 23, hp: 30, mp: 25 }, desc: '+23 RES, +30 HP, +25 MP', descEn: '+23 RES, +30 HP, +25 MP' },
 
+    // ---- Shoes ----
+    { id: 'c_swift_boots', name: 'รองเท้าไว', nameEn: 'Swift Boots', kind: 'shoes', tier: 1, icon: 'shoesSlot', statBonus: { spd: 4 }, desc: '+4 SPD', descEn: '+4 SPD' },
+    { id: 's_wind_treads', name: 'รองเท้าลมกรด', nameEn: 'Wind Treads', kind: 'shoes', tier: 2, icon: 'shoesSlot', statBonus: { spd: 7, luk: 1 }, desc: '+7 SPD, +1 LUK', descEn: '+7 SPD, +1 LUK' },
+    { id: 's_gale_striders', name: 'รองเท้าไล่ล่าสายลม', nameEn: 'Gale Striders', kind: 'shoes', tier: 3, icon: 'shoesSlot', statBonus: { spd: 12, luk: 2 }, desc: '+12 SPD, +2 LUK', descEn: '+12 SPD, +2 LUK' },
+    { id: 's_tempest_boots', name: 'รองเท้าพายุทมิฬ', nameEn: 'Tempest Boots', kind: 'shoes', tier: 4, icon: 'shoesSlot', statBonus: { spd: 18, luk: 3 }, desc: '+18 SPD, +3 LUK', descEn: '+18 SPD, +3 LUK' },
+    { id: 's_stormgod_sabatons', name: 'รองเท้าเทพสายฟ้า', nameEn: "Stormgod's Sabatons", kind: 'shoes', tier: 5, icon: 'shoesSlot', statBonus: { spd: 26, luk: 4 }, desc: '+26 SPD, +4 LUK', descEn: '+26 SPD, +4 LUK' },
+
     // ---- Accessories ----
     { id: 'c_lucky_charm', name: 'เครื่องรางนำโชค', nameEn: 'Lucky Charm', kind: 'accessory', tier: 1, icon: 'accessorySlot', statBonus: { luk: 4 }, desc: '+4 LUK', descEn: '+4 LUK' },
-    { id: 'c_swift_boots', name: 'รองเท้าไว', nameEn: 'Swift Boots', kind: 'accessory', tier: 1, icon: 'accessorySlot', statBonus: { spd: 4 }, desc: '+4 SPD', descEn: '+4 SPD' },
     { id: 'c_focus_ring', name: 'แหวนสมาธิ', nameEn: 'Focus Ring', kind: 'accessory', tier: 2, icon: 'accessorySlot', statBonus: { atk: 3, mag: 3 }, desc: '+3 ATK, +3 MAG', descEn: '+3 ATK, +3 MAG' },
     { id: 'c_guardian_amulet', name: 'ประคำผู้พิทักษ์', nameEn: 'Guardian Amulet', kind: 'accessory', tier: 2, icon: 'accessorySlot', statBonus: { def: 3, res: 3 }, desc: '+3 DEF, +3 RES', descEn: '+3 DEF, +3 RES' },
     { id: 'c_sovereign_crest', name: 'ตราราชันย์', nameEn: 'Sovereign Crest', kind: 'accessory', tier: 3, icon: 'accessorySlot', statBonus: { atk: 5, mag: 5, luk: 3 }, desc: '+5 ATK, +5 MAG, +3 LUK', descEn: '+5 ATK, +5 MAG, +3 LUK' },

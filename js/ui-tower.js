@@ -10,13 +10,21 @@
     return '<div class="stat-row"><div class="stat-row-label">' + I(icon) + '<span>' + label + '</span></div><div class="stat-row-value">' + value + '</div></div>';
   }
 
+  // Slots available for each equippable item kind, in fill order. Accessory
+  // has two slots since the player can carry two accessories at once.
+  var SLOTS_FOR_KIND = { weapon: ['weapon'], armor: ['armor'], shoes: ['shoes'], accessory: ['accessory1', 'accessory2'] };
+  var SLOT_TO_KIND = { weapon: 'weapon', armor: 'armor', shoes: 'shoes', accessory1: 'accessory', accessory2: 'accessory' };
+
   // Newly acquired equipment (reward pick, treasure, shop purchase) auto-equips
-  // itself only when its slot is empty -- an already-equipped slot is left alone
+  // itself only into an empty slot -- an already-equipped slot is left alone
   // so the player's current gear choice is never silently swapped out.
   function autoEquipIfEmpty(run, itemId) {
     var item = window.Game.Data.getItem(itemId);
-    if (!item || ['weapon', 'armor', 'accessory'].indexOf(item.kind) === -1) return;
-    if (!run.equipment[item.kind]) window.Game.State.equip(run, itemId);
+    var slots = item && SLOTS_FOR_KIND[item.kind];
+    if (!slots) return;
+    for (var i = 0; i < slots.length; i++) {
+      if (!run.equipment[slots[i]]) { window.Game.State.equip(run, itemId, slots[i]); return; }
+    }
   }
 
   // Floors 5/10/15/20/25/30/35/40/45 each gate a one-time waypoint stop before
@@ -136,7 +144,7 @@
     var D = window.Game.Data, F = window.Game.Formulas;
     var tier = F.tierForFloor(floor);
     var pool = [];
-    ['weapon', 'armor', 'accessory'].forEach(function (k) {
+    ['weapon', 'armor', 'shoes', 'accessory'].forEach(function (k) {
       D.getItemsByKindTier(k, tier).forEach(function (it) { pool.push({ type: 'equip', item: it, qty: 1 }); });
     });
     D.items.filter(function (it) { return it.kind === 'consumable' && it.tier <= tier; }).forEach(function (it) {
@@ -355,7 +363,8 @@
     var stock = [].concat(
       entries('weapon', 2, 1),
       entries('armor', 2, 1),
-      entries('accessory', 1, 1)
+      entries('shoes', 1, 1),
+      entries('accessory', 2, 1)
     );
     var scroll = D.getItem('skill_scroll');
     if (scroll && scroll.tier <= tier) stock.push({ id: scroll.id, maxQty: 2, qty: 2 });
@@ -373,8 +382,8 @@
     return run.shopStock;
   }
 
-  var SHOP_KIND_ORDER = ['weapon', 'armor', 'accessory', 'consumable'];
-  var SHOP_KIND_LABEL_KEY = { weapon: 'weaponLabel', armor: 'armorLabel', accessory: 'accessoryLabel', consumable: 'shopConsumablesLabel' };
+  var SHOP_KIND_ORDER = ['weapon', 'armor', 'shoes', 'accessory', 'consumable'];
+  var SHOP_KIND_LABEL_KEY = { weapon: 'weaponLabel', armor: 'armorLabel', shoes: 'shoesLabel', accessory: 'accessoryLabel', consumable: 'shopConsumablesLabel' };
 
   function renderShop() {
     var run = window.Game.State.current, S = window.Game.State, D = window.Game.Data, F = window.Game.Formulas;
@@ -433,7 +442,8 @@
 
   function openEquipPicker(slot) {
     var run = window.Game.State.current, D = window.Game.Data;
-    var candidates = Object.keys(run.inventory).map(function (id) { return D.getItem(id); }).filter(function (it) { return it && it.kind === slot; });
+    var kind = SLOT_TO_KIND[slot];
+    var candidates = Object.keys(run.inventory).map(function (id) { return D.getItem(id); }).filter(function (it) { return it && it.kind === kind; });
     var currentId = run.equipment[slot];
     var listHtml = candidates.length ? candidates.map(function (it) {
       return '<button class="submenu-option" data-id="' + it.id + '">' +
@@ -451,7 +461,7 @@
     Array.prototype.forEach.call(root.querySelectorAll('.submenu-option'), function (btn) {
       btn.onclick = function () {
         SFX('item_use');
-        window.Game.State.equip(run, btn.getAttribute('data-id'));
+        window.Game.State.equip(run, btn.getAttribute('data-id'), slot);
         window.Game.State.saveNow();
         close();
         renderStatus();
@@ -492,11 +502,12 @@
       statRow(cls.resist, T('resistLabel'), EN(cls.resist)) +
       '<div class="bar-row" style="margin-top:.6rem">' + I('gem') + '<div class="bar-track"><div class="bar-fill exp" style="width:' + Math.round(run.exp / run.expNext * 100) + '%"></div></div><span>' + run.exp + '/' + run.expNext + '</span></div>';
 
+    var SLOT_DEFAULT_ICON = { weapon: 'weaponSlot', armor: 'armorSlot', shoes: 'shoesSlot', accessory1: 'accessorySlot', accessory2: 'accessorySlot' };
     function slotHtml(slot, label) {
       var id = run.equipment[slot];
       var item = id ? D.getItem(id) : null;
       return '<div class="equip-slot" data-slot="' + slot + '">' +
-        '<div class="equip-slot-icon">' + I(item ? item.icon : (slot === 'weapon' ? 'weaponSlot' : slot === 'armor' ? 'armorSlot' : 'accessorySlot')) + '</div>' +
+        '<div class="equip-slot-icon">' + I(item ? item.icon : SLOT_DEFAULT_ICON[slot]) + '</div>' +
         '<div class="equip-slot-info">' +
           '<div class="equip-slot-name">' + label + (item ? ': ' + L(item, 'name') : '') + '</div>' +
           '<div class="equip-slot-desc">' + (item ? L(item, 'desc') : T('emptySlot')) + '</div>' +
@@ -504,7 +515,9 @@
       '</div>';
     }
     var equipEl = document.getElementById('status-equipment');
-    equipEl.innerHTML = '<div class="status-panel-title">' + T('equipPanelTitle') + '</div>' + slotHtml('weapon', T('weaponLabel')) + slotHtml('armor', T('armorLabel')) + slotHtml('accessory', T('accessoryLabel'));
+    equipEl.innerHTML = '<div class="status-panel-title">' + T('equipPanelTitle') + '</div>' +
+      slotHtml('weapon', T('weaponLabel')) + slotHtml('armor', T('armorLabel')) + slotHtml('shoes', T('shoesLabel')) +
+      slotHtml('accessory1', T('accessoryLabelN', { n: 1 })) + slotHtml('accessory2', T('accessoryLabelN', { n: 2 }));
     Array.prototype.forEach.call(equipEl.querySelectorAll('.equip-slot'), function (row) {
       row.onclick = function () { SFX('ui_confirm'); openEquipPicker(row.getAttribute('data-slot')); };
     });

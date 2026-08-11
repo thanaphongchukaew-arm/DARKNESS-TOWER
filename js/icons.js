@@ -59,6 +59,7 @@
     weaponSlot: '/',
     armorSlot: 'Ω',
     accessorySlot: '◆',
+    shoesSlot: 'Π',
 
     // audio
     soundOn: '♪',
