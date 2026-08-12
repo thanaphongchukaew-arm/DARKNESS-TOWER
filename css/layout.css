@@ -272,6 +272,18 @@ button.tower-jump-btn:hover:not(:disabled) {
   justify-content: center;
 }
 
+/* The post-final-boss ending swaps in a rooftop-at-dawn illustration, dimmed
+   the same way the main menu dims its own backdrop so the story text stays readable. */
+#screen-story.story-ending {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(10, 8, 16, 0.55) 0%, rgba(8, 6, 12, 0.68) 55%, rgba(4, 4, 8, 0.85) 100%),
+    url('../รูปประกอบ/roof.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .story-panel {
   display: flex;
   flex-direction: column;

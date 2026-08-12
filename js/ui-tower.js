@@ -167,9 +167,9 @@
     Array.prototype.forEach.call(container.querySelectorAll('.floor-row.current'), function (row) {
       row.onclick = function () { enterFloor(parseInt(row.getAttribute('data-floor'), 10)); };
     });
-    // Cleared floors can be replayed (farming EXP/gold) -- no waypoint gate,
-    // no floor advance, no reward pick, ever (handled in BattleUI.startBattle's
-    // isReplay flag / handleVictory).
+    // Cleared floors can be replayed (farming EXP/gold/materials at 40% rate)
+    // -- no waypoint gate, no floor advance, no reward pick, ever (handled in
+    // BattleUI.startBattle's isReplay flag / handleVictory).
     Array.prototype.forEach.call(container.querySelectorAll('.floor-row.cleared'), function (row) {
       row.onclick = function () {
         SFX('floor_select');

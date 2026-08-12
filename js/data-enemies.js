@@ -377,7 +377,8 @@
     {
       id: 'abyssal_eel', name: 'ปลาไหลก้นสมุทร', nameEn: 'Abyssal Eel', tier: 7, icon: 'abyssalEel',
       baseStats: { hp: 190, atk: 46, mag: 15, def: 20, res: 16, spd: 18, luk: 11, exp: 142 },
-      weak: ['elec'], resist: ['ice'],
+      // an eel that bites with its own voltaic charge should be immune to it, not weak to it
+      weak: ['fire'], resist: ['ice', 'elec'],
       attacks: [
         { name: 'งับกระชากไฟฟ้า', nameEn: 'Voltaic Bite', element: 'elec', power: 1.35, target: 'single', weight: 3 },
         { name: 'รัดตัวบดขยี้', nameEn: 'Crushing Coil', element: 'phys', power: 1.1, target: 'single', weight: 2 }
@@ -432,7 +433,8 @@
     {
       id: 'cloud_serpent', name: 'งูเมฆพายุ', nameEn: 'Cloud Serpent', tier: 8, icon: 'cloudSerpent',
       baseStats: { hp: 250, atk: 48, mag: 35, def: 27, res: 25, spd: 17, luk: 10, exp: 170 },
-      weak: ['elec'], resist: ['wind'],
+      // commands both wind and lightning itself, so it resists both instead of being weak to the bolt it throws
+      weak: ['ice'], resist: ['wind', 'elec'],
       attacks: [
         { name: 'รัดพันเมฆพายุ', nameEn: 'Storm Coil Crush', element: 'wind', power: 1.25, target: 'single', weight: 3 },
         { name: 'ฟ้าแลบแทรกเกล็ด', nameEn: 'Lightning Scale Flash', element: 'elec', power: 1.1, target: 'single', weight: 2 }
@@ -542,7 +544,8 @@
     {
       id: 'rotor_wraith', name: 'โดรนใบพัดคำสาป', nameEn: 'Rotor Wraith', tier: 11, icon: 'rotorWraith',
       baseStats: { hp: 360, atk: 82, mag: 40, def: 40, res: 36, spd: 26, luk: 14, exp: 294 },
-      weak: ['elec'], resist: ['wind'],
+      // fires its own energy bolts, so it resists its own charge instead of being weak to it; heat over-cooks its circuits instead
+      weak: ['fire'], resist: ['wind', 'elec'],
       attacks: [
         { name: 'ใบพัดตัดเฉือน', nameEn: 'Rotor Blade Slice', element: 'wind', power: 1.3, target: 'single', weight: 3 },
         { name: 'ยิงกระสุนพลังงาน', nameEn: 'Energy Bolt Volley', element: 'elec', power: 1.1, target: 'single', weight: 2 }
@@ -650,7 +653,8 @@
     {
       id: 'astral_wraith', name: 'วิญญาณดาราจักร', nameEn: 'Astral Wraith', tier: 14, icon: 'astralWraith',
       baseStats: { hp: 660, atk: 75, mag: 160, def: 72, res: 100, spd: 21, luk: 17, exp: 507 },
-      weak: ['dark'], resist: ['light'],
+      // wields both light and dark itself, so it resists both instead of being weak to the curse it casts
+      weak: ['elec'], resist: ['light', 'dark'],
       attacks: [
         { name: 'คำสาปดาราจักร', nameEn: 'Astral Ruin Curse', element: 'dark', power: 1.25, target: 'single', weight: 2, debuff: { stat: 'res', amount: 0.2 } },
         { name: 'ลำแสงดาวตก', nameEn: 'Falling Star Beam', element: 'light', power: 1.1, target: 'single', weight: 2 }
@@ -670,7 +674,8 @@
     {
       id: 'chaos_golem', name: 'โกเลมหลอมโกลาหล', nameEn: 'Chaos Golem', tier: 15, icon: 'chaosGolem',
       baseStats: { hp: 1080, atk: 155, mag: 95, def: 135, res: 110, spd: 14, luk: 12, exp: 609 },
-      weak: ['elec'], resist: ['phys'],
+      // channels its own discharge, so it resists that instead of being weak to it; light (order) is its true opposite
+      weak: ['light'], resist: ['phys', 'elec'],
       attacks: [
         { name: 'หมัดโกลาหลปะทะ', nameEn: 'Chaos-Forged Fist', element: 'phys', power: 1.3, target: 'single', weight: 3 },
         { name: 'ปล่อยประจุวุ่นวาย', nameEn: 'Discordant Discharge', element: 'elec', power: 1.15, target: 'single', weight: 2 }
@@ -723,7 +728,8 @@
     {
       id: 'chrono_serpent', name: 'งูกัดกร่อนกาลเวลา', nameEn: 'Chrono Serpent', tier: 16, icon: 'chronoSerpent',
       baseStats: { hp: 1000, atk: 205, mag: 120, def: 120, res: 105, spd: 28, luk: 18, exp: 731 },
-      weak: ['dark'], resist: ['light'],
+      // erodes time with its own dark bite, so it resists dark instead of being weak to it
+      weak: ['elec'], resist: ['light', 'dark'],
       attacks: [
         { name: 'งับกัดกร่อนกาลเวลา', nameEn: 'Time-Eroding Bite', element: 'almighty', power: 1.1, target: 'single', weight: 2 },
         { name: 'รัดพันสนธยา', nameEn: 'Twilight Coil Crush', element: 'dark', power: 1.2, target: 'single', weight: 2 }
@@ -731,27 +737,68 @@
     }
   ];
 
+  // Four-phase fight: each phase drops to a new HP threshold, retheming the
+  // Sovereign's element entirely (weak/resist/reflect all swap, attack pool is
+  // fully replaced rather than appended) so the player has to keep re-reading
+  // the fight instead of settling into one strategy. Phase 4's resist list
+  // covers nearly everything -- light (and almighty, always unresisted) is the
+  // only reliable way through, which every class learns by level 6/10 via the
+  // shared holy_ray/almighty_burst skills.
   var boss = {
     id: 'timeless_sovereign', name: 'ราชันไร้กาลเวลา', nameEn: 'The Timeless Sovereign', icon: 'timelessSovereign', isBoss: true,
-    baseStats: { hp: 27500, atk: 520, mag: 520, def: 175, res: 165, spd: 32, luk: 20, exp: 15000 },
+    baseStats: { hp: 31000, atk: 560, mag: 560, def: 185, res: 175, spd: 34, luk: 22, exp: 17000 },
     weak: ['light', 'elec'], resist: ['dark'],
     attacks: [
       { name: 'ดาบกาลเวลาไร้จุดจบ', nameEn: 'Blade of Unending Time', element: 'dark', power: 1.2, target: 'single', weight: 3 },
       { name: 'คลื่นมิติล่มสลาย', nameEn: 'Collapsing Dimension Wave', element: 'almighty', power: 1.0, target: 'all', weight: 2 },
       { name: 'กดขี่ทุกชั่วขณะ', nameEn: 'Crush All Moments', element: 'dark', power: 0.8, target: 'single', weight: 1, debuff: { stat: 'def', amount: 0.25 } }
     ],
-    phase2: {
-      hpThreshold: 0.5,
-      weak: ['fire', 'ice'],
-      resist: ['dark', 'light'],
-      reflect: ['phys'],
-      announce: 'ราชันไร้กาลเวลาปลดปล่อยรูปลักษณ์แท้จริงเหนือกาลเวลา!',
-      announceEn: 'The Timeless Sovereign unveils its true form beyond time itself!',
-      attacksAdd: [
-        { name: 'ห้วงเวลาล่มสลายทั้งมวล', nameEn: 'Total Temporal Collapse', element: 'almighty', power: 1.15, target: 'all', weight: 2 },
-        { name: 'กรงเล็บผู้ปกครองนิรันดร์', nameEn: "Eternal Sovereign's Claw", element: 'dark', power: 1.45, target: 'single', weight: 3 }
-      ]
-    }
+    phases: [
+      {
+        // Phase 2 (HP <= 75%): ignites into a fire-themed onslaught.
+        hpThreshold: 0.75,
+        weak: ['ice'],
+        resist: ['fire'],
+        announce: 'ราชันไร้กาลเวลาลุกโชนด้วยเปลวเพลิงแห่งการทำลายล้าง!',
+        announceEn: 'The Timeless Sovereign ignites with flames of annihilation!',
+        attacks: [
+          { name: 'เพลิงประหารไร้ขอบเขต', nameEn: 'Boundless Purging Flame', element: 'fire', power: 1.3, target: 'single', weight: 3 },
+          { name: 'คลื่นเพลิงเถ้าถ่าน', nameEn: 'Ashfall Firewave', element: 'fire', power: 1.05, target: 'all', weight: 2 },
+          { name: 'เผาผลาญจิตวิญญาณ', nameEn: 'Soul Scorch', element: 'fire', power: 0.9, target: 'single', weight: 1, debuff: { stat: 'res', amount: 0.25 } }
+        ]
+      },
+      {
+        // Phase 3 (HP <= 50%): freezes over, and starts reflecting physical hits.
+        hpThreshold: 0.5,
+        weak: ['fire'],
+        resist: ['ice'],
+        reflect: ['phys'],
+        announce: 'ราชันไร้กาลเวลาแช่แข็งสนามรบด้วยธารน้ำแข็งนิรันดร์!',
+        announceEn: 'The Timeless Sovereign freezes the battlefield in an eternal glacier!',
+        attacks: [
+          { name: 'ธารน้ำแข็งกลืนกิน', nameEn: 'Devouring Glacier', element: 'ice', power: 1.4, target: 'single', weight: 3 },
+          { name: 'พายุหิมะไร้สิ้นสุด', nameEn: 'Endless Blizzard', element: 'ice', power: 1.15, target: 'all', weight: 2 },
+          { name: 'แช่แข็งจิตวิญญาณ', nameEn: 'Soul Freeze', element: 'ice', power: 0.95, target: 'single', weight: 1, debuff: { stat: 'spd', amount: 0.25 } }
+        ]
+      },
+      {
+        // Phase 4 (HP <= 25%): true form. Resists almost everything except light/almighty.
+        hpThreshold: 0.25,
+        weak: ['light'],
+        // 'dark' isn't repeated here -- reflect is checked before resist (see
+        // elementRelation's priority list in formulas.js), so listing it in
+        // both would just be dead data.
+        resist: ['fire', 'ice', 'elec', 'wind'],
+        reflect: ['phys', 'dark'],
+        announce: 'ราชันไร้กาลเวลาปลดปล่อยรูปลักษณ์แท้จริงเหนือกาลเวลา!',
+        announceEn: 'The Timeless Sovereign unveils its true form beyond time itself!',
+        attacks: [
+          { name: 'สายฟ้าล่มสลายกาลเวลา', nameEn: 'Time-Shattering Bolt', element: 'elec', power: 1.35, target: 'single', weight: 3 },
+          { name: 'มหาพายุจอมเวหา', nameEn: "Sovereign's Grand Tempest", element: 'wind', power: 1.15, target: 'all', weight: 2 },
+          { name: 'มหาประลัยไร้จุดจบ', nameEn: 'Endless Annihilation', element: 'almighty', power: 1.3, target: 'single', weight: 2, debuff: { stat: 'luk', amount: 0.25 } }
+        ]
+      }
+    ]
   };
 
   // Mini-bosses: one-time named encounters gating floors 5/10/15/20/25/30/35/40/45 --
@@ -892,7 +939,8 @@
     70: {
       id: 'grand_automaton', name: 'ราชันจักรกลโบราณ', nameEn: 'Grand Automaton', icon: 'grandAutomaton', isBoss: true,
       baseStats: { hp: 1502, atk: 106, mag: 90, def: 71, res: 64, spd: 21, luk: 16, exp: 1323 },
-      weak: ['elec'], resist: ['phys'],
+      // fires its own energy beams, so it resists its own current instead of being weak to it; heat overloads it instead
+      weak: ['fire'], resist: ['phys', 'elec'],
       attacks: [
         { name: 'หมัดจักรกลราชัน', nameEn: "Grand Automaton's Fist", element: 'phys', power: 1.4, target: 'single', weight: 3 },
         { name: 'ลำแสงพลังงานล้อมปราการ', nameEn: 'Bastion Energy Beam', element: 'elec', power: 1.1, target: 'all', weight: 2 },
@@ -922,7 +970,8 @@
     85: {
       id: 'rift_warden', name: 'ผู้พิทักษ์รอยแยก', nameEn: 'Rift Warden', icon: 'riftWarden', isBoss: true,
       baseStats: { hp: 2597, atk: 183, mag: 155, def: 123, res: 111, spd: 25, luk: 18, exp: 2282 },
-      weak: ['dark'], resist: ['light'],
+      // rends with dark AND washes foes in a galaxy of light itself, so it resists both instead of being weak to either
+      weak: ['elec'], resist: ['light', 'dark'],
       attacks: [
         { name: 'รอยแยกกลืนกิน', nameEn: 'Rift-Devouring Rend', element: 'dark', power: 1.35, target: 'single', weight: 3 },
         { name: 'คลื่นดาราจักรถล่ม', nameEn: 'Collapsing Galaxy Wave', element: 'light', power: 1.05, target: 'all', weight: 2 },
@@ -942,7 +991,8 @@
     95: {
       id: 'timeless_herald', name: 'ทูตแห่งนิรันดร', nameEn: 'Herald of the Timeless', icon: 'timelessHerald', isBoss: true,
       baseStats: { hp: 3742, atk: 263, mag: 224, def: 176, res: 160, spd: 29, luk: 21, exp: 3290 },
-      weak: ['dark'], resist: ['light'],
+      // proclaims in light and curses in dark itself, so it resists both instead of being weak to either
+      weak: ['elec'], resist: ['light', 'dark'],
       attacks: [
         { name: 'ทูตประกาศกาลอวสาน', nameEn: "Herald's Proclamation of the End", element: 'light', power: 1.3, target: 'all', weight: 2 },
         { name: 'ดาบนิรันดร์ทิ่มแทง', nameEn: 'Eternal Blade Pierce', element: 'almighty', power: 1.35, target: 'single', weight: 3 },

@@ -90,7 +90,7 @@
       expReward: stats.exp,
       weak: template.weak.slice(), resist: template.resist.slice(), null: [], drain: [], reflect: [],
       attacksPool: template.attacks.slice(),
-      phase: 1, phase2Data: template.phase2,
+      phase: 1, phasesData: template.phases || [],
       downed: false, alive: true, debuffs: [],
       revealed: { weak: [], resist: [], null: [], drain: [], reflect: [] }
     };
@@ -108,7 +108,7 @@
       expReward: stats.exp,
       weak: template.weak.slice(), resist: template.resist.slice(), null: [], drain: [], reflect: [],
       attacksPool: template.attacks.slice(),
-      phase: 1, phase2Data: template.phase2,
+      phase: 1, phasesData: template.phases || [],
       downed: false, alive: true, debuffs: [],
       revealed: { weak: [], resist: [], null: [], drain: [], reflect: [] }
     };
@@ -127,19 +127,23 @@
     };
   }
 
+  // `phasesData` is an ordered list of transitions past phase 1 (phasesData[0] is
+  // phase 2, phasesData[1] is phase 3, ...). Each entry's hpThreshold is checked
+  // against the *current* phase only, so a single big hit can't skip a phase --
+  // multi-hit skills re-check after every hit, walking one phase at a time.
   function checkBossPhase(enemy) {
-    if (enemy.isBoss && enemy.phase === 1 && enemy.phase2Data && enemy.hp <= enemy.maxHp * enemy.phase2Data.hpThreshold) {
-      enemy.phase = 2;
-      enemy.weak = enemy.phase2Data.weak.slice();
-      enemy.resist = enemy.phase2Data.resist.slice();
-      enemy.reflect = (enemy.phase2Data.reflect || []).slice();
-      enemy.attacksPool = enemy.attacksPool.concat(enemy.phase2Data.attacksAdd);
-      // phase-2 relations are different elements than phase 1 (weak/resist can even swap) -
-      // discard what was revealed so far so stale phase-1 weakness tags don't mislead the player.
-      enemy.revealed = { weak: [], resist: [], null: [], drain: [], reflect: [] };
-      return L(enemy.phase2Data, 'announce');
-    }
-    return null;
+    if (!enemy.isBoss || !enemy.phasesData || !enemy.phasesData.length) return null;
+    var next = enemy.phasesData[enemy.phase - 1];
+    if (!next || enemy.hp > enemy.maxHp * next.hpThreshold) return null;
+    enemy.phase += 1;
+    enemy.weak = next.weak.slice();
+    enemy.resist = next.resist.slice();
+    enemy.reflect = (next.reflect || []).slice();
+    enemy.attacksPool = next.attacks.slice();
+    // each phase is themed around different elements (weak/resist can even swap) -
+    // discard what was revealed so far so stale prior-phase weakness tags don't mislead the player.
+    enemy.revealed = { weak: [], resist: [], null: [], drain: [], reflect: [] };
+    return L(next, 'announce');
   }
 
   function checkBattleEnd(battle, events) {
@@ -418,19 +422,26 @@
     return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP, round: battle.round };
   }
 
-  function getExpReward(battle) {
-    return battle.enemies.reduce(function (s, e) { return s + (e.expReward || 0); }, 0);
+  // `rate` optionally scales rewards down (used for replaying an
+  // already-cleared floor, at 40% -- see BattleUI.handleVictory).
+  function getExpReward(battle, rate) {
+    var total = battle.enemies.reduce(function (s, e) { return s + (e.expReward || 0); }, 0);
+    return rate == null ? total : Math.round(total * rate);
   }
 
-  function getGoldReward(battle) {
-    return battle.enemies.reduce(function (s, e) { return s + F().goldForExp(e.expReward || 0); }, 0);
+  function getGoldReward(battle, rate) {
+    var total = battle.enemies.reduce(function (s, e) { return s + F().goldForExp(e.expReward || 0); }, 0);
+    return rate == null ? total : Math.round(total * rate);
   }
 
   // Crafting material drops: each defeated enemy independently rolls against its
   // tier's 2-material pool (regular enemies have an explicit tier; mini-bosses
   // and the final boss don't, so their tier is derived from the floor instead).
   // Bosses/mini-bosses always drop, and drop more, to reward the tougher fight.
-  function getMaterialDrops(battle) {
+  // `rate` scales the drop chance itself (not the quantity), so a successful
+  // drop is still a full-size one -- just rarer on a replay.
+  function getMaterialDrops(battle, rate) {
+    if (rate == null) rate = 1;
     var drops = {};
     battle.enemies.forEach(function (e) {
       var template = D().getEnemyTemplate(e.templateId);
@@ -438,7 +449,7 @@
       var tier = template.tier || F().tierForFloor(battle.floor);
       var mats = D().items.filter(function (it) { return it.kind === 'material' && it.tier === tier; });
       if (!mats.length) return;
-      var dropChance = e.isBoss ? 1 : 0.5;
+      var dropChance = (e.isBoss ? 1 : 0.5) * rate;
       if (Math.random() >= dropChance) return;
       var qty = e.isBoss ? (1 + Math.floor(Math.random() * 2)) : 1;
       var mat = mats[Math.floor(Math.random() * mats.length)];

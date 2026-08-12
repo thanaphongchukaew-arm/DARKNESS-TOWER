@@ -76,8 +76,38 @@
     }
   }
 
+  // Descending HP-fraction cut points bounding each phase's segment, e.g. a
+  // 4-phase boss (3 entries in phasesData) yields [1, 0.75, 0.5, 0.25, 0].
+  function hpSegmentBreakpoints(enemy) {
+    var pts = [1];
+    (enemy.phasesData || []).forEach(function (p) { pts.push(p.hpThreshold); });
+    pts.push(0);
+    return pts;
+  }
+
+  function findEnemyByUid(uid) {
+    if (!currentBattle) return null;
+    for (var i = 0; i < currentBattle.enemies.length; i++) {
+      if (currentBattle.enemies[i].uid === uid) return currentBattle.enemies[i];
+    }
+    return null;
+  }
+
   function updateEnemyBarByUid(uid, hp, maxHp) {
     if (!uid) return;
+    var enemy = findEnemyByUid(uid);
+    if (enemy && enemy.phasesData && enemy.phasesData.length) {
+      var pts = hpSegmentBreakpoints(enemy);
+      var frac = Math.max(0, hp / maxHp);
+      for (var i = 0; i < pts.length - 1; i++) {
+        var seg = document.getElementById('enemy-hp-' + uid + '-' + i);
+        if (!seg) continue;
+        var hi = pts[i], lo = pts[i + 1];
+        var pct = frac >= hi ? 100 : frac <= lo ? 0 : Math.round((frac - lo) / (hi - lo) * 100);
+        seg.style.width = pct + '%';
+      }
+      return;
+    }
     var bar = document.getElementById('enemy-hp-' + uid);
     if (bar) bar.style.width = Math.max(0, Math.round(hp / maxHp * 100)) + '%';
   }
@@ -324,11 +354,26 @@
       tagsFor(e.revealed.reflect, 'tag-bad', 'shieldGuard') +
       tagsFor(e.revealed.null, 'tag-bad', 'close') +
       tagsFor(e.revealed.resist, 'tag-bad', 'shieldGuard');
+    var hasPhases = e.isBoss && e.phasesData && e.phasesData.length;
+    var hpBarHtml;
+    if (hasPhases) {
+      var pts = hpSegmentBreakpoints(e);
+      var frac = e.hp / e.maxHp;
+      var segs = '';
+      for (var i = 0; i < pts.length - 1; i++) {
+        var hi = pts[i], lo = pts[i + 1];
+        var pct = frac >= hi ? 100 : frac <= lo ? 0 : Math.round((frac - lo) / (hi - lo) * 100);
+        segs += '<div class="bar-track hp-segment"><div class="bar-fill hp' + (pct > 0 && pct <= 30 ? ' low' : '') + '" id="enemy-hp-' + e.uid + '-' + i + '" style="width:' + pct + '%"></div></div>';
+      }
+      hpBarHtml = '<div class="bar-row hp-segment-row" style="width:100%">' + segs + '</div>';
+    } else {
+      hpBarHtml = '<div class="bar-row" style="width:100%"><div class="bar-track"><div class="bar-fill hp" id="enemy-hp-' + e.uid + '" style="width:' + hpPct + '%"></div></div></div>';
+    }
     return '<div class="' + classes.join(' ') + '" id="enemy-card-' + e.uid + '" data-uid="' + e.uid + '">' +
       '<div class="enemy-portrait">' + I(e.icon) + '</div>' +
       (e.downed && e.alive ? '<span class="enemy-downed-tag">' + T('downedTag') + '</span>' : '') +
-      '<div class="enemy-name">' + e.name + (e.isBoss && e.phase2Data ? T('phaseLabel') + e.phase : '') + '</div>' +
-      '<div class="bar-row" style="width:100%"><div class="bar-track"><div class="bar-fill hp" id="enemy-hp-' + e.uid + '" style="width:' + hpPct + '%"></div></div></div>' +
+      '<div class="enemy-name">' + e.name + (hasPhases ? T('phaseLabel') + e.phase : '') + '</div>' +
+      hpBarHtml +
       '<div class="enemy-weak-tags">' + weakTags + '</div>' +
     '</div>';
   }
@@ -545,14 +590,17 @@
 
   function handleVictory(battle) {
     var run = window.Game.State.current;
-    var exp = window.Game.BattleEngine.getExpReward(battle);
-    var gold = window.Game.BattleEngine.getGoldReward(battle);
+    // Replaying an already-cleared floor still pays out EXP/gold/materials,
+    // just at 40% of a first clear's rate.
+    var rate = currentIsReplay ? 0.4 : 1;
+    var exp = window.Game.BattleEngine.getExpReward(battle, rate);
+    var gold = window.Game.BattleEngine.getGoldReward(battle, rate);
     var lvlRes = window.Game.State.addExp(run, exp);
     window.Game.State.addGold(run, gold);
     SFX('victory');
     logLine(T('logExpGained', { exp: exp }), 'log-heal');
     logLine(T('logGoldGained', { gold: gold }), 'log-heal');
-    var drops = window.Game.BattleEngine.getMaterialDrops(battle);
+    var drops = window.Game.BattleEngine.getMaterialDrops(battle, rate);
     drops.forEach(function (d) {
       window.Game.State.addItem(run, d.id, d.qty);
       var mat = window.Game.Data.getItem(d.id);

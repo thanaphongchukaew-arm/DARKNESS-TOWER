@@ -390,6 +390,23 @@ button:disabled {
   flex: 1;
 }
 
+/* Segmented boss HP bar: one full-width tube per fight phase, stacked top to
+   bottom, so a phase transition reads as "a tube just emptied" rather than a
+   percentage tick. Top tube is the current/highest phase, drained first. */
+.hp-segment-row {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.18rem;
+}
+
+.hp-segment-row .hp-segment {
+  /* Undo the inherited `.bar-row .bar-track { flex: 1 }` (flex-basis: 0%),
+     which otherwise wins over the explicit height below on a flex item. */
+  flex: none;
+  width: 100%;
+  height: 0.42rem;
+}
+
 /* ---- Modal ---- */
 .modal-overlay {
   position: fixed;

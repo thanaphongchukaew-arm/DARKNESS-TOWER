@@ -177,6 +177,7 @@
   function renderStory(kind, onContinue) {
     lastStory = { kind: kind, onContinue: onContinue };
     var isIntro = kind === 'intro';
+    document.getElementById('screen-story').classList.toggle('story-ending', kind === 'ending');
     document.getElementById('story-icon').innerHTML = I(STORY_ICON[kind], 'icon-xl');
     document.getElementById('story-title').textContent = T(isIntro ? 'storyIntroTitle' : 'storyEndTitle');
     var bodyText = T(isIntro ? 'storyIntroBody' : 'storyEndBody');

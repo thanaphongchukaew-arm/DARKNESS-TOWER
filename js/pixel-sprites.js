@@ -1596,6 +1596,111 @@
     '...YYY...'
   ], { P: '#b060f0', Y: '#e8c050' });
 
+  // ---- Element icons: shown above every enemy HP bar, on every skill, and in
+  // every weak/resist tag -- the core visual language players read fight after
+  // fight, so each needs to be unmistakable at a glance. Colors match the
+  // --el-* CSS variables already used for these elements' tag chips. ----
+
+  P.define('phys', [
+    '..K...K..',
+    '.KWWWWWK.',
+    'KWWWWWWWK',
+    'KWWWWWWWK',
+    'KWWWWWWWK',
+    '.KWWWWWK.',
+    '..KWWWK..',
+    '...KWK...',
+    '...KWK...'
+  ], { K: '#3a362e', W: '#d8d0c0' });
+
+  P.define('fire', [
+    '....K....',
+    '....R....',
+    '...RRR...',
+    '..RROOR..',
+    '.RROOOOR.',
+    '.ROOOOOR.',
+    '.RROOORR.',
+    '..RRRRR..',
+    '...RRR...',
+    '....K....'
+  ], { K: '#4a1c00', R: '#f07030', O: '#ffb060' });
+
+  P.define('ice', [
+    'K...I...K',
+    '.K..I..K.',
+    '..K.I.K..',
+    'IIIIIIIII',
+    '..K.I.K..',
+    '.K..I..K.',
+    'K...I...K'
+  ], { K: '#1a4a5a', I: '#48c8e8' });
+
+  P.define('elec', [
+    '..KK...',
+    '.KYYK..',
+    'KYYK...',
+    '.KYYK..',
+    '..KYYK.',
+    '...KYYK',
+    '....KYK',
+    '....KK.'
+  ], { K: '#5a4a00', Y: '#f0d030' });
+
+  // A ring with a small curling tail -- an earlier version with an inner
+  // branch mark misread as a face at small render size; a plain curl reads
+  // unambiguously as a gust/swirl.
+  P.define('wind', [
+    '..GGG..',
+    '.G...G.',
+    'G.....G',
+    'G.GGG.G',
+    '.G...G.',
+    '..GGG..',
+    '....G..',
+    '....G..'
+  ], { G: '#48a058' });
+
+  // A simple radiant orb -- an earlier corner-ray version misread as a bug
+  // at small render size; a clean glowing sphere is far more robust.
+  P.define('light', [
+    '..YYY..',
+    '.YYYYY.',
+    'YYYWWYY',
+    'YYWWWWY',
+    'YYYWWYY',
+    '.YYYYY.',
+    '..YYY..'
+  ], { Y: '#f5e8b8', W: '#fffbe8' });
+
+  P.define('dark', [
+    '..PPPP...',
+    '.P....P..',
+    'P......P.',
+    'P.....P..',
+    'P....P...',
+    'P...P....',
+    'P....P...',
+    'P.....P..',
+    'P......P.',
+    '.P....P..',
+    '..PPPP...'
+  ], { P: '#a060e0' });
+
+  P.define('almighty', [
+    '....K....',
+    '....P....',
+    '...PPP...',
+    '..PPPPP..',
+    '.PPPPPPP.',
+    'KPPPWPPPK',
+    '.PPPPPPP.',
+    '..PPPPP..',
+    '...PPP...',
+    '....P....',
+    '....K....'
+  ], { K: '#5a1040', P: '#e83daa', W: '#ffe0f0' });
+
   // ---- Battle action bar icons: Attack/Skills/Guard/Items, drawn in the same
   // compact "shop slot" style as the equipment icons above. ----
 
@@ -1698,6 +1803,200 @@
     '..GGGGG..',
     '...GGG...'
   ], { U: '#5a3818', G: '#8a94a8', B: '#3868c8', W: '#f4f0e8' });
+
+  // ---- Remaining UI glyphs, converted from plain text to pixel art for a
+  // consistent look throughout -- resource/status icons, and basic chrome
+  // (back/close/lock/etc). Kept deliberately bold and simple: an earlier pass
+  // on the element icons showed that fussy detail disappears (or worse,
+  // misreads) at the small sizes these render at. ----
+
+  P.define('heart', [
+    '.RR.RR.',
+    'RRRRRRR',
+    'RRRRRRR',
+    '.RRRRR.',
+    '..RRR..',
+    '...R...'
+  ], { R: '#d02838' });
+
+  P.define('drop', [
+    '...B...',
+    '..BBB..',
+    '.BBBBB.',
+    'BBBBBBB',
+    'BBBBBBB',
+    '.BBBBB.',
+    '..BBB..'
+  ], { B: '#3868c8' });
+
+  P.define('coin', [
+    '.YYYYY.',
+    'YYYYYYY',
+    'YYKKKYY',
+    'YYKYKYY',
+    'YYKKKYY',
+    'YYYYYYY',
+    '.YYYYY.'
+  ], { Y: '#e8c050', K: '#8a6a10' });
+
+  P.define('gem', [
+    '..III..',
+    '.IWIII.',
+    'IIIIIII',
+    '.IIIII.',
+    '..III..',
+    '...I...'
+  ], { I: '#48c8e8', W: '#e0f8ff' });
+
+  P.define('scroll', [
+    'UUUUUUU',
+    'U.....U',
+    'U.PPP.U',
+    'U.PPP.U',
+    'U.....U',
+    'UUUUUUU'
+  ], { U: '#8a6a3a', P: '#e8d8a8' });
+
+  P.define('lock', [
+    '.KKKKK.',
+    '.K...K.',
+    '.K...K.',
+    'KKKKKKK',
+    'KYYYYYK',
+    'KY.K.YK',
+    'KYYYYYK'
+  ], { K: '#5a5a68', Y: '#e8c050' });
+
+  P.define('save', [
+    'KKKKKKK',
+    'K.....K',
+    'K.WWW.K',
+    'K.....K',
+    'K.RRR.K',
+    'K.RRR.K',
+    'KKKKKKK'
+  ], { K: '#3a4a68', W: '#e8f0ff', R: '#d02838' });
+
+  P.define('trash', [
+    '.KKKKK.',
+    '.......',
+    'KUUUUUK',
+    '.UUUUU.',
+    '.U.U.U.',
+    '.U.U.U.',
+    '.UUUUU.'
+  ], { K: '#8a8a94', U: '#6a7488' });
+
+  P.define('star', [
+    '...Y...',
+    '..YYY..',
+    '.YYYYY.',
+    'YYYYYYY',
+    '..Y.Y..',
+    '.Y...Y.'
+  ], { Y: '#e8c050' });
+
+  P.define('sparkles', [
+    '..Y.....',
+    '.YYY..Y.',
+    'YYYYY.Y.',
+    '.YYY..Y.',
+    '..Y.....'
+  ], { Y: '#f0e8c0' });
+
+  P.define('buffUp', [
+    '...G...',
+    '..GGG..',
+    '.GGGGG.',
+    'GGGGGGG'
+  ], { G: '#4ade80' });
+
+  P.define('debuffDown', [
+    'RRRRRRR',
+    '.RRRRR.',
+    '..RRR..',
+    '...R...'
+  ], { R: '#ff5a5a' });
+
+  P.define('downedMark', [
+    'O.....O',
+    '.O...O.',
+    '..O.O..',
+    '...O...',
+    '..O.O..',
+    '.O...O.',
+    'O.....O'
+  ], { O: '#ff8020' });
+
+  P.define('enterFloor', [
+    'Y......',
+    'YY.....',
+    'YYY....',
+    'YYYY...',
+    'YYY....',
+    'YY.....',
+    'Y......'
+  ], { Y: '#e8c050' });
+
+  P.define('back', [
+    '...KK..',
+    '..KK...',
+    '.KK....',
+    'KK.....',
+    '.KK....',
+    '..KK...',
+    '...KK..'
+  ], { K: '#c8ccd6' });
+
+  P.define('chevronRight', [
+    '..KK...',
+    '...KK..',
+    '....KK.',
+    '.....KK',
+    '....KK.',
+    '...KK..',
+    '..KK...'
+  ], { K: '#c8ccd6' });
+
+  P.define('close', [
+    'K.....K',
+    '.K...K.',
+    '..K.K..',
+    '...K...',
+    '..K.K..',
+    '.K...K.',
+    'K.....K'
+  ], { K: '#c8ccd6' });
+
+  P.define('check', [
+    '......K',
+    '.....K.',
+    'K...K..',
+    '.K.K...',
+    '..K....',
+    '.K.....',
+    'K......'
+  ], { K: '#7ad8a0' });
+
+  // Distinct silhouettes (not just a slash overlay) so on/off reads clearly
+  // even without color -- notes-with-waves vs. a plain dimmed note plus an X.
+  P.define('soundOn', [
+    '..K......',
+    '.KKK..W.W',
+    'KKKKKW...',
+    'KKKKKW...',
+    '.KKK..W.W',
+    '..K......'
+  ], { K: '#e8e0f0', W: '#e8e0f0' });
+
+  P.define('soundOff', [
+    '..K.....',
+    '.KKK....',
+    'KKKKK.R.',
+    'KKKKKR.R',
+    '.KKK.R.R',
+    '..K...R.'
+  ], { K: '#6a6478', R: '#ff5a5a' });
 
   // ---- Crafting material icons: 4 shared silhouettes (fang, pouch of dust,
   // shard/scale, glowing orb/core), each palette-swapped per material so every
