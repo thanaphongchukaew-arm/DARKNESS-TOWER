@@ -150,6 +150,21 @@
     survivalSummaryAgainBtn: { th: 'เข้าประลองอีกครั้ง', en: 'Enter Again' },
     survivalSummaryBackBtn: { th: 'กลับสู่หอคอย', en: 'Back to Tower' },
 
+    // Quests
+    questsBtn: { th: 'ภารกิจ', en: 'Quests' },
+    questsScreenTitle: { th: 'ภารกิจ', en: 'Quests' },
+    questsNote: {
+      th: 'ภารกิจทุกอันเริ่มทำงานอัตโนมัติ ไม่ต้องกดรับก่อน แค่เล่นไปตามปกติแล้วกลับมารับรางวัลได้เมื่อทำสำเร็จ',
+      en: "Every quest tracks automatically -- no need to accept one first. Just play normally, then come back to claim the reward once it's done."
+    },
+    questsClaimAllBtn: { th: 'รับรางวัลทั้งหมด', en: 'Claim All' },
+    questProgressLabel: { th: 'ความคืบหน้า', en: 'Progress' },
+    questClaimBtn: { th: 'รับรางวัล', en: 'Claim' },
+    questClaimedTag: { th: 'รับแล้ว', en: 'Claimed' },
+    questReadyTag: { th: 'พร้อมรับ!', en: 'Ready!' },
+    questInProgressTag: { th: 'กำลังดำเนินการ', en: 'In Progress' },
+    questsClaimSummaryTitle: { th: 'สรุปรางวัลที่ได้รับ', en: 'Rewards Claimed' },
+
     bossFloorTitle: { th: 'ชั้นบัลลังก์ · ราชันไร้กาลเวลา', en: 'Throne Floor · The Timeless Sovereign' },
     bossFloorSub: { th: 'บอสประจำหอคอย', en: 'The tower\'s guardian boss' },
     floorLabel: { th: 'ชั้นที่ ', en: 'Floor ' },

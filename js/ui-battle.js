@@ -607,6 +607,8 @@
     var gold = window.Game.BattleEngine.getGoldReward(battle, rate);
     var lvlRes = window.Game.State.addExp(run, exp);
     window.Game.State.addGold(run, gold);
+    window.Game.State.recordBattleWon(run);
+    window.Game.State.recordEnemiesDefeated(run, battle.enemies.length);
     SFX('victory');
     logLine(T('logExpGained', { exp: exp }), 'log-heal');
     logLine(T('logGoldGained', { gold: gold }), 'log-heal');
@@ -792,6 +794,9 @@
     if (battle.victory) {
       var exp = window.Game.BattleEngine.getExpReward(battle);
       var lvlRes = window.Game.State.addExp(run, exp);
+      window.Game.State.recordBattleWon(run);
+      window.Game.State.recordEnemiesDefeated(run, battle.enemies.length);
+      window.Game.State.recordArenaWaveCleared(run);
       SFX('victory');
       logLine(T('logExpGained', { exp: exp }), 'log-heal');
       survivalSession.totalExp += exp;

@@ -227,6 +227,12 @@ button:disabled {
   box-shadow: var(--shadow-card);
 }
 
+/* Claimed quest cards on the Quests screen reuse .craft-card + this same
+   dimmed-and-inert treatment. */
+.craft-card.locked {
+  opacity: 0.45;
+}
+
 .select-card-icon {
   font-size: 2.75rem;
   line-height: 1;

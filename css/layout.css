@@ -213,6 +213,56 @@
   box-shadow: 0 0.3rem 1rem rgba(0,0,0,0.45);
 }
 
+/* Quests entry point: same pinned-corner treatment as the Endless Arena FAB
+   above, mirrored to the opposite corner, recolored gold instead of red so
+   the two persistent action buttons stay visually distinct at a glance. */
+#tower-quests-btn.tower-quests-fab {
+  position: fixed;
+  left: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 40;
+  box-shadow: 0 0.3rem 1rem rgba(0,0,0,0.45);
+  color: var(--accent-gold);
+  background: rgba(232,192,80,0.08);
+}
+
+#tower-quests-btn.tower-quests-fab:hover:not(:disabled) {
+  background: var(--accent-gold);
+  color: var(--bg-void);
+}
+
+.quest-badge {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  min-width: 1.3rem;
+  height: 1.3rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* Green instead of the usual red .btn-primary -- reads as the positive
+   "collect" action rather than a warning/danger one, matching --success
+   (the same green already used for satisfied craft-material counts). */
+#quests-claim-all-btn {
+  margin-left: auto;
+  color: var(--success);
+  background: rgba(72,160,88,0.08);
+}
+
+#quests-claim-all-btn:hover:not(:disabled) {
+  background: var(--success);
+  color: var(--bg-void);
+}
+
 /* Button pinned above floor 1 on the tower map that jumps the page scroll
    straight to the player's current floor -- the list runs up to 100 rows
    deep, so finding it by hand can mean a lot of scrolling. Sits in its own

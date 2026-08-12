@@ -119,7 +119,16 @@
     { id: 'a_craft_resonant_bulwark', name: 'เกราะปราการก้องกังวาน', nameEn: 'Resonant Bulwark', kind: 'armor', tier: 6, icon: 'armorSlot', craftOnly: true, statBonus: { def: 44, hp: 120 }, desc: '+44 DEF, +120 HP', descEn: '+44 DEF, +120 HP' },
     { id: 's_craft_undertow_striders', name: 'รองเท้ากระแสใต้บาดาล', nameEn: 'Undertow Striders', kind: 'shoes', tier: 7, icon: 'shoesSlot', craftOnly: true, statBonus: { spd: 64, luk: 10 }, desc: '+64 SPD, +10 LUK', descEn: '+64 SPD, +10 LUK' },
     { id: 'c_craft_stormcaller_band', name: 'แหวนเรียกพายุ', nameEn: "Stormcaller's Band", kind: 'accessory', tier: 8, icon: 'accessorySlot', craftOnly: true, statBonus: { atk: 32, mag: 32 }, desc: '+32 ATK, +32 MAG', descEn: '+32 ATK, +32 MAG' },
-    { id: 'w_craft_desert_sovereign', name: 'ดาบราชันทะเลทราย', nameEn: 'Desert Sovereign Blade', kind: 'weapon', tier: 9, icon: 'weaponSlot', craftOnly: true, statBonus: { atk: 98, luk: 10 }, desc: '+98 ATK, +10 LUK', descEn: '+98 ATK, +10 LUK' }
+    { id: 'w_craft_desert_sovereign', name: 'ดาบราชันทะเลทราย', nameEn: 'Desert Sovereign Blade', kind: 'weapon', tier: 9, icon: 'weaponSlot', craftOnly: true, statBonus: { atk: 98, luk: 10 }, desc: '+98 ATK, +10 LUK', descEn: '+98 ATK, +10 LUK' },
+
+    // ---- Quest-exclusive rewards (see data-quests.js) -- questOnly keeps them out
+    // of the shop and every reward/treasure pool (getItemsByKindTier and the shop/
+    // waypoint/reward-pool filters all exclude questOnly explicitly), same as
+    // craftOnly does for the crafting bench's own equipment above. Claiming the
+    // quest that grants one is their only source. ----
+    { id: 'c_quest_novice_badge', name: 'ตราผู้เริ่มต้น', nameEn: "Novice's Badge", kind: 'accessory', tier: 2, icon: 'accessorySlot', questOnly: true, statBonus: { atk: 3, mag: 3, def: 2, res: 2 }, desc: '+3 ATK, +3 MAG, +2 DEF, +2 RES (รางวัลภารกิจเท่านั้น)', descEn: '+3 ATK, +3 MAG, +2 DEF, +2 RES (quest reward only)' },
+    { id: 'c_quest_veteran_medal', name: 'เหรียญทหารผ่านศึก', nameEn: "Veteran's Medal", kind: 'accessory', tier: 4, icon: 'accessorySlot', questOnly: true, statBonus: { atk: 7, mag: 7, def: 5, res: 5, luk: 3 }, desc: '+7 ATK, +7 MAG, +5 DEF, +5 RES, +3 LUK (รางวัลภารกิจเท่านั้น)', descEn: '+7 ATK, +7 MAG, +5 DEF, +5 RES, +3 LUK (quest reward only)' },
+    { id: 'c_quest_sovereign_relic', name: 'โบราณวัตถุแห่งราชันไร้กาลเวลา', nameEn: 'Relic of the Timeless Sovereign', kind: 'accessory', tier: 7, icon: 'accessorySlot', questOnly: true, statBonus: { atk: 18, mag: 18, def: 12, res: 12, spd: 8, luk: 8 }, desc: '+18 ATK, +18 MAG, +12 DEF, +12 RES, +8 SPD, +8 LUK (รางวัลภารกิจเท่านั้น)', descEn: '+18 ATK, +18 MAG, +12 DEF, +12 RES, +8 SPD, +8 LUK (quest reward only)' }
   ];
 
   window.Game = window.Game || {};
@@ -130,6 +139,6 @@
     return null;
   };
   window.Game.Data.getItemsByKindTier = function (kind, tier) {
-    return items.filter(function (it) { return it.kind === kind && it.tier === tier && !it.craftOnly; });
+    return items.filter(function (it) { return it.kind === kind && it.tier === tier && !it.craftOnly && !it.questOnly; });
   };
 })();

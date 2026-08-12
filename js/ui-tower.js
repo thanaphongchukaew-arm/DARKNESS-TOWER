@@ -108,6 +108,16 @@
         onConfirm: function () { window.Game.BattleUI.startSurvivalSession(); }
       });
     };
+    document.querySelector('#tower-quests-btn .quest-btn-label').textContent = T('questsBtn');
+    document.getElementById('tower-quests-btn').onclick = function () {
+      SFX('ui_confirm');
+      renderQuests();
+      window.Game.UI.showScreen('screen-quests');
+    };
+    var questBadge = document.getElementById('tower-quests-badge');
+    var claimableCount = window.Game.Data.quests.filter(function (q) { return window.Game.State.isQuestClaimable(run, q); }).length;
+    questBadge.textContent = claimableCount;
+    questBadge.classList.toggle('hidden', claimableCount === 0);
     document.getElementById('tower-home').innerHTML = I('doorway');
     document.getElementById('tower-home').onclick = function () {
       SFX('ui_back');
@@ -199,7 +209,7 @@
     // Elixir is excluded here while on cooldown (see spendElixir in state.js) so the
     // reward/treasure pool can't hand out a "free" one that undercuts the shop's
     // one-at-a-time pacing; picking it here starts the same cooldown as buying it.
-    D.items.filter(function (it) { return it.kind === 'consumable' && it.tier <= tier && (it.id !== 'p_elixir' || S.elixirAvailable(run)); }).forEach(function (it) {
+    D.items.filter(function (it) { return it.kind === 'consumable' && it.tier <= tier && !it.questOnly && (it.id !== 'p_elixir' || S.elixirAvailable(run)); }).forEach(function (it) {
       pool.push({ type: 'consumable', item: it, qty: it.id === 'p_elixir' ? 1 : (2 + Math.floor(Math.random() * 2)) });
     });
     // shuffle
@@ -307,7 +317,7 @@
     var run = window.Game.State.current, S = window.Game.State, D = window.Game.Data, F = window.Game.Formulas;
     if (!waypointState.stock) {
       var tier = F.itemTierForFloor(floor);
-      var stock = D.items.filter(function (it) { return it.kind === 'consumable' && it.id !== 'p_elixir' && it.tier <= tier; });
+      var stock = D.items.filter(function (it) { return it.kind === 'consumable' && it.id !== 'p_elixir' && it.tier <= tier && !it.questOnly; });
       for (var i = stock.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
         var t = stock[i]; stock[i] = stock[j]; stock[j] = t;
@@ -435,7 +445,7 @@
     var tier = F.tierForFloor(floor);
     var bonus = minibossesCleared(floor);
     function entries(kind, n, maxQty) {
-      return shuffled(D.items.filter(function (it) { return it.kind === kind && it.tier <= tier && !it.craftOnly; }))
+      return shuffled(D.items.filter(function (it) { return it.kind === kind && it.tier <= tier && !it.craftOnly && !it.questOnly; }))
         .slice(0, n)
         .map(function (it) { return { id: it.id, maxQty: maxQty, qty: maxQty }; });
     }
@@ -454,7 +464,7 @@
     var rareMaxQty = 2 + Math.floor((tier - 1) / 2) + Math.floor(bonus / 3); // 2, 2, 3, 3, 4 baseline -- scroll
     var scroll = D.getItem('skill_scroll');
     if (scroll && scroll.tier <= tier) stock.push({ id: scroll.id, maxQty: rareMaxQty, qty: rareMaxQty });
-    shuffled(D.items.filter(function (it) { return it.kind === 'consumable' && it.tier <= tier && it.id !== 'skill_scroll' && it.id !== 'p_elixir'; }))
+    shuffled(D.items.filter(function (it) { return it.kind === 'consumable' && it.tier <= tier && it.id !== 'skill_scroll' && it.id !== 'p_elixir' && !it.questOnly; }))
       .slice(0, 2 + tier)
       .forEach(function (it) {
         stock.push({ id: it.id, maxQty: potionMaxQty, qty: potionMaxQty });
@@ -640,6 +650,104 @@
     paint();
   }
 
+  // Small reward-chip strip shown on each quest card (and reused by the claim-all
+  // summary popup below) -- gold/exp first, then one chip per item reward.
+  function questRewardChipsHtml(reward) {
+    var chips = '';
+    if (reward.gold) chips += '<span class="stat-chip">' + I('coin') + ' +' + reward.gold + '</span>';
+    if (reward.exp) chips += '<span class="stat-chip">' + I('gem') + ' +' + reward.exp + ' EXP</span>';
+    (reward.items || []).forEach(function (it) {
+      var item = window.Game.Data.getItem(it.id);
+      if (!item) return;
+      chips += '<span class="stat-chip">' + I(item.icon) + ' ' + L(item, 'name') + (it.qty > 1 ? ' x' + it.qty : '') + '</span>';
+    });
+    return chips;
+  }
+
+  // Popup shown after "Claim All" -- lists the merged total of everything just
+  // collected in that one action (not the running lifetime total).
+  function showQuestClaimSummary(total) {
+    var D = window.Game.Data;
+    var statsHtml =
+      (total.gold ? '<div class="stat-row"><div class="stat-row-label">' + I('coin') + '<span>' + T('goldLabel') + '</span></div><div class="stat-row-value">+' + total.gold + '</div></div>' : '') +
+      (total.exp ? '<div class="stat-row"><div class="stat-row-label">' + I('gem') + '<span>EXP</span></div><div class="stat-row-value">+' + total.exp + '</div></div>' : '');
+    var itemIds = Object.keys(total.items);
+    var itemsHtml = itemIds.map(function (id) {
+      var it = D.getItem(id);
+      if (!it) return '';
+      return '<div class="inv-item"><div class="inv-item-icon">' + I(it.icon) + '</div>' +
+        '<div class="inv-item-info"><div class="inv-item-name">' + L(it, 'name') + '</div></div>' +
+        '<div class="inv-item-actions"><span class="inv-item-count">x' + total.items[id] + '</span></div></div>';
+    }).join('');
+    var root = document.getElementById('modal-root');
+    root.innerHTML = '<div class="modal-box"><h3>' + T('questsClaimSummaryTitle') + '</h3>' +
+      '<div class="status-stats" style="margin:0.75rem 0; text-align:left; max-height:40vh; overflow-y:auto;">' +
+        (statsHtml + itemsHtml) +
+      '</div>' +
+      '<button class="btn-primary" id="quests-summary-close">' + T('closeBtn') + '</button></div>';
+    root.classList.remove('hidden');
+    document.getElementById('quests-summary-close').onclick = function () { SFX('ui_confirm'); root.classList.add('hidden'); root.innerHTML = ''; };
+  }
+
+  // Quests screen (persistent, always accessible from the tower map). There is
+  // no "accept" step -- every quest in data-quests.js is always active, and its
+  // progress bar just reflects the run's live state (State.getQuestProgress).
+  // Each card gets its own claim button once done; "Claim All" above the grid
+  // sweeps every claimable quest in one action and pops a merged summary.
+  function renderQuests() {
+    var run = window.Game.State.current, S = window.Game.State, D = window.Game.Data;
+    document.getElementById('quests-header-title').textContent = T('questsScreenTitle');
+    document.getElementById('quests-note').textContent = T('questsNote');
+    document.getElementById('quests-back').innerHTML = I('back');
+    document.getElementById('quests-back').onclick = function () { SFX('ui_back'); renderTower(); window.Game.UI.showScreen('screen-tower'); };
+
+    function paint() {
+      var claimableCount = D.quests.filter(function (q) { return S.isQuestClaimable(run, q); }).length;
+      var claimAllBtn = document.getElementById('quests-claim-all-btn');
+      claimAllBtn.textContent = T('questsClaimAllBtn') + (claimableCount ? ' (' + claimableCount + ')' : '');
+      claimAllBtn.disabled = claimableCount === 0;
+
+      var html = D.quests.map(function (q) {
+        var progress = S.getQuestProgress(run, q);
+        var claimed = !!run.questsClaimed[q.id];
+        var claimable = !claimed && progress.done;
+        var statusTag = claimed ? T('questClaimedTag') : claimable ? T('questReadyTag') : T('questInProgressTag');
+        return '<div class="craft-card' + (claimed ? ' locked' : '') + '">' +
+          '<div class="select-card-icon">' + I(q.icon) + '</div>' +
+          '<div class="select-card-title">' + L(q, 'name') + '</div>' +
+          '<div class="select-card-desc">' + L(q, 'desc') + '</div>' +
+          '<div class="craft-materials"><div class="craft-mat-row' + (progress.done ? '' : ' craft-mat-short') + '">' +
+            '<span class="craft-mat-name">' + T('questProgressLabel') + '</span>' +
+            '<span class="craft-mat-count">' + Math.min(progress.current, progress.target) + '/' + progress.target + '</span>' +
+          '</div></div>' +
+          '<div class="select-card-stats">' + questRewardChipsHtml(q.reward) + '<span class="stat-chip">' + statusTag + '</span></div>' +
+          (claimable ? '<button class="btn-primary craft-btn" data-quest="' + q.id + '">' + T('questClaimBtn') + '</button>' : '') +
+        '</div>';
+      }).join('');
+      document.getElementById('quests-content').innerHTML = '<div class="card-grid">' + html + '</div>';
+
+      Array.prototype.forEach.call(document.querySelectorAll('#quests-content .craft-btn'), function (btn) {
+        btn.onclick = function () {
+          var reward = S.claimQuest(run, btn.getAttribute('data-quest'));
+          if (!reward) return;
+          window.Game.State.saveNow();
+          SFX('item_get');
+          paint();
+        };
+      });
+    }
+    paint();
+
+    document.getElementById('quests-claim-all-btn').onclick = function () {
+      var total = S.claimAllQuests(run);
+      if (!total.gold && !total.exp && !Object.keys(total.items).length) return;
+      window.Game.State.saveNow();
+      SFX('item_get');
+      showQuestClaimSummary(total);
+      paint();
+    };
+  }
+
   function openEquipPicker(slot) {
     var run = window.Game.State.current, D = window.Game.Data;
     var kind = SLOT_TO_KIND[slot];
@@ -753,6 +861,7 @@
     else if (active.id === 'screen-status') renderStatus();
     else if (active.id === 'screen-shop') renderShop();
     else if (active.id === 'screen-craft') renderCraft();
+    else if (active.id === 'screen-quests') renderQuests();
     else if (active.id === 'screen-reward') renderReward(null);
     else if (active.id === 'screen-waypoint' && lastWaypoint.type) renderWaypoint(lastWaypoint.type, lastWaypoint.floor);
   }
@@ -764,6 +873,7 @@
     renderStatus: renderStatus,
     renderShop: renderShop,
     renderCraft: renderCraft,
+    renderQuests: renderQuests,
     refreshActiveScreen: refreshActiveScreen
   };
 })();

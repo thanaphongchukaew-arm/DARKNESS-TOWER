@@ -8,6 +8,13 @@
   var EQUIP_SLOTS = Object.keys(SLOT_KIND);
   var ELIXIR_RESTOCK_FLOORS = 15;
 
+  // Cumulative counters the Quests screen reads (see getQuestProgress) that
+  // aren't already implicit in the run (level/currentFloor/gold/equipment/
+  // skills). Kept to the minimum the quest list in data-quests.js actually
+  // needs -- add a new key here (and a record* mutator below) before adding a
+  // quest type that needs one.
+  var QUEST_STAT_DEFAULTS = { enemiesDefeated: 0, battlesWon: 0, itemsCrafted: 0, goldEarned: 0, arenaWavesCleared: 0 };
+
   function deps() {
     F = window.Game.Formulas;
     D = window.Game.Data;
@@ -27,6 +34,100 @@
   function addGold(run, amount) {
     if (!amount) return;
     run.gold = (run.gold || 0) + amount;
+    if (amount > 0) { ensureQuestState(run); run.stats.goldEarned += amount; }
+  }
+
+  // Saves from before the quest system existed (or a save that's simply never
+  // had a quest claimed yet) won't have run.stats/run.questsClaimed -- fill
+  // them in on first touch instead of requiring a one-time migration pass.
+  function ensureQuestState(run) {
+    if (!run.stats) run.stats = {};
+    Object.keys(QUEST_STAT_DEFAULTS).forEach(function (k) {
+      if (run.stats[k] == null) run.stats[k] = QUEST_STAT_DEFAULTS[k];
+    });
+    if (!run.questsClaimed) run.questsClaimed = {};
+    return run;
+  }
+
+  function recordEnemiesDefeated(run, count) {
+    if (!count) return;
+    ensureQuestState(run);
+    run.stats.enemiesDefeated += count;
+  }
+
+  function recordBattleWon(run) {
+    ensureQuestState(run);
+    run.stats.battlesWon += 1;
+  }
+
+  function recordItemCrafted(run) {
+    ensureQuestState(run);
+    run.stats.itemsCrafted += 1;
+  }
+
+  function recordArenaWaveCleared(run) {
+    ensureQuestState(run);
+    run.stats.arenaWavesCleared += 1;
+  }
+
+  // Reads a quest's current/target regardless of whether it's been claimed --
+  // callers combine this with run.questsClaimed[quest.id] to know what to show.
+  function getQuestProgress(run, quest) {
+    deps();
+    ensureQuestState(run);
+    var current = 0;
+    switch (quest.type) {
+      case 'floor': current = run.currentFloor; break;
+      case 'level': current = run.level; break;
+      case 'gold': current = run.gold || 0; break;
+      case 'goldEarned': current = run.stats.goldEarned; break;
+      case 'enemiesDefeated': current = run.stats.enemiesDefeated; break;
+      case 'battlesWon': current = run.stats.battlesWon; break;
+      case 'itemsCrafted': current = run.stats.itemsCrafted; break;
+      case 'arenaWaves': current = run.stats.arenaWavesCleared; break;
+      case 'equipFull': current = EQUIP_SLOTS.filter(function (s) { return !!run.equipment[s]; }).length; break;
+      case 'skillsLearned': current = learnedSkills(run).length; break;
+    }
+    return { current: current, target: quest.target, done: current >= quest.target };
+  }
+
+  function isQuestClaimable(run, quest) {
+    ensureQuestState(run);
+    return !run.questsClaimed[quest.id] && getQuestProgress(run, quest).done;
+  }
+
+  // Applies one quest's reward to the run and marks it claimed. Returns the
+  // reward actually granted, or null if it wasn't claimable -- callers should
+  // check that before showing any "you got X" feedback.
+  function claimQuest(run, questId) {
+    deps();
+    var quest = D.getQuest(questId);
+    if (!quest || !isQuestClaimable(run, quest)) return null;
+    run.questsClaimed[questId] = true;
+    if (quest.reward.gold) addGold(run, quest.reward.gold);
+    if (quest.reward.exp) addExp(run, quest.reward.exp);
+    (quest.reward.items || []).forEach(function (it) { addItem(run, it.id, it.qty); });
+    return quest.reward;
+  }
+
+  // Claims every currently-claimable quest in one pass and returns the merged
+  // total (gold/exp summed, items merged by id) for a single summary popup.
+  // Re-checks claimability per quest as it goes (rather than off a snapshot
+  // taken before the loop) so a quest a just-claimed reward's EXP happens to
+  // unlock (e.g. a level-up crossing another quest's threshold) is picked up
+  // in the same pass if it appears later in the list.
+  function claimAllQuests(run) {
+    deps();
+    var total = { gold: 0, exp: 0, items: {} };
+    D.quests.forEach(function (quest) {
+      if (!isQuestClaimable(run, quest)) return;
+      var reward = claimQuest(run, quest.id);
+      if (!reward) return;
+      if (reward.gold) total.gold += reward.gold;
+      if (reward.exp) total.exp += reward.exp;
+      (reward.items || []).forEach(function (it) { total.items[it.id] = (total.items[it.id] || 0) + it.qty; });
+    });
+    return total;
   }
 
   function spendGold(run, amount) {
@@ -65,6 +166,7 @@
     recipe.materials.forEach(function (m) { removeItem(run, m.id, m.qty); });
     if (recipe.gold) spendGold(run, recipe.gold);
     addItem(run, recipe.resultId, recipe.resultQty || 1);
+    recordItemCrafted(run);
     return true;
   }
 
@@ -89,6 +191,8 @@
       inventory: {},
       bonusSkills: [],
       shopStock: null,
+      stats: { enemiesDefeated: 0, battlesWon: 0, itemsCrafted: 0, goldEarned: 0, arenaWavesCleared: 0 },
+      questsClaimed: {},
       // Elixir is a rare full-restore -- the shop (persistent or waypoint) and the
       // floor-clear/treasure reward pool always offer exactly one bottle once it's
       // available, then it goes on cooldown until the player has climbed another
@@ -334,6 +438,13 @@
     sellItem: sellItem,
     craftItem: craftItem,
     useConsumable: useConsumable,
+    recordEnemiesDefeated: recordEnemiesDefeated,
+    recordBattleWon: recordBattleWon,
+    recordArenaWaveCleared: recordArenaWaveCleared,
+    getQuestProgress: getQuestProgress,
+    isQuestClaimable: isQuestClaimable,
+    claimQuest: claimQuest,
+    claimAllQuests: claimAllQuests,
     isNightmareUnlocked: isNightmareUnlocked,
     unlockNightmare: unlockNightmare,
     saveNow: saveNow,

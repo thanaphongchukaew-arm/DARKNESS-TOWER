@@ -91,6 +91,7 @@
         <button class="btn-primary tower-survival-fab" id="tower-survival-btn">สนามประลอง</button>
       </div>
     </header>
+    <button class="btn-primary tower-quests-fab" id="tower-quests-btn"><span class="quest-btn-label">ภารกิจ</span><span id="tower-quests-badge" class="quest-badge hidden"></span></button>
     <h2 class="tower-title" id="tower-title">หอคอยแห่งความมืด</h2>
     <div class="tower-jump-wrap">
       <button class="btn-primary tower-jump-btn" id="tower-jump-current"></button>
@@ -185,6 +186,17 @@
     <p class="reward-sub" id="craft-note"></p>
     <div id="craft-gold" class="waypoint-gold-display"></div>
     <div id="craft-content"></div>
+  </section>
+
+  <!-- QUESTS -->
+  <section id="screen-quests" class="screen">
+    <header class="screen-header">
+      <button class="btn-icon" id="quests-back" aria-label="ย้อนกลับ"></button>
+      <h2 id="quests-header-title">ภารกิจ</h2>
+      <button class="btn-primary" id="quests-claim-all-btn">รับรางวัลทั้งหมด</button>
+    </header>
+    <p class="reward-sub" id="quests-note"></p>
+    <div id="quests-content"></div>
   </section>
 
   <!-- ENDLESS ARENA SUMMARY (survival mode session end) -->
