@@ -269,26 +269,6 @@
     '....KK..KK....'
   ], DEMON_PAL);
 
-  var DEMONLORD_PAL = { Y: '#f0c030', H: '#2a0a10', R: '#7a1030', K: '#0a0a0a' };
-  P.define('demonLord', [
-    '...Y..Y..Y..Y...',
-    '..YYYYYYYYYYYY..',
-    '...H........H...',
-    '..HHH......HHH..',
-    '...RRRRRRRRRR...',
-    '...RKRRRRRRKR...',
-    '...RRRRRRRRRR...',
-    '..RRRRRRRRRRRR..',
-    '.RRRRRRYYRRRRRR.',
-    '.RRRRRRYYRRRRRR.',
-    '..RRRRRRRRRRRR..',
-    '...RRRRRRRRRR...',
-    '....RRRRRRRR....',
-    '.....RR..RR.....',
-    '.....RR..RR.....',
-    '....KKK..KKK....'
-  ], DEMONLORD_PAL);
-
   P.define('shadowFigure', [
     '....V......V..',
     '...VV....VV...',
@@ -650,6 +630,886 @@
     '.................'
   ], HYDRA_PAL);
 
+  // ---- Floor 45-100 creature silhouettes: the hidden upper tower (each unique, no palette-swap reuse) ----
+
+  P.define('crystalWisp', [
+    '.....C.C.....',
+    '....CCCCC....',
+    '...C.CCC.C...',
+    '..C...C...C..',
+    '.C....K....C.',
+    '..C..CCC..C..',
+    '...CCLLLCC...',
+    '..C..CCC..C..',
+    '.C....K....C.',
+    '..C...C...C..',
+    '...C.CCC.C...',
+    '....CCCCC....'
+  ], { C: '#8ad0f0', L: '#e8f8ff', K: '#153148' });
+
+  P.define('prismLynx', [
+    '....D......D....',
+    '...DDD....DDD...',
+    '..CCCCCCCCCCCC..',
+    '.CCCCCCCCCCCCCC.',
+    '.CCCLLCCCCLLCCC.',
+    '.CCCCKCCCCKCCC..',
+    '.CCCCCLLLLCCCCC.',
+    '.CCCCCLLLLCCCCC.',
+    '.CCCCCCCCCCCCCC.',
+    '..CCCCCCCCCCCC..',
+    '..CCCCCCCCCCCC..',
+    '...CCCC..CCCC...',
+    '...CC......CC...',
+    '...CC......CC...',
+    '...DD......DD...'
+  ], { C: '#6ab8e8', D: '#3a6a90', L: '#e8f8ff', K: '#0a1a28' });
+
+  P.define('chimeWraith', [
+    '.....C.C.C.....',
+    '....CCCCCCC....',
+    '...C.......C...',
+    '..CC.......CC..',
+    '...CCCCCCCCC...',
+    '...CLKC.CKLC...',
+    '...CCCCCCCCC...',
+    '..CCCCCCCCCCC..',
+    '..CC.CCCCC.CC..',
+    '..CC.......CC..',
+    '..CC.......CC..',
+    '..CC.......CC..',
+    '..DD.......DD..'
+  ], { C: '#b090e8', L: '#e8d8ff', K: '#241a38', D: '#4a3868' });
+
+  P.define('geodeGolem', [
+    '...RRRRRRR...',
+    '..RRRRRRRRR..',
+    '.RRRLLLLLRRR.',
+    '.RRLLKLKLLRR.',
+    '.RRRLLLLLRRR.',
+    'RRRRRRRRRRRRR',
+    'RRRDDRDDRRRRR',
+    'RRRRRRRRRRRRR',
+    'RRRLRRRRRLRR.',
+    '.RRRRRRRRRRR.',
+    '..RRRRRRRRR..',
+    '..RR.....RR..',
+    '..RR.....RR..',
+    '..DD.....DD..'
+  ], { R: '#7a6ab0', L: '#c8b8ff', K: '#0a0a14', D: '#3a2f5a' });
+
+  P.define('choirWarden', [
+    '.....G.G.G.....',
+    '....GGGGGGG....',
+    '...CCCCCCCCC...',
+    '..CCCCCCCCCCC..',
+    '.CCCLLKLLKLLCC.',
+    '.CCCCCCCCCCCCC.',
+    '.CCCCGGGGGCCCC.',
+    'CCCCCGGGGGCCCCC',
+    'CCCCCCCCCCCCCCC',
+    '.CCCCCCCCCCCCC.',
+    '.CCCCCCCCCCCCC.',
+    '..CCCC...CCCC..',
+    '..CC.......CC..',
+    '..CC.......CC..',
+    '.DDD.......DDD.'
+  ], { C: '#9ad8f0', G: '#e8f8ff', L: '#c8b0ff', K: '#12283a', D: '#2a4a5e' });
+
+  P.define('drownedRevenant', [
+    '.....V.V.....',
+    '....VVVVV....',
+    '...VVVVVVV...',
+    '...VXVVVXV...',
+    '...VVVVVVV...',
+    '..VVVVVVVVV..',
+    '.VVVVVVVVVVV.',
+    '.VV.VVVVV.VV.',
+    '.VV.......VV.',
+    '.VV.......VV.',
+    '.VV.......VV.',
+    '..V.......V..',
+    '..V.......V..'
+  ], { V: '#2a5040', X: '#7ad8b0', K: '#0a1a14' });
+
+  P.define('abyssalEel', [
+    '............EE..',
+    '...........EE...',
+    '..........EE....',
+    '.........EE.....',
+    '........EE......',
+    '.......EE.......',
+    '......EE........',
+    '.....EE.........',
+    '....EE..........',
+    '...EE...........',
+    '..KEEK..........'
+  ], { E: '#2f6a5a', K: '#0a1810' });
+
+  P.define('tideGolem', [
+    '...CCCCCCC...',
+    '..CCCCCCCCC..',
+    '.CCCLLLLLCC..',
+    '.CCLKCCCKLC..',
+    '.CCCLLLLLCC..',
+    'CCCCCCCCCCCCC',
+    'CCCDDDDDDDCCC',
+    'CCCCCCCCCCCCC',
+    'CCCCCCCCCCCCC',
+    '.CCCCCCCCCCC.',
+    '..CCCCCCCCC..',
+    '..CC.....CC..',
+    '..CC.....CC..',
+    '..DD.....DD..'
+  ], { C: '#2f6a80', L: '#a0e8f0', K: '#0a1c24', D: '#173a48' });
+
+  P.define('sirenWraith', [
+    '.....V...V.....',
+    '....VVV.VVV....',
+    '...VVVVVVVVV...',
+    '...VXVVVVVXV...',
+    '..VVVVVVVVVVV..',
+    '.VVVVVVVVVVVVV.',
+    '.VV.VVVVVVV.VV.',
+    '..V.........V..',
+    '..VV.......VV..',
+    '...VV.....VV...',
+    '....VV...VV....'
+  ], { V: '#3a6a78', X: '#e8d040', K: '#0a1c20' });
+
+  P.define('leviathanHerald', [
+    '....C.....C....',
+    '...CCC...CCC...',
+    '..CCCCCCCCCCC..',
+    '.CCCCCCCCCCCCC.',
+    '.CCCLKCCCKLCCC.',
+    'CCCCCCCCCCCCCCC',
+    'CCCDDDDDDDDDCCC',
+    'CCCCCCCCCCCCCCC',
+    'CCCCCCCCCCCCCCC',
+    '.CCCCCCCCCCCCC.',
+    '.CCCCCCCCCCCCC.',
+    '..CCCC...CCCC..',
+    '..CC.......CC..',
+    '..CC.......CC..',
+    '.DDD.......DDD.'
+  ], { C: '#245868', L: '#7ad8e0', K: '#081820', D: '#123040' });
+
+  P.define('galeFalcon', [
+    '.......F.......',
+    '......FFF......',
+    '.....KFFFK.....',
+    'F....FFFFF....F',
+    'FF..FFFFFFF..FF',
+    'FFFFFFFFFFFFFFF',
+    '.FFFFFFFFFFFFF.',
+    '...FFFFFFFFF...',
+    '...FFFFYFFFF...',
+    '....FFFFFFF....',
+    '.....FF.FF.....',
+    '.....KK.KK.....'
+  ], { F: '#c8d4e0', K: '#1c2430', Y: '#e8c050' });
+
+  P.define('thunderCherub', [
+    '.....Y.Y.....',
+    '....YYYYY....',
+    '...YLKYKLY...',
+    '....YYYYY....',
+    'YY..YYYYY..YY',
+    '.YY.YYYYY.YY.',
+    '..YYYYYYYYY..',
+    '...YYYYYYY...',
+    '....Y...Y....',
+    '....Y...Y....'
+  ], { Y: '#f0e050', L: '#fff8d0', K: '#3a3410' });
+
+  P.define('stormLancer', [
+    '.......Y.......',
+    '......YYY......',
+    '...MMMMMMMMM...',
+    '..MMMMMMMMMMM..',
+    '.MMMMMMMMMMMMM.',
+    '.MMKKYKYKKKMM..',
+    '.MMMMMMMMMMMMM.',
+    '..MMMMMMMMMMM..',
+    '.AAAAAAAAAAAAA.',
+    '.AAAYYAAAYYAAA.',
+    '.AAAAAAAAAAAAA.',
+    '..AAAAAAAAAAA..',
+    '...AA.....AA...',
+    '...AA.....AA...',
+    '...KK.....KK...'
+  ], { M: '#8a9ab8', A: '#5a6a88', Y: '#f0e050', K: '#181e28' });
+
+  P.define('cloudSerpent', [
+    '............WW..',
+    '...........WW...',
+    '..........WW....',
+    '.........WW.....',
+    '........WW......',
+    '.......WW.......',
+    '......WW........',
+    '.....WW.........',
+    '....WW..........',
+    '...WW...........',
+    '..YWWY..........'
+  ], { W: '#8aa8d8', Y: '#e8e0f8' });
+
+  P.define('tempestMarshal', [
+    '.......Y.......',
+    '......YYY......',
+    '...MMMMMMMMM...',
+    '..MMMMMMMMMMM..',
+    '.MMMMMMMMMMMMM.',
+    '.MMKKYYYKKKMM..',
+    '.MMMMMMMMMMMMM.',
+    '..MMMMMMMMMMM..',
+    'AAAAAAAAAAAAAAA',
+    'AAAAYYYYYYYAAAA',
+    'AAAAAAAAAAAAAAA',
+    '.AAAAAAAAAAAAA.',
+    '..AA.....AA....',
+    '..AA.....AA....',
+    '.KKK.....KKK...'
+  ], { M: '#6a7ab0', A: '#4a5888', Y: '#f0e050', K: '#141828' });
+
+  P.define('sandWraith', [
+    '.....U.U.....',
+    '....UUUUU....',
+    '...UUUUUUU...',
+    '...UXUUUXU...',
+    '..UUUUUUUUU..',
+    '.UUUUUUUUUUU.',
+    '.UU.UUUUU.UU.',
+    '..U.......U..',
+    '..UU.....UU..',
+    '...UU...UU...',
+    '....UU.UU....'
+  ], { U: '#c8a860', X: '#5a1818', K: '#3a2c14' });
+
+  P.define('boneSerpent', [
+    '............OO..',
+    '...........OO...',
+    '..........OO....',
+    '.........OO.....',
+    '........OO......',
+    '.......OO.......',
+    '......OO........',
+    '.....OO.........',
+    '....OO..........',
+    '...OO...........',
+    '..KOOK..........'
+  ], { O: '#e8e0c8', K: '#5a4a2a' });
+
+  P.define('scarabSwarm', [
+    '..D.......D..',
+    '.DDD.....DDD.',
+    'DDDDD...DDDDD',
+    '.DDDDD.DDDDD.',
+    '..DDDDDDDDD..',
+    '.D.DDDDDDD.D.',
+    'DD..DDRDD..DD',
+    '.D.DDDDDDD.D.',
+    '..DDDDDDDDD..',
+    '.DDDDD.DDDDD.',
+    'DDDDD...DDDDD',
+    '.DDD.....DDD.'
+  ], { D: '#4a3a1a', R: '#e88030', K: '#1c1608' });
+
+  P.define('dustDjinn', [
+    '......G.G......',
+    '.....GGGGG.....',
+    '....GLKGKLG....',
+    '.....GGGGG.....',
+    '..GG.GGGGG.GG..',
+    '.G.GGGGGGGGG.G.',
+    '..GGGGGGGGGGG..',
+    '...GGGGGGGGG...',
+    '....GG.G.GG....',
+    '....G...G......',
+    '....G...G......'
+  ], { G: '#e0c888', L: '#fff4d8', K: '#4a3c18' });
+
+  P.define('pharaohAsh', [
+    '.....Y.Y.....',
+    '....YYYYY....',
+    '...UUUUUUU...',
+    '..UUUUUUUUU..',
+    '.UUUUUUUUUUU.',
+    '.UUKKUKUKKU..',
+    '.UUUUUUUUUUU.',
+    '..UUUYYYUUU..',
+    '..UUUUUUUUU..',
+    '...UU.....UU.',
+    '...UU.....UU.',
+    '...UU.....UU.',
+    '..KKK.....KKK'
+  ], { U: '#c89848', Y: '#f0d060', K: '#3a2810' });
+
+  P.define('magmaHound', [
+    '....R......R....',
+    '...RRR....RRR...',
+    '..RRRRRRRRRRRR..',
+    '.RRRRRRRRRRRRRR.',
+    '.RRROORRRROORRR.',
+    '.RRRRRRRRRRRRRR.',
+    '.RRRRYYYYYYRRRR.',
+    '.RRRRYKKYKYRRRR.',
+    '.RRRRYYYYYYRRRR.',
+    '.RRRRRRRRRRRRRR.',
+    '..RRRRRRRRRRRR..',
+    '...RRRR..RRRR...',
+    '...RR......RR...',
+    '...KK......KK...'
+  ], { R: '#6a1c10', O: '#e85820', Y: '#f0d040', K: '#1a0a06' });
+
+  P.define('cinderGolem', [
+    '...KKKKKKK...',
+    '..KKKKKKKKK..',
+    '.KKKOOOOOKK..',
+    '.KKOYKOKYOKK.',
+    '.KKKOOOOOKK..',
+    'KKKKKKKKKKKKK',
+    'KKKOOKOOKOKKK',
+    'KKKKKKKKKKKKK',
+    'KKKOKKKKKOKK.',
+    '.KKKKKKKKKKK.',
+    '..KKKKKKKKK..',
+    '..KK.....KK..',
+    '..OO.....OO..',
+    '..OO.....OO..'
+  ], { K: '#2a1a14', O: '#e85820', Y: '#f0d040' });
+
+  P.define('lavaSerpent', [
+    '............RR..',
+    '...........RR...',
+    '..........RR....',
+    '.........RR.....',
+    '........RR......',
+    '.......RR.......',
+    '......RR........',
+    '.....RR.........',
+    '....RR..........',
+    '...RR...........',
+    '..KOOK..........'
+  ], { O: '#e85820', R: '#8a2410', K: '#1a0a06' });
+
+  P.define('pyroclastBat', [
+    '..R....R....R..',
+    '.RRR..RRR..RRR.',
+    'RRRRRRRRRRRRRRR',
+    '.RRRRRRRRRRRRR.',
+    '...RRRRRRRRR...',
+    '...RRRXXRRRR...',
+    '...RRRRRRRRR...',
+    '....RRR.RRR....',
+    '....KK...KK....'
+  ], { R: '#7a2414', X: '#f0d040', K: '#1a0806' });
+
+  P.define('coreWarden', [
+    '...OOOOOOO...',
+    '..OOOOOOOOO..',
+    '.OOOKKKKKOO..',
+    '.OOKYOOOYKOO.',
+    '.OOOKKKKKOO..',
+    'OOOOOOOOOOOOO',
+    'OOORRRRRRROOO',
+    'OOOOOOOOOOOOO',
+    'OOOYOOOOOYOO.',
+    '.OOOOOOOOOOO.',
+    '..OOOOOOOOO..',
+    '..OO.....OO..',
+    '..RR.....RR..',
+    '..RR.....RR..'
+  ], { O: '#8a3018', R: '#e85820', Y: '#f0d040', K: '#1c0c08' });
+
+  P.define('gearSentinel', [
+    '...MYM...MYM...',
+    '..MMMM...MMMM..',
+    '..MMMMMMMMMMM..',
+    '.MMMDDDDDDDMMM.',
+    'MMMMDDDDDDDMMMM',
+    'MMMMMMRMRMMMMMM',
+    '.MMMMDDDDDMMMM.',
+    '..MMMMMMMMMMM..',
+    '..MM.MMMMM.MM..',
+    '..MM.......MM..',
+    '..MM.......MM..',
+    '.DDD.......DDD.'
+  ], { M: '#8a8a94', D: '#454550', R: '#e85838', K: '#1c1c22', Y: '#f0d040' });
+
+  P.define('sparkHound', [
+    '....D......D....',
+    '...DDD....DDD...',
+    '..DDDDDDDDDDDD..',
+    '.DDDDDDDDDDDDDD.',
+    '.DDDYYDDDDYYDDD.',
+    '.DDDDDDDDDDDDDD.',
+    '.DDDDYYYYYYDDDD.',
+    '.DDDDYKKYKYDDDD.',
+    '.DDDDYYYYYYDDDD.',
+    '.DDDDDDDDDDDDDD.',
+    '..DDDDDDDDDDDD..',
+    '...DDDD..DDDD...',
+    '...YY......YY...',
+    '...KK......KK...'
+  ], { D: '#3a4058', Y: '#f0e050', K: '#0e1018' });
+
+  P.define('pistonGolem', [
+    '...RRRRRRR...',
+    '..RRRRRRRRR..',
+    '.RRRKKKKKRR..',
+    '.RRKYRKRYKRR.',
+    '.RRRKKKKKRR..',
+    'RRRRRRRRRRRRR',
+    'RRRMMRRRMMRRR',
+    'RRRMMRRRMMRRR',
+    'RRRRRRRRRRRRR',
+    '.RRRRRRRRRRR.',
+    '..RRRRRRRRR..',
+    '..RR.....RR..',
+    '..MM.....MM..',
+    '..MM.....MM..'
+  ], { R: '#5a6270', M: '#8a94a8', Y: '#e85838', K: '#161a20' });
+
+  P.define('rotorWraith', [
+    '......D......',
+    '.....DDD.....',
+    'W....DDD....W',
+    'WW..DDDDD..WW',
+    'WWWWDDDDDWWWW',
+    '.WWWDDDDDWWW.',
+    '...DDDKDDD...',
+    '...DDDDDDD...',
+    '....DD.DD....',
+    '....KK.KK....'
+  ], { W: '#c8d0dc', D: '#4a5468', K: '#161a20' });
+
+  P.define('grandAutomaton', [
+    '..MYM...MYM..',
+    '.MMMMM.MMMMM.',
+    '.MMMMMMMMMMM.',
+    'MMMDDDDDDDMMM',
+    'MMMDDDDDDDMMM',
+    'MMMMRMRMRMMMM',
+    '.MMMDDDDDMMM.',
+    'MMMMMMMMMMMMM',
+    'MMMM.MMM.MMMM',
+    'MMMM.....MMMM',
+    'MMMM.....MMMM',
+    '.DDD.....DDD.',
+    '.DDD.....DDD.'
+  ], { M: '#9a9aa8', D: '#4a4a58', R: '#e85838', K: '#1c1c26', Y: '#f0d040' });
+
+  P.define('fungalStalker', [
+    '....N......N....',
+    '...NNN....NNN...',
+    '..NNNNNNNNNNNN..',
+    '.NNNNNNNNNNNNNN.',
+    '.NNNMMNNNNMMNNN.',
+    '.NNNNNNNNNNNNNN.',
+    '.NNNNGGGGGGNNNN.',
+    '.NNNNGKKGKGNNNN.',
+    '.NNNNGGGGGGNNNN.',
+    '.NNNNNNNNNNNNNN.',
+    '..NNNNNNNNNNNN..',
+    '...NNNN..NNNN...',
+    '...NN......NN...',
+    '...KK......KK...'
+  ], { N: '#4a5a2a', G: '#8ab040', M: '#c8e080', K: '#141c0a' });
+
+  P.define('thornWraith', [
+    '.....N.N.....',
+    '....NNNNN....',
+    '...NNNNNNN...',
+    '...NMNNNMN...',
+    '..NNNNNNNNN..',
+    '.NNNNNNNNNNN.',
+    '.NN.NNNNN.NN.',
+    '..N.G.G.G.N..',
+    '..NG.....GN..',
+    '...N.....N...',
+    '...N.....N...',
+    '..GN.....NG..'
+  ], { N: '#3a4a22', M: '#e0a838', G: '#6a8a34', K: '#0e1408' });
+
+  P.define('sporeBat', [
+    '..N....N....N..',
+    '.NNN..NNN..NNN.',
+    'NNNNNNNNNNNNNNN',
+    '.NNNNNNNNNNNNN.',
+    '...NNNNNNNNN...',
+    '...NNNGGNNNN...',
+    '...NNNNNNNNN...',
+    '....NNN.NNN....',
+    '....GG...GG....'
+  ], { N: '#3a4a22', G: '#8ab040', K: '#141c0a' });
+
+  P.define('rootboundGolem', [
+    '...NNNNNNN...',
+    '..NNNNNNNNN..',
+    '.NNNGGGGGNN..',
+    '.NNGMNGNMGNN.',
+    '.NNNGGGGGNN..',
+    'NNNNNNNNNNNNN',
+    'NNNGGNGGNGNNN',
+    'NNNNNNNNNNNNN',
+    'NNNGNNNNNGNN.',
+    '.NNNNNNNNNNN.',
+    '..NNNNNNNNN..',
+    '..NN.....NN..',
+    '..GG.....GG..',
+    '..GG.....GG..'
+  ], { N: '#3a4a22', G: '#6a8a34', M: '#c8e080', K: '#101a08' });
+
+  P.define('blightHeart', [
+    '.....M.M.....',
+    '....MMMMM....',
+    '...NNNNNNN...',
+    '..NNNNNNNNN..',
+    '.NNNNRRRNNNN.',
+    '.NNNRRKRRNNN.',
+    '.NNNNRRRNNNN.',
+    '..NNNNNNNNN..',
+    '..GNNNNNNNG..',
+    '...G.....G...',
+    '...G.....G...',
+    '..GG.....GG..'
+  ], { N: '#3a2848', R: '#9a2848', M: '#c05888', G: '#5a3a68', K: '#160c1c' });
+
+  P.define('frostSpawn', [
+    '............BB..',
+    '...........BB...',
+    '..........BB....',
+    '.........BB.....',
+    '........BB......',
+    '.......BB.......',
+    '......BB........',
+    '.....BB.........',
+    '....BB..........',
+    '...BB...........',
+    '..WBBW..........'
+  ], { B: '#3a6a90', W: '#e8f8ff', K: '#0e2030' });
+
+  P.define('glacialWraith', [
+    '.....W.W.....',
+    '....WWWWW....',
+    '...WWWWWWW...',
+    '...WXWWWXW...',
+    '..WWWWWWWWW..',
+    '.WWWWWWWWWWW.',
+    '.WW.WWWWW.WW.',
+    '..W.......W..',
+    '..WW.....WW..',
+    '...WW...WW...',
+    '....W.W.W....'
+  ], { W: '#7ab0d8', X: '#e8f8ff', K: '#0e2c40' });
+
+  P.define('rimeGolem', [
+    '...WWWWWWW...',
+    '..WWWWWWWWW..',
+    '.WWWBBBBBWW..',
+    '.WWBKWBWKBWW.',
+    '.WWWBBBBBWW..',
+    'WWWWWWWWWWWWW',
+    'WWWBBWBBWBWWW',
+    'WWWWWWWWWWWWW',
+    'WWWBWWWWWBWW.',
+    '.WWWWWWWWWWW.',
+    '..WWWWWWWWW..',
+    '..WW.....WW..',
+    '..BB.....BB..',
+    '..BB.....BB..'
+  ], { W: '#a8d8f0', B: '#3a6a90', K: '#0e2030' });
+
+  P.define('frozenHarpy', [
+    '.......W.......',
+    '......WWW......',
+    '.....KWWWK.....',
+    'W....WWWWW....W',
+    'WW..WWWWWWW..WW',
+    'WWWWWWWWWWWWWWW',
+    '.WWWWWWWWWWWWW.',
+    '...WWWWWWWWW...',
+    '...WWWWBWWWW...',
+    '....WWWWWWW....',
+    '.....WW.WW.....',
+    '.....BB.BB.....'
+  ], { W: '#c8e8f8', B: '#3a6a90', K: '#0e2030' });
+
+  P.define('frostSovereign', [
+    '....W..W..W....',
+    '...WWWWWWWWW...',
+    '..WWWWWWWWWWW..',
+    '.WWWBBBBBBBWWW.',
+    '.WWBKWWBWWKBWW.',
+    '.WWWBBBBBBBWWW.',
+    'WWWWWWWWWWWWWWW',
+    'WWWBBBBBBBBBWWW',
+    'WWWWWWWWWWWWWWW',
+    '.WWWWWWWWWWWWW.',
+    '.WWWWWWWWWWWWW.',
+    '..WWWW...WWWW..',
+    '..WW.......WW..',
+    '..WW.......WW..',
+    '.BBB.......BBB.'
+  ], { W: '#a8d8f0', B: '#2a5a80', K: '#0a1c2c' });
+
+  P.define('starWisp', [
+    '......P.......',
+    '.....PPP......',
+    '....PLPLP.....',
+    '...P..P..P....',
+    '..P...P...P...',
+    '.P....K....P..',
+    '..P..PPP..P...',
+    '...PPLLLPP....',
+    '..P..PPP..P...',
+    '.P....K....P..',
+    '..P...P...P...',
+    '...P..P..P....'
+  ], { P: '#9a70e8', L: '#e8d8ff', K: '#1c1030' });
+
+  P.define('voidSerpent', [
+    '............PP..',
+    '...........PP...',
+    '..........PP....',
+    '.........PP.....',
+    '........PP......',
+    '.......PP.......',
+    '......PP........',
+    '.....PP.........',
+    '....PP..........',
+    '...PP...........',
+    '..KPPK..........'
+  ], { P: '#5a2890', K: '#150a24' });
+
+  P.define('nebulaGolem', [
+    '...PPPPPPP...',
+    '..PPPPPPPPP..',
+    '.PPPLLLLLPP..',
+    '.PPLKPLPKLPP.',
+    '.PPPLLLLLPP..',
+    'PPPPPPPPPPPPP',
+    'PPPKKPKKPKPPP',
+    'PPPPPPPPPPPPP',
+    'PPPLPPPPPLPP.',
+    '.PPPPPPPPPPP.',
+    '..PPPPPPPPP..',
+    '..PP.....PP..',
+    '..KK.....KK..',
+    '..KK.....KK..'
+  ], { P: '#5a2890', L: '#c890ff', K: '#150a24' });
+
+  P.define('astralWraith', [
+    '.....P.P.....',
+    '....PPPPP....',
+    '...PPPPPPP...',
+    '...PLPPPLP...',
+    '..PPPPPPPPP..',
+    '.PPPPPPPPPPP.',
+    '.PP.PPPPP.PP.',
+    '..P.......P..',
+    '..PP.....PP..',
+    '...PP...PP...',
+    '....P.P.P....'
+  ], { P: '#7a4ac0', L: '#e8d8ff', K: '#180c2c' });
+
+  P.define('riftWarden', [
+    '....P..P..P....',
+    '...PPPPPPPPP...',
+    '..PPPPPPPPPPP..',
+    '.PPPLLLLLLLPPP.',
+    '.PPLKPPLPPKLPP.',
+    '.PPPLLLLLLLPPP.',
+    'PPPPPPPPPPPPPPP',
+    'PPPLLLLLLLLLPPP',
+    'PPPPPPPPPPPPPPP',
+    '.PPPPPPPPPPPPP.',
+    '.PPPPPPPPPPPPP.',
+    '..PPPP...PPPP..',
+    '..PP.......PP..',
+    '..PP.......PP..',
+    '.KKK.......KKK.'
+  ], { P: '#5a2890', L: '#c890ff', K: '#150a24' });
+
+  P.define('chimericHound', [
+    '....R......B....',
+    '...RRR....BBB...',
+    '..RRRRRRRRBBBB..',
+    '.RRRRRRRRRRBBBB.',
+    '.RRROORRRRBBOOB.',
+    '.RRRRRRRRRRBBBB.',
+    '.RRRRYYYYYYBBBB.',
+    '.RRRRYKKYKYBBBB.',
+    '.RRRRYYYYYYBBBB.',
+    '.RRRRRRRRRRBBBB.',
+    '..RRRRRRRRBBBB..',
+    '...RRRR..BBBB...',
+    '...RR......BB...',
+    '...KK......KK...'
+  ], { R: '#8a2020', B: '#2a3888', O: '#e85820', Y: '#f0e050', K: '#160808' });
+
+  P.define('chaosGolem', [
+    '...MMMMMMM...',
+    '..MMMMMMMMM..',
+    '.MMMRRRRRMM..',
+    '.MMRYMRMYRMM.',
+    '.MMMRRRRRMM..',
+    'MMMMMMMMMMMMM',
+    'MMMBBMRRMBMMM',
+    'MMMMMMMMMMMMM',
+    'MMMRMMMMMRMM.',
+    '.MMMMMMMMMMM.',
+    '..MMMMMMMMM..',
+    '..MM.....MM..',
+    '..BB.....RR..',
+    '..BB.....RR..'
+  ], { M: '#4a4a58', R: '#c8383a', B: '#3858c8', Y: '#f0e050', K: '#14141c' });
+
+  P.define('discordWraith', [
+    '.....P.R.....',
+    '....PRPRP....',
+    '...PPPPPPP...',
+    '...RXPPPXR...',
+    '..PPPPPPPPP..',
+    '.PRPPPPPPPRP.',
+    '.PP.PPPPP.PP.',
+    '..P.......P..',
+    '..RP.....PR..',
+    '...PP...PP...',
+    '....R.P.R....'
+  ], { P: '#5a2870', R: '#c8383a', X: '#e8c060', K: '#180a20' });
+
+  P.define('fluxSerpent', [
+    '............BB..',
+    '...........BB...',
+    '..........BB....',
+    '.........BB.....',
+    '........BB......',
+    '.......BB.......',
+    '......BB........',
+    '.....BB.........',
+    '....BB..........',
+    '...BB...........',
+    '..RBBR..........'
+  ], { R: '#c8383a', B: '#3858c8', K: '#12142c' });
+
+  P.define('forgeMaster', [
+    '....Y..Y..Y....',
+    '...MMMMMMMMM...',
+    '..MMMMMMMMMMM..',
+    '.MMMRRRRRRRMMM.',
+    '.MMRYMMRMMYRMM.',
+    '.MMMRRRRRRRMMM.',
+    'MMMMMMMMMMMMMMM',
+    'MMMBBRRRRRBBMMM',
+    'MMMMMMMMMMMMMMM',
+    '.MMMMMMMMMMMMM.',
+    '.MMMMMMMMMMMMM.',
+    '..MMMM...MMMM..',
+    '..MM.......MM..',
+    '..MM.......MM..',
+    '.RRR.......RRR.'
+  ], { M: '#5a5a68', R: '#c8383a', B: '#3858c8', Y: '#f0e050', K: '#14141c' });
+
+  P.define('twilightSeraph', [
+    '......Y.Y......',
+    '.....YYYYY.....',
+    'W....YLKLY....W',
+    'WW...YYYYY...WW',
+    'WWW..YYYYY..WWW',
+    'WWWWWYYYYYWWWWW',
+    '.WWWWYYYYYWWWW.',
+    '...WWYYYYYWW...',
+    '.....YY.YY.....',
+    '.....YY.YY.....',
+    '....KKK.KKK....'
+  ], { Y: '#e8d888', W: '#c8b8f0', L: '#fff8e0', K: '#302858' });
+
+  P.define('chronoGolem', [
+    '...VVVVVVV...',
+    '..VVVVVVVVV..',
+    '.VVVYYYYYVV..',
+    '.VVYKVYVKYVV.',
+    '.VVVYYYYYVV..',
+    'VVVVVVVVVVVVV',
+    'VVVGGVYYVGVVV',
+    'VVVVVVVVVVVVV',
+    'VVVYVVVVVYVV.',
+    '.VVVVVVVVVVV.',
+    '..VVVVVVVVV..',
+    '..VV.....VV..',
+    '..GG.....GG..',
+    '..GG.....GG..'
+  ], { V: '#403868', Y: '#e8d888', G: '#8a7ab0', K: '#140e28' });
+
+  P.define('sanctumWraith', [
+    '.....Y.Y.....',
+    '....YYYYY....',
+    '...VVVVVVV...',
+    '...VXVVVXV...',
+    '..VVVVVVVVV..',
+    '.VVVVVVVVVVV.',
+    '.VV.VVVVV.VV.',
+    '..V.......V..',
+    '..VY.....YV..',
+    '...V.....V...',
+    '...V.....V...',
+    '..YV.....VY..'
+  ], { V: '#3a2f5e', Y: '#e8d888', X: '#c890ff', K: '#140e28' });
+
+  P.define('chronoSerpent', [
+    '............VV..',
+    '...........VV...',
+    '..........VV....',
+    '.........VV.....',
+    '........VV......',
+    '.......VV.......',
+    '......VV........',
+    '.....VV.........',
+    '....VV..........',
+    '...VV...........',
+    '..YVVY..........'
+  ], { V: '#403868', Y: '#e8d888', K: '#140e28' });
+
+  P.define('timelessHerald', [
+    '....Y..Y..Y....',
+    '...YYYYYYYYY...',
+    '..VVVVVVVVVVV..',
+    '.VVVWWWWWWWVVV.',
+    '.VVWKVVWVVKWVV.',
+    '.VVVWWWWWWWVVV.',
+    'VVVVVVVVVVVVVVV',
+    'VVVYYYYYYYYYVVV',
+    'VVVVVVVVVVVVVVV',
+    '.VVVVVVVVVVVVV.',
+    '.VVVVVVVVVVVVV.',
+    '..VVVV...VVVV..',
+    '..VV.......VV..',
+    '..VV.......VV..',
+    '.YYY.......YYY.'
+  ], { V: '#3a2f5e', W: '#c8b8f0', Y: '#e8d888', K: '#140e28' });
+
+  P.define('timelessSovereign', [
+    '...Y..Y..Y..Y...',
+    '..YYYYYYYYYYYY..',
+    '...V........V...',
+    '..VVV......VVV..',
+    '...VVVVVVVVVV...',
+    '...VWVVVVVVWV...',
+    '...VVVVVVVVVV...',
+    '..VVVVVVVVVVVV..',
+    '.VVVVVVYYVVVVVV.',
+    '.VVVVVVYYVVVVVV.',
+    '..VVVVVVVVVVVV..',
+    '...VVVVVVVVVV...',
+    '....VVVVVVVV....',
+    '.....VV..VV.....',
+    '.....VV..VV.....',
+    '....YYY..YYY....'
+  ], { Y: '#e8d040', V: '#241a44', W: '#c890ff', K: '#0a0714' });
+
   // ---- 16 additional playable classes (palette-swaps of BLADE_GRID / STAFFORB_GRID) ----
 
   P.define('gunslinger', BLADE_GRID, { K: '#0a0a0a', G: '#8a7a5a', R: '#5a4030', Y: '#d8a840', U: '#3a2a1a', W: '#e8d8b0' });
@@ -785,6 +1645,8 @@
   ];
   P.define('mat_beast_fang', FANG_GRID, { W: '#f0ece0', U: '#8a6a4a' });
   P.define('mat_demon_fang', FANG_GRID, { W: '#1a1418', U: '#7a1420' });
+  P.define('mat_storm_feather', FANG_GRID, { W: '#e8f0ff', U: '#3868c8' });
+  P.define('mat_bone_fragment', FANG_GRID, { W: '#f0e8d0', U: '#a89060' });
 
   var POUCH_GRID = [
     '...UU....',
@@ -800,6 +1662,8 @@
     '...MMM...'
   ];
   P.define('mat_spirit_dust', POUCH_GRID, { U: '#5a4a70', M: '#8a7aa0', G: '#c8b0ff' });
+  P.define('mat_crystal_dust', POUCH_GRID, { U: '#2a5878', M: '#6ab8e8', G: '#e8f8ff' });
+  P.define('mat_wraith_essence', POUCH_GRID, { U: '#5a4020', M: '#c8a860', G: '#fff4d8' });
 
   var SHARD_GRID = [
     '....S....',
@@ -819,6 +1683,8 @@
   P.define('mat_wyvern_scale', SHARD_GRID, { S: '#4a9850', D: '#2a6030' });
   P.define('mat_dragon_scale', SHARD_GRID, { S: '#e86838', D: '#a83818' });
   P.define('mat_ancient_scale', SHARD_GRID, { S: '#e8c050', D: '#a87c1a' });
+  P.define('mat_resonant_shard', SHARD_GRID, { S: '#8ad0f0', D: '#3a6a90' });
+  P.define('mat_abyssal_scale', SHARD_GRID, { S: '#2f6a5a', D: '#153128' });
 
   var ORB_GRID = [
     '...OOO...',
@@ -834,6 +1700,8 @@
   P.define('mat_storm_core', ORB_GRID, { O: '#3868c8', G: '#e8f4ff' });
   P.define('mat_demonic_core', ORB_GRID, { O: '#7a2050', G: '#f0d040' });
   P.define('mat_abyssal_essence', ORB_GRID, { O: '#2a1038', G: '#c860e0' });
+  P.define('mat_drowned_core', ORB_GRID, { O: '#245868', G: '#7ad8e0' });
+  P.define('mat_voltaic_core', ORB_GRID, { O: '#3a3a48', G: '#f0e050' });
 
   window.Game = window.Game || {};
 })();

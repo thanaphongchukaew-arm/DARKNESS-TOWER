@@ -119,13 +119,34 @@
     setTimeout(function () { el.classList.remove(c); }, 450);
   }
 
+  // Toggling just the CSS class left the "Staggered!" text tag out of sync -- it's built
+  // into enemyCardHtml() but this function patches an existing card in place rather than
+  // re-rendering it, so the tag element itself has to be added/removed here too.
   function setEnemyCardState(uid, opts) {
     if (!uid) return;
     var card = document.getElementById('enemy-card-' + uid);
     if (!card) return;
-    if (opts.downed) card.classList.add('downed');
-    if (opts.downed === false) card.classList.remove('downed');
-    if (opts.dead) { card.classList.add('dead'); card.classList.remove('downed', 'targetable'); }
+    if (opts.downed) {
+      card.classList.add('downed');
+      if (!card.querySelector('.enemy-downed-tag')) {
+        var tag = document.createElement('span');
+        tag.className = 'enemy-downed-tag';
+        tag.textContent = T('downedTag');
+        var portrait = card.querySelector('.enemy-portrait');
+        card.insertBefore(tag, portrait ? portrait.nextSibling : card.firstChild);
+      }
+    }
+    if (opts.downed === false) {
+      card.classList.remove('downed');
+      var existingTag = card.querySelector('.enemy-downed-tag');
+      if (existingTag) existingTag.remove();
+    }
+    if (opts.dead) {
+      card.classList.add('dead');
+      card.classList.remove('downed', 'targetable');
+      var deadTag = card.querySelector('.enemy-downed-tag');
+      if (deadTag) deadTag.remove();
+    }
   }
 
   function updatePlayerBarsDirect(hp, maxHp, mp, maxMp) {
@@ -599,20 +620,26 @@
     };
   }
 
-  // Floors 40-49 shift the tower backdrop into a bloodier, more menacing palette;
-  // floor 50 goes all the way to the Shadow Demon Lord's own throne room, complete
-  // with his looming silhouette. Same flat pixel-art technique throughout (recolor
-  // via CSS filters + the existing PixelArt renderer), just a grander color story.
+  // Floor 40+ shifts the tower backdrop into a bloodier, more menacing palette, then
+  // each new tier of the hidden upper tower (floors 45-99) recolors it again to match
+  // that zone's theme; floor 100 goes all the way to the final boss's own throne room,
+  // complete with its looming silhouette. Same flat pixel-art technique throughout
+  // (recolor via CSS filters + the existing PixelArt renderer), just a grander color story.
+  var AMBIENCE_TIER_CLASSES = ['battle-tier-5', 'battle-tier-6', 'battle-tier-7', 'battle-tier-8', 'battle-tier-9', 'battle-tier-10',
+    'battle-tier-11', 'battle-tier-12', 'battle-tier-13', 'battle-tier-14', 'battle-tier-15', 'battle-tier-16'];
+
   function applyBattleAmbience(floor, isBoss) {
     var screenEl = document.getElementById('screen-battle');
-    screenEl.classList.remove('battle-tier-5', 'battle-boss-throne');
+    screenEl.classList.remove.apply(screenEl.classList, AMBIENCE_TIER_CLASSES.concat('battle-boss-throne'));
     var silhouette = document.getElementById('battle-boss-silhouette');
     if (isBoss) {
       screenEl.classList.add('battle-boss-throne');
-      if (silhouette) silhouette.innerHTML = window.Game.PixelArt.render('demonLord');
+      if (silhouette) silhouette.innerHTML = window.Game.PixelArt.render('timelessSovereign');
     } else {
       if (silhouette) silhouette.innerHTML = '';
-      if (floor >= 40) screenEl.classList.add('battle-tier-5');
+      var tier = window.Game.Formulas.tierForFloor(floor);
+      if (floor >= 40 && tier < 5) tier = 5; // floor-40 miniboss previews the deep-tower mood
+      if (tier >= 5) screenEl.classList.add('battle-tier-' + tier);
     }
   }
 

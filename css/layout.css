@@ -196,6 +196,40 @@
   flex-wrap: wrap;
 }
 
+/* Button pinned above floor 1 on the tower map that jumps the page scroll
+   straight to the player's current floor -- the list runs up to 100 rows
+   deep, so finding it by hand can mean a lot of scrolling. Sits in its own
+   full-width wrapper matching .tower-floors' column width/centering. Gold
+   (not the usual red .btn-primary) so it reads as "go to floor" rather than
+   a destructive/primary action, and echoes the gold .floor-row.current
+   highlight it jumps you to. */
+.tower-jump-wrap {
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto 0.75rem;
+}
+
+/* .btn-primary (loaded after this file) sets its own color/background --
+   pair the class with an element selector so this rule wins on specificity
+   regardless of stylesheet order, instead of relying on cascade position. */
+button.tower-jump-btn {
+  width: 100%;
+  color: var(--accent-gold);
+  background: rgba(232,192,80,0.08);
+}
+
+button.tower-jump-btn:hover:not(:disabled) {
+  background: var(--accent-gold);
+  color: var(--bg-void);
+}
+
+/* ---- Shop buy/sell tabs ---- */
+.shop-tabs {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
 .tower-title {
   text-align: center;
   color: var(--text-secondary);

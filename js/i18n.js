@@ -20,6 +20,18 @@
 
     // how-to-play / guide screen
     guideTitle: { th: 'วิธีเล่น', en: 'How to Play' },
+    guideStatsTitle: { th: 'ค่าสถานะของคุณ', en: 'Your Stats' },
+    guideStatHp: { th: 'HP (พลังชีวิต) — ถ้าลดเหลือ 0 คุณจะแพ้การต่อสู้ทันที', en: 'HP (Hit Points) — reach 0 and you lose the battle immediately.' },
+    guideStatMp: { th: 'MP (พลังเวทมนตร์) — ใช้ร่ายทักษะ แต่ละทักษะใช้ MP ไม่เท่ากัน', en: 'MP (Magic Points) — spent on Skills; each skill costs a different amount.' },
+    guideStatAtk: { th: 'ATK (พลังโจมตี) — ใช้คำนวณดาเมจของการโจมตีธาตุกายภาพ', en: 'ATK (Attack) — determines the damage of physical-element attacks.' },
+    guideStatMag: { th: 'MAG (พลังเวทมนตร์โจมตี) — ใช้คำนวณดาเมจของทักษะธาตุเวทมนตร์ เช่น ไฟ น้ำแข็ง สายฟ้า', en: 'MAG (Magic Attack) — determines the damage of elemental skills like fire, ice, or electric.' },
+    guideStatDef: { th: 'DEF (พลังป้องกัน) — ลดดาเมจที่ได้รับจากการโจมตีธาตุกายภาพ', en: 'DEF (Defense) — reduces damage taken from physical-element attacks.' },
+    guideStatRes: { th: 'RES (ต้านทานเวทมนตร์) — ลดดาเมจที่ได้รับจากการโจมตีธาตุเวทมนตร์', en: 'RES (Resistance) — reduces damage taken from elemental attacks.' },
+    guideStatSpd: { th: 'SPD (ความเร็ว) — ยิ่งเร็วกว่าศัตรูมาก ยิ่งมีโอกาสได้โจมตีก่อนหรือได้แต้มการกระทำ (AP) พิเศษในเทิร์นนั้น', en: "SPD (Speed) — the faster you are than the enemy, the more likely you'll strike first or get a bonus action point (AP) that turn." },
+    guideStatLuk: { th: 'LUK (โชค) — เพิ่มโอกาสโจมตีคริติคอล (ดาเมจ 1.6 เท่า)', en: 'LUK (Luck) — increases your chance to land a critical hit (1.6x damage).' },
+    guideStatWeak: { th: 'จุดอ่อน — ธาตุที่คุณได้รับดาเมจเพิ่มขึ้นเมื่อโดนโจมตีด้วยธาตุนั้น', en: "Weak — the element that deals extra damage to you when you're hit by it." },
+    guideStatResist: { th: 'ต้านทาน — ธาตุที่คุณได้รับดาเมจลดลงเมื่อโดนโจมตีด้วยธาตุนั้น', en: "Resist — the element that deals less damage to you when you're hit by it." },
+    guideStatExp: { th: 'แถบด้านล่างสุด (EXP) — ความคืบหน้าสู่เลเวลถัดไป เต็มแถบเมื่อไรจะเลเวลอัพและค่าสถานะเพิ่มขึ้น', en: 'Bottom bar (EXP) — progress toward your next level; fill it up to level up and boost your stats.' },
     guideElementsTitle: { th: 'ธาตุแห่งการต่อสู้', en: 'Combat Elements' },
     guideElementsIntro: {
       th: 'ทุกการโจมตีมีธาตุประจำตัว แสดงด้วยไอคอนสีต่าง ๆ ตามด้านล่าง ศัตรูแต่ละตัวมีจุดอ่อนและจุดต้านทานธาตุที่ต่างกัน เลือกใช้ธาตุที่ตรงจุดอ่อนของศัตรูเพื่อสร้างความได้เปรียบในการต่อสู้',
@@ -42,16 +54,16 @@
       en: 'Staggered — an enemy hit by a weak point or a critical is staggered and skips its next turn. When every enemy is staggered at once, you get a chance for an All-Out Attack that hits them all for heavy damage.'
     },
     guideCombatGroup: {
-      th: 'ศัตรูอาจปรากฏเป็นกลุ่มสูงสุด 4 ตัวในชั้นลึก ๆ ยิ่งมาเป็นกลุ่มใหญ่แต่ละตัวจะอ่อนกำลังลง แต่ก็โจมตีคุณพร้อมกันได้หลายทาง ระวังให้ดี',
-      en: 'On deeper floors enemies can appear in groups of up to 4. Larger groups are individually weaker, but they can all attack you in the same round — stay alert.'
+      th: 'ศัตรูอาจปรากฏเป็นกลุ่มสูงสุด 5 ตัวในชั้นลึก ๆ ยิ่งมาเป็นกลุ่มใหญ่แต่ละตัวจะอ่อนกำลังลง แต่ก็โจมตีคุณพร้อมกันได้หลายทาง ระวังให้ดี',
+      en: 'On deeper floors enemies can appear in groups of up to 5. Larger groups are individually weaker, but they can all attack you in the same round — stay alert.'
     },
     guideTowerTitle: { th: 'การไต่หอคอย', en: 'Climbing the Tower' },
-    guideTowerFloors: { th: 'หอคอยมีทั้งหมด 50 ชั้น เอาชนะศัตรูในแต่ละชั้นเพื่อไต่ขึ้นไป ทุกชั้นที่ผ่านจะได้เลือกของรางวัล 1 ชิ้น พร้อม EXP และทอง', en: 'The tower has 50 floors. Defeat the enemies on each floor to climb higher. Clearing a floor lets you pick one reward, plus EXP and gold.' },
+    guideTowerFloors: { th: 'หอคอยมีทั้งหมด 100 ชั้น เอาชนะศัตรูในแต่ละชั้นเพื่อไต่ขึ้นไป ทุกชั้นที่ผ่านจะได้เลือกของรางวัล 1 ชิ้น พร้อม EXP และทอง', en: 'The tower has 100 floors. Defeat the enemies on each floor to climb higher. Clearing a floor lets you pick one reward, plus EXP and gold.' },
     guideTowerWaypoint: {
       th: 'ทุก ๆ 5 ชั้นจะมีจุดพักก่อนเจอมินิบอสประจำจุดนั้น — จุดพักฟื้น (ฟื้น HP/MP เต็ม), ร้านค้าเร่ร่อน (ใช้ทองซื้อไอเทม/อุปกรณ์), หรือห้องสมบัติ (รับของฟรี 1 ชิ้น)',
       en: "Every 5 floors has a waypoint before that tier's mini-boss — a Rest Stop (fully restores HP/MP), a Wandering Shop (spend gold on items/gear), or a Treasure Room (pick one free item)."
     },
-    guideTowerBoss: { th: 'ชั้น 50 คือห้องบัลลังก์ของจอมมารราชันเงา บอสใหญ่ประจำหอคอย เตรียมตัวให้พร้อมก่อนขึ้นเผชิญหน้า', en: "Floor 50 is the throne room of the Shadow Demon Lord, the tower's final boss. Come prepared before you face it." },
+    guideTowerBoss: { th: 'ชั้น 100 คือห้องบัลลังก์ของราชันไร้กาลเวลา บอสใหญ่ประจำหอคอย เตรียมตัวให้พร้อมก่อนขึ้นเผชิญหน้า', en: "Floor 100 is the throne room of the Timeless Sovereign, the tower's final boss. Come prepared before you face it." },
     guideTowerDifficulty: {
       th: 'เลือกระดับความยากได้ตอนเริ่มเกม: ง่าย ศัตรูอ่อนลงและได้ไอเทมเริ่มต้นมากกว่า, ปกติ สมดุลมาตรฐาน, ยาก ศัตรูแข็งแกร่งขึ้นแต่ได้รางวัลมากขึ้น',
       en: 'Pick a difficulty at the start: Easy weakens enemies and gives extra starting items, Normal is the standard balance, Hard makes enemies tougher but pays out bigger rewards.'
@@ -71,12 +83,12 @@
     storyIntroBtn: { th: 'เริ่มการเดินทาง', en: 'Begin the Journey' },
     storyEndTitle: { th: 'รุ่งอรุณแห่งสันติภาพ', en: 'Dawn of Peace' },
     storyEndBody: {
-      th: 'จอมมารราชันเงาล้มลงต่อหน้าเจ้า เสียงกรีดร้องสุดท้ายของมันสลายหายไปพร้อมกับความมืดที่เคยปกคลุมหอคอยทั้งหลัง\n\nหินทุกก้อนของหอคอยแห่งความมืดเริ่มแตกร้าวเป็นแสง สลายกลายเป็นละอองดาวลอยขึ้นสู่ท้องฟ้า ราวกับหอคอยเองก็โล่งใจที่ได้เป็นอิสระจากคำสาป\n\nรุ่งเช้าวันใหม่ แสงอาทิตย์ส่องทะลุเมฆหมอกที่ปกคลุมแผ่นดินมานานนับทศวรรษ หมู่บ้านรอบข้างเริ่มได้ยินเสียงนกร้องอีกครั้ง พืชผลผลิใบเขียวขจี และผู้คนต่างพากันมองขึ้นไปยังจุดที่หอคอยเคยตั้งตระหง่าน ด้วยรอยยิ้มแห่งความหวัง\n\nเจ้าได้กลายเป็นตำนาน... วีรบุรุษผู้นำแสงสว่างและสันติภาพกลับคืนสู่โลกอีกครั้ง',
-      en: "The Shadow Demon Lord collapses before you. Its final, shattering scream dissolves along with the darkness that once smothered the entire tower.\n\nEvery stone of the Darkness Tower begins to crack with light, crumbling into a shower of stardust drifting up into the sky, as if the tower itself sighs in relief, freed at last from its curse.\n\nAt dawn, sunlight breaks through clouds that have loomed over the land for a decade. Birdsong returns to the villages nearby, crops bloom green once more, and the people look up to where the tower once stood, smiling with hope.\n\nYou have become legend... the hero who brought light and peace back to the world."
+      th: 'เจ้าเคยเชื่อว่าจอมมารราชันเงาที่ชั้น 50 คือปลายทางของหอคอย แต่เมื่อมันล้มลง ประตูเบื้องบนกลับเปิดออกสู่หอคอยอีกครึ่งหนึ่งที่ถูกผนึกไว้ตั้งแต่ก่อนกาลของจอมมารเสียอีก เจ้าไต่ขึ้นไปเผชิญกับสิ่งมีชีวิตประหลาดที่ไม่มีใครเคยพบเห็น จนมาถึงบัลลังก์สูงสุดที่ชั้น 100 — ที่ซึ่ง "ราชันไร้กาลเวลา" ผู้บงการทุกสิ่งอยู่เบื้องหลังรอคอยอยู่\n\nราชันไร้กาลเวลาล้มลงต่อหน้าเจ้า เสียงกรีดร้องข้ามกาลเวลาของมันสลายหายไปพร้อมกับความมืดที่เคยปกคลุมหอคอยทั้งหลัง\n\nหินทุกก้อนของหอคอยแห่งความมืดเริ่มแตกร้าวเป็นแสง สลายกลายเป็นละอองดาวลอยขึ้นสู่ท้องฟ้า ราวกับหอคอยเองก็โล่งใจที่ได้เป็นอิสระจากคำสาปนิรันดร์\n\nรุ่งเช้าวันใหม่ แสงอาทิตย์ส่องทะลุเมฆหมอกที่ปกคลุมแผ่นดินมานานนับทศวรรษ หมู่บ้านรอบข้างเริ่มได้ยินเสียงนกร้องอีกครั้ง พืชผลผลิใบเขียวขจี และผู้คนต่างพากันมองขึ้นไปยังจุดที่หอคอยเคยตั้งตระหง่าน ด้วยรอยยิ้มแห่งความหวัง\n\nเจ้าได้กลายเป็นตำนาน... วีรบุรุษผู้ไต่หอคอยทั้ง 100 ชั้น และนำแสงสว่างกับสันติภาพกลับคืนสู่โลกอีกครั้ง',
+      en: "You once believed the Shadow Demon Lord at floor 50 was the tower's final secret. But when it fell, a gate above swung open onto a second half of the tower — sealed away since long before the Demon Lord's time. You climbed on, past creatures no one had ever seen, all the way to the highest throne at floor 100, where the Timeless Sovereign, the true power behind it all, awaited.\n\nThe Timeless Sovereign collapses before you. Its scream, echoing across time itself, dissolves along with the darkness that once smothered the entire tower.\n\nEvery stone of the Darkness Tower begins to crack with light, crumbling into a shower of stardust drifting up into the sky, as if the tower itself sighs in relief, freed at last from its endless curse.\n\nAt dawn, sunlight breaks through clouds that have loomed over the land for a decade. Birdsong returns to the villages nearby, crops bloom green once more, and the people look up to where the tower once stood, smiling with hope.\n\nYou have become legend... the hero who climbed all 100 floors and brought light and peace back to the world."
     },
     storyEndBtn: { th: 'ดำเนินการต่อ', en: 'Continue' },
     pageTitle: { th: 'DARKNESS TOWER — หอคอยแห่งความมืด', en: 'DARKNESS TOWER — Tower of Darkness' },
-    gameSubtitle: { th: 'หอคอยแห่งความมืด 50 ชั้น', en: '50 Floors of the Darkness Tower' },
+    gameSubtitle: { th: 'หอคอยแห่งความมืด 100 ชั้น', en: '100 Floors of the Darkness Tower' },
     menuFooter: { th: 'ไต่หอคอย เอาชนะเงามืด ค้นหาจุดอ่อน สร้างสายฟ้าแห่งชัยชนะ', en: 'Climb the spire, defeat the shadows, find their weakness, forge your path to victory' },
     pushStart: { th: 'PUSH START', en: 'PUSH START' },
     cancel: { th: 'ยกเลิก', en: 'Cancel' },
@@ -86,6 +98,10 @@
     confirmClearTitle: { th: 'ล้างเซฟ?', en: 'Clear save?' },
     confirmClearMsg: { th: 'การกระทำนี้จะลบความคืบหน้าทั้งหมดอย่างถาวร', en: 'This will permanently delete all saved progress.' },
     confirmClearBtn: { th: 'ล้างเซฟ', en: 'Clear Save' },
+    confirmBossTitle: { th: 'พร้อมเผชิญหน้าหรือยัง?', en: 'Ready to face it?' },
+    confirmBossMsg: { th: 'จะเข้าสู้กับ {name} เลยหรือไม่?', en: 'Enter battle with {name} now?' },
+    confirmBossFightBtn: { th: 'ไปสู้เลย', en: 'Fight Now' },
+    confirmBossPrepareBtn: { th: 'เตรียมตัวก่อน', en: 'Prepare First' },
 
     // difficulty select
     chooseDifficultyTitle: { th: 'เลือกระดับความยาก', en: 'Choose Difficulty' },
@@ -103,7 +119,8 @@
     // tower
     statusEquip: { th: 'สถานะ & อุปกรณ์', en: 'Status & Equipment' },
     towerTitle: { th: 'หอคอยแห่งความมืด', en: 'Darkness Tower' },
-    bossFloorTitle: { th: 'ชั้นบัลลังก์ · จอมมารราชันเงา', en: 'Throne Floor · Shadow Demon Lord' },
+    towerJumpCurrent: { th: 'ชั้นล่าสุด', en: 'Current Floor' },
+    bossFloorTitle: { th: 'ชั้นบัลลังก์ · ราชันไร้กาลเวลา', en: 'Throne Floor · The Timeless Sovereign' },
     bossFloorSub: { th: 'บอสประจำหอคอย', en: 'The tower\'s guardian boss' },
     floorLabel: { th: 'ชั้นที่ ', en: 'Floor ' },
     floorSub: { th: 'ที่พักพิงของเงามืด · ชั้น ', en: 'A lair of shadows · Floor ' },
@@ -119,6 +136,11 @@
     shopStockLeft: { th: 'เหลือ {qty} ชิ้น', en: '{qty} left' },
     shopConsumablesLabel: { th: 'ยาและเครื่องใช้', en: 'Potions & Items' },
     shopMaterialsLabel: { th: 'วัตถุดิบคราฟต์', en: 'Crafting Materials' },
+    shopTabBuy: { th: 'ซื้อของ', en: 'Buy' },
+    shopTabSell: { th: 'ขายของ', en: 'Sell' },
+    shopSellNote: { th: 'รับซื้อคืนที่ 20-30% ของราคาซื้อ ยิ่งหายาก/ยิ่งใหม่ ยิ่งได้ราคาดี', en: "Buys back at 20-30% of the purchase price -- rarer and fresher items fetch a better cut" },
+    shopSellPrice: { th: 'ขายได้ {price} ทอง', en: 'Sell for {price} Gold' },
+    shopSellEmptyNote: { th: 'ไม่มีของในกระเป๋าให้ขาย', en: 'Nothing in your bag to sell' },
 
     // crafting bench (persistent, always accessible from the tower map)
     craftBtn: { th: 'คราฟต์', en: 'Craft' },
@@ -163,7 +185,7 @@
 
     // end screen
     victoryTitle: { th: 'พิชิตหอคอยสำเร็จ!', en: 'Tower Conquered!' },
-    victoryMsg: { th: 'คุณเอาชนะจอมมารราชันเงาและพิชิตหอคอยแห่งความมืดทั้ง 50 ชั้นได้สำเร็จ!', en: 'You defeated the Shadow Demon Lord and conquered all 50 floors of the Darkness Tower!' },
+    victoryMsg: { th: 'คุณเอาชนะราชันไร้กาลเวลาและพิชิตหอคอยแห่งความมืดทั้ง 100 ชั้นได้สำเร็จ!', en: 'You defeated the Timeless Sovereign and conquered all 100 floors of the Darkness Tower!' },
     defeatTitle: { th: 'พ่ายแพ้...', en: 'Defeated...' },
     defeatMsg: { th: 'การไต่หอคอยของคุณจบลงเพียงเท่านี้ ลองอีกครั้งเพื่อพิชิตหอคอยให้ได้!', en: 'Your climb ends here. Try again to conquer the tower!' },
     backToMenu: { th: 'กลับสู่เมนูหลัก', en: 'Back to Main Menu' },
@@ -185,10 +207,10 @@
     replaySuffix: { th: ' (เล่นซ้ำ)', en: ' (Replay)' },
 
     // all-out attack modal
-    allOutTitle: { th: 'ศัตรูทั้งหมดเสียหลัก!', en: 'All enemies staggered!' },
+    allOutTitle: { th: 'ศัตรูตัวนั้นมึนงง', en: 'Enemy Dazed!' },
     allOutDesc: { th: 'ต้องการโจมตีรวมพลังหรือไม่? การโจมตีนี้จะจบเทิร์นของคุณทันที', en: 'Unleash an All-Out Attack? This will end your turn immediately.' },
     allOutContinue: { th: 'โจมตีต่อปกติ', en: 'Attack Normally' },
-    allOutConfirm: { th: 'โจมตีรวมพลัง!', en: 'All-Out Attack!' },
+    allOutConfirm: { th: 'โจมตีหลักทันที!', en: 'Attack Now!' },
 
     // leave-battle modal
     leaveBattleTitle: { th: 'กลับสู่หอคอย?', en: 'Return to the tower?' },

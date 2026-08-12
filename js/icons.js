@@ -50,6 +50,7 @@
     // tower
     towerSpire: '♜︎',
     doorway: '⌂',
+    enterFloor: '▶',
 
     // status
     buffUp: '▲',

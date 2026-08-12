@@ -34,8 +34,9 @@
     if (floor <= 19) return Math.random() < 0.5 ? 2 : 3;
     if (floor <= 29) return Math.random() < 0.45 ? 2 : 3;
     if (floor <= 39) return Math.random() < 0.4 ? 3 : 4;
-    if (floor <= 49) return Math.random() < 0.35 ? 3 : 4;
-    return 1; // boss handled separately (floor 50)
+    if (floor <= 69) return Math.random() < 0.35 ? 3 : 4;
+    if (floor <= 99) return Math.random() < 0.35 ? 4 : 5;
+    return 1; // boss handled separately (floor 100)
   }
 
   function groupScaleFactor(count) {
@@ -50,7 +51,27 @@
     if (floor <= 20) return 2;
     if (floor <= 30) return 3;
     if (floor <= 40) return 4;
-    return 5;
+    if (floor <= 44) return 5;
+    if (floor <= 49) return 6;
+    if (floor <= 54) return 7;
+    if (floor <= 59) return 8;
+    if (floor <= 64) return 9;
+    if (floor <= 69) return 10;
+    if (floor <= 74) return 11;
+    if (floor <= 79) return 12;
+    if (floor <= 84) return 13;
+    if (floor <= 89) return 14;
+    if (floor <= 94) return 15;
+    return 16;
+  }
+
+  // Equipment/consumable tiers only go up to 5 (see data-items.js) -- floors 45+ draw from the
+  // same tier-5 pool, plus tier-6/7 gear layered in for the hidden upper tower (floors 45-100),
+  // so shop stock and reward pools never come up empty on the new higher enemy tiers.
+  function itemTierForFloor(floor) {
+    if (floor <= 44) return Math.min(tierForFloor(floor), 5);
+    if (floor <= 74) return 6;
+    return 7;
   }
 
   function enemyStatScale(floor, difficultyId) {
@@ -118,10 +139,37 @@
     return Math.max(1, round(exp * 0.5));
   }
 
-  // Shop price for an item, based on its tier and kind.
+  // Shop price for an item, based on its tier and kind -- unless the item defines
+  // its own flat `price` (e.g. the Elixir, priced well above what its tier would imply).
   function shopPrice(item) {
+    if (item.price != null) return item.price;
     var base = item.kind === 'consumable' ? 20 : item.kind === 'material' ? 35 : 60;
     return item.tier * base;
+  }
+
+  // The last floor where a given item tier is still the "current" one on offer
+  // (matches itemTierForFloor's own breakpoints -- see formulas.js/ui-tower.js).
+  // Tiers 8-9 are craft-only with no shop floor range of their own, so they're
+  // treated as always current within a 100-floor run.
+  var ITEM_TIER_FLOOR_CEILING = { 1: 10, 2: 20, 3: 30, 4: 40, 5: 44, 6: 74, 7: 100, 8: 100, 9: 100 };
+
+  // Sell-back price the shop pays for an item already in the player's bag --
+  // always 20-30% of its shop price, nudged within that band by two factors:
+  // how rare it is (deeper/harder-won tiers are worth relatively more) and how
+  // long it's plainly been sitting unused (if the player has since climbed well
+  // past the floor range where this tier was the current offering, it's clearly
+  // aged stock and worth relatively less). No per-item purchase timestamp is
+  // tracked, so "how long you've had it" is approximated by how far your
+  // current floor has moved past that tier's own floor range.
+  function sellPrice(item, floor) {
+    var base = shopPrice(item);
+    var tier = item.tier || 1;
+    var rarity = clamp((tier - 1) / 8, 0, 1);
+    var ceiling = ITEM_TIER_FLOOR_CEILING[tier] || 100;
+    var floorsPast = Math.max(0, (floor || 1) - ceiling);
+    var freshness = 1 - clamp(floorsPast / 40, 0, 1);
+    var rate = 0.20 + 0.06 * rarity + 0.04 * freshness;
+    return Math.max(1, round(base * rate));
   }
 
   window.Game = window.Game || {};
@@ -136,6 +184,7 @@
     floorEnemyCount: floorEnemyCount,
     groupScaleFactor: groupScaleFactor,
     tierForFloor: tierForFloor,
+    itemTierForFloor: itemTierForFloor,
     enemyStatScale: enemyStatScale,
     bossStatScale: bossStatScale,
     scaleStatsBlock: scaleStatsBlock,
@@ -143,6 +192,7 @@
     critChance: critChance,
     computeDamage: computeDamage,
     goldForExp: goldForExp,
-    shopPrice: shopPrice
+    shopPrice: shopPrice,
+    sellPrice: sellPrice
   };
 })();

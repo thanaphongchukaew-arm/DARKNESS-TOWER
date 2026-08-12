@@ -6,6 +6,7 @@
   // share the 'accessory' kind since the player can carry two accessories at once.
   var SLOT_KIND = { weapon: 'weapon', armor: 'armor', shoes: 'shoes', accessory1: 'accessory', accessory2: 'accessory' };
   var EQUIP_SLOTS = Object.keys(SLOT_KIND);
+  var ELIXIR_RESTOCK_FLOORS = 15;
 
   function deps() {
     F = window.Game.Formulas;
@@ -32,6 +33,22 @@
     if ((run.gold || 0) < amount) return false;
     run.gold -= amount;
     return true;
+  }
+
+  // Sells `qty` of an unequipped inventory item back to the shop (equipped gear
+  // is never counted in run.inventory in the first place -- see EQUIP_SLOTS --
+  // so there's nothing extra to guard against selling worn gear out from under
+  // the player). Returns the gold earned, or 0 if the sale couldn't happen.
+  function sellItem(run, itemId, qty) {
+    deps();
+    qty = qty || 1;
+    if ((run.inventory[itemId] || 0) < qty) return 0;
+    var item = D.getItem(itemId);
+    if (!item) return 0;
+    var total = F.sellPrice(item, run.currentFloor) * qty;
+    removeItem(run, itemId, qty);
+    addGold(run, total);
+    return total;
   }
 
   // Consumes a recipe's materials + gold and adds its result item to the
@@ -71,12 +88,27 @@
       equipment: { weapon: null, armor: null, shoes: null, accessory1: null, accessory2: null },
       inventory: {},
       bonusSkills: [],
-      shopStock: null
+      shopStock: null,
+      // Elixir is a rare full-restore -- the shop (persistent or waypoint) and the
+      // floor-clear/treasure reward pool always offer exactly one bottle once it's
+      // available, then it goes on cooldown until the player has climbed another
+      // ELIXIR_RESTOCK_FLOORS floors, tracked as the floor it next becomes buyable.
+      elixirUnlockFloor: 1
     };
     addItem(run, 'p_hp_small', diff.startPotions);
     addItem(run, 'p_mp_small', 1);
     window.Game.State.current = run;
     return run;
+  }
+
+  // run.elixirUnlockFloor is missing on saves from before this system existed --
+  // treat that as "available right now" rather than locked.
+  function elixirAvailable(run) {
+    return run.currentFloor >= (run.elixirUnlockFloor != null ? run.elixirUnlockFloor : 1);
+  }
+
+  function spendElixir(run) {
+    run.elixirUnlockFloor = run.currentFloor + ELIXIR_RESTOCK_FLOORS;
   }
 
   function getEquipmentBonus(run) {
@@ -268,6 +300,9 @@
   window.Game.State = {
     current: null,
     pending: { difficulty: null, classId: null },
+    ELIXIR_RESTOCK_FLOORS: ELIXIR_RESTOCK_FLOORS,
+    elixirAvailable: elixirAvailable,
+    spendElixir: spendElixir,
     createRun: createRun,
     getTotalStats: getTotalStats,
     getMaxHp: getMaxHp,
@@ -283,6 +318,7 @@
     removeItem: removeItem,
     addGold: addGold,
     spendGold: spendGold,
+    sellItem: sellItem,
     craftItem: craftItem,
     useConsumable: useConsumable,
     saveNow: saveNow,

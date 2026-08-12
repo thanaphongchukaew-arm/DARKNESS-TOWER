@@ -18,7 +18,7 @@
         '<h3>' + opts.title + '</h3>' +
         '<p class="note">' + opts.message + '</p>' +
         '<div class="modal-actions">' +
-          '<button class="btn-ghost" id="modal-cancel">' + T('cancel') + '</button>' +
+          '<button class="btn-ghost" id="modal-cancel">' + (opts.cancelLabel || T('cancel')) + '</button>' +
           '<button class="' + (opts.danger ? 'btn-danger' : 'btn-primary') + '" id="modal-confirm">' + opts.confirmLabel + '</button>' +
         '</div>' +
       '</div>';
@@ -110,6 +110,22 @@
     }).join('');
 
     document.getElementById('guide-content').innerHTML =
+      '<div class="guide-section">' +
+        '<h3>' + T('guideStatsTitle') + '</h3>' +
+        '<ul class="guide-list">' +
+          '<li>' + T('guideStatHp') + '</li>' +
+          '<li>' + T('guideStatMp') + '</li>' +
+          '<li>' + T('guideStatAtk') + '</li>' +
+          '<li>' + T('guideStatMag') + '</li>' +
+          '<li>' + T('guideStatDef') + '</li>' +
+          '<li>' + T('guideStatRes') + '</li>' +
+          '<li>' + T('guideStatSpd') + '</li>' +
+          '<li>' + T('guideStatLuk') + '</li>' +
+          '<li>' + T('guideStatWeak') + '</li>' +
+          '<li>' + T('guideStatResist') + '</li>' +
+          '<li>' + T('guideStatExp') + '</li>' +
+        '</ul>' +
+      '</div>' +
       '<div class="guide-section">' +
         '<h3>' + T('guideElementsTitle') + '</h3>' +
         '<p>' + T('guideElementsIntro') + '</p>' +
@@ -256,6 +272,7 @@
     renderDifficulty: renderDifficulty,
     renderClassSelect: renderClassSelect,
     renderStory: renderStory,
+    confirmModal: confirmModal,
     refreshActiveScreen: refreshActiveScreen
   };
 })();

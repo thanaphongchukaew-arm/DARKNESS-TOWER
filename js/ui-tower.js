@@ -29,7 +29,10 @@
 
   // Floors 5/10/15/20/25/30/35/40/45 each gate a one-time waypoint stop before
   // their mini-boss, cycling rest -> shop -> treasure every 5 floors.
-  var WAYPOINT_FLOORS = { 5: 'rest', 10: 'shop', 15: 'treasure', 20: 'rest', 25: 'shop', 30: 'treasure', 35: 'rest', 40: 'shop', 45: 'treasure' };
+  var WAYPOINT_FLOORS = {
+    5: 'rest', 10: 'shop', 15: 'treasure', 20: 'rest', 25: 'shop', 30: 'treasure', 35: 'rest', 40: 'shop', 45: 'treasure',
+    50: 'rest', 55: 'shop', 60: 'treasure', 65: 'rest', 70: 'shop', 75: 'treasure', 80: 'rest', 85: 'shop', 90: 'treasure', 95: 'rest'
+  };
   function getWaypointForFloor(floor) {
     return WAYPOINT_FLOORS[floor] || null;
   }
@@ -104,9 +107,50 @@
     };
     document.getElementById('tower-title').textContent = T('towerTitle');
 
+    function isBossFloor(floor) {
+      return floor === 100 || !!D.getMiniBoss(floor);
+    }
+
+    // Miniboss/final-boss floors are a one-way commitment (no waypoint pause
+    // to back out at once it's already been seen, and floor 100 never has one
+    // at all) -- ask first so a stray click doesn't throw the player in
+    // unprepared, with the option to back out and hit the shop/craft first.
+    function startBattleMaybeConfirm(floor, isReplay) {
+      if (!isBossFloor(floor)) {
+        window.Game.BattleUI.startBattle(floor, floor === 100, isReplay);
+        return;
+      }
+      var bossTemplate = floor === 100 ? D.boss : D.getMiniBoss(floor);
+      window.Game.MenuUI.confirmModal({
+        title: T('confirmBossTitle'),
+        message: T('confirmBossMsg', { name: L(bossTemplate, 'name') }),
+        confirmLabel: T('confirmBossFightBtn'),
+        cancelLabel: T('confirmBossPrepareBtn'),
+        onConfirm: function () { window.Game.BattleUI.startBattle(floor, floor === 100, isReplay); }
+      });
+    }
+
+    // Shared by the current-floor row and the jump button below: enters that
+    // floor's waypoint (if it has one still unseen) or straight into battle.
+    function enterFloor(floor) {
+      SFX('floor_select');
+      var waypointType = getWaypointForFloor(floor);
+      run.waypointsSeen = run.waypointsSeen || {};
+      if (waypointType && !run.waypointsSeen[floor]) {
+        renderWaypoint(waypointType, floor);
+        window.Game.UI.showScreen('screen-waypoint');
+        return;
+      }
+      startBattleMaybeConfirm(floor, false);
+    }
+
+    var jumpBtn = document.getElementById('tower-jump-current');
+    jumpBtn.innerHTML = I('enterFloor') + '<span>' + T('towerJumpCurrent') + '</span>';
+    jumpBtn.onclick = function () { enterFloor(run.currentFloor); };
+
     var rowsHtml = '';
-    for (var i = 1; i <= 50; i++) {
-      var isBoss = i === 50;
+    for (var i = 1; i <= 100; i++) {
+      var isBoss = i === 100;
       var miniBoss = D.getMiniBoss(i);
       var state = i < run.currentFloor ? 'cleared' : (i === run.currentFloor ? 'current' : 'locked');
       var icon = state === 'cleared' ? 'check' : state === 'current' ? ((isBoss || miniBoss) ? 'crownSkull' : 'doorway') : 'lock';
@@ -121,18 +165,7 @@
     var container = document.getElementById('tower-floors');
     container.innerHTML = rowsHtml;
     Array.prototype.forEach.call(container.querySelectorAll('.floor-row.current'), function (row) {
-      row.onclick = function () {
-        SFX('floor_select');
-        var floor = parseInt(row.getAttribute('data-floor'), 10);
-        var waypointType = getWaypointForFloor(floor);
-        run.waypointsSeen = run.waypointsSeen || {};
-        if (waypointType && !run.waypointsSeen[floor]) {
-          renderWaypoint(waypointType, floor);
-          window.Game.UI.showScreen('screen-waypoint');
-          return;
-        }
-        window.Game.BattleUI.startBattle(floor, floor === 50);
-      };
+      row.onclick = function () { enterFloor(parseInt(row.getAttribute('data-floor'), 10)); };
     });
     // Cleared floors can be replayed (farming EXP/gold) -- no waypoint gate,
     // no floor advance, no reward pick, ever (handled in BattleUI.startBattle's
@@ -140,20 +173,23 @@
     Array.prototype.forEach.call(container.querySelectorAll('.floor-row.cleared'), function (row) {
       row.onclick = function () {
         SFX('floor_select');
-        var floor = parseInt(row.getAttribute('data-floor'), 10);
-        window.Game.BattleUI.startBattle(floor, floor === 50, true);
+        startBattleMaybeConfirm(parseInt(row.getAttribute('data-floor'), 10), true);
       };
     });
   }
 
   function generateRewardChoices(floor) {
-    var D = window.Game.Data, F = window.Game.Formulas;
-    var tier = F.tierForFloor(floor);
+    var D = window.Game.Data, F = window.Game.Formulas, S = window.Game.State;
+    var run = S.current;
+    var tier = F.itemTierForFloor(floor);
     var pool = [];
     ['weapon', 'armor', 'shoes', 'accessory'].forEach(function (k) {
       D.getItemsByKindTier(k, tier).forEach(function (it) { pool.push({ type: 'equip', item: it, qty: 1 }); });
     });
-    D.items.filter(function (it) { return it.kind === 'consumable' && it.tier <= tier; }).forEach(function (it) {
+    // Elixir is excluded here while on cooldown (see spendElixir in state.js) so the
+    // reward/treasure pool can't hand out a "free" one that undercuts the shop's
+    // one-at-a-time pacing; picking it here starts the same cooldown as buying it.
+    D.items.filter(function (it) { return it.kind === 'consumable' && it.tier <= tier && (it.id !== 'p_elixir' || S.elixirAvailable(run)); }).forEach(function (it) {
       pool.push({ type: 'consumable', item: it, qty: it.id === 'p_elixir' ? 1 : (2 + Math.floor(Math.random() * 2)) });
     });
     // shuffle
@@ -193,6 +229,7 @@
         var pick = choices[idx];
         var run = window.Game.State.current;
         window.Game.State.addItem(run, pick.item.id, pick.qty);
+        if (pick.item.id === 'p_elixir') window.Game.State.spendElixir(run);
         autoEquipIfEmpty(run, pick.item.id);
         var maxHp = window.Game.State.getMaxHp(run), maxMp = window.Game.State.getMaxMp(run);
         run.hp = Math.min(maxHp, run.hp + Math.round(maxHp * 0.3));
@@ -259,13 +296,19 @@
   function renderShopWaypoint(floor) {
     var run = window.Game.State.current, S = window.Game.State, D = window.Game.Data, F = window.Game.Formulas;
     if (!waypointState.stock) {
-      var tier = F.tierForFloor(floor);
-      var stock = D.items.filter(function (it) { return it.kind === 'consumable' && it.tier <= tier; });
+      var tier = F.itemTierForFloor(floor);
+      var stock = D.items.filter(function (it) { return it.kind === 'consumable' && it.id !== 'p_elixir' && it.tier <= tier; });
       for (var i = stock.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
         var t = stock[i]; stock[i] = stock[j]; stock[j] = t;
       }
-      waypointState.stock = stock.slice(0, 2 + tier);
+      stock = stock.slice(0, 2 + tier);
+      // Elixir always has exactly one bottle in stock once available -- restocks
+      // ELIXIR_RESTOCK_FLOORS floors after it's bought (see state.js), guaranteed
+      // rather than just another random roll among the potions above.
+      var elixirItem = D.getItem('p_elixir');
+      if (S.elixirAvailable(run) && elixirItem.tier <= tier) stock.push(elixirItem);
+      waypointState.stock = stock;
       waypointState.purchased = {};
     }
     var stock = waypointState.stock;
@@ -288,11 +331,13 @@
       Array.prototype.forEach.call(body.querySelectorAll('.select-card:not([disabled])'), function (card) {
         card.onclick = function () {
           var id = card.getAttribute('data-id');
+          if (id === 'p_elixir' && !S.elixirAvailable(run)) return;
           var item = D.getItem(id);
           var price = F.shopPrice(item);
           if (!S.spendGold(run, price)) return;
           purchased[id] = true;
           S.addItem(run, id, 1);
+          if (id === 'p_elixir') S.spendElixir(run);
           window.Game.State.saveNow();
           SFX('item_get');
           paint();
@@ -322,6 +367,7 @@
         var pick = choices[idx];
         var run = window.Game.State.current;
         window.Game.State.addItem(run, pick.item.id, pick.qty);
+        if (pick.item.id === 'p_elixir') window.Game.State.spendElixir(run);
         autoEquipIfEmpty(run, pick.item.id);
         markWaypointSeen();
         renderTower();
@@ -373,8 +419,9 @@
   // tier, so higher-tier shops feel bigger and better stocked, not just
   // pricier. slice() naturally caps at whatever the tier's item pool holds,
   // so these counts can exceed the pool size without needing extra clamping.
-  function generateShopStock(floor) {
-    var D = window.Game.Data, F = window.Game.Formulas;
+  function generateShopStock(run) {
+    var D = window.Game.Data, F = window.Game.Formulas, S = window.Game.State;
+    var floor = run.currentFloor;
     var tier = F.tierForFloor(floor);
     var bonus = minibossesCleared(floor);
     function entries(kind, n, maxQty) {
@@ -394,35 +441,49 @@
       entries('material', tier, materialMaxQty)
     );
     var potionMaxQty = 4 + (tier - 1) * 2 + bonus; // 4, 6, 8, 10, 12 baseline, +1 per mini-boss cleared
-    var rareMaxQty = 2 + Math.floor((tier - 1) / 2) + Math.floor(bonus / 3); // 2, 2, 3, 3, 4 baseline -- scroll & elixir
+    var rareMaxQty = 2 + Math.floor((tier - 1) / 2) + Math.floor(bonus / 3); // 2, 2, 3, 3, 4 baseline -- scroll
     var scroll = D.getItem('skill_scroll');
     if (scroll && scroll.tier <= tier) stock.push({ id: scroll.id, maxQty: rareMaxQty, qty: rareMaxQty });
-    shuffled(D.items.filter(function (it) { return it.kind === 'consumable' && it.tier <= tier && it.id !== 'skill_scroll'; }))
+    shuffled(D.items.filter(function (it) { return it.kind === 'consumable' && it.tier <= tier && it.id !== 'skill_scroll' && it.id !== 'p_elixir'; }))
       .slice(0, 2 + tier)
       .forEach(function (it) {
-        var maxQty = it.id === 'p_elixir' ? rareMaxQty : potionMaxQty;
-        stock.push({ id: it.id, maxQty: maxQty, qty: maxQty });
+        stock.push({ id: it.id, maxQty: potionMaxQty, qty: potionMaxQty });
       });
+    // Elixir always has exactly one bottle in stock once available -- restocks
+    // ELIXIR_RESTOCK_FLOORS floors after it's bought (see state.js), guaranteed
+    // rather than just another random roll in the consumable pool above.
+    var elixirItem = D.getItem('p_elixir');
+    if (S.elixirAvailable(run) && elixirItem.tier <= tier) stock.push({ id: elixirItem.id, maxQty: 1, qty: 1 });
     return stock;
   }
 
   function ensureShopStock(run) {
-    if (!run.shopStock) run.shopStock = generateShopStock(run.currentFloor);
+    if (!run.shopStock) run.shopStock = generateShopStock(run);
     return run.shopStock;
   }
 
   var SHOP_KIND_ORDER = ['weapon', 'armor', 'shoes', 'accessory', 'material', 'consumable'];
   var SHOP_KIND_LABEL_KEY = { weapon: 'weaponLabel', armor: 'armorLabel', shoes: 'shoesLabel', accessory: 'accessoryLabel', material: 'shopMaterialsLabel', consumable: 'shopConsumablesLabel' };
 
+  // Persists across renderShop() calls (re-renders on language toggle, tab
+  // switch, etc.) so the player doesn't get bounced back to Buy every time.
+  var shopMode = 'buy';
+
   function renderShop() {
     var run = window.Game.State.current, S = window.Game.State, D = window.Game.Data, F = window.Game.Formulas;
     var stock = ensureShopStock(run);
     document.getElementById('shop-header-title').textContent = T('shopScreenTitle');
-    document.getElementById('shop-reset-note').textContent = T('shopResetNote');
+    document.getElementById('shop-reset-note').textContent = T(shopMode === 'buy' ? 'shopResetNote' : 'shopSellNote');
     document.getElementById('shop-back').innerHTML = I('back');
     document.getElementById('shop-back').onclick = function () { SFX('ui_back'); renderTower(); window.Game.UI.showScreen('screen-tower'); };
 
-    function paint() {
+    document.getElementById('shop-tabs').innerHTML =
+      '<button class="' + (shopMode === 'buy' ? 'btn-primary' : 'btn-secondary') + '" id="shop-tab-buy">' + T('shopTabBuy') + '</button>' +
+      '<button class="' + (shopMode === 'sell' ? 'btn-primary' : 'btn-secondary') + '" id="shop-tab-sell">' + T('shopTabSell') + '</button>';
+    document.getElementById('shop-tab-buy').onclick = function () { SFX('ui_confirm'); shopMode = 'buy'; renderShop(); };
+    document.getElementById('shop-tab-sell').onclick = function () { SFX('ui_confirm'); shopMode = 'sell'; renderShop(); };
+
+    function paintBuy() {
       document.getElementById('shop-gold').innerHTML = I('coin') + (run.gold || 0) + ' ' + T('goldLabel');
       var byKind = {};
       stock.forEach(function (entry) {
@@ -454,19 +515,62 @@
           var id = card.getAttribute('data-id');
           var entry = stock.filter(function (e) { return e.id === id; })[0];
           if (!entry || entry.qty <= 0) return;
+          if (id === 'p_elixir' && !S.elixirAvailable(run)) return;
           var item = D.getItem(id);
           var price = F.shopPrice(item);
           if (!S.spendGold(run, price)) return;
           entry.qty -= 1;
           S.addItem(run, id, 1);
+          if (id === 'p_elixir') S.spendElixir(run);
           autoEquipIfEmpty(run, id);
           window.Game.State.saveNow();
           SFX('item_get');
-          paint();
+          paintBuy();
         };
       });
     }
-    paint();
+
+    // Sell view lists whatever's actually sitting in the bag (equipped gear
+    // never shows up here -- it's held in run.equipment, not run.inventory).
+    function paintSell() {
+      document.getElementById('shop-gold').innerHTML = I('coin') + (run.gold || 0) + ' ' + T('goldLabel');
+      var byKind = {};
+      Object.keys(run.inventory).forEach(function (id) {
+        if ((run.inventory[id] || 0) <= 0) return;
+        var item = D.getItem(id);
+        if (!item) return;
+        (byKind[item.kind] = byKind[item.kind] || []).push(item);
+      });
+      var html = SHOP_KIND_ORDER.filter(function (k) { return byKind[k] && byKind[k].length; }).map(function (kind) {
+        var cardsHtml = byKind[kind].map(function (item) {
+          var qty = run.inventory[item.id] || 0;
+          var price = F.sellPrice(item, run.currentFloor);
+          return '<button class="select-card" data-id="' + item.id + '">' +
+            '<div class="select-card-icon">' + I(item.icon) + '</div>' +
+            '<div class="select-card-title">' + L(item, 'name') + '</div>' +
+            '<div class="select-card-desc">' + L(item, 'desc') + '</div>' +
+            '<div class="select-card-stats">' +
+              '<span class="stat-chip">' + T('shopSellPrice', { price: price }) + '</span>' +
+              '<span class="stat-chip">' + T('shopStockLeft', { qty: qty }) + '</span>' +
+            '</div>' +
+          '</button>';
+        }).join('');
+        return '<div class="guide-section"><h3>' + T(SHOP_KIND_LABEL_KEY[kind]) + '</h3><div class="card-grid">' + cardsHtml + '</div></div>';
+      }).join('');
+      document.getElementById('shop-content').innerHTML = html || ('<p class="empty-note">' + T('shopSellEmptyNote') + '</p>');
+      Array.prototype.forEach.call(document.querySelectorAll('#shop-content .select-card'), function (card) {
+        card.onclick = function () {
+          var id = card.getAttribute('data-id');
+          var earned = S.sellItem(run, id, 1);
+          if (!earned) return;
+          window.Game.State.saveNow();
+          SFX('item_get');
+          paintSell();
+        };
+      });
+    }
+
+    if (shopMode === 'sell') paintSell(); else paintBuy();
   }
 
   // Crafting bench (persistent, always accessible from the tower map). Unlike
