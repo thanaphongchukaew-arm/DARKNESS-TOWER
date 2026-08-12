@@ -18,6 +18,13 @@
   var targetPickCallback = null;
   var toastTimer = null;
 
+  // Endless Arena (survival mode): 'tower' | 'survival'. currentBattle is reused
+  // for both modes (same object shape, same BattleEngine calls) -- only what
+  // happens when a battle ends differs, branched in handleBattleEnd below.
+  var currentMode = 'tower';
+  var survivalSession = null;
+  var lastSurvivalSummary = null;
+
   function logLine(text, cls) {
     var log = document.getElementById('battle-log');
     var line = document.createElement('div');
@@ -584,6 +591,7 @@
   function handleBattleEnd(battle) {
     setActionsEnabled(false);
     closeSubmenu();
+    if (currentMode === 'survival') { handleSurvivalWaveEnd(battle); return; }
     if (window.Game.Audio) window.Game.Audio.stopMusic();
     if (battle.victory) handleVictory(battle); else handleDefeat(battle);
   }
@@ -693,19 +701,11 @@
     }
   }
 
-  function startBattle(floor, isBoss, isReplay) {
-    var run = window.Game.State.current;
-    currentBattle = window.Game.BattleEngine.createBattle(run, floor, isBoss);
-    currentFloor = floor;
-    currentIsBoss = !!isBoss;
-    currentIsReplay = !!isReplay;
-    targetPickCallback = null;
-    applyBattleAmbience(floor, currentIsBoss);
+  // Shared tail for both startBattle and startSurvivalWave: everything from here
+  // on only cares about currentBattle's generic shape (enemies/player/AP/etc),
+  // not which mode produced it.
+  function beginBattleScreen() {
     document.getElementById('battle-log').innerHTML = '';
-    document.getElementById('battle-floor-label').textContent =
-      (isBoss ? T('bossFloorTitle') : (T('floorLabel') + floor)) + (isReplay ? T('replaySuffix') : '');
-    document.getElementById('battle-home').innerHTML = I('doorway');
-    document.getElementById('battle-home').onclick = confirmLeaveBattle;
     window.Game.UI.showScreen('screen-battle');
     renderEnemies(currentBattle);
     renderPlayerPanel(currentBattle);
@@ -723,10 +723,151 @@
     }
   }
 
+  function startBattle(floor, isBoss, isReplay) {
+    var run = window.Game.State.current;
+    currentBattle = window.Game.BattleEngine.createBattle(run, floor, isBoss);
+    currentMode = 'tower';
+    currentFloor = floor;
+    currentIsBoss = !!isBoss;
+    currentIsReplay = !!isReplay;
+    targetPickCallback = null;
+    applyBattleAmbience(floor, currentIsBoss);
+    document.getElementById('battle-floor-label').textContent =
+      (isBoss ? T('bossFloorTitle') : (T('floorLabel') + floor)) + (isReplay ? T('replaySuffix') : '');
+    document.getElementById('battle-home').innerHTML = I('doorway');
+    document.getElementById('battle-home').onclick = confirmLeaveBattle;
+    beginBattleScreen();
+  }
+
+  // ---- Endless Arena (survival mode) ----
+
+  function updateSurvivalLabel() {
+    document.getElementById('battle-floor-label').textContent =
+      T('survivalWaveLabel', { wave: survivalSession.wave }) + T('survivalTallySuffix', { exp: survivalSession.totalExp });
+  }
+
+  function startSurvivalWave(wave) {
+    var run = window.Game.State.current;
+    survivalSession.wave = wave;
+    currentBattle = window.Game.BattleEngine.createSurvivalBattle(run, wave);
+    currentMode = 'survival';
+    currentFloor = null;
+    currentIsBoss = false;
+    currentIsReplay = false;
+    targetPickCallback = null;
+    applyBattleAmbience(run.currentFloor, false);
+    updateSurvivalLabel();
+    document.getElementById('battle-home').innerHTML = I('doorway');
+    document.getElementById('battle-home').onclick = confirmStopSurvival;
+    beginBattleScreen();
+  }
+
+  // Entry point (called from the tower screen's Endless Arena button). Resets
+  // the running session tally and starts wave 1.
+  function startSurvivalSession() {
+    survivalSession = { wave: 0, wavesCleared: 0, totalExp: 0, materials: {} };
+    startSurvivalWave(1);
+  }
+
+  function confirmStopSurvival() {
+    SFX('ui_confirm');
+    window.Game.MenuUI.confirmModal({
+      title: T('survivalStopTitle'),
+      message: T('survivalStopMsg'),
+      confirmLabel: T('survivalStopConfirmBtn'),
+      cancelLabel: T('keepFighting'),
+      onConfirm: function () { endSurvivalSession(false); }
+    });
+  }
+
+  // Wave cleared: pays out EXP + material drops only (no gold, no equipment --
+  // this mode is meant purely for crafting-material/EXP farming, not gearing up
+  // or gold income), tallies them into the session summary, then auto-continues
+  // into the next wave. A defeat doesn't wipe the tower run like the main game's
+  // game-over screen does -- it's a soft knockout (HP floored at 1) that just
+  // ends the session early, since this mode is meant to be low-stakes and
+  // endlessly repeatable.
+  function handleSurvivalWaveEnd(battle) {
+    var run = window.Game.State.current;
+    if (battle.victory) {
+      var exp = window.Game.BattleEngine.getExpReward(battle);
+      var lvlRes = window.Game.State.addExp(run, exp);
+      SFX('victory');
+      logLine(T('logExpGained', { exp: exp }), 'log-heal');
+      survivalSession.totalExp += exp;
+      var drops = window.Game.BattleEngine.getMaterialDrops(battle);
+      drops.forEach(function (d) {
+        window.Game.State.addItem(run, d.id, d.qty);
+        survivalSession.materials[d.id] = (survivalSession.materials[d.id] || 0) + d.qty;
+        var mat = window.Game.Data.getItem(d.id);
+        logLine(T('logMaterialGained', { name: L(mat, 'name'), qty: d.qty }), 'log-heal');
+      });
+      if (lvlRes.leveledUp) {
+        logLine(T('logLevelUp', { level: lvlRes.level }), 'log-crit');
+        setTimeout(function () { SFX('level_up'); }, 450);
+      }
+      survivalSession.wavesCleared += 1;
+      window.Game.State.saveNow();
+      setTimeout(function () { startSurvivalWave(survivalSession.wave + 1); }, 1400);
+    } else {
+      SFX('defeat');
+      logLine(T('survivalKnockedOutLog'), 'log-weak');
+      run.hp = 1;
+      window.Game.State.clampVitals(run);
+      setTimeout(function () { endSurvivalSession(true); }, 1400);
+    }
+  }
+
+  function endSurvivalSession(defeated) {
+    lastSurvivalSummary = { session: survivalSession, defeated: !!defeated };
+    currentBattle = null;
+    currentMode = 'tower';
+    targetPickCallback = null;
+    if (window.Game.Audio) window.Game.Audio.stopMusic();
+    window.Game.State.saveNow();
+    renderSurvivalSummary(lastSurvivalSummary.session, lastSurvivalSummary.defeated);
+    window.Game.UI.showScreen('screen-survival-summary');
+  }
+
+  function renderSurvivalSummary(session, defeated) {
+    document.getElementById('survival-summary-icon').innerHTML = I(defeated ? 'skull' : 'crownSkull');
+    document.getElementById('survival-summary-title').textContent = T(defeated ? 'survivalSummaryDefeatedTitle' : 'survivalSummaryStoppedTitle');
+    document.getElementById('survival-summary-desc').textContent = T('survivalSummaryDesc', { waves: session.wavesCleared });
+    var statsHtml =
+      '<div class="stat-row"><div class="stat-row-label">' + I('gem') + '<span>' + T('survivalSummaryWavesLabel') + '</span></div><div class="stat-row-value">' + session.wavesCleared + '</div></div>' +
+      '<div class="stat-row"><div class="stat-row-label">' + I('sparkles') + '<span>EXP</span></div><div class="stat-row-value">' + session.totalExp + '</div></div>';
+    var D = window.Game.Data;
+    var matIds = Object.keys(session.materials);
+    var matHtml = matIds.length ? matIds.map(function (id) {
+      var it = D.getItem(id);
+      if (!it) return '';
+      return '<div class="inv-item"><div class="inv-item-icon">' + I(it.icon) + '</div>' +
+        '<div class="inv-item-info"><div class="inv-item-name">' + L(it, 'name') + '</div></div>' +
+        '<div class="inv-item-actions"><span class="inv-item-count">x' + session.materials[id] + '</span></div></div>';
+    }).join('') : '<p class="empty-note">' + T('survivalSummaryNoMaterials') + '</p>';
+    document.getElementById('survival-summary-body').innerHTML =
+      '<div class="status-panel-title">' + T('survivalSummaryStatsTitle') + '</div>' + statsHtml +
+      '<div class="status-panel-title" style="margin-top:1rem">' + T('survivalSummaryMaterialsTitle') + '</div>' + matHtml;
+    document.getElementById('survival-summary-actions').innerHTML =
+      '<button class="btn-secondary" id="survival-again-btn">' + T('survivalSummaryAgainBtn') + '</button>' +
+      '<button class="btn-primary" id="survival-back-btn">' + T('survivalSummaryBackBtn') + '</button>';
+    document.getElementById('survival-again-btn').onclick = function () { SFX('ui_confirm'); startSurvivalSession(); };
+    document.getElementById('survival-back-btn').onclick = function () {
+      SFX('ui_back');
+      window.Game.TowerUI.renderTower();
+      window.Game.UI.showScreen('screen-tower');
+    };
+  }
+
   // Re-derives actor display names in the current language and repaints the
   // static battle chrome, without touching HP/MP/turn state. Called after a
   // language switch. The battle log's history is intentionally left as-is.
   function refreshActiveScreen() {
+    var active = document.querySelector('.screen.active');
+    if (active && active.id === 'screen-survival-summary' && lastSurvivalSummary) {
+      renderSurvivalSummary(lastSurvivalSummary.session, lastSurvivalSummary.defeated);
+      return;
+    }
     if (document.getElementById('screen-battle').className.indexOf('active') === -1) return;
     if (!currentBattle) return;
     var D = window.Game.Data;
@@ -735,8 +876,12 @@
       var template = D.getEnemyTemplate(e.templateId);
       if (template) e.name = window.Game.I18n.L(template, 'name');
     });
-    document.getElementById('battle-floor-label').textContent =
-      (currentIsBoss ? T('bossFloorTitle') : (T('floorLabel') + currentFloor)) + (currentIsReplay ? T('replaySuffix') : '');
+    if (currentMode === 'survival') {
+      updateSurvivalLabel();
+    } else {
+      document.getElementById('battle-floor-label').textContent =
+        (currentIsBoss ? T('bossFloorTitle') : (T('floorLabel') + currentFloor)) + (currentIsReplay ? T('replaySuffix') : '');
+    }
     renderEnemies(currentBattle);
     renderPlayerPanel(currentBattle);
     renderTurnOrder(currentBattle);
@@ -745,5 +890,5 @@
   }
 
   window.Game = window.Game || {};
-  window.Game.BattleUI = { startBattle: startBattle, refreshActiveScreen: refreshActiveScreen };
+  window.Game.BattleUI = { startBattle: startBattle, startSurvivalSession: startSurvivalSession, refreshActiveScreen: refreshActiveScreen };
 })();

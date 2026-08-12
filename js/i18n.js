@@ -122,6 +122,34 @@
     statusEquip: { th: 'สถานะ & อุปกรณ์', en: 'Status & Equipment' },
     towerTitle: { th: 'หอคอยแห่งความมืด', en: 'Darkness Tower' },
     towerJumpCurrent: { th: 'ชั้นล่าสุด', en: 'Current Floor' },
+
+    // Endless Arena (survival mode)
+    survivalBtn: { th: 'สนามประลอง', en: 'Endless Arena' },
+    survivalIntroTitle: { th: 'สนามประลองไม่สิ้นสุด', en: 'The Endless Arena' },
+    survivalIntroMsg: {
+      th: 'ต่อสู้กับศัตรูสุ่มไปเรื่อย ๆ ไม่จำกัดจำนวนคลื่น ความยากจะเพิ่มขึ้นทุก ๆ 5 คลื่น รางวัลมีแค่ EXP และวัตถุดิบคราฟต์เท่านั้น (ไม่มีทองหรืออุปกรณ์) HP/MP จะไม่ฟื้นฟูระหว่างคลื่น กดหยุดเมื่อไรก็ได้เพื่อเก็บของรางวัลและดูสรุปผล ไม่กระทบความคืบหน้าของหอคอย',
+      en: "Fight endless waves of random enemies. Difficulty climbs every 5 waves. Rewards are EXP and crafting materials only (no gold or gear). HP/MP don't recover between waves. Stop anytime to bank your rewards and see a summary -- your tower progress is never affected."
+    },
+    survivalIntroConfirmBtn: { th: 'เข้าสู่สนามประลอง', en: 'Enter the Arena' },
+    survivalWaveLabel: { th: 'คลื่นที่ {wave}', en: 'Wave {wave}' },
+    survivalTallySuffix: { th: ' · EXP รวม {exp}', en: ' · Total EXP {exp}' },
+    survivalStopTitle: { th: 'หยุดและสรุปผล?', en: 'Stop and see the summary?' },
+    survivalStopMsg: {
+      th: 'ความคืบหน้าในคลื่นปัจจุบันที่ยังไม่จบจะไม่ถูกนับ แต่ EXP และวัตถุดิบจากทุกคลื่นที่ผ่านมาแล้วจะถูกเก็บไว้ทั้งหมด',
+      en: "Progress in the current, unfinished wave won't count, but every EXP and material reward from waves you've already cleared is kept."
+    },
+    survivalStopConfirmBtn: { th: 'หยุด & ดูสรุป', en: 'Stop & Summarize' },
+    survivalKnockedOutLog: { th: 'คุณถูกปราบ! ล่าถอยออกจากสนามประลอง...', en: "You've been knocked out! Retreating from the arena..." },
+    survivalSummaryStoppedTitle: { th: 'จบการประลอง', en: 'Session Complete' },
+    survivalSummaryDefeatedTitle: { th: 'ถูกปราบกลางสนาม', en: 'Knocked Out' },
+    survivalSummaryDesc: { th: 'ผ่านมาแล้ว {waves} คลื่น นี่คือของรางวัลที่คุณได้รับ', en: 'You cleared {waves} waves. Here is what you earned.' },
+    survivalSummaryStatsTitle: { th: 'สรุปผล', en: 'Summary' },
+    survivalSummaryWavesLabel: { th: 'คลื่นที่ผ่าน', en: 'Waves Cleared' },
+    survivalSummaryMaterialsTitle: { th: 'วัตถุดิบที่ได้รับ', en: 'Materials Gained' },
+    survivalSummaryNoMaterials: { th: 'ไม่ได้วัตถุดิบในรอบนี้', en: 'No materials dropped this session' },
+    survivalSummaryAgainBtn: { th: 'เข้าประลองอีกครั้ง', en: 'Enter Again' },
+    survivalSummaryBackBtn: { th: 'กลับสู่หอคอย', en: 'Back to Tower' },
+
     bossFloorTitle: { th: 'ชั้นบัลลังก์ · ราชันไร้กาลเวลา', en: 'Throne Floor · The Timeless Sovereign' },
     bossFloorSub: { th: 'บอสประจำหอคอย', en: 'The tower\'s guardian boss' },
     floorLabel: { th: 'ชั้นที่ ', en: 'Floor ' },

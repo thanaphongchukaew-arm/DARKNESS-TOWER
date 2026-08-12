@@ -98,6 +98,16 @@
       renderCraft();
       window.Game.UI.showScreen('screen-craft');
     };
+    document.getElementById('tower-survival-btn').textContent = T('survivalBtn');
+    document.getElementById('tower-survival-btn').onclick = function () {
+      SFX('ui_confirm');
+      window.Game.MenuUI.confirmModal({
+        title: T('survivalIntroTitle'),
+        message: T('survivalIntroMsg'),
+        confirmLabel: T('survivalIntroConfirmBtn'),
+        onConfirm: function () { window.Game.BattleUI.startSurvivalSession(); }
+      });
+    };
     document.getElementById('tower-home').innerHTML = I('doorway');
     document.getElementById('tower-home').onclick = function () {
       SFX('ui_back');

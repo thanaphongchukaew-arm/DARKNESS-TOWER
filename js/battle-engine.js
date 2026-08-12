@@ -66,8 +66,9 @@
     return list[list.length - 1];
   }
 
-  function buildEnemyActor(template, floor, difficultyId, groupScale, uid) {
-    var scale = F().enemyStatScale(floor, difficultyId);
+  // Shared by the floor-based curve (buildEnemyActor) and the Endless Arena's
+  // wave-based curve (createSurvivalBattle), which each compute `scale` differently.
+  function buildEnemyActorScaled(template, scale, groupScale, uid) {
     var stats = F().scaleStatsBlock(template.baseStats, scale, groupScale);
     return {
       uid: uid, templateId: template.id, name: L(template, 'name'), icon: template.icon, isBoss: false,
@@ -79,6 +80,10 @@
       downed: false, alive: true, debuffs: [],
       revealed: { weak: [], resist: [], null: [], drain: [], reflect: [] }
     };
+  }
+
+  function buildEnemyActor(template, floor, difficultyId, groupScale, uid) {
+    return buildEnemyActorScaled(template, F().enemyStatScale(floor, difficultyId), groupScale, uid);
   }
 
   function buildBossActor(template, difficultyId, uid) {
@@ -188,6 +193,38 @@
 
     return {
       run: run, floor: floor, isBoss: !!isBossFloor,
+      player: player, enemies: enemies,
+      round: 1, playerAP: firstStrike === 'player' ? 2 : 1,
+      awaitingAllOut: false, over: false, victory: false,
+      pendingFirstStrike: firstStrike === 'enemy'
+    };
+  }
+
+  // Endless Arena: an infinitely repeatable, non-progressing battle (no floor
+  // advance, no gold/equipment reward -- see ui-battle.js's handleSurvivalWaveEnd)
+  // built from the player's *current* tower tier so it's relevant at any point in
+  // a run, then scaled ever upward by wave via F().survivalStatScale. Reuses the
+  // exact same actor shapes as createBattle, so playerAction/runEnemyPhase/
+  // confirmAllOut all work on it completely unchanged.
+  function createSurvivalBattle(run, wave) {
+    var tier = F().tierForFloor(run.currentFloor);
+    var pool = D().getEnemiesByTier(tier);
+    var count = F().survivalEnemyCount(wave);
+    var groupScale = F().groupScaleFactor(count);
+    var scale = F().survivalStatScale(run.currentFloor, run.difficulty, wave);
+    var enemies = [];
+    for (var i = 0; i < count; i++) {
+      var template = pool[Math.floor(Math.random() * pool.length)];
+      enemies.push(buildEnemyActorScaled(template, scale, groupScale, 'e' + i));
+    }
+    var player = buildPlayerActor(run);
+    var avgEnemySpd = enemies.reduce(function (s, e) { return s + e.spd; }, 0) / enemies.length;
+    var firstStrike = null;
+    if (player.spd >= avgEnemySpd * 1.3) firstStrike = 'player';
+    else if (avgEnemySpd >= player.spd * 1.3) firstStrike = 'enemy';
+
+    return {
+      run: run, floor: run.currentFloor, isBoss: false, isSurvival: true, wave: wave,
       player: player, enemies: enemies,
       round: 1, playerAP: firstStrike === 'player' ? 2 : 1,
       awaitingAllOut: false, over: false, victory: false,
@@ -387,7 +424,7 @@
         var hit = resolveHit(attackerEff, battle.player, playerEff, atk.element, atk.power);
         ap -= 1;
         hitsThisTurn += 1;
-        var hadWeakCrit = false, hadNullish = false;
+        var hadNullish = false;
         if (hit.relation === 'reflect') {
           enemy.hp = Math.max(0, enemy.hp - hit.amount);
           hadNullish = true;
@@ -404,14 +441,20 @@
           if (battle.player.guarding) dmg = Math.round(dmg * 0.5);
           battle.run.hp = Math.max(0, battle.run.hp - dmg);
           if (atk.drainSelf && dmg > 0) enemy.hp = Math.min(enemy.maxHp, enemy.hp + Math.round(dmg * 0.4));
-          if (hit.relation === 'weak' || hit.isCrit) hadWeakCrit = true;
           events.push({ type: 'hit', targetSide: 'player', attackerUid: enemy.uid, attackerName: enemy.name, skillName: L(atk, 'name'), element: atk.element, relation: hit.relation, isCrit: hit.isCrit, amount: dmg, hpAfter: battle.run.hp, maxHp: battle.player.maxHp, attackerHpAfter: enemy.hp, attackerMaxHp: enemy.maxHp });
           if (atk.debuff) {
             applyStatMod(battle.player.buffs, atk.debuff.stat, -atk.debuff.amount, 3);
             events.push({ type: 'buff', side: 'player', stat: atk.debuff.stat, amount: -atk.debuff.amount });
           }
         }
-        if (hadWeakCrit) ap = Math.min(ap + 1, 2); else if (hadNullish) ap = 0;
+        // Only a crit grants the enemy a bonus attack, never a plain weakness hit.
+        // Unlike the player, an enemy's element is chosen by its attack pool while the
+        // player's weakness is a fixed, unavoidable trait of their class -- if landing on
+        // weak alone also granted the bonus, a boss whose kit shares the player's weakness
+        // would land two 1.5x hits *every single round* with no counterplay, chaining into
+        // an unwinnable "die in one turn" spiral. Crit is still probabilistic, so it stays
+        // dangerous without being a guaranteed death sentence for a bad type matchup.
+        if (hit.isCrit) ap = Math.min(ap + 1, 2); else if (hadNullish) ap = 0;
         checkBattleEnd(battle, events);
         if (battle.over) break;
       }
@@ -461,6 +504,7 @@
   window.Game = window.Game || {};
   window.Game.BattleEngine = {
     createBattle: createBattle,
+    createSurvivalBattle: createSurvivalBattle,
     playerAction: playerAction,
     confirmAllOut: confirmAllOut,
     runEnemyPhase: runEnemyPhase,

@@ -90,10 +90,36 @@
     return 1.22 * diff.statMult;
   }
 
+  // Endless Arena (survival mode): anchored to the player's current tower floor
+  // (so it's immediately relevant at any point in a run, per the "doesn't depend
+  // on floor progress" brief -- it just uses where you already are as a starting
+  // point rather than gating on it), then climbs forever in fixed +15% steps
+  // every 5 waves so the mode never plateaus, unlike the tower's capped 100 floors.
+  function survivalStatScale(floor, difficultyId, wave) {
+    var base = enemyStatScale(floor, difficultyId);
+    var steps = Math.floor((Math.max(1, wave) - 1) / 5);
+    return base * Math.pow(1.15, steps);
+  }
+
+  // Deliberately capped at 3 (never grows to the tower's late-game 4-5 packs) --
+  // survival waves are meant to resolve quickly since the whole point is chaining
+  // many of them back to back.
+  function survivalEnemyCount(wave) {
+    if (wave <= 3) return 1;
+    if (wave <= 8) return Math.random() < 0.5 ? 1 : 2;
+    return Math.random() < 0.35 ? 2 : 3;
+  }
+
   function scaleStatsBlock(baseStats, scale, groupScale) {
     var out = {};
     Object.keys(baseStats).forEach(function (k) {
       if (k === 'exp') { out[k] = round(baseStats[k] * scale); return; }
+      // luk only drives crit chance (critChance() below), which is already clamped --
+      // scaling it by the same multiplier as atk/hp/def compounds with that clamp and
+      // pins nearly every mid/late-game enemy's crit rate at the 40% ceiling regardless
+      // of its authored per-tier luk. Each tier's baseStats.luk already encodes the
+      // intended crit-rate progression on its own, so leave it unscaled here.
+      if (k === 'luk') { out[k] = Math.max(1, round(baseStats[k])); return; }
       out[k] = Math.max(1, round(baseStats[k] * scale * (groupScale || 1)));
     });
     return out;
@@ -127,9 +153,9 @@
     if (opts.element === 'almighty') {
       raw = Math.max(opts.atkStat, opts.magStat) * opts.power;
     } else if (opts.element === 'phys') {
-      raw = opts.atkStat * opts.power - opts.defStat * 0.5;
+      raw = opts.atkStat * opts.power - opts.defStat * 0.75;
     } else {
-      raw = opts.magStat * opts.power - opts.resStat * 0.5;
+      raw = opts.magStat * opts.power - opts.resStat * 0.75;
     }
     raw = Math.max(1, raw);
     var variance = rnd(0.9, 1.1);
@@ -193,6 +219,8 @@
     itemTierForFloor: itemTierForFloor,
     enemyStatScale: enemyStatScale,
     bossStatScale: bossStatScale,
+    survivalStatScale: survivalStatScale,
+    survivalEnemyCount: survivalEnemyCount,
     scaleStatsBlock: scaleStatsBlock,
     elementRelation: elementRelation,
     critChance: critChance,

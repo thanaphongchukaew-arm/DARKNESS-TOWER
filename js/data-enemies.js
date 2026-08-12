@@ -746,7 +746,11 @@
   // shared holy_ray/almighty_burst skills.
   var boss = {
     id: 'timeless_sovereign', name: 'ราชันไร้กาลเวลา', nameEn: 'The Timeless Sovereign', icon: 'timelessSovereign', isBoss: true,
-    baseStats: { hp: 31000, atk: 560, mag: 560, def: 185, res: 175, spd: 34, luk: 22, exp: 17000 },
+    // atk/mag were tuned high enough that even a *neutral*-relation hit could exceed a
+    // well-leveled player's max HP in one blow, and a weakness hit was an outright
+    // one-shot regardless of level or gear. Trimmed so the fight stays the toughest
+    // in the game without being unwinnable on a bad class/boss type matchup.
+    baseStats: { hp: 31000, atk: 500, mag: 500, def: 185, res: 175, spd: 34, luk: 22, exp: 17000 },
     weak: ['light', 'elec'], resist: ['dark'],
     attacks: [
       { name: 'ดาบกาลเวลาไร้จุดจบ', nameEn: 'Blade of Unending Time', element: 'dark', power: 1.2, target: 'single', weight: 3 },
