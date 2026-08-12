@@ -187,25 +187,33 @@
     btn.onclick = function () { SFX('ui_confirm'); onContinue(); };
   }
 
-  var DIFF_DESC_KEY = { easy: 'diffEasyDesc', normal: 'diffNormalDesc', hard: 'diffHardDesc' };
+  var DIFF_DESC_KEY = { easy: 'diffEasyDesc', normal: 'diffNormalDesc', hard: 'diffHardDesc', nightmare: 'diffNightmareDesc' };
+  var DIFF_ICON = { easy: 'star', normal: 'shieldGuard', hard: 'skullMark', nightmare: 'skullFire' };
 
   function renderDifficulty() {
     var el = document.getElementById('difficulty-cards');
     var F = window.Game.Formulas;
-    var order = ['easy', 'normal', 'hard'];
+    var order = ['easy', 'normal', 'hard', 'nightmare'];
+    var nightmareUnlocked = window.Game.State.isNightmareUnlocked();
     el.innerHTML = order.map(function (id) {
       var d = F.DIFFICULTY[id];
-      return '<button class="select-card" data-id="' + id + '">' +
-        '<div class="select-card-icon">' + I(id === 'hard' ? 'skull' : id === 'easy' ? 'sparkles' : 'shieldGuard') + '</div>' +
+      var locked = id === 'nightmare' && !nightmareUnlocked;
+      return '<button class="select-card' + (locked ? ' locked' : '') + '" data-id="' + id + '">' +
+        '<div class="select-card-icon">' + I(locked ? 'lock' : DIFF_ICON[id]) + '</div>' +
         '<div class="select-card-title">' + L(d, 'name') + '</div>' +
-        '<div class="select-card-desc">' + T(DIFF_DESC_KEY[id]) + '</div>' +
+        '<div class="select-card-desc">' + T(locked ? 'diffNightmareLockedDesc' : DIFF_DESC_KEY[id]) + '</div>' +
+        (locked ? '' :
         '<div class="select-card-stats">' +
           '<span class="stat-chip">' + T('enemyPowerLabel') + d.statMult.toFixed(2) + '</span>' +
           '<span class="stat-chip">' + T('rewardLabel') + d.rewardMult.toFixed(2) + '</span>' +
-        '</div>' +
+        '</div>') +
       '</button>';
     }).join('');
     Array.prototype.forEach.call(el.querySelectorAll('.select-card'), function (card) {
+      if (card.classList.contains('locked')) {
+        card.onclick = function () { SFX('ui_cancel'); };
+        return;
+      }
       card.onclick = function () {
         SFX('ui_confirm');
         window.Game.State.pending.difficulty = card.getAttribute('data-id');

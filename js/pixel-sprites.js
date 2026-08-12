@@ -286,6 +286,8 @@
     '..KKKK..KKKK..'
   ], PAL);
 
+  // The full robed-reaper figure -- used as an actual creature portrait
+  // (Bone Reaper) and the game-over screen, where a body reads correctly.
   P.define('skull', [
     '....OOOOOO....',
     '...OOOOOOOO...',
@@ -306,6 +308,44 @@
     '....OO..OO....',
     '....OO..OO....'
   ], PAL);
+
+  // A standalone skull emblem (no body) for contexts that need just a danger
+  // marker -- e.g. the Hard-difficulty card -- rather than a full figure.
+  P.define('skullMark', [
+    '....OOOOOO....',
+    '...OOOOOOOO...',
+    '...OKKOOKKO...',
+    '...OOOOOOOO...',
+    '....OOOOOO....',
+    '...DDGGGGDD...',
+    '..DDGGGGGGDD..',
+    '..DDGGKKGGDD..',
+    '..DDGGGGGGDD..',
+    '...DDGGGGDD...',
+    '....DDGGDD....',
+    '....DDGGDD....',
+    '.....DGGD.....'
+  ], PAL);
+
+  // Nightmare-difficulty marker: skullMark wreathed in flame, with the eye
+  // sockets and jaw ember lit fire-orange instead of hollow black.
+  P.define('skullFire', [
+    '.....Y..Y.....',
+    '....FFFFFFF...',
+    '....OOOOOO....',
+    '...OOOOOOOO...',
+    '...OFFOOFFO...',
+    '...OOOOOOOO...',
+    '....OOOOOO....',
+    '...DDGGGGDD...',
+    '..DDGGGGGGDD..',
+    '..DDGGFFGGDD..',
+    '..DDGGGGGGDD..',
+    '...DDGGGGDD...',
+    '....DDGGDD....',
+    '....DDGGDD....',
+    '.....DGGD.....'
+  ], { O: PAL.O, D: PAL.D, G: PAL.G, Y: PAL.Y, F: '#f08020' });
 
   P.define('crownSkull', [
     '.....Y..Y..Y....',

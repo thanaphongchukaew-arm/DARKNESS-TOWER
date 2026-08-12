@@ -11,6 +11,12 @@
     var msgEl = document.getElementById('end-message');
     var actionsEl = document.getElementById('end-actions');
     if (victory) {
+      // showEnd(true) only ever fires from a final-boss clear (see BattleUI.handleVictory),
+      // so this is exactly the moment to check "cleared the tower on hard or above".
+      var run = window.Game.State.current;
+      if (run && (run.difficulty === 'hard' || run.difficulty === 'nightmare')) {
+        window.Game.State.unlockNightmare();
+      }
       iconEl.innerHTML = window.Game.Icons.get('crownSkull', 'icon-xl');
       iconEl.style.color = 'var(--accent-gold)';
       titleEl.textContent = T('victoryTitle');

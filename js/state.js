@@ -287,6 +287,19 @@
     return result;
   }
 
+  // Nightmare stays locked until the tower has been cleared once on hard (or
+  // above) -- tracked in the separate meta store so it survives clearRun().
+  function isNightmareUnlocked() {
+    return !!window.Game.Save.readMeta().nightmareUnlocked;
+  }
+
+  function unlockNightmare() {
+    if (isNightmareUnlocked()) return;
+    var meta = window.Game.Save.readMeta();
+    meta.nightmareUnlocked = true;
+    window.Game.Save.writeMeta(meta);
+  }
+
   function saveNow() {
     if (window.Game.State.current) window.Game.Save.write(window.Game.State.current);
   }
@@ -321,6 +334,8 @@
     sellItem: sellItem,
     craftItem: craftItem,
     useConsumable: useConsumable,
+    isNightmareUnlocked: isNightmareUnlocked,
+    unlockNightmare: unlockNightmare,
     saveNow: saveNow,
     clearRun: clearRun
   };

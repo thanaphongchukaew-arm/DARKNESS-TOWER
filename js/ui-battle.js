@@ -591,8 +591,10 @@
   function handleVictory(battle) {
     var run = window.Game.State.current;
     // Replaying an already-cleared floor still pays out EXP/gold/materials,
-    // just at 40% of a first clear's rate.
-    var rate = currentIsReplay ? 0.4 : 1;
+    // just at 40% of a first clear's rate, and the chosen difficulty's own
+    // rewardMult (shown on the difficulty-select card) always applies on top.
+    var diff = window.Game.Formulas.DIFFICULTY[run.difficulty] || window.Game.Formulas.DIFFICULTY.normal;
+    var rate = (currentIsReplay ? 0.4 : 1) * diff.rewardMult;
     var exp = window.Game.BattleEngine.getExpReward(battle, rate);
     var gold = window.Game.BattleEngine.getGoldReward(battle, rate);
     var lvlRes = window.Game.State.addExp(run, exp);

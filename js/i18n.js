@@ -65,8 +65,8 @@
     },
     guideTowerBoss: { th: 'ชั้น 100 คือห้องบัลลังก์ของราชันไร้กาลเวลา บอสใหญ่ประจำหอคอย เตรียมตัวให้พร้อมก่อนขึ้นเผชิญหน้า', en: "Floor 100 is the throne room of the Timeless Sovereign, the tower's final boss. Come prepared before you face it." },
     guideTowerDifficulty: {
-      th: 'เลือกระดับความยากได้ตอนเริ่มเกม: ง่าย ศัตรูอ่อนลงและได้ไอเทมเริ่มต้นมากกว่า, ปกติ สมดุลมาตรฐาน, ยาก ศัตรูแข็งแกร่งขึ้นแต่ได้รางวัลมากขึ้น',
-      en: 'Pick a difficulty at the start: Easy weakens enemies and gives extra starting items, Normal is the standard balance, Hard makes enemies tougher but pays out bigger rewards.'
+      th: 'เลือกระดับความยากได้ตอนเริ่มเกม: ง่าย ศัตรูอ่อนลงและได้ไอเทมเริ่มต้นมากกว่า, ปกติ สมดุลมาตรฐาน, ยาก ศัตรูแข็งแกร่งขึ้นแต่ได้รางวัลมากขึ้น, และฝันร้าย โหมดที่โหดที่สุดซึ่งจะปลดล็อกหลังพิชิตหอคอยด้วยโหมดยากสำเร็จ',
+      en: 'Pick a difficulty at the start: Easy weakens enemies and gives extra starting items, Normal is the standard balance, Hard makes enemies tougher but pays out bigger rewards, and Nightmare -- the harshest mode of all -- unlocks once you clear the tower on Hard.'
     },
     guideTipsTitle: { th: 'เคล็ดลับ', en: 'Tips' },
     guideTip1: { th: 'สังเกตไอคอนธาตุที่ขึ้นเหนือแถบเลือดศัตรู เกมจะจดจำจุดอ่อน/จุดต้านทานที่คุณเคยเจอไว้ให้ดูตลอดการต่อสู้', en: "Watch the element icons above each enemy's HP bar — the game remembers every weakness and resistance you've discovered and keeps it visible for the rest of the fight." },
@@ -108,6 +108,8 @@
     diffEasyDesc: { th: 'เหมาะสำหรับผู้เริ่มต้น ศัตรูอ่อนกำลังลง และได้รับไอเทมเริ่มต้นมากกว่า', en: 'Great for beginners. Enemies are weaker and you start with more items.' },
     diffNormalDesc: { th: 'ความสมดุลมาตรฐาน ท้าทายแต่ยุติธรรม', en: 'The standard balance. Challenging but fair.' },
     diffHardDesc: { th: 'ศัตรูแข็งแกร่งขึ้นมาก แต่ได้รับของรางวัลและ EXP มากขึ้นเป็นการตอบแทน', en: 'Enemies are much tougher, but rewards and EXP are greater in return.' },
+    diffNightmareDesc: { th: 'โหมดที่โหดที่สุด สมชื่อ ศัตรูแข็งแกร่งขึ้นมหาศาลและไม่มีไอเทมเริ่มต้นเลย แต่ของรางวัลก็มากที่สุดเช่นกัน', en: "The harshest mode there is. Enemies are drastically stronger and you start with no items at all, but the rewards are the biggest of any difficulty." },
+    diffNightmareLockedDesc: { th: 'ล็อกอยู่ — พิชิตหอคอยด้วยโหมด Hard ให้จบก่อนจึงจะปลดล็อกโหมดนี้', en: 'Locked — clear the tower on Hard difficulty to unlock this mode.' },
     enemyPowerLabel: { th: 'พลังศัตรู x', en: 'Enemy power x' },
     rewardLabel: { th: 'รางวัล x', en: 'Reward x' },
 
