@@ -1551,20 +1551,20 @@
     '...KKKK....'
   ], { K: '#0a0a0a', W: '#e8ecf2', Y: '#e8c050', U: '#5a3818' });
 
+  // A Minecraft-style chestplate: blocky, no curves -- shoulder-strap prongs,
+  // then a full-width sleeve row that sticks out past the torso on both
+  // sides, then the chest block (with a center rivet) narrows back in.
   P.define('armorSlot', [
-    '...MMMMM...',
-    '..MMMMMMM..',
-    '.MMYYYYYMM.',
-    'MMMMMMMMMMM',
-    'MMMDDDDDMMM',
-    'MMMDDDDDMMM',
-    '.MMDDDDDMM.',
-    '.MMDDDDDMM.',
-    '..MDDDDDM..',
-    '..MDDDDDM..',
-    '...MDDDM...',
-    '...MDDDM...',
-    '....MMM....'
+    '..MMM...MMM..',
+    '..MMMMMMMMM..',
+    'MMMMMMMMMMMMM',
+    'MMMMMMMMMMMMM',
+    '..MDDDDDDDM..',
+    '..MDDDYDDDM..',
+    '..MDDDDDDDM..',
+    '..MDDDDDDDM..',
+    '..MDDDDDDDM..',
+    '..MMMMMMMMM..'
   ], { M: '#c8ccd6', D: '#6a7488', Y: '#e8c050' });
 
   P.define('shoesSlot', [
@@ -1595,6 +1595,79 @@
     '..YYYYY..',
     '...YYY...'
   ], { P: '#b060f0', Y: '#e8c050' });
+
+  // ---- Battle action bar icons: Attack/Skills/Guard/Items, drawn in the same
+  // compact "shop slot" style as the equipment icons above. ----
+
+  P.define('swordAttack', [
+    '.....K.....',
+    '....KWK....',
+    '....KWK....',
+    '...KWWWK...',
+    '...KWWWK...',
+    '...KWWWK...',
+    '...KWWWK...',
+    '...KWWWK...',
+    '...KWWWK...',
+    '..KWWWWWK..',
+    '.KYYYYYYYK.',
+    '...KUUK....',
+    '...KUUK....',
+    '...KUUK....',
+    '..KYYYYK...',
+    '...KKKK....'
+  ], { K: '#0a0a0a', W: '#e8ecf2', Y: '#e8c050', U: '#5a3818' });
+
+  P.define('shieldGuard', [
+    '...KKKKK...',
+    '..KMMMMMK..',
+    '.KMMMMMMMK.',
+    'KMMMYYYMMMK',
+    'KMMYYYYYMMK',
+    'KMMYYYYYMMK',
+    'KMMMYYYMMMK',
+    '.KMMMMMMMK.',
+    '.KMMMMMMMK.',
+    '..KMMMMMK..',
+    '...KMMMK...',
+    '....KMK....',
+    '.....K.....'
+  ], { K: '#0a0a0a', M: '#c8ccd6', Y: '#e8c050' });
+
+  // Skills: a flame -- a common shorthand for "special technique", and reads
+  // clearly at icon size for both physical and magic skills alike.
+  P.define('magicBurst', [
+    '....K.....',
+    '....R.....',
+    '...RRR....',
+    '...ROR....',
+    '..RROOR...',
+    '..ROOOOR..',
+    '.RROOOYR..',
+    '.ROOOOYYR.',
+    '.ROOOYYYR.',
+    '.RROOYYRR.',
+    '..RROYYRR.',
+    '...RRRRR..',
+    '....RRR...',
+    '.....K....'
+  ], { K: '#3a0a00', R: '#c82818', O: '#f08020', Y: '#f8e050' });
+
+  // Items: a red potion flask, same silhouette as the HP potion below.
+  P.define('bagItem', [
+    '...UUU...',
+    '...UUU...',
+    '..GGGGG..',
+    '.GRRRRRG.',
+    'GRRRRRRRG',
+    'GRRRWRRRG',
+    'GRRRRRRRG',
+    'GRRRRRRRG',
+    '.GRRRRRG.',
+    '..GRRRG..',
+    '..GGGGG..',
+    '...GGG...'
+  ], { U: '#5a3818', G: '#8a94a8', R: '#d02838', W: '#f4f0e8' });
 
   P.define('potion', [
     '...UUU...',
