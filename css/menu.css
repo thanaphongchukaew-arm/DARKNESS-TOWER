@@ -34,30 +34,78 @@
   margin-bottom: 0;
 }
 
-.guide-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.guide-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  line-height: 1.6;
-}
-
-.guide-list li .el-tag {
-  flex-shrink: 0;
-  margin-top: 0.1rem;
-}
-
 .element-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 0.6rem;
+}
+
+/* Stat cards on the guide screen: a scannable icon + short-code + one-line
+   description grid, replacing what used to be a single dense wall-of-text
+   bullet list (see renderGuide in ui-menu.js). */
+.guide-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.6rem;
+}
+
+.guide-stat-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  background: var(--bg-panel-raised);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md, 6px);
+  padding: 0.65rem 0.75rem;
+}
+
+.guide-stat-card .icon {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  color: var(--accent-gold);
+}
+
+.guide-stat-card-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.2rem;
+}
+
+.guide-stat-card-desc {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* Tips list: one sentence per row, icon-led, so each tip stays a distinct
+   scannable line instead of blending into a plain bullet list. */
+.guide-tip-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.guide-tip-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: var(--bg-panel-raised);
+  border: 1px solid var(--border-soft);
+  padding: 0.6rem 0.75rem;
+}
+
+.guide-tip-card .icon {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  color: var(--accent-gold);
+}
+
+.guide-tip-card span {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
 }
 
 .element-card {
@@ -81,6 +129,34 @@
   max-width: 720px;
   width: 100%;
   margin: 0 auto;
+}
+
+#shop-tabs {
+  max-width: 720px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---- Crafting bench: align the gold readout with the .card-grid below it,
+   which centers itself at a wider 1100px max-width. ---- */
+#craft-gold {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto 0.75rem;
+}
+
+/* ---- Waypoint shop (floor stop): same fix -- align the gold readout with
+   the .card-grid it sits above, instead of hugging the screen's left edge. ---- */
+#waypoint-body > .waypoint-gold-display {
+  /* auto margins don't center inline-flex boxes in normal block flow (unlike
+     #shop-gold/#craft-gold, which are direct children of the screen's own
+     flex container and get auto-centered for free) -- force block-level
+     flex here so margin:auto actually takes effect. */
+  display: flex;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto 0.75rem;
 }
 
 #shop-content {

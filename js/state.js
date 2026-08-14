@@ -404,6 +404,36 @@
     window.Game.Save.writeMeta(meta);
   }
 
+  // The 5 unlockable "Valiant" elite classes (see data-classes.js's `unlock`
+  // field) each gate on either a tower difficulty clear or a Survival Arena
+  // wave milestone. Both are tracked in the meta store (like nightmareUnlocked
+  // above) so they survive clearRun() -- an elite class stays unlocked across
+  // permadeath once earned.
+  function recordDifficultyCleared(difficultyId) {
+    var meta = window.Game.Save.readMeta();
+    meta.clearedDifficulty = meta.clearedDifficulty || {};
+    if (meta.clearedDifficulty[difficultyId]) return;
+    meta.clearedDifficulty[difficultyId] = true;
+    window.Game.Save.writeMeta(meta);
+  }
+
+  function recordSurvivalWaves(waves) {
+    var meta = window.Game.Save.readMeta();
+    if ((meta.survivalBestWaves || 0) >= waves) return;
+    meta.survivalBestWaves = waves;
+    window.Game.Save.writeMeta(meta);
+  }
+
+  function isClassUnlocked(classId) {
+    deps();
+    var cls = D.getClass(classId);
+    if (!cls || !cls.unlock) return true;
+    var meta = window.Game.Save.readMeta();
+    if (cls.unlock.type === 'difficulty') return !!(meta.clearedDifficulty && meta.clearedDifficulty[cls.unlock.difficulty]);
+    if (cls.unlock.type === 'survivalWaves') return (meta.survivalBestWaves || 0) >= cls.unlock.waves;
+    return true;
+  }
+
   function saveNow() {
     if (window.Game.State.current) window.Game.Save.write(window.Game.State.current);
   }
@@ -447,6 +477,9 @@
     claimAllQuests: claimAllQuests,
     isNightmareUnlocked: isNightmareUnlocked,
     unlockNightmare: unlockNightmare,
+    recordDifficultyCleared: recordDifficultyCleared,
+    recordSurvivalWaves: recordSurvivalWaves,
+    isClassUnlocked: isClassUnlocked,
     saveNow: saveNow,
     clearRun: clearRun
   };

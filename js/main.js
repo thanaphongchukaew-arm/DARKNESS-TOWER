@@ -17,6 +17,9 @@
       if (run && (run.difficulty === 'hard' || run.difficulty === 'nightmare')) {
         window.Game.State.unlockNightmare();
       }
+      // Clearing any difficulty is also what unlocks that difficulty's
+      // Valiant elite class (see data-classes.js's `unlock` field).
+      if (run) window.Game.State.recordDifficultyCleared(run.difficulty);
       iconEl.innerHTML = window.Game.Icons.get('crownSkull', 'icon-xl');
       iconEl.style.color = 'var(--accent-gold)';
       titleEl.textContent = T('victoryTitle');

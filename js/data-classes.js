@@ -290,6 +290,78 @@
       resist: 'light',
       baseStats: { hp: 34, mp: 30, atk: 5, mag: 12, def: 7, res: 10, spd: 15, luk: 10 },
       growth: { hp: 6.2, mp: 4.2, atk: 0.4, mag: 1.9, def: 1.1, res: 1.5, spd: 1.7, luk: 1.1 }
+    },
+
+    // ---- 5 unlockable elite classes: each locked behind clearing one game
+    // mode (see State.isClassUnlocked), each ~10-25% above the base roster's
+    // stat total, and each built around one signature skill mechanic no
+    // other class has (see the classOnly skills below and the matching
+    // battle-engine.js additions: allEnemies debuffs, on-hit debuffs,
+    // execute bonuses, HP-cost skills, and free-action-point skills). ----
+    {
+      id: 'warlord',
+      name: 'ผู้กล้าจอมบัญชาการ',
+      nameEn: 'Valiant Warlord',
+      icon: 'warlord',
+      unlock: { type: 'difficulty', difficulty: 'easy' },
+      description: 'ปลดล็อกด้วยการพิชิตหอคอยโหมด Easy จอมทัพผู้บัญชาการศึกที่สั่นสะเทือนขวัญศัตรูทั้งกลุ่มได้ในคำสั่งเดียว สมดุลระหว่างรุกและรับ แต่หวั่นไหวต่อสายฟ้า',
+      descriptionEn: 'Unlocked by clearing the tower on Easy. A battlefield commander who can shake an entire enemy group with a single decree. Balanced offense and defense, but weak to electricity.',
+      weak: 'elec',
+      resist: 'phys',
+      baseStats: { hp: 52, mp: 24, atk: 14, mag: 10, def: 13, res: 11, spd: 10, luk: 9 },
+      growth: { hp: 9.0, mp: 3.3, atk: 2.2, mag: 1.5, def: 2.0, res: 1.7, spd: 1.1, luk: 1.0 }
+    },
+    {
+      id: 'shadowhunter',
+      name: 'ผู้กล้านักล่าเงา',
+      nameEn: 'Valiant Shadowhunter',
+      icon: 'shadowhunter',
+      unlock: { type: 'difficulty', difficulty: 'normal' },
+      description: 'ปลดล็อกด้วยการพิชิตหอคอยโหมด Normal นักล่าผู้ทำให้ทุกจังหวะโจมตีกลายเป็นบาดแผลถาวร ความเร็วและโชคสูงเป็นเลิศ แต่หวั่นไหวต่อไฟ',
+      descriptionEn: 'Unlocked by clearing the tower on Normal. A hunter whose every strike leaves a lasting wound. Superb SPD and LUK, but weak to fire.',
+      weak: 'fire',
+      resist: 'dark',
+      baseStats: { hp: 40, mp: 22, atk: 17, mag: 6, def: 8, res: 8, spd: 16, luk: 14 },
+      growth: { hp: 6.9, mp: 3.0, atk: 3.1, mag: 0.6, def: 1.2, res: 1.2, spd: 1.9, luk: 1.6 }
+    },
+    {
+      id: 'executioner',
+      name: 'ผู้กล้าเพชฌฆาตราตรี',
+      nameEn: 'Valiant Executioner',
+      icon: 'executioner',
+      unlock: { type: 'difficulty', difficulty: 'hard' },
+      description: 'ปลดล็อกด้วยการพิชิตหอคอยโหมด Hard เพชฌฆาตผู้ทวีพลังโจมตีทันทีเมื่อศัตรูใกล้ร่วงหล่น พลังโจมตีสูงจัด แต่หวั่นไหวต่อน้ำแข็ง',
+      descriptionEn: 'Unlocked by clearing the tower on Hard. An executioner whose blows grow far deadlier the closer a foe is to death. Extremely high ATK, but weak to ice.',
+      weak: 'ice',
+      resist: 'dark',
+      baseStats: { hp: 46, mp: 18, atk: 20, mag: 4, def: 9, res: 7, spd: 15, luk: 12 },
+      growth: { hp: 7.9, mp: 2.4, atk: 3.6, mag: 0.3, def: 1.3, res: 1.1, spd: 1.8, luk: 1.4 }
+    },
+    {
+      id: 'deathbringer',
+      name: 'ผู้กล้าจอมมรณะ',
+      nameEn: 'Valiant Deathbringer',
+      icon: 'deathbringer',
+      unlock: { type: 'difficulty', difficulty: 'nightmare' },
+      description: 'ปลดล็อกด้วยการพิชิตหอคอยโหมด Nightmare จอมเวทเลือดผู้สังเวย HP ของตนเองแทน MP เพื่อร่ายพลังทำลายล้างสูงสุด แข็งแกร่งที่สุดในบรรดาผู้กล้าทั้งห้า แต่หวั่นไหวต่อแสง',
+      descriptionEn: 'Unlocked by clearing the tower on Nightmare. A blood mage who spends their own HP instead of MP to unleash devastating power. The strongest of the five Valiant classes, but weak to light.',
+      weak: 'light',
+      resist: 'dark',
+      baseStats: { hp: 56, mp: 28, atk: 16, mag: 17, def: 10, res: 10, spd: 11, luk: 10 },
+      growth: { hp: 9.6, mp: 3.9, atk: 2.9, mag: 3.1, def: 1.5, res: 1.5, spd: 1.2, luk: 1.1 }
+    },
+    {
+      id: 'vanguard',
+      name: 'ผู้กล้าไร้สิ้นสุด',
+      nameEn: 'Valiant Vanguard',
+      icon: 'vanguard',
+      unlock: { type: 'survivalWaves', waves: 30 },
+      description: 'ปลดล็อกด้วยการผ่านคลื่นในสนามประลองไร้สิ้นสุดให้ครบ 30 คลื่นในเซสชันเดียว นักรบแนวหน้าผู้บางท่วงท่าคืนพลังการกระทำให้ตนเองทันที โจมตีต่อเนื่องไม่หยุดยั้ง แต่หวั่นไหวต่อกายภาพ',
+      descriptionEn: 'Unlocked by clearing 30 waves in a single Survival Arena session. A frontline warrior whose flowing techniques refund their own action point, chaining attacks without pause. Weak to physical damage.',
+      weak: 'phys',
+      resist: 'wind',
+      baseStats: { hp: 44, mp: 26, atk: 14, mag: 12, def: 9, res: 9, spd: 18, luk: 11 },
+      growth: { hp: 7.6, mp: 3.6, atk: 2.4, mag: 2.1, def: 1.3, res: 1.3, spd: 2.1, luk: 1.3 }
     }
   ];
 

@@ -89,6 +89,7 @@
     document.getElementById('tower-shop-btn').textContent = T('shopBtn');
     document.getElementById('tower-shop-btn').onclick = function () {
       SFX('ui_confirm');
+      shopMode = 'buy';
       renderShop();
       window.Game.UI.showScreen('screen-shop');
     };

@@ -2,7 +2,7 @@
 (function () {
   function I(name, cls) { return window.Game.Icons.get(name, cls); }
   function SFX(name) { if (window.Game.Audio) window.Game.Audio.sfx(name); }
-  function T(key) { return window.Game.I18n.t(key); }
+  function T(key, vars) { return window.Game.I18n.t(key, vars); }
   function L(obj, field) { return window.Game.I18n.L(obj, field); }
 
   function showScreen(id) {
@@ -104,27 +104,54 @@
 
   var GUIDE_ELEMENTS = ['phys', 'fire', 'ice', 'elec', 'wind', 'light', 'dark', 'almighty'];
 
+  // icon + i18n-key-suffix per stat card -- reuses the exact icons the status
+  // panel already uses for these stats (see statRow calls in ui-tower.js)
+  // so the guide stays visually consistent with the rest of the UI.
+  var GUIDE_STATS = [
+    { icon: 'heart', key: 'Hp' }, { icon: 'drop', key: 'Mp' },
+    { icon: 'swordAttack', key: 'Atk' }, { icon: 'magicBurst', key: 'Mag' },
+    { icon: 'shieldGuard', key: 'Def' }, { icon: 'sparkles', key: 'Res' },
+    { icon: 'wind', key: 'Spd' }, { icon: 'star', key: 'Luk' },
+    { icon: 'debuffDown', key: 'Weak' }, { icon: 'buffUp', key: 'Resist' },
+    { icon: 'gem', key: 'Exp' }
+  ];
+  var GUIDE_RELATIONS = [
+    { icon: 'star', key: 'Weak' }, { icon: 'shieldGuard', key: 'Resist' }, { icon: 'close', key: 'Null' },
+    { icon: 'heart', key: 'Drain' }, { icon: 'debuffDown', key: 'Reflect' }
+  ];
+  var GUIDE_COMBAT = [
+    { icon: 'buffUp', key: 'Ap' }, { icon: 'swordAttack', key: 'Actions' },
+    { icon: 'debuffDown', key: 'Stagger' }, { icon: 'skull', key: 'Group' }
+  ];
+  var GUIDE_TOWER = [
+    { icon: 'towerSpire', key: 'Floors' }, { icon: 'doorway', key: 'Waypoint' },
+    { icon: 'crownSkull', key: 'Boss' }, { icon: 'skullFire', key: 'Difficulty' }
+  ];
+  var GUIDE_TIPS = ['guideTip1', 'guideTip2', 'guideTip3', 'guideTip4'];
+
+  // Shared card renderer for every guide grid (icon + short label + one-line
+  // description) -- prefix identifies the i18n key family, e.g. 'guideStat' + 'Hp' + 'Label'.
+  function guideCardGrid(prefix, items) {
+    return '<div class="guide-stat-grid">' + items.map(function (it) {
+      return '<div class="guide-stat-card">' + I(it.icon) +
+        '<div><div class="guide-stat-card-label">' + T(prefix + it.key + 'Label') + '</div>' +
+        '<div class="guide-stat-card-desc">' + T(prefix + it.key + 'Desc') + '</div></div>' +
+      '</div>';
+    }).join('') + '</div>';
+  }
+
   function renderGuide() {
     var elementsHtml = GUIDE_ELEMENTS.map(function (el) {
       return '<div class="element-card"><span class="el-tag el-' + el + '">' + I(el) + '</span><span class="element-card-name">' + window.Game.ElementName(el) + '</span></div>';
+    }).join('');
+    var tipsHtml = GUIDE_TIPS.map(function (key) {
+      return '<div class="guide-tip-card">' + I('sparkles') + '<span>' + T(key) + '</span></div>';
     }).join('');
 
     document.getElementById('guide-content').innerHTML =
       '<div class="guide-section">' +
         '<h3>' + T('guideStatsTitle') + '</h3>' +
-        '<ul class="guide-list">' +
-          '<li>' + T('guideStatHp') + '</li>' +
-          '<li>' + T('guideStatMp') + '</li>' +
-          '<li>' + T('guideStatAtk') + '</li>' +
-          '<li>' + T('guideStatMag') + '</li>' +
-          '<li>' + T('guideStatDef') + '</li>' +
-          '<li>' + T('guideStatRes') + '</li>' +
-          '<li>' + T('guideStatSpd') + '</li>' +
-          '<li>' + T('guideStatLuk') + '</li>' +
-          '<li>' + T('guideStatWeak') + '</li>' +
-          '<li>' + T('guideStatResist') + '</li>' +
-          '<li>' + T('guideStatExp') + '</li>' +
-        '</ul>' +
+        guideCardGrid('guideStat', GUIDE_STATS) +
       '</div>' +
       '<div class="guide-section">' +
         '<h3>' + T('guideElementsTitle') + '</h3>' +
@@ -133,36 +160,19 @@
       '</div>' +
       '<div class="guide-section">' +
         '<h3>' + T('guideRelationsTitle') + '</h3>' +
-        '<ul class="guide-list">' +
-          '<li><span class="el-tag el-fire tag-weak">' + I('star') + '</span>' + T('guideRelWeak') + '</li>' +
-          '<li><span class="el-tag el-ice tag-bad">' + I('shieldGuard') + '</span>' + T('guideRelResist') + '</li>' +
-          '<li><span class="el-tag el-dark tag-bad">' + I('close') + '</span>' + T('guideRelNull') + '</li>' +
-          '<li><span class="el-tag el-elec tag-bad">' + I('heart') + '</span>' + T('guideRelDrain') + '</li>' +
-          '<li><span class="el-tag el-wind tag-bad">' + I('shieldGuard') + '</span>' + T('guideRelReflect') + '</li>' +
-        '</ul>' +
+        guideCardGrid('guideRel', GUIDE_RELATIONS) +
       '</div>' +
       '<div class="guide-section">' +
         '<h3>' + T('guideCombatTitle') + '</h3>' +
-        '<p>' + T('guideCombatAP') + '</p>' +
-        '<p>' + T('guideCombatActions') + '</p>' +
-        '<p>' + T('guideCombatStagger') + '</p>' +
-        '<p>' + T('guideCombatGroup') + '</p>' +
+        guideCardGrid('guideCombat', GUIDE_COMBAT) +
       '</div>' +
       '<div class="guide-section">' +
         '<h3>' + T('guideTowerTitle') + '</h3>' +
-        '<p>' + T('guideTowerFloors') + '</p>' +
-        '<p>' + T('guideTowerWaypoint') + '</p>' +
-        '<p>' + T('guideTowerBoss') + '</p>' +
-        '<p>' + T('guideTowerDifficulty') + '</p>' +
+        guideCardGrid('guideTower', GUIDE_TOWER) +
       '</div>' +
       '<div class="guide-section">' +
         '<h3>' + T('guideTipsTitle') + '</h3>' +
-        '<ul class="guide-list">' +
-          '<li>' + T('guideTip1') + '</li>' +
-          '<li>' + T('guideTip2') + '</li>' +
-          '<li>' + T('guideTip3') + '</li>' +
-          '<li>' + T('guideTip4') + '</li>' +
-        '</ul>' +
+        '<div class="guide-tip-list">' + tipsHtml + '</div>' +
       '</div>';
 
     document.getElementById('guide-back').innerHTML = I('back');
@@ -215,24 +225,52 @@
         return;
       }
       card.onclick = function () {
-        SFX('ui_confirm');
-        window.Game.State.pending.difficulty = card.getAttribute('data-id');
-        renderClassSelect();
-        showScreen('screen-class');
+        var id = card.getAttribute('data-id');
+        var proceed = function () {
+          SFX('ui_confirm');
+          window.Game.State.pending.difficulty = id;
+          renderClassSelect();
+          showScreen('screen-class');
+        };
+        // A little friendly taunt on Easy -- nudges toward Normal/Hard without
+        // actually blocking the choice (Cancel just returns to this screen).
+        if (id === 'easy') {
+          SFX('ui_cancel');
+          confirmModal({
+            title: T('diffEasyTauntTitle'),
+            message: T('diffEasyTauntMsg'),
+            confirmLabel: T('diffEasyTauntConfirmBtn'),
+            onConfirm: proceed
+          });
+          return;
+        }
+        proceed();
       };
     });
     document.getElementById('diff-back').innerHTML = I('back');
     document.getElementById('diff-back').onclick = function () { SFX('ui_back'); renderMainMenu(); showScreen('screen-menu'); };
   }
 
+  // Locked-class reason text: the class's `unlock` field (data-classes.js)
+  // says whether it needs a difficulty clear or a Survival Arena wave count.
+  function classLockedDesc(c) {
+    if (c.unlock.type === 'difficulty') {
+      var diff = window.Game.Formulas.DIFFICULTY[c.unlock.difficulty];
+      return T('classLockedDifficultyDesc', { difficulty: L(diff, 'name') });
+    }
+    return T('classLockedSurvivalDesc', { waves: c.unlock.waves });
+  }
+
   function renderClassSelect() {
     var el = document.getElementById('class-cards');
     var classes = window.Game.Data.classes;
     el.innerHTML = classes.map(function (c) {
-      return '<button class="select-card" data-id="' + c.id + '">' +
-        '<div class="select-card-icon">' + I(c.icon) + '</div>' +
+      var locked = c.unlock && !window.Game.State.isClassUnlocked(c.id);
+      return '<button class="select-card' + (locked ? ' locked' : '') + '" data-id="' + c.id + '">' +
+        '<div class="select-card-icon">' + I(locked ? 'lock' : c.icon) + '</div>' +
         '<div class="select-card-title">' + L(c, 'name') + '</div>' +
-        '<div class="select-card-desc">' + L(c, 'description') + '</div>' +
+        '<div class="select-card-desc">' + (locked ? classLockedDesc(c) : L(c, 'description')) + '</div>' +
+        (locked ? '' :
         '<div class="select-card-stats">' +
           '<span class="el-tag el-' + c.weak + '">' + I(c.weak) + ' ' + T('weakLabel') + '</span>' +
           '<span class="el-tag el-' + c.resist + '">' + I(c.resist) + ' ' + T('resistLabel') + '</span>' +
@@ -242,10 +280,14 @@
           '<span class="stat-chip">MP ' + c.baseStats.mp + '</span>' +
           '<span class="stat-chip">ATK ' + c.baseStats.atk + '</span>' +
           '<span class="stat-chip">MAG ' + c.baseStats.mag + '</span>' +
-        '</div>' +
+        '</div>') +
       '</button>';
     }).join('');
     Array.prototype.forEach.call(el.querySelectorAll('.select-card'), function (card) {
+      if (card.classList.contains('locked')) {
+        card.onclick = function () { SFX('ui_cancel'); };
+        return;
+      }
       card.onclick = function () {
         SFX('ui_confirm');
         var classId = card.getAttribute('data-id');

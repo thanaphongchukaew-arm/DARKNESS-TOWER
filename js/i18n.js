@@ -21,52 +21,76 @@
     // how-to-play / guide screen
     guideTitle: { th: 'วิธีเล่น', en: 'How to Play' },
     guideStatsTitle: { th: 'ค่าสถานะของคุณ', en: 'Your Stats' },
-    guideStatHp: { th: 'HP (พลังชีวิต) — ถ้าลดเหลือ 0 คุณจะแพ้การต่อสู้ทันที', en: 'HP (Hit Points) — reach 0 and you lose the battle immediately.' },
-    guideStatMp: { th: 'MP (พลังเวทมนตร์) — ใช้ร่ายทักษะ แต่ละทักษะใช้ MP ไม่เท่ากัน', en: 'MP (Magic Points) — spent on Skills; each skill costs a different amount.' },
-    guideStatAtk: { th: 'ATK (พลังโจมตี) — ใช้คำนวณดาเมจของการโจมตีธาตุกายภาพ', en: 'ATK (Attack) — determines the damage of physical-element attacks.' },
-    guideStatMag: { th: 'MAG (พลังเวทมนตร์โจมตี) — ใช้คำนวณดาเมจของทักษะธาตุเวทมนตร์ เช่น ไฟ น้ำแข็ง สายฟ้า', en: 'MAG (Magic Attack) — determines the damage of elemental skills like fire, ice, or electric.' },
-    guideStatDef: { th: 'DEF (พลังป้องกัน) — ลดดาเมจที่ได้รับจากการโจมตีธาตุกายภาพ', en: 'DEF (Defense) — reduces damage taken from physical-element attacks.' },
-    guideStatRes: { th: 'RES (ต้านทานเวทมนตร์) — ลดดาเมจที่ได้รับจากการโจมตีธาตุเวทมนตร์', en: 'RES (Resistance) — reduces damage taken from elemental attacks.' },
-    guideStatSpd: { th: 'SPD (ความเร็ว) — ยิ่งเร็วกว่าศัตรูมาก ยิ่งมีโอกาสได้โจมตีก่อนหรือได้แต้มการกระทำ (AP) พิเศษในเทิร์นนั้น', en: "SPD (Speed) — the faster you are than the enemy, the more likely you'll strike first or get a bonus action point (AP) that turn." },
-    guideStatLuk: { th: 'LUK (โชค) — เพิ่มโอกาสโจมตีคริติคอล (ดาเมจ 1.6 เท่า)', en: 'LUK (Luck) — increases your chance to land a critical hit (1.6x damage).' },
-    guideStatWeak: { th: 'จุดอ่อน — ธาตุที่คุณได้รับดาเมจเพิ่มขึ้นเมื่อโดนโจมตีด้วยธาตุนั้น', en: "Weak — the element that deals extra damage to you when you're hit by it." },
-    guideStatResist: { th: 'ต้านทาน — ธาตุที่คุณได้รับดาเมจลดลงเมื่อโดนโจมตีด้วยธาตุนั้น', en: "Resist — the element that deals less damage to you when you're hit by it." },
-    guideStatExp: { th: 'แถบด้านล่างสุด (EXP) — ความคืบหน้าสู่เลเวลถัดไป เต็มแถบเมื่อไรจะเลเวลอัพและค่าสถานะเพิ่มขึ้น', en: 'Bottom bar (EXP) — progress toward your next level; fill it up to level up and boost your stats.' },
+    guideStatHpLabel: { th: 'HP', en: 'HP' },
+    guideStatHpDesc: { th: 'พลังชีวิต — ลดเหลือ 0 เมื่อไรแพ้ทันที', en: 'Hit Points — reach 0 and you lose the battle immediately.' },
+    guideStatMpLabel: { th: 'MP', en: 'MP' },
+    guideStatMpDesc: { th: 'พลังเวท — ใช้ร่ายทักษะ แต่ละทักษะใช้ไม่เท่ากัน', en: 'Magic Points — spent on Skills; each skill costs a different amount.' },
+    guideStatAtkLabel: { th: 'ATK', en: 'ATK' },
+    guideStatAtkDesc: { th: 'พลังโจมตี — ดาเมจของการโจมตีธาตุกายภาพ', en: 'Attack — determines the damage of physical-element attacks.' },
+    guideStatMagLabel: { th: 'MAG', en: 'MAG' },
+    guideStatMagDesc: { th: 'พลังเวทโจมตี — ดาเมจของทักษะธาตุเวท เช่น ไฟ น้ำแข็ง สายฟ้า', en: 'Magic Attack — determines the damage of elemental skills like fire, ice, or electric.' },
+    guideStatDefLabel: { th: 'DEF', en: 'DEF' },
+    guideStatDefDesc: { th: 'พลังป้องกัน — ลดดาเมจจากการโจมตีธาตุกายภาพ', en: 'Defense — reduces damage taken from physical-element attacks.' },
+    guideStatResLabel: { th: 'RES', en: 'RES' },
+    guideStatResDesc: { th: 'ต้านทานเวท — ลดดาเมจจากการโจมตีธาตุเวท', en: 'Resistance — reduces damage taken from elemental attacks.' },
+    guideStatSpdLabel: { th: 'SPD', en: 'SPD' },
+    guideStatSpdDesc: { th: 'ความเร็ว — ยิ่งเร็วกว่าศัตรู ยิ่งมีโอกาสโจมตีก่อนหรือได้แต้ม AP พิเศษ', en: "Speed — the faster you are than the enemy, the more likely you'll strike first or gain a bonus action point." },
+    guideStatLukLabel: { th: 'LUK', en: 'LUK' },
+    guideStatLukDesc: { th: 'โชค — เพิ่มโอกาสคริติคอล (ดาเมจ 1.6 เท่า)', en: 'Luck — increases your chance to land a critical hit (1.6x damage).' },
+    guideStatWeakLabel: { th: 'จุดอ่อน', en: 'Weak' },
+    guideStatWeakDesc: { th: 'ธาตุที่คุณรับดาเมจเพิ่มขึ้นเมื่อโดนโจมตี', en: "The element that deals extra damage to you when you're hit by it." },
+    guideStatResistLabel: { th: 'ต้านทาน', en: 'Resist' },
+    guideStatResistDesc: { th: 'ธาตุที่คุณรับดาเมจลดลงเมื่อโดนโจมตี', en: "The element that deals less damage to you when you're hit by it." },
+    guideStatExpLabel: { th: 'EXP', en: 'EXP' },
+    guideStatExpDesc: { th: 'แถบล่างสุด — คืบหน้าสู่เลเวลถัดไป เต็มแล้วเลเวลอัพและค่าสถานะเพิ่ม', en: 'Bottom bar — progress toward your next level; fill it up to level up and boost your stats.' },
     guideElementsTitle: { th: 'ธาตุแห่งการต่อสู้', en: 'Combat Elements' },
     guideElementsIntro: {
       th: 'ทุกการโจมตีมีธาตุประจำตัว แสดงด้วยไอคอนสีต่าง ๆ ตามด้านล่าง ศัตรูแต่ละตัวมีจุดอ่อนและจุดต้านทานธาตุที่ต่างกัน เลือกใช้ธาตุที่ตรงจุดอ่อนของศัตรูเพื่อสร้างความได้เปรียบในการต่อสู้',
       en: "Every attack carries an element, shown as a colored icon like the ones below. Each enemy has its own weaknesses and resistances — pick the element that exploits an enemy's weak point to gain the upper hand."
     },
     guideRelationsTitle: { th: 'ผลลัพธ์เมื่อโจมตีตรงธาตุ', en: 'Elemental Match Effects' },
-    guideRelWeak: { th: 'จุดอ่อน — ดาเมจเพิ่มขึ้น 1.5 เท่า และคุณได้รับแต้มการกระทำคืน 1 แต้ม', en: 'Weak Point — 1.5x damage, and you regain 1 bonus action point' },
-    guideRelResist: { th: 'ต้านทาน — ดาเมจที่ได้รับลดลงเหลือครึ่งหนึ่ง', en: 'Resist — damage dealt is cut in half' },
-    guideRelNull: { th: 'ไร้ผล — การโจมตีนั้นไม่สร้างดาเมจเลย', en: 'Null — the attack deals no damage at all' },
-    guideRelDrain: { th: 'ดูดซับ — ศัตรูฟื้นฟู HP จากธาตุนั้นแทนที่จะเสียเลือด', en: 'Drain — the enemy heals HP from that element instead of taking damage' },
-    guideRelReflect: { th: 'สะท้อนกลับ — ดาเมจย้อนกลับมาใส่ตัวผู้โจมตีเอง', en: 'Reflect — the damage bounces back at whoever attacked' },
+    guideRelWeakLabel: { th: 'จุดอ่อน', en: 'Weak Point' },
+    guideRelWeakDesc: { th: 'ดาเมจเพิ่มขึ้น 1.5 เท่า และได้แต้มการกระทำคืน 1 แต้ม', en: 'Deals 1.5x damage, and you regain 1 bonus action point.' },
+    guideRelResistLabel: { th: 'ต้านทาน', en: 'Resist' },
+    guideRelResistDesc: { th: 'ดาเมจที่ได้รับลดลงเหลือครึ่งหนึ่ง', en: 'Damage dealt is cut in half.' },
+    guideRelNullLabel: { th: 'ไร้ผล', en: 'Null' },
+    guideRelNullDesc: { th: 'การโจมตีนั้นไม่สร้างดาเมจเลย', en: 'The attack deals no damage at all.' },
+    guideRelDrainLabel: { th: 'ดูดซับ', en: 'Drain' },
+    guideRelDrainDesc: { th: 'ศัตรูฟื้นฟู HP จากธาตุนั้นแทนที่จะเสียเลือด', en: 'The enemy heals HP from that element instead of taking damage.' },
+    guideRelReflectLabel: { th: 'สะท้อนกลับ', en: 'Reflect' },
+    guideRelReflectDesc: { th: 'ดาเมจย้อนกลับมาใส่ตัวผู้โจมตีเอง', en: 'The damage bounces back at whoever attacked.' },
     guideCombatTitle: { th: 'ระบบการต่อสู้', en: 'Battle System' },
-    guideCombatAP: {
-      th: 'แต้มการกระทำ (AP) — แต่ละเทิร์นคุณเริ่มด้วย 1 แต้ม (หรือ 2 แต้มถ้าคุณเร็วกว่าศัตรูมาก) ใช้ 1 แต้มต่อคำสั่ง 1 ครั้ง โจมตีโดนจุดอ่อนหรือคริติคอลจะได้แต้มคืน แต่ถ้าโดนต้านทาน ไร้ผล ดูดซับ หรือสะท้อน จะเสียแต้มที่เหลือทั้งหมดทันที',
-      en: "Action Points (AP) — each turn starts with 1 AP (or 2 if you're much faster than the enemy). Every command costs 1 AP. A weak-point hit or a critical refunds an AP, but hitting a resist/null/drain/reflect enemy burns all remaining AP instantly."
+    guideCombatApLabel: { th: 'แต้มการกระทำ (AP)', en: 'Action Points (AP)' },
+    guideCombatApDesc: {
+      th: 'เริ่มเทิร์นด้วย 1 แต้ม (หรือ 2 ถ้าเร็วกว่าศัตรูมาก) ใช้ 1 แต้มต่อคำสั่ง โดนจุดอ่อนหรือคริติคอลได้แต้มคืน แต่โดนต้านทาน/ไร้ผล/ดูดซับ/สะท้อนจะเสียแต้มที่เหลือทันที',
+      en: "Start each turn with 1 AP (2 if much faster than the enemy). Every command costs 1 AP. A weak-point hit or crit refunds one, but a resist/null/drain/reflect burns all remaining AP instantly."
     },
-    guideCombatActions: { th: 'คำสั่งที่ใช้ได้: โจมตีธรรมดา, ทักษะ (ใช้ MP), ป้องกัน (ลดดาเมจที่ได้รับลงครึ่งหนึ่งในเทิร์นนั้น) และใช้ไอเทม', en: 'Available commands: basic Attack, Skills (cost MP), Guard (halves damage taken that round), and Items.' },
-    guideCombatStagger: {
-      th: 'เสียหลัก — ศัตรูที่โดนจุดอ่อนหรือคริติคอลจะเสียหลักและข้ามเทิร์นถัดไป ถ้าศัตรูทุกตัวเสียหลักพร้อมกัน คุณจะได้โอกาส "โจมตีรวมพลัง" ใส่ดาเมจก้อนใหญ่กับทุกตัวในทีเดียว',
-      en: 'Staggered — an enemy hit by a weak point or a critical is staggered and skips its next turn. When every enemy is staggered at once, you get a chance for an All-Out Attack that hits them all for heavy damage.'
+    guideCombatActionsLabel: { th: 'คำสั่งที่ใช้ได้', en: 'Commands' },
+    guideCombatActionsDesc: { th: 'โจมตีธรรมดา, ทักษะ (ใช้ MP), ป้องกัน (ลดดาเมจครึ่งหนึ่งในเทิร์นนั้น), และใช้ไอเทม', en: 'Basic Attack, Skills (cost MP), Guard (halves damage taken that round), and Items.' },
+    guideCombatStaggerLabel: { th: 'เสียหลัก', en: 'Stagger' },
+    guideCombatStaggerDesc: {
+      th: 'ศัตรูที่โดนจุดอ่อนหรือคริติคอลจะเสียหลักและข้ามเทิร์น ถ้าทุกตัวเสียหลักพร้อมกันจะได้โอกาส "โจมตีรวมพลัง" ใส่ดาเมจก้อนใหญ่ทีเดียว',
+      en: 'An enemy hit by a weak point or crit staggers and skips its turn. If every enemy is staggered at once, you get an All-Out Attack for heavy damage.'
     },
-    guideCombatGroup: {
-      th: 'ศัตรูอาจปรากฏเป็นกลุ่มสูงสุด 5 ตัวในชั้นลึก ๆ ยิ่งมาเป็นกลุ่มใหญ่แต่ละตัวจะอ่อนกำลังลง แต่ก็โจมตีคุณพร้อมกันได้หลายทาง ระวังให้ดี',
-      en: 'On deeper floors enemies can appear in groups of up to 5. Larger groups are individually weaker, but they can all attack you in the same round — stay alert.'
+    guideCombatGroupLabel: { th: 'กลุ่มศัตรู', en: 'Enemy Groups' },
+    guideCombatGroupDesc: {
+      th: 'ชั้นลึก ๆ อาจเจอศัตรูเป็นกลุ่มสูงสุด 5 ตัว ยิ่งกลุ่มใหญ่แต่ละตัวยิ่งอ่อนลง แต่โจมตีคุณพร้อมกันได้หลายทาง',
+      en: 'On deeper floors enemies can appear in groups of up to 5. Larger groups are individually weaker, but can all attack you the same round.'
     },
     guideTowerTitle: { th: 'การไต่หอคอย', en: 'Climbing the Tower' },
-    guideTowerFloors: { th: 'หอคอยมีทั้งหมด 100 ชั้น เอาชนะศัตรูในแต่ละชั้นเพื่อไต่ขึ้นไป ทุกชั้นที่ผ่านจะได้เลือกของรางวัล 1 ชิ้น พร้อม EXP และทอง', en: 'The tower has 100 floors. Defeat the enemies on each floor to climb higher. Clearing a floor lets you pick one reward, plus EXP and gold.' },
-    guideTowerWaypoint: {
-      th: 'ทุก ๆ 5 ชั้นจะมีจุดพักก่อนเจอมินิบอสประจำจุดนั้น — จุดพักฟื้น (ฟื้น HP/MP เต็ม), ร้านค้าเร่ร่อน (ใช้ทองซื้อไอเทม/อุปกรณ์), หรือห้องสมบัติ (รับของฟรี 1 ชิ้น)',
-      en: "Every 5 floors has a waypoint before that tier's mini-boss — a Rest Stop (fully restores HP/MP), a Wandering Shop (spend gold on items/gear), or a Treasure Room (pick one free item)."
+    guideTowerFloorsLabel: { th: '100 ชั้น', en: '100 Floors' },
+    guideTowerFloorsDesc: { th: 'เอาชนะศัตรูแต่ละชั้นเพื่อไต่ขึ้นไป ทุกชั้นที่ผ่านได้เลือกของรางวัล 1 ชิ้น พร้อม EXP และทอง', en: 'Defeat the enemies on each floor to climb higher. Clearing a floor lets you pick one reward, plus EXP and gold.' },
+    guideTowerWaypointLabel: { th: 'จุดพัก', en: 'Waypoints' },
+    guideTowerWaypointDesc: {
+      th: 'ทุก 5 ชั้นมีจุดพักก่อนมินิบอส — จุดพักฟื้น (ฟื้น HP/MP เต็ม), ร้านค้าเร่ร่อน (ซื้อไอเทม/อุปกรณ์), หรือห้องสมบัติ (รับของฟรี 1 ชิ้น)',
+      en: "Every 5 floors has a waypoint before that tier's mini-boss — a Rest Stop (full HP/MP), a Wandering Shop (buy gear), or a Treasure Room (1 free item)."
     },
-    guideTowerBoss: { th: 'ชั้น 100 คือห้องบัลลังก์ของราชันไร้กาลเวลา บอสใหญ่ประจำหอคอย เตรียมตัวให้พร้อมก่อนขึ้นเผชิญหน้า', en: "Floor 100 is the throne room of the Timeless Sovereign, the tower's final boss. Come prepared before you face it." },
-    guideTowerDifficulty: {
-      th: 'เลือกระดับความยากได้ตอนเริ่มเกม: ง่าย ศัตรูอ่อนลงและได้ไอเทมเริ่มต้นมากกว่า, ปกติ สมดุลมาตรฐาน, ยาก ศัตรูแข็งแกร่งขึ้นแต่ได้รางวัลมากขึ้น, และฝันร้าย โหมดที่โหดที่สุดซึ่งจะปลดล็อกหลังพิชิตหอคอยด้วยโหมดยากสำเร็จ',
-      en: 'Pick a difficulty at the start: Easy weakens enemies and gives extra starting items, Normal is the standard balance, Hard makes enemies tougher but pays out bigger rewards, and Nightmare -- the harshest mode of all -- unlocks once you clear the tower on Hard.'
+    guideTowerBossLabel: { th: 'บอสใหญ่', en: 'Final Boss' },
+    guideTowerBossDesc: { th: 'ชั้น 100 คือห้องบัลลังก์ของราชันไร้กาลเวลา เตรียมตัวให้พร้อมก่อนขึ้นเผชิญหน้า', en: "Floor 100 is the throne room of the Timeless Sovereign. Come prepared before you face it." },
+    guideTowerDifficultyLabel: { th: 'ความยาก', en: 'Difficulty' },
+    guideTowerDifficultyDesc: {
+      th: 'ง่าย ศัตรูอ่อนลง+ไอเทมเริ่มต้นเพิ่ม, ปกติ สมดุลมาตรฐาน, ยาก ศัตรูแกร่งขึ้น+รางวัลมากขึ้น, ฝันร้าย โหดสุดปลดล็อกหลังพิชิตโหมดยาก',
+      en: 'Easy weakens enemies and adds starting items, Normal is standard, Hard is tougher for bigger rewards, Nightmare — the harshest — unlocks after clearing Hard.'
     },
     guideTipsTitle: { th: 'เคล็ดลับ', en: 'Tips' },
     guideTip1: { th: 'สังเกตไอคอนธาตุที่ขึ้นเหนือแถบเลือดศัตรู เกมจะจดจำจุดอ่อน/จุดต้านทานที่คุณเคยเจอไว้ให้ดูตลอดการต่อสู้', en: "Watch the element icons above each enemy's HP bar — the game remembers every weakness and resistance you've discovered and keeps it visible for the rest of the fight." },
@@ -106,10 +130,15 @@
     // difficulty select
     chooseDifficultyTitle: { th: 'เลือกระดับความยาก', en: 'Choose Difficulty' },
     diffEasyDesc: { th: 'เหมาะสำหรับผู้เริ่มต้น ศัตรูอ่อนกำลังลง และได้รับไอเทมเริ่มต้นมากกว่า', en: 'Great for beginners. Enemies are weaker and you start with more items.' },
+    diffEasyTauntTitle: { th: 'แค่นี้เองเหรอ?', en: "That's all you've got?" },
+    diffEasyTauntMsg: { th: 'โหมดง่ายเนี่ยนะ? ศัตรูอ่อนยวบ ของรางวัลก็บาง ๆ ผู้กล้าตัวจริงเขาไม่เลือกทางสบายแบบนี้กันหรอก ลองโหมดปกติหรือโหมดยากดูไหม จะได้ท้าทายกว่านี้เยอะ', en: "Easy mode, really? Weak enemies, thin rewards -- real heroes don't take the easy road. Try Normal or Hard instead for an actual challenge." },
+    diffEasyTauntConfirmBtn: { th: 'เล่นโหมดง่ายต่อไป', en: 'Stick with Easy anyway' },
     diffNormalDesc: { th: 'ความสมดุลมาตรฐาน ท้าทายแต่ยุติธรรม', en: 'The standard balance. Challenging but fair.' },
     diffHardDesc: { th: 'ศัตรูแข็งแกร่งขึ้นมาก แต่ได้รับของรางวัลและ EXP มากขึ้นเป็นการตอบแทน', en: 'Enemies are much tougher, but rewards and EXP are greater in return.' },
     diffNightmareDesc: { th: 'โหมดที่โหดที่สุด สมชื่อ ศัตรูแข็งแกร่งขึ้นมหาศาลและไม่มีไอเทมเริ่มต้นเลย แต่ของรางวัลก็มากที่สุดเช่นกัน', en: "The harshest mode there is. Enemies are drastically stronger and you start with no items at all, but the rewards are the biggest of any difficulty." },
     diffNightmareLockedDesc: { th: 'ล็อกอยู่ — พิชิตหอคอยด้วยโหมด Hard ให้จบก่อนจึงจะปลดล็อกโหมดนี้', en: 'Locked — clear the tower on Hard difficulty to unlock this mode.' },
+    classLockedDifficultyDesc: { th: 'ล็อกอยู่ — พิชิตหอคอยด้วยโหมด {difficulty} ให้จบก่อนจึงจะปลดล็อกคลาสนี้', en: 'Locked — clear the tower on {difficulty} difficulty to unlock this class.' },
+    classLockedSurvivalDesc: { th: 'ล็อกอยู่ — ผ่านคลื่นในสนามประลองไร้สิ้นสุดให้ครบ {waves} คลื่นในเซสชันเดียวจึงจะปลดล็อกคลาสนี้', en: 'Locked — clear {waves} waves in a single Survival Arena session to unlock this class.' },
     enemyPowerLabel: { th: 'พลังศัตรู x', en: 'Enemy power x' },
     rewardLabel: { th: 'รางวัล x', en: 'Reward x' },
 
@@ -289,6 +318,7 @@
     logReflect: { th: 'ดาเมจสะท้อนกลับ {amount} ใส่ {attacker}!', en: '{amount} damage reflected back at {attacker}!' },
     logDrainBlocked: { th: '{target} ดูดซับพลังงานและฟื้นฟู {amount} HP!', en: '{target} absorbed the energy and recovered {amount} HP!' },
     logHeal: { th: 'ฟื้นฟู {amount} HP', en: 'Restored {amount} HP' },
+    logHpSacrifice: { th: 'สังเวย {amount} HP เพื่อร่ายพลังเลือด', en: 'Sacrificed {amount} HP to fuel blood magic' },
     logBuffUp: { th: '{who} ได้รับ {stat} เพิ่มขึ้น', en: '{who} gained increased {stat}' },
     logBuffDown: { th: '{who} ถูกลด {stat} ลง', en: '{who} had {stat} lowered' },
     logGuard: { th: 'ตั้งท่าป้องกัน', en: 'Took a defensive stance' },

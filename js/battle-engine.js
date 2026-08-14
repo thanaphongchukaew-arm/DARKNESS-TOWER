@@ -270,14 +270,22 @@
     } else if (action.kind === 'attack' || action.kind === 'skill') {
       var skillId = action.kind === 'attack' ? 'attack' : action.skillId;
       var skill = D().getSkill(skillId);
-      if (!skill || run.mp < skill.cost) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
-      // validate the target *before* spending MP, so an invalid/stale target can't waste resources
+      // Blood-magic skills (Deathbringer) pay with a slice of max HP instead of/alongside
+      // MP -- must always leave the caster with at least 1 HP, so this can never be a
+      // free suicide (checkBattleEnd only ever fires from *damage*, not from this cost).
+      var hpCostAmt = skill && skill.hpCost ? Math.round(battle.player.maxHp * skill.hpCost) : 0;
+      if (!skill || run.mp < skill.cost || (hpCostAmt > 0 && run.hp <= hpCostAmt)) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
+      // validate the target *before* spending MP/HP, so an invalid/stale target can't waste resources
       if (skill.target === 'singleEnemy') {
         var checkTgt = battle.enemies[action.targetIndex];
         if (!checkTgt || !checkTgt.alive) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
       }
       run.mp -= skill.cost;
       events.push({ type: 'skillUsed', name: L(skill, 'name'), element: skill.element });
+      if (hpCostAmt > 0) {
+        run.hp -= hpCostAmt;
+        events.push({ type: 'hpSacrifice', amount: hpCostAmt, hpAfter: run.hp, maxHp: battle.player.maxHp });
+      }
 
       if (skill.kind === 'heal') {
         var healAmt = Math.round(battle.player.maxHp * skill.power);
@@ -293,10 +301,24 @@
           events.push({ type: 'heal', side: 'player', amount: hAmt, hpAfter: run.hp, maxHp: battle.player.maxHp });
         }
         battle.playerAP -= 1;
+        // Vanguard-only: refunds the AP this cast just spent, so it chains straight
+        // into another action instead of ending the turn.
+        if (skill.grantsBonusAp) battle.playerAP = Math.min(battle.playerAP + 1, 4);
       } else if (skill.kind === 'debuffEnemy') {
-        var tgt = battle.enemies[action.targetIndex];
-        applyStatMod(tgt.debuffs, skill.stat, -skill.amount, 3);
-        events.push({ type: 'buff', side: 'enemy', targetName: tgt.name, stat: skill.stat, amount: -skill.amount });
+        // Warlord-only: an allEnemies debuff hits every living enemy in one cast --
+        // every other debuffEnemy skill in the game is singleEnemy, so `action.targetIndex`
+        // is simply unused on this path.
+        if (skill.target === 'allEnemies') {
+          battle.enemies.forEach(function (e) {
+            if (!e.alive) return;
+            applyStatMod(e.debuffs, skill.stat, -skill.amount, 3);
+            events.push({ type: 'buff', side: 'enemy', targetName: e.name, stat: skill.stat, amount: -skill.amount });
+          });
+        } else {
+          var tgt = battle.enemies[action.targetIndex];
+          applyStatMod(tgt.debuffs, skill.stat, -skill.amount, 3);
+          events.push({ type: 'buff', side: 'enemy', targetName: tgt.name, stat: skill.stat, amount: -skill.amount });
+        }
         battle.playerAP -= 1;
       } else if (skill.kind === 'attack') {
         var hits = buildPlayerHits(skill, battle, action.targetIndex);
@@ -306,7 +328,13 @@
           var enemy = battle.enemies[h.targetIndex];
           if (!enemy || !enemy.alive) return;
           var enemyEff = effectiveStats(enemy, enemy.debuffs);
-          var hit = resolveHit(playerEff, enemy, enemyEff, h.element, h.power);
+          // Executioner-only: this hit's power spikes against a low-HP target, checked
+          // fresh per hit so a multi-hit skill can cross the threshold mid-combo.
+          var hitPower = h.power;
+          if (skill.executeThreshold && enemy.hp <= enemy.maxHp * skill.executeThreshold) {
+            hitPower = hitPower * (1 + skill.executeBonus);
+          }
+          var hit = resolveHit(playerEff, enemy, enemyEff, h.element, hitPower);
           if (hit.relation === 'reflect') {
             run.hp = Math.max(0, run.hp - hit.amount);
             hadNullish = true;
@@ -327,6 +355,12 @@
               run.hp = Math.min(battle.player.maxHp, run.hp + healBack);
               events.push({ type: 'heal', side: 'player', amount: healBack, hpAfter: run.hp, maxHp: battle.player.maxHp });
             }
+            // Shadowhunter-only: the strike itself cripples the target. Reuses applyStatMod's
+            // refresh-not-stack behavior, so repeated hits from a multi-hit skill can't compound it.
+            if (skill.onHitDebuff && enemy.alive) {
+              applyStatMod(enemy.debuffs, skill.onHitDebuff.stat, -skill.onHitDebuff.amount, 3);
+              events.push({ type: 'buff', side: 'enemy', targetName: enemy.name, stat: skill.onHitDebuff.stat, amount: -skill.onHitDebuff.amount });
+            }
             if (enemy.hp <= 0) {
               enemy.alive = false;
               events.push({ type: 'defeated', targetUid: enemy.uid, targetName: enemy.name, side: 'enemy' });
@@ -339,6 +373,10 @@
         battle.playerAP -= 1;
         if (hadNullish) battle.playerAP = 0;
         else if (hadWeakCrit) battle.playerAP = Math.min(battle.playerAP + 1, 4);
+        // Vanguard-only: an attack-kind grantsBonusAp skill refunds its own AP same as
+        // the buffSelf case above, regardless of whether it also happened to crit/hit
+        // weakness (those are evaluated first; this still tops back up afterward).
+        if (skill.grantsBonusAp) battle.playerAP = Math.min(battle.playerAP + 1, 4);
       }
     }
 

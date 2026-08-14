@@ -1570,6 +1570,14 @@
   P.define('tempestWitch', STAFFORB_GRID, { N: '#0a3a4a', K: '#0a0a0a', B: '#145a6a', p: '#60e8f0' });
   P.define('chronomancer', STAFFORB_GRID, { N: '#2a2a5a', K: '#0a0a0a', B: '#3a3a78', p: '#f0e8c0' });
 
+  // ---- 5 unlockable "Valiant" elite classes (palette-swaps of BLADE_GRID / STAFFORB_GRID) ----
+
+  P.define('warlord', BLADE_GRID, { K: '#0a0a0a', G: '#8a6a2a', R: '#3a2a14', Y: '#e8c060', U: '#1a1408', W: '#e04030' });
+  P.define('shadowhunter', BLADE_GRID, { K: '#0a0a0a', G: '#1a2438', R: '#0e1624', Y: '#6ae090', U: '#080c14', W: '#a0f0b8' });
+  P.define('executioner', BLADE_GRID, { K: '#0a0a0a', G: '#3a0a0a', R: '#1a0606', Y: '#d81828', U: '#100404', W: '#f04858' });
+  P.define('vanguard', BLADE_GRID, { K: '#0a0a0a', G: '#186878', R: '#0e3a44', Y: '#60e8f0', U: '#082028', W: '#c0f8ff' });
+  P.define('deathbringer', STAFFORB_GRID, { N: '#3a0a14', K: '#0a0a0a', B: '#5a1420', p: '#ff2030' });
+
   // ---- Equipment-slot & item icons (weapon, armor, shoes, accessory, potions) ----
 
   P.define('weaponSlot', [

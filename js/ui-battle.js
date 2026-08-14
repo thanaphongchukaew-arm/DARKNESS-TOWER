@@ -64,6 +64,7 @@
       case 'reflect': return { text: T('logReflect', { amount: ev.amount, attacker: ev.attackerName }), cls: 'log-weak' };
       case 'drainBlocked': return { text: T('logDrainBlocked', { target: ev.targetName, amount: ev.amount }), cls: 'log-heal' };
       case 'heal': return { text: T('logHeal', { amount: ev.amount }), cls: 'log-heal' };
+      case 'hpSacrifice': return { text: T('logHpSacrifice', { amount: ev.amount }), cls: 'log-weak' };
       case 'buff':
         var who = ev.side === 'enemy' ? ev.targetName : (currentBattle ? currentBattle.player.name : T('youPronoun'));
         var statName = T(STAT_NAME_KEYS[ev.stat] || ev.stat);
@@ -296,6 +297,11 @@
         SFX('heal');
         updatePlayerBarsDirect(ev.hpAfter, ev.maxHp);
         spawnFloatNumber(getPlayerPortraitEl(), '+' + ev.amount, 'dmg-heal');
+        break;
+      case 'hpSacrifice':
+        SFX('player_hit');
+        updatePlayerBarsDirect(ev.hpAfter, ev.maxHp);
+        spawnFloatNumber(getPlayerPortraitEl(), ev.amount, 'dmg-weak');
         break;
       case 'itemUsed':
         SFX('item_use');
@@ -824,6 +830,10 @@
   }
 
   function endSurvivalSession(defeated) {
+    // Reaching a wave count is what unlocks the Valiant Vanguard elite class
+    // (see data-classes.js) regardless of how the session ended -- stopping
+    // voluntarily still counts, since the mode itself has no other "finish".
+    window.Game.State.recordSurvivalWaves(survivalSession.wavesCleared);
     lastSurvivalSummary = { session: survivalSession, defeated: !!defeated };
     currentBattle = null;
     currentMode = 'tower';

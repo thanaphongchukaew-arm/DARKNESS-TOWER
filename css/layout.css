@@ -337,6 +337,13 @@ button.tower-jump-btn:hover:not(:disabled) {
 #screen-story {
   align-items: center;
   justify-content: center;
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(10, 8, 16, 0.55) 0%, rgba(8, 6, 12, 0.68) 55%, rgba(4, 4, 8, 0.85) 100%),
+    url('../รูปประกอบ/Start_BG.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* The post-final-boss ending swaps in a rooftop-at-dawn illustration, dimmed
@@ -407,6 +414,9 @@ button.tower-jump-btn:hover:not(:disabled) {
   overflow-y: auto;
   margin: 1rem 0;
   text-align: left;
+  /* a long materials list scrolls inside this box -- without bottom padding
+     the last row gets hard-clipped mid-line at the max-height edge. */
+  padding-bottom: 0.5rem;
 }
 
 .end-panel {
