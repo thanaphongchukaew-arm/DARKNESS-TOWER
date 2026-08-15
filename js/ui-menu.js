@@ -112,12 +112,7 @@
     { icon: 'swordAttack', key: 'Atk' }, { icon: 'magicBurst', key: 'Mag' },
     { icon: 'shieldGuard', key: 'Def' }, { icon: 'sparkles', key: 'Res' },
     { icon: 'wind', key: 'Spd' }, { icon: 'star', key: 'Luk' },
-    { icon: 'debuffDown', key: 'Weak' }, { icon: 'buffUp', key: 'Resist' },
     { icon: 'gem', key: 'Exp' }
-  ];
-  var GUIDE_RELATIONS = [
-    { icon: 'star', key: 'Weak' }, { icon: 'shieldGuard', key: 'Resist' }, { icon: 'close', key: 'Null' },
-    { icon: 'heart', key: 'Drain' }, { icon: 'debuffDown', key: 'Reflect' }
   ];
   var GUIDE_COMBAT = [
     { icon: 'buffUp', key: 'Ap' }, { icon: 'swordAttack', key: 'Actions' },
@@ -127,7 +122,7 @@
     { icon: 'towerSpire', key: 'Floors' }, { icon: 'doorway', key: 'Waypoint' },
     { icon: 'crownSkull', key: 'Boss' }, { icon: 'skullFire', key: 'Difficulty' }
   ];
-  var GUIDE_TIPS = ['guideTip1', 'guideTip2', 'guideTip3', 'guideTip4'];
+  var GUIDE_TIPS = ['guideTip1', 'guideTip2'];
 
   // Shared card renderer for every guide grid (icon + short label + one-line
   // description) -- prefix identifies the i18n key family, e.g. 'guideStat' + 'Hp' + 'Label'.
@@ -157,10 +152,6 @@
         '<h3>' + T('guideElementsTitle') + '</h3>' +
         '<p>' + T('guideElementsIntro') + '</p>' +
         '<div class="element-grid">' + elementsHtml + '</div>' +
-      '</div>' +
-      '<div class="guide-section">' +
-        '<h3>' + T('guideRelationsTitle') + '</h3>' +
-        guideCardGrid('guideRel', GUIDE_RELATIONS) +
       '</div>' +
       '<div class="guide-section">' +
         '<h3>' + T('guideCombatTitle') + '</h3>' +
@@ -271,10 +262,6 @@
         '<div class="select-card-title">' + L(c, 'name') + '</div>' +
         '<div class="select-card-desc">' + (locked ? classLockedDesc(c) : L(c, 'description')) + '</div>' +
         (locked ? '' :
-        '<div class="select-card-stats">' +
-          '<span class="el-tag el-' + c.weak + '">' + I(c.weak) + ' ' + T('weakLabel') + '</span>' +
-          '<span class="el-tag el-' + c.resist + '">' + I(c.resist) + ' ' + T('resistLabel') + '</span>' +
-        '</div>' +
         '<div class="select-card-stats">' +
           '<span class="stat-chip">HP ' + c.baseStats.hp + '</span>' +
           '<span class="stat-chip">MP ' + c.baseStats.mp + '</span>' +

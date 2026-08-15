@@ -740,13 +740,6 @@
   letter-spacing: 0.05em;
 }
 
-.enemy-weak-tags {
-  display: flex;
-  gap: 0.25rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
 /* ---- Lower area ---- */
 .battle-lower {
   display: flex;

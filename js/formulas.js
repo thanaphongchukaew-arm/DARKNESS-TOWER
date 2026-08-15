@@ -125,21 +125,8 @@
     return out;
   }
 
-  // priority: null > reflect > drain > weak > resist > normal. almighty is always 'normal'.
-  function elementRelation(target, element) {
-    if (element === 'almighty') return 'normal';
-    var lists = ['null', 'reflect', 'drain', 'weak', 'resist'];
-    for (var i = 0; i < lists.length; i++) {
-      var arr = target[lists[i]];
-      if (arr && arr.indexOf(element) !== -1) return lists[i];
-    }
-    return 'normal';
-  }
-
-  var RELATION_DAMAGE_MULT = { weak: 1.5, normal: 1.0, resist: 0.5, null: 0, drain: 0, reflect: 0 };
-
   // Global damage scale-down so fights last ~2x as many turns without touching
-  // relative balance (weak/resist ratios, crit multiplier, etc).
+  // relative balance (crit multiplier, etc).
   var GLOBAL_DAMAGE_MULT = 0.5;
 
   function critChance(luk) {
@@ -147,8 +134,7 @@
   }
 
   function computeDamage(opts) {
-    // opts: { element, power, atkStat, magStat, defStat, resStat, relation, isCrit }
-    var relMult = RELATION_DAMAGE_MULT[opts.relation] != null ? RELATION_DAMAGE_MULT[opts.relation] : 1.0;
+    // opts: { element, power, atkStat, magStat, defStat, resStat, isCrit }
     var raw;
     if (opts.element === 'almighty') {
       raw = Math.max(opts.atkStat, opts.magStat) * opts.power;
@@ -159,10 +145,10 @@
     }
     raw = Math.max(1, raw);
     var variance = rnd(0.9, 1.1);
-    var dmg = raw * variance * relMult;
+    var dmg = raw * variance;
     if (opts.isCrit) dmg *= 1.6;
     dmg *= GLOBAL_DAMAGE_MULT;
-    return Math.max(relMult === 0 ? 0 : 1, round(dmg));
+    return Math.max(1, round(dmg));
   }
 
   // Gold dropped per defeated enemy, derived from its EXP reward so no extra
@@ -222,7 +208,6 @@
     survivalStatScale: survivalStatScale,
     survivalEnemyCount: survivalEnemyCount,
     scaleStatsBlock: scaleStatsBlock,
-    elementRelation: elementRelation,
     critChance: critChance,
     computeDamage: computeDamage,
     goldForExp: goldForExp,

@@ -1,4 +1,4 @@
-// Battle engine: initiative/action-point economy, weakness resolution, enemy AI, All-Out Attack.
+// Battle engine: initiative/action-point economy, damage resolution, enemy AI, All-Out Attack.
 // Round structure: player phase (chained action-point turns) -> enemy phase -> next round.
 // A large SPD gap grants a one-time ambush (enemy first-strike) or head-start (bonus player AP) at battle start.
 (function () {
@@ -33,27 +33,15 @@
     return eff;
   }
 
-  function markRevealed(entity, element, relation) {
-    if (!entity.revealed || relation === 'normal') return;
-    var arr = entity.revealed[relation];
-    if (arr && arr.indexOf(element) === -1) arr.push(element);
-  }
-
-  function resolveHit(attackerEff, defenderEntity, defenderEff, element, power) {
-    var relation = F().elementRelation(defenderEntity, element);
-    markRevealed(defenderEntity, element, relation);
-    var isCrit = false;
-    if (relation !== 'null' && relation !== 'reflect' && relation !== 'drain') {
-      isCrit = Math.random() < F().critChance(attackerEff.luk);
-    }
-    var dmgRelation = (relation === 'reflect' || relation === 'drain') ? 'normal' : relation;
+  function resolveHit(attackerEff, defenderEff, element, power) {
+    var isCrit = Math.random() < F().critChance(attackerEff.luk);
     var amount = F().computeDamage({
       element: element, power: power,
       atkStat: attackerEff.atk, magStat: attackerEff.mag,
       defStat: defenderEff.def, resStat: defenderEff.res,
-      relation: dmgRelation, isCrit: isCrit
+      isCrit: isCrit
     });
-    return { relation: relation, isCrit: isCrit, amount: amount };
+    return { isCrit: isCrit, amount: amount };
   }
 
   function pickWeighted(list) {
@@ -74,11 +62,8 @@
       uid: uid, templateId: template.id, name: L(template, 'name'), icon: template.icon, isBoss: false,
       maxHp: stats.hp, hp: stats.hp, atk: stats.atk, mag: stats.mag, def: stats.def, res: stats.res, spd: stats.spd, luk: stats.luk,
       expReward: stats.exp,
-      weak: (template.weak || []).slice(), resist: (template.resist || []).slice(),
-      null: (template.null || []).slice(), drain: (template.drain || []).slice(), reflect: (template.reflect || []).slice(),
       attacksPool: template.attacks.slice(),
-      downed: false, alive: true, debuffs: [],
-      revealed: { weak: [], resist: [], null: [], drain: [], reflect: [] }
+      downed: false, alive: true, debuffs: []
     };
   }
 
@@ -93,11 +78,9 @@
       uid: uid, templateId: template.id, name: L(template, 'name'), icon: template.icon, isBoss: true,
       maxHp: stats.hp, hp: stats.hp, atk: stats.atk, mag: stats.mag, def: stats.def, res: stats.res, spd: stats.spd, luk: stats.luk,
       expReward: stats.exp,
-      weak: template.weak.slice(), resist: template.resist.slice(), null: [], drain: [], reflect: [],
       attacksPool: template.attacks.slice(),
       phase: 1, phasesData: template.phases || [],
-      downed: false, alive: true, debuffs: [],
-      revealed: { weak: [], resist: [], null: [], drain: [], reflect: [] }
+      downed: false, alive: true, debuffs: []
     };
   }
 
@@ -111,11 +94,9 @@
       uid: uid, templateId: template.id, name: L(template, 'name'), icon: template.icon, isBoss: true,
       maxHp: stats.hp, hp: stats.hp, atk: stats.atk, mag: stats.mag, def: stats.def, res: stats.res, spd: stats.spd, luk: stats.luk,
       expReward: stats.exp,
-      weak: template.weak.slice(), resist: template.resist.slice(), null: [], drain: [], reflect: [],
       attacksPool: template.attacks.slice(),
       phase: 1, phasesData: template.phases || [],
-      downed: false, alive: true, debuffs: [],
-      revealed: { weak: [], resist: [], null: [], drain: [], reflect: [] }
+      downed: false, alive: true, debuffs: []
     };
   }
 
@@ -126,7 +107,6 @@
       classId: run.classId, name: L(cls, 'name'), icon: cls.icon,
       maxHp: total.hp, maxMp: total.mp,
       atk: total.atk, mag: total.mag, def: total.def, res: total.res, spd: total.spd, luk: total.luk,
-      weak: [cls.weak], resist: [cls.resist], null: [], drain: [], reflect: [],
       buffs: [], guarding: false,
       skills: S().learnedSkills(run)
     };
@@ -141,13 +121,7 @@
     var next = enemy.phasesData[enemy.phase - 1];
     if (!next || enemy.hp > enemy.maxHp * next.hpThreshold) return null;
     enemy.phase += 1;
-    enemy.weak = next.weak.slice();
-    enemy.resist = next.resist.slice();
-    enemy.reflect = (next.reflect || []).slice();
     enemy.attacksPool = next.attacks.slice();
-    // each phase is themed around different elements (weak/resist can even swap) -
-    // discard what was revealed so far so stale prior-phase weakness tags don't mislead the player.
-    enemy.revealed = { weak: [], resist: [], null: [], drain: [], reflect: [] };
     return L(next, 'announce');
   }
 
@@ -322,7 +296,7 @@
         battle.playerAP -= 1;
       } else if (skill.kind === 'attack') {
         var hits = buildPlayerHits(skill, battle, action.targetIndex);
-        var hadWeakCrit = false, hadNullish = false;
+        var hadCrit = false;
         var playerEff = effectiveStats(battle.player, battle.player.buffs);
         hits.forEach(function (h) {
           var enemy = battle.enemies[h.targetIndex];
@@ -334,48 +308,34 @@
           if (skill.executeThreshold && enemy.hp <= enemy.maxHp * skill.executeThreshold) {
             hitPower = hitPower * (1 + skill.executeBonus);
           }
-          var hit = resolveHit(playerEff, enemy, enemyEff, h.element, hitPower);
-          if (hit.relation === 'reflect') {
-            run.hp = Math.max(0, run.hp - hit.amount);
-            hadNullish = true;
-            events.push({ type: 'reflect', attackerName: battle.player.name, amount: hit.amount, hpAfter: run.hp, maxHp: battle.player.maxHp });
-          } else if (hit.relation === 'drain') {
-            enemy.hp = Math.min(enemy.maxHp, enemy.hp + hit.amount);
-            hadNullish = true;
-            events.push({ type: 'drainBlocked', targetUid: enemy.uid, targetName: enemy.name, amount: hit.amount, hpAfter: enemy.hp, maxHp: enemy.maxHp });
-          } else if (hit.relation === 'null') {
-            hadNullish = true;
-            events.push({ type: 'hit', targetSide: 'enemy', targetUid: enemy.uid, targetName: enemy.name, element: h.element, relation: 'null', amount: 0, isCrit: false });
-          } else {
-            enemy.hp = Math.max(0, enemy.hp - hit.amount);
-            if (hit.relation === 'weak' || hit.isCrit) { hadWeakCrit = true; enemy.downed = true; events.push({ type: 'downed', targetUid: enemy.uid, targetName: enemy.name }); }
-            events.push({ type: 'hit', targetSide: 'enemy', targetUid: enemy.uid, targetName: enemy.name, element: h.element, relation: hit.relation, isCrit: hit.isCrit, amount: hit.amount, hpAfter: enemy.hp, maxHp: enemy.maxHp });
-            if (skill.drainSelf && hit.amount > 0) {
-              var healBack = Math.round(hit.amount * 0.4);
-              run.hp = Math.min(battle.player.maxHp, run.hp + healBack);
-              events.push({ type: 'heal', side: 'player', amount: healBack, hpAfter: run.hp, maxHp: battle.player.maxHp });
-            }
-            // Shadowhunter-only: the strike itself cripples the target. Reuses applyStatMod's
-            // refresh-not-stack behavior, so repeated hits from a multi-hit skill can't compound it.
-            if (skill.onHitDebuff && enemy.alive) {
-              applyStatMod(enemy.debuffs, skill.onHitDebuff.stat, -skill.onHitDebuff.amount, 3);
-              events.push({ type: 'buff', side: 'enemy', targetName: enemy.name, stat: skill.onHitDebuff.stat, amount: -skill.onHitDebuff.amount });
-            }
-            if (enemy.hp <= 0) {
-              enemy.alive = false;
-              events.push({ type: 'defeated', targetUid: enemy.uid, targetName: enemy.name, side: 'enemy' });
-            } else if (enemy.isBoss) {
-              var phaseMsg = checkBossPhase(enemy);
-              if (phaseMsg) events.push({ type: 'bossPhaseChange', message: phaseMsg });
-            }
+          var hit = resolveHit(playerEff, enemyEff, h.element, hitPower);
+          enemy.hp = Math.max(0, enemy.hp - hit.amount);
+          if (hit.isCrit) { hadCrit = true; enemy.downed = true; events.push({ type: 'downed', targetUid: enemy.uid, targetName: enemy.name }); }
+          events.push({ type: 'hit', targetSide: 'enemy', targetUid: enemy.uid, targetName: enemy.name, element: h.element, isCrit: hit.isCrit, amount: hit.amount, hpAfter: enemy.hp, maxHp: enemy.maxHp });
+          if (skill.drainSelf && hit.amount > 0) {
+            var healBack = Math.round(hit.amount * 0.4);
+            run.hp = Math.min(battle.player.maxHp, run.hp + healBack);
+            events.push({ type: 'heal', side: 'player', amount: healBack, hpAfter: run.hp, maxHp: battle.player.maxHp });
+          }
+          // Shadowhunter-only: the strike itself cripples the target. Reuses applyStatMod's
+          // refresh-not-stack behavior, so repeated hits from a multi-hit skill can't compound it.
+          if (skill.onHitDebuff && enemy.alive) {
+            applyStatMod(enemy.debuffs, skill.onHitDebuff.stat, -skill.onHitDebuff.amount, 3);
+            events.push({ type: 'buff', side: 'enemy', targetName: enemy.name, stat: skill.onHitDebuff.stat, amount: -skill.onHitDebuff.amount });
+          }
+          if (enemy.hp <= 0) {
+            enemy.alive = false;
+            events.push({ type: 'defeated', targetUid: enemy.uid, targetName: enemy.name, side: 'enemy' });
+          } else if (enemy.isBoss) {
+            var phaseMsg = checkBossPhase(enemy);
+            if (phaseMsg) events.push({ type: 'bossPhaseChange', message: phaseMsg });
           }
         });
         battle.playerAP -= 1;
-        if (hadNullish) battle.playerAP = 0;
-        else if (hadWeakCrit) battle.playerAP = Math.min(battle.playerAP + 1, 4);
+        if (hadCrit) battle.playerAP = Math.min(battle.playerAP + 1, 4);
         // Vanguard-only: an attack-kind grantsBonusAp skill refunds its own AP same as
-        // the buffSelf case above, regardless of whether it also happened to crit/hit
-        // weakness (those are evaluated first; this still tops back up afterward).
+        // the buffSelf case above, regardless of whether it also happened to crit
+        // (that's evaluated first; this still tops back up afterward).
         if (skill.grantsBonusAp) battle.playerAP = Math.min(battle.playerAP + 1, 4);
       }
     }
@@ -448,10 +408,10 @@
       // round 1 already grants a full ambush phase off this same speed gap (see createBattle) --
       // skip the bonus-action check there so a fast enemy doesn't double-dip the same lead.
       var ap = (battle.round > 1 && spdAheadBonus(enemySpd0, playerSpd0)) ? 2 : 1;
-      // Weakness/crit hits grant bonus AP (mirrors the player's own extra-turn rule below),
-      // but without a hard cap a lucky/weakness-exploiting streak could keep one enemy
-      // attacking all round -- cap each enemy to 2 attacks per turn no matter how many
-      // bonus-AP hits it lands.
+      // Crit hits grant bonus AP (mirrors the player's own extra-turn rule below),
+      // but without a hard cap a lucky streak could keep one enemy attacking all
+      // round -- cap each enemy to 2 attacks per turn no matter how many bonus-AP
+      // hits it lands.
       var hitsThisTurn = 0;
       var maxHitsPerTurn = 2;
       while (ap > 0 && hitsThisTurn < maxHitsPerTurn) {
@@ -459,40 +419,19 @@
         var atk = pickWeighted(enemy.attacksPool);
         var attackerEff = effectiveStats(enemy, enemy.debuffs);
         var playerEff = effectiveStats(battle.player, battle.player.buffs);
-        var hit = resolveHit(attackerEff, battle.player, playerEff, atk.element, atk.power);
+        var hit = resolveHit(attackerEff, playerEff, atk.element, atk.power);
         ap -= 1;
         hitsThisTurn += 1;
-        var hadNullish = false;
-        if (hit.relation === 'reflect') {
-          enemy.hp = Math.max(0, enemy.hp - hit.amount);
-          hadNullish = true;
-          events.push({ type: 'reflect', attackerUid: enemy.uid, attackerName: enemy.name, amount: hit.amount, hpAfter: enemy.hp, maxHp: enemy.maxHp });
-          if (enemy.hp <= 0) { enemy.alive = false; events.push({ type: 'defeated', targetUid: enemy.uid, targetName: enemy.name, side: 'enemy' }); }
-        } else if (hit.relation === 'drain') {
-          hadNullish = true;
-          events.push({ type: 'hit', targetSide: 'player', relation: 'drain', amount: 0, attackerName: enemy.name });
-        } else if (hit.relation === 'null') {
-          hadNullish = true;
-          events.push({ type: 'hit', targetSide: 'player', relation: 'null', amount: 0, attackerName: enemy.name });
-        } else {
-          var dmg = hit.amount;
-          if (battle.player.guarding) dmg = Math.round(dmg * 0.5);
-          battle.run.hp = Math.max(0, battle.run.hp - dmg);
-          if (atk.drainSelf && dmg > 0) enemy.hp = Math.min(enemy.maxHp, enemy.hp + Math.round(dmg * 0.4));
-          events.push({ type: 'hit', targetSide: 'player', attackerUid: enemy.uid, attackerName: enemy.name, skillName: L(atk, 'name'), element: atk.element, relation: hit.relation, isCrit: hit.isCrit, amount: dmg, hpAfter: battle.run.hp, maxHp: battle.player.maxHp, attackerHpAfter: enemy.hp, attackerMaxHp: enemy.maxHp });
-          if (atk.debuff) {
-            applyStatMod(battle.player.buffs, atk.debuff.stat, -atk.debuff.amount, 3);
-            events.push({ type: 'buff', side: 'player', stat: atk.debuff.stat, amount: -atk.debuff.amount });
-          }
+        var dmg = hit.amount;
+        if (battle.player.guarding) dmg = Math.round(dmg * 0.5);
+        battle.run.hp = Math.max(0, battle.run.hp - dmg);
+        if (atk.drainSelf && dmg > 0) enemy.hp = Math.min(enemy.maxHp, enemy.hp + Math.round(dmg * 0.4));
+        events.push({ type: 'hit', targetSide: 'player', attackerUid: enemy.uid, attackerName: enemy.name, skillName: L(atk, 'name'), element: atk.element, isCrit: hit.isCrit, amount: dmg, hpAfter: battle.run.hp, maxHp: battle.player.maxHp, attackerHpAfter: enemy.hp, attackerMaxHp: enemy.maxHp });
+        if (atk.debuff) {
+          applyStatMod(battle.player.buffs, atk.debuff.stat, -atk.debuff.amount, 3);
+          events.push({ type: 'buff', side: 'player', stat: atk.debuff.stat, amount: -atk.debuff.amount });
         }
-        // Only a crit grants the enemy a bonus attack, never a plain weakness hit.
-        // Unlike the player, an enemy's element is chosen by its attack pool while the
-        // player's weakness is a fixed, unavoidable trait of their class -- if landing on
-        // weak alone also granted the bonus, a boss whose kit shares the player's weakness
-        // would land two 1.5x hits *every single round* with no counterplay, chaining into
-        // an unwinnable "die in one turn" spiral. Crit is still probabilistic, so it stays
-        // dangerous without being a guaranteed death sentence for a bad type matchup.
-        if (hit.isCrit) ap = Math.min(ap + 1, 2); else if (hadNullish) ap = 0;
+        if (hit.isCrit) ap = Math.min(ap + 1, 2);
         checkBattleEnd(battle, events);
         if (battle.over) break;
       }

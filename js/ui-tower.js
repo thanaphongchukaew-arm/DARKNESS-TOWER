@@ -1,7 +1,6 @@
 // Tower map, reward screen, status/equip screen.
 (function () {
   function I(name, cls) { return window.Game.Icons.get(name, cls); }
-  function EN(el) { return window.Game.ElementName(el); }
   function SFX(name) { if (window.Game.Audio) window.Game.Audio.sfx(name); }
   function T(key, vars) { return window.Game.I18n.t(key, vars); }
   function L(obj, field) { return window.Game.I18n.L(obj, field); }
@@ -807,8 +806,6 @@
       statRow('sparkles', 'RES', total.res) +
       statRow('wind', 'SPD', total.spd) +
       statRow('star', 'LUK', total.luk) +
-      statRow(cls.weak, T('weakLabel'), EN(cls.weak)) +
-      statRow(cls.resist, T('resistLabel'), EN(cls.resist)) +
       '<div class="bar-row" style="margin-top:.6rem">' + I('gem') + '<div class="bar-track"><div class="bar-fill exp" style="width:' + Math.round(run.exp / run.expNext * 100) + '%"></div></div><span>' + run.exp + '/' + run.expNext + '</span></div>';
 
     var SLOT_DEFAULT_ICON = { weapon: 'weaponSlot', armor: 'armorSlot', shoes: 'shoesSlot', accessory1: 'accessorySlot', accessory2: 'accessorySlot' };

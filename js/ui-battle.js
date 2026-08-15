@@ -51,18 +51,13 @@
       case 'skillUsed': return { text: T('logSkillUsed', { name: ev.name }), cls: '' };
       case 'hit':
         if (ev.targetSide === 'enemy') {
-          if (ev.relation === 'null') return { text: T('logEnemyNullified', { target: ev.targetName }), cls: '' };
-          var tag = ev.relation === 'weak' ? T('weakTag') : ev.isCrit ? T('critTag') : '';
-          return { text: T('logEnemyDamage', { target: ev.targetName, amount: ev.amount, tag: tag }), cls: ev.relation === 'weak' ? 'log-weak' : ev.isCrit ? 'log-crit' : '' };
+          var tag = ev.isCrit ? T('critTag') : '';
+          return { text: T('logEnemyDamage', { target: ev.targetName, amount: ev.amount, tag: tag }), cls: ev.isCrit ? 'log-crit' : '' };
         }
-        if (ev.relation === 'null') return { text: T('logPlayerBlocked', { attacker: ev.attackerName }), cls: '' };
-        if (ev.relation === 'drain') return { text: T('logPlayerDrainFail', { attacker: ev.attackerName }), cls: '' };
-        var ptag = ev.relation === 'weak' ? T('weakTag') : ev.isCrit ? T('critTag') : '';
-        return { text: T('logPlayerDamage', { attacker: ev.attackerName, skill: ev.skillName, amount: ev.amount, tag: ptag }), cls: (ev.relation === 'weak' || ev.isCrit) ? 'log-weak' : '' };
+        var ptag = ev.isCrit ? T('critTag') : '';
+        return { text: T('logPlayerDamage', { attacker: ev.attackerName, skill: ev.skillName, amount: ev.amount, tag: ptag }), cls: ev.isCrit ? 'log-weak' : '' };
       case 'downed': return { text: T('logDowned', { target: ev.targetName }), cls: 'log-weak' };
       case 'defeated': return { text: T('logDefeated', { target: ev.targetName }), cls: 'log-crit' };
-      case 'reflect': return { text: T('logReflect', { amount: ev.amount, attacker: ev.attackerName }), cls: 'log-weak' };
-      case 'drainBlocked': return { text: T('logDrainBlocked', { target: ev.targetName, amount: ev.amount }), cls: 'log-heal' };
       case 'heal': return { text: T('logHeal', { amount: ev.amount }), cls: 'log-heal' };
       case 'hpSacrifice': return { text: T('logHpSacrifice', { amount: ev.amount }), cls: 'log-weak' };
       case 'buff':
@@ -216,19 +211,7 @@
         if (ev.targetSide === 'enemy') {
           var ePortrait = getEnemyPortraitEl(ev.targetUid);
           if (ev.hpAfter != null && ev.maxHp != null) updateEnemyBarByUid(ev.targetUid, ev.hpAfter, ev.maxHp);
-          if (ev.relation === 'null') {
-            SFX('hit_null');
-            showToast(T('toastNullified'), 'miss');
-            spawnFloatNumber(ePortrait, T('dmgNullified'), 'dmg-null');
-          } else if (ev.relation === 'weak') {
-            SFX('hit_weak');
-            showToast(T('toastWeak'), 'weak');
-            setEnemyCardState(ev.targetUid, { downed: true });
-            flashEl(ePortrait, 'hit-flash');
-            flashEl(ePortrait, 'hit-shake');
-            spawnFloatNumber(ePortrait, ev.amount, 'dmg-weak');
-            shakeScreen(false);
-          } else if (ev.isCrit) {
+          if (ev.isCrit) {
             SFX('hit_crit');
             showToast(T('toastCrit'), '');
             setEnemyCardState(ev.targetUid, { downed: true });
@@ -245,20 +228,13 @@
           var pPortrait = getPlayerPortraitEl();
           updatePlayerBarsDirect(ev.hpAfter, ev.maxHp);
           if (ev.attackerUid && ev.attackerHpAfter != null) updateEnemyBarByUid(ev.attackerUid, ev.attackerHpAfter, ev.attackerMaxHp);
-          if (ev.relation === 'weak' || ev.isCrit) {
+          if (ev.isCrit) {
             SFX('player_hit');
-            showToast(T('toastPlayerWeak'), 'weak');
+            showToast(T('toastPlayerCrit'), 'weak');
             flashEl(pPortrait, 'hit-flash');
             flashEl(pPortrait, 'hit-shake');
             spawnFloatNumber(pPortrait, ev.amount, 'dmg-weak');
             shakeScreen(true);
-          } else if (ev.relation === 'null') {
-            SFX('hit_null');
-            showToast(T('toastBlocked'), 'miss');
-            spawnFloatNumber(pPortrait, T('dmgBlocked'), 'dmg-null');
-          } else if (ev.relation === 'drain') {
-            SFX('hit_null');
-            spawnFloatNumber(pPortrait, '?', 'dmg-null');
           } else if (ev.amount) {
             SFX('player_hit');
             flashEl(pPortrait, 'hit-flash');
@@ -275,23 +251,6 @@
       case 'downed':
         SFX('downed');
         setEnemyCardState(ev.targetUid, { downed: true });
-        break;
-      case 'reflect':
-        SFX('reflect');
-        if (ev.attackerUid) {
-          updateEnemyBarByUid(ev.attackerUid, ev.hpAfter, ev.maxHp);
-          spawnFloatNumber(getEnemyPortraitEl(ev.attackerUid), ev.amount, 'dmg-weak');
-        } else {
-          updatePlayerBarsDirect(ev.hpAfter, ev.maxHp);
-          spawnFloatNumber(getPlayerPortraitEl(), ev.amount, 'dmg-weak');
-        }
-        showToast(T('toastReflected'), 'miss');
-        break;
-      case 'drainBlocked':
-        SFX('heal');
-        updateEnemyBarByUid(ev.targetUid, ev.hpAfter, ev.maxHp);
-        spawnFloatNumber(getEnemyPortraitEl(ev.targetUid), '+' + ev.amount, 'dmg-heal');
-        showToast(T('toastAbsorbed'), 'miss');
         break;
       case 'heal':
         SFX('heal');
@@ -357,16 +316,6 @@
     if (e.isBoss) classes.push('boss');
     if (targetPickCallback && e.alive) classes.push('targetable');
     var hpPct = Math.max(0, Math.round(e.hp / e.maxHp * 100));
-    var seen = {};
-    function tagsFor(list, modifier, icon) {
-      return list.filter(function (el) { if (seen[el]) return false; seen[el] = true; return true; })
-        .map(function (el) { return '<span class="el-tag el-' + el + ' ' + modifier + '">' + I(el) + I(icon, 'tag-marker') + '</span>'; }).join('');
-    }
-    var weakTags = tagsFor(e.revealed.weak, 'tag-weak', 'star') +
-      tagsFor(e.revealed.drain, 'tag-bad', 'heart') +
-      tagsFor(e.revealed.reflect, 'tag-bad', 'shieldGuard') +
-      tagsFor(e.revealed.null, 'tag-bad', 'close') +
-      tagsFor(e.revealed.resist, 'tag-bad', 'shieldGuard');
     var hasPhases = e.isBoss && e.phasesData && e.phasesData.length;
     var hpBarHtml;
     if (hasPhases) {
@@ -387,7 +336,6 @@
       (e.downed && e.alive ? '<span class="enemy-downed-tag">' + T('downedTag') + '</span>' : '') +
       '<div class="enemy-name">' + e.name + (hasPhases ? T('phaseLabel') + e.phase : '') + '</div>' +
       hpBarHtml +
-      '<div class="enemy-weak-tags">' + weakTags + '</div>' +
     '</div>';
   }
 

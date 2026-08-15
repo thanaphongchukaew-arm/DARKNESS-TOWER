@@ -1644,9 +1644,8 @@
     '...YYY...'
   ], { P: '#b060f0', Y: '#e8c050' });
 
-  // ---- Element icons: shown above every enemy HP bar, on every skill, and in
-  // every weak/resist tag -- the core visual language players read fight after
-  // fight, so each needs to be unmistakable at a glance. Colors match the
+  // ---- Element icons: shown on every skill badge and in the how-to-play guide's
+  // element grid -- each needs to be unmistakable at a glance. Colors match the
   // --el-* CSS variables already used for these elements' tag chips. ----
 
   P.define('phys', [

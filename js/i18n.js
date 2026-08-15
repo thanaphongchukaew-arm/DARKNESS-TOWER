@@ -37,40 +37,25 @@
     guideStatSpdDesc: { th: 'ความเร็ว — ยิ่งเร็วกว่าศัตรู ยิ่งมีโอกาสโจมตีก่อนหรือได้แต้ม AP พิเศษ', en: "Speed — the faster you are than the enemy, the more likely you'll strike first or gain a bonus action point." },
     guideStatLukLabel: { th: 'LUK', en: 'LUK' },
     guideStatLukDesc: { th: 'โชค — เพิ่มโอกาสคริติคอล (ดาเมจ 1.6 เท่า)', en: 'Luck — increases your chance to land a critical hit (1.6x damage).' },
-    guideStatWeakLabel: { th: 'จุดอ่อน', en: 'Weak' },
-    guideStatWeakDesc: { th: 'ธาตุที่คุณรับดาเมจเพิ่มขึ้นเมื่อโดนโจมตี', en: "The element that deals extra damage to you when you're hit by it." },
-    guideStatResistLabel: { th: 'ต้านทาน', en: 'Resist' },
-    guideStatResistDesc: { th: 'ธาตุที่คุณรับดาเมจลดลงเมื่อโดนโจมตี', en: "The element that deals less damage to you when you're hit by it." },
     guideStatExpLabel: { th: 'EXP', en: 'EXP' },
     guideStatExpDesc: { th: 'แถบล่างสุด — คืบหน้าสู่เลเวลถัดไป เต็มแล้วเลเวลอัพและค่าสถานะเพิ่ม', en: 'Bottom bar — progress toward your next level; fill it up to level up and boost your stats.' },
     guideElementsTitle: { th: 'ธาตุแห่งการต่อสู้', en: 'Combat Elements' },
     guideElementsIntro: {
-      th: 'ทุกการโจมตีมีธาตุประจำตัว แสดงด้วยไอคอนสีต่าง ๆ ตามด้านล่าง ศัตรูแต่ละตัวมีจุดอ่อนและจุดต้านทานธาตุที่ต่างกัน เลือกใช้ธาตุที่ตรงจุดอ่อนของศัตรูเพื่อสร้างความได้เปรียบในการต่อสู้',
-      en: "Every attack carries an element, shown as a colored icon like the ones below. Each enemy has its own weaknesses and resistances — pick the element that exploits an enemy's weak point to gain the upper hand."
+      th: 'ทุกการโจมตีมีธาตุประจำตัว แสดงด้วยไอคอนสีต่าง ๆ ตามด้านล่าง ธาตุกายภาพใช้ค่า ATK/DEF ส่วนธาตุเวทใช้ค่า MAG/RES ในการคำนวณดาเมจ',
+      en: 'Every attack carries an element, shown as a colored icon like the ones below. Physical attacks scale off ATK/DEF, while elemental attacks scale off MAG/RES.'
     },
-    guideRelationsTitle: { th: 'ผลลัพธ์เมื่อโจมตีตรงธาตุ', en: 'Elemental Match Effects' },
-    guideRelWeakLabel: { th: 'จุดอ่อน', en: 'Weak Point' },
-    guideRelWeakDesc: { th: 'ดาเมจเพิ่มขึ้น 1.5 เท่า และได้แต้มการกระทำคืน 1 แต้ม', en: 'Deals 1.5x damage, and you regain 1 bonus action point.' },
-    guideRelResistLabel: { th: 'ต้านทาน', en: 'Resist' },
-    guideRelResistDesc: { th: 'ดาเมจที่ได้รับลดลงเหลือครึ่งหนึ่ง', en: 'Damage dealt is cut in half.' },
-    guideRelNullLabel: { th: 'ไร้ผล', en: 'Null' },
-    guideRelNullDesc: { th: 'การโจมตีนั้นไม่สร้างดาเมจเลย', en: 'The attack deals no damage at all.' },
-    guideRelDrainLabel: { th: 'ดูดซับ', en: 'Drain' },
-    guideRelDrainDesc: { th: 'ศัตรูฟื้นฟู HP จากธาตุนั้นแทนที่จะเสียเลือด', en: 'The enemy heals HP from that element instead of taking damage.' },
-    guideRelReflectLabel: { th: 'สะท้อนกลับ', en: 'Reflect' },
-    guideRelReflectDesc: { th: 'ดาเมจย้อนกลับมาใส่ตัวผู้โจมตีเอง', en: 'The damage bounces back at whoever attacked.' },
     guideCombatTitle: { th: 'ระบบการต่อสู้', en: 'Battle System' },
     guideCombatApLabel: { th: 'แต้มการกระทำ (AP)', en: 'Action Points (AP)' },
     guideCombatApDesc: {
-      th: 'เริ่มเทิร์นด้วย 1 แต้ม (หรือ 2 ถ้าเร็วกว่าศัตรูมาก) ใช้ 1 แต้มต่อคำสั่ง โดนจุดอ่อนหรือคริติคอลได้แต้มคืน แต่โดนต้านทาน/ไร้ผล/ดูดซับ/สะท้อนจะเสียแต้มที่เหลือทันที',
-      en: "Start each turn with 1 AP (2 if much faster than the enemy). Every command costs 1 AP. A weak-point hit or crit refunds one, but a resist/null/drain/reflect burns all remaining AP instantly."
+      th: 'เริ่มเทิร์นด้วย 1 แต้ม (หรือ 2 ถ้าเร็วกว่าศัตรูมาก) ใช้ 1 แต้มต่อคำสั่ง คริติคอลได้แต้มคืน 1 แต้ม',
+      en: 'Start each turn with 1 AP (2 if much faster than the enemy). Every command costs 1 AP. A critical hit refunds one.'
     },
     guideCombatActionsLabel: { th: 'คำสั่งที่ใช้ได้', en: 'Commands' },
     guideCombatActionsDesc: { th: 'โจมตีธรรมดา, ทักษะ (ใช้ MP), ป้องกัน (ลดดาเมจครึ่งหนึ่งในเทิร์นนั้น), และใช้ไอเทม', en: 'Basic Attack, Skills (cost MP), Guard (halves damage taken that round), and Items.' },
     guideCombatStaggerLabel: { th: 'เสียหลัก', en: 'Stagger' },
     guideCombatStaggerDesc: {
-      th: 'ศัตรูที่โดนจุดอ่อนหรือคริติคอลจะเสียหลักและข้ามเทิร์น ถ้าทุกตัวเสียหลักพร้อมกันจะได้โอกาส "โจมตีรวมพลัง" ใส่ดาเมจก้อนใหญ่ทีเดียว',
-      en: 'An enemy hit by a weak point or crit staggers and skips its turn. If every enemy is staggered at once, you get an All-Out Attack for heavy damage.'
+      th: 'ศัตรูที่โดนคริติคอลจะเสียหลักและข้ามเทิร์น ถ้าทุกตัวเสียหลักพร้อมกันจะได้โอกาส "โจมตีรวมพลัง" ใส่ดาเมจก้อนใหญ่ทีเดียว',
+      en: 'An enemy hit by a crit staggers and skips its turn. If every enemy is staggered at once, you get an All-Out Attack for heavy damage.'
     },
     guideCombatGroupLabel: { th: 'กลุ่มศัตรู', en: 'Enemy Groups' },
     guideCombatGroupDesc: {
@@ -93,10 +78,8 @@
       en: 'Easy weakens enemies and adds starting items, Normal is standard, Hard is tougher for bigger rewards, Nightmare — the harshest — unlocks after clearing Hard.'
     },
     guideTipsTitle: { th: 'เคล็ดลับ', en: 'Tips' },
-    guideTip1: { th: 'สังเกตไอคอนธาตุที่ขึ้นเหนือแถบเลือดศัตรู เกมจะจดจำจุดอ่อน/จุดต้านทานที่คุณเคยเจอไว้ให้ดูตลอดการต่อสู้', en: "Watch the element icons above each enemy's HP bar — the game remembers every weakness and resistance you've discovered and keeps it visible for the rest of the fight." },
-    guideTip2: { th: 'เปิดฉากด้วยธาตุที่คุณยังไม่รู้ว่าเป็นจุดอ่อนหรือไม่เพื่อสำรวจ แล้วเปลี่ยนไปโจมตีธาตุที่ตรงจุดอ่อนทันทีที่รู้ เพื่อรักษาแต้มการกระทำไว้ใช้ต่อ', en: "Open with an unconfirmed element to scout it out, then switch to the confirmed weak point right away to keep your action points flowing." },
-    guideTip3: { th: 'ป้องกัน (Guard) เมื่อ HP ต่ำเพื่อลดดาเมจลงครึ่งหนึ่ง และพกไอเทมฟื้นฟูติดตัวเสมอ', en: 'Guard when your HP is low to halve incoming damage, and always keep a healing item on hand.' },
-    guideTip4: { th: 'แวะร้านค้าเร่ร่อนที่จุดพักเพื่ออัปเกรดอาวุธ เกราะ และเครื่องประดับก่อนเจอมินิบอส', en: 'Stop by the Wandering Shop at waypoints to upgrade your weapon, armor, and accessory before facing the mini-boss.' },
+    guideTip1: { th: 'ป้องกัน (Guard) เมื่อ HP ต่ำเพื่อลดดาเมจลงครึ่งหนึ่ง และพกไอเทมฟื้นฟูติดตัวเสมอ', en: 'Guard when your HP is low to halve incoming damage, and always keep a healing item on hand.' },
+    guideTip2: { th: 'แวะร้านค้าเร่ร่อนที่จุดพักเพื่ออัปเกรดอาวุธ เกราะ และเครื่องประดับก่อนเจอมินิบอส', en: 'Stop by the Wandering Shop at waypoints to upgrade your weapon, armor, and accessory before facing the mini-boss.' },
 
     // story screen (intro / ending)
     storyIntroTitle: { th: 'หอคอยแห่งความมืด', en: 'The Darkness Tower' },
@@ -113,7 +96,7 @@
     storyEndBtn: { th: 'ดำเนินการต่อ', en: 'Continue' },
     pageTitle: { th: 'DARKNESS TOWER — หอคอยแห่งความมืด', en: 'DARKNESS TOWER — Tower of Darkness' },
     gameSubtitle: { th: 'หอคอยแห่งความมืด 100 ชั้น', en: '100 Floors of the Darkness Tower' },
-    menuFooter: { th: 'ไต่หอคอย เอาชนะเงามืด ค้นหาจุดอ่อน สร้างสายฟ้าแห่งชัยชนะ', en: 'Climb the spire, defeat the shadows, find their weakness, forge your path to victory' },
+    menuFooter: { th: 'ไต่หอคอย เอาชนะเงามืด สร้างสายฟ้าแห่งชัยชนะ', en: 'Climb the spire, defeat the shadows, forge your path to victory' },
     pushStart: { th: 'PUSH START', en: 'PUSH START' },
     cancel: { th: 'ยกเลิก', en: 'Cancel' },
     confirmNewGameTitle: { th: 'เริ่มเกมใหม่?', en: 'Start a new game?' },
@@ -144,8 +127,6 @@
 
     // class select
     chooseClassTitle: { th: 'เลือกคลาสตัวละคร', en: 'Choose Your Class' },
-    weakLabel: { th: 'จุดอ่อน', en: 'Weak' },
-    resistLabel: { th: 'ต้านทาน', en: 'Resist' },
 
     // tower
     statusEquip: { th: 'สถานะ & อุปกรณ์', en: 'Status & Equipment' },
@@ -293,30 +274,18 @@
     returnToTower: { th: 'กลับสู่หอคอย', en: 'Return to Tower' },
 
     // toasts / floating text
-    toastNullified: { th: 'ไร้ผล!', en: 'No Effect!' },
-    toastWeak: { th: 'จุดอ่อน!', en: 'Weak Point!' },
     toastCrit: { th: 'คริติคอล!', en: 'Critical!' },
-    toastBlocked: { th: 'ป้องกันได้!', en: 'Blocked!' },
-    toastReflected: { th: 'สะท้อนกลับ!', en: 'Reflected!' },
-    toastAbsorbed: { th: 'ถูกดูดซับ!', en: 'Absorbed!' },
     toastAllOutReady: { th: 'พร้อมโจมตีรวมพลัง!', en: 'All-Out Attack Ready!' },
     toastPhase2: { th: 'เฟส 2!', en: 'Phase 2!' },
-    toastPlayerWeak: { th: 'โดนจุดอ่อน!', en: 'Hit a weak point!' },
+    toastPlayerCrit: { th: 'โดนคริติคอล!', en: 'Critical hit!' },
     toastInvalidAction: { th: 'ทำไม่ได้ตอนนี้', en: 'Can\'t do that right now' },
-    dmgNullified: { th: 'ไร้ผล', en: 'No effect' },
-    dmgBlocked: { th: 'กันได้', en: 'Blocked' },
 
     // battle log templates ({name}, {target}, {attacker}, {amount}, {skill}, {level}, {exp} placeholders)
     logSkillUsed: { th: 'ใช้ {name}', en: 'Used {name}' },
-    logEnemyNullified: { th: '{target} ไร้ผล!', en: 'No effect on {target}!' },
     logEnemyDamage: { th: '{target} ได้รับ {amount} ดาเมจ{tag}', en: '{target} took {amount} damage{tag}' },
-    logPlayerBlocked: { th: 'ป้องกันการโจมตีของ {attacker} ได้!', en: 'Blocked {attacker}\'s attack!' },
-    logPlayerDrainFail: { th: '{attacker} พยายามดูดพลังแต่ไม่สำเร็จ', en: '{attacker} tried to drain power but failed' },
     logPlayerDamage: { th: 'โดน {skill} จาก {attacker} ({amount} ดาเมจ){tag}', en: 'Hit by {attacker}\'s {skill} ({amount} damage){tag}' },
     logDowned: { th: '{target} เสียหลัก!', en: '{target} is staggered!' },
     logDefeated: { th: '{target} ถูกกำจัด!', en: '{target} was defeated!' },
-    logReflect: { th: 'ดาเมจสะท้อนกลับ {amount} ใส่ {attacker}!', en: '{amount} damage reflected back at {attacker}!' },
-    logDrainBlocked: { th: '{target} ดูดซับพลังงานและฟื้นฟู {amount} HP!', en: '{target} absorbed the energy and recovered {amount} HP!' },
     logHeal: { th: 'ฟื้นฟู {amount} HP', en: 'Restored {amount} HP' },
     logHpSacrifice: { th: 'สังเวย {amount} HP เพื่อร่ายพลังเลือด', en: 'Sacrificed {amount} HP to fuel blood magic' },
     logBuffUp: { th: '{who} ได้รับ {stat} เพิ่มขึ้น', en: '{who} gained increased {stat}' },
@@ -337,7 +306,6 @@
     logGoldGained: { th: 'ได้รับ {gold} ทอง', en: 'Gained {gold} Gold' },
     logMaterialGained: { th: 'ได้รับวัตถุดิบ {name} x{qty}', en: 'Got {qty}x {name}' },
     logLevelUp: { th: 'เลเวลอัพ! ตอนนี้เลเวล {level}!', en: 'Level up! Now level {level}!' },
-    weakTag: { th: ' [จุดอ่อน]', en: ' [Weak Point]' },
     critTag: { th: ' [คริติคอล]', en: ' [Critical]' },
     youPronoun: { th: 'คุณ', en: 'You' },
 

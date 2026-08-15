@@ -478,21 +478,6 @@ button:disabled {
   font-size: 0.9rem;
 }
 
-/* weak = exploit this; bad = avoid this (resist/null/drain/reflect) */
-.el-tag.tag-weak {
-  box-shadow: 0 0 0 1px currentColor, 0 0 8px currentColor;
-}
-
-.el-tag.tag-bad {
-  opacity: 0.6;
-  filter: grayscale(0.35);
-}
-
-.el-tag .tag-marker {
-  font-size: 0.7rem;
-  margin-left: -0.1rem;
-}
-
 .el-phys {
   background: rgba(201, 210, 218, 0.15);
   color: var(--el-phys);
@@ -629,12 +614,6 @@ button:disabled {
 .dmg-number.dmg-crit {
   color: var(--accent-gold);
   font-size: 1.4rem;
-}
-
-.dmg-number.dmg-null {
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  font-style: normal;
 }
 
 @keyframes dmg-float {

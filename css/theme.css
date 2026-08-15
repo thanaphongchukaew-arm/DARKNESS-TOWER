@@ -26,7 +26,7 @@
   --success: #48a058;
   --warning: #e8c050;
 
-  /* elements -- kept distinct/saturated for weakness readability */
+  /* elements -- kept distinct/saturated so skill badges stay readable at a glance */
   --el-phys: #d8d0c0;
   --el-fire: #f07030;
   --el-ice: #48c8e8;
