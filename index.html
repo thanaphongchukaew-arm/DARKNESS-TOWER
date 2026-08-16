@@ -68,6 +68,16 @@
     <div id="difficulty-cards" class="card-grid"></div>
   </section>
 
+  <!-- ASCENSION LEVEL SELECT (only shown once unlocked, Nightmare only) -->
+  <section id="screen-ascension" class="screen">
+    <header class="screen-header">
+      <button class="btn-icon" id="ascension-back" aria-label="ย้อนกลับ"></button>
+      <h2 id="ascension-title">เลือกระดับ Ascension</h2>
+    </header>
+    <p class="reward-sub" id="ascension-sub"></p>
+    <div id="ascension-cards" class="card-grid"></div>
+  </section>
+
   <!-- CLASS SELECT -->
   <section id="screen-class" class="screen">
     <header class="screen-header">
@@ -75,6 +85,16 @@
       <h2 id="class-title">เลือกคลาสตัวละคร</h2>
     </header>
     <div id="class-cards" class="card-grid"></div>
+  </section>
+
+  <!-- BLESSING PICK (run-start modifier choice) -->
+  <section id="screen-blessing-pick" class="screen">
+    <header class="screen-header">
+      <h2 id="blessing-pick-title">เลือกพรประจำการเดินทาง</h2>
+    </header>
+    <p class="reward-sub" id="blessing-pick-sub">เลือกพร 1 อย่าง หรือข้ามก็ได้</p>
+    <div id="blessing-pick-cards" class="card-grid"></div>
+    <div class="menu-actions"><button class="btn-secondary" id="blessing-pick-skip">ข้าม</button></div>
   </section>
 
   <!-- TOWER MAP -->
@@ -92,6 +112,7 @@
       </div>
     </header>
     <button class="btn-primary tower-quests-fab" id="tower-quests-btn"><span class="quest-btn-label">ภารกิจ</span><span id="tower-quests-badge" class="quest-badge hidden"></span></button>
+    <button class="btn-primary tower-codex-fab" id="tower-codex-btn"><span class="quest-btn-label">สมุดเวท</span><span id="tower-codex-badge" class="quest-badge hidden"></span></button>
     <h2 class="tower-title" id="tower-title">หอคอยแห่งความมืด</h2>
     <div class="tower-jump-wrap">
       <button class="btn-primary tower-jump-btn" id="tower-jump-current"></button>
@@ -125,6 +146,7 @@
     <div class="battle-lower">
       <div id="battle-log" class="battle-log" aria-live="polite"></div>
       <div id="battle-player-panel" class="battle-player-panel"></div>
+      <div id="battle-companion-panel" class="battle-companion-panel"></div>
       <div id="battle-actions" class="battle-actions"></div>
     </div>
     <div id="battle-submenu" class="battle-submenu hidden"></div>
@@ -150,6 +172,17 @@
     <p class="reward-sub" id="waypoint-desc"></p>
     <div id="waypoint-body"></div>
     <div id="waypoint-actions" class="menu-actions"></div>
+  </section>
+
+  <!-- RANDOM TOWER EVENT -->
+  <section id="screen-event" class="screen">
+    <header class="screen-header">
+      <div id="event-icon" class="waypoint-icon"></div>
+      <h2 id="event-title"></h2>
+    </header>
+    <p class="reward-sub" id="event-desc"></p>
+    <div id="event-body"></div>
+    <div id="event-actions" class="menu-actions"></div>
   </section>
 
   <!-- STATUS / EQUIP SCREEN -->
@@ -197,6 +230,17 @@
     </header>
     <p class="reward-sub" id="quests-note"></p>
     <div id="quests-content"></div>
+  </section>
+
+  <!-- CODEX: bestiary + achievements -->
+  <section id="screen-codex" class="screen">
+    <header class="screen-header">
+      <button class="btn-icon" id="codex-back" aria-label="ย้อนกลับ"></button>
+      <h2 id="codex-header-title">สมุดเวท</h2>
+    </header>
+    <div id="codex-tabs" class="shop-tabs"></div>
+    <p class="reward-sub" id="codex-note"></p>
+    <div id="codex-content"></div>
   </section>
 
   <!-- ENDLESS ARENA SUMMARY (survival mode session end) -->

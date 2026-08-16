@@ -231,6 +231,27 @@
   color: var(--bg-void);
 }
 
+/* Codex entry point: stacks directly above the Quests FAB in the same pinned
+   corner (rather than adding a third horizontal slot) so the tower header
+   doesn't accumulate more buttons than it already has -- one more pinned
+   corner button, not one more row of chrome. Cyan instead of gold/red so all
+   three persistent action buttons (Arena/Quests/Codex) stay distinguishable
+   at a glance. */
+#tower-codex-btn.tower-codex-fab {
+  position: fixed;
+  left: 1.25rem;
+  bottom: 5.25rem;
+  z-index: 40;
+  box-shadow: 0 0.3rem 1rem rgba(0,0,0,0.45);
+  color: var(--el-ice);
+  background: rgba(72,200,232,0.08);
+}
+
+#tower-codex-btn.tower-codex-fab:hover:not(:disabled) {
+  background: var(--el-ice);
+  color: var(--bg-void);
+}
+
 .quest-badge {
   position: absolute;
   top: -0.5rem;

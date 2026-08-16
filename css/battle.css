@@ -812,6 +812,50 @@
   font-size: 2rem;
 }
 
+/* Companion mini-panel: a compact clone of .battle-player-panel/.player-portrait
+   (violet instead of gold so it reads as a distinct ally, not a second player) --
+   collapses to nothing via :empty when no companion is hired (see
+   BattleUI.renderCompanionPanel, which sets innerHTML = '' in that case). */
+.battle-companion-panel {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.8rem;
+}
+
+.battle-companion-panel:empty {
+  display: none;
+}
+
+.companion-portrait {
+  width: 36px;
+  height: 36px;
+  background: var(--bg-panel-raised);
+  border: 2px solid var(--accent-violet);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-violet);
+  flex-shrink: 0;
+}
+
+.companion-portrait .icon {
+  font-size: 1.3rem;
+}
+
+.companion-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.companion-role {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
 .player-bars {
   flex: 1;
   min-width: 200px;

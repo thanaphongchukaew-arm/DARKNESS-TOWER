@@ -38,7 +38,7 @@
 
   // After clearing a floor (or on a defensive re-check before a battle), route
   // to the gated waypoint if this floor has one and it hasn't been seen yet;
-  // otherwise go straight to the tower map.
+  // otherwise roll for a random event, falling back to the tower map.
   function goToTowerOrWaypoint() {
     var run = window.Game.State.current;
     run.waypointsSeen = run.waypointsSeen || {};
@@ -46,10 +46,458 @@
     if (type && !run.waypointsSeen[run.currentFloor]) {
       renderWaypoint(type, run.currentFloor);
       window.Game.UI.showScreen('screen-waypoint');
-    } else {
+      return;
+    }
+    maybeTriggerEvent(run.currentFloor, function () {
       renderTower();
       window.Game.UI.showScreen('screen-tower');
+    });
+  }
+
+  // ---- Random tower events (see data-events.js) -- a small chance, on floors
+  // that aren't already gated by a scripted waypoint/mini-boss/the floor-100
+  // boss, of a full-screen detour offering a risk/reward choice. Shares the
+  // exact "gate before falling through" shape goToTowerOrWaypoint/enterFloor
+  // already use for waypoints -- `onNone` is whichever of those two callers'
+  // own fallback (tower map, or straight into battle) applies. ----
+  var EVENT_CHANCE = 0.22;
+  var EVENT_MIN_GAP = 3;
+  var EVENT_META = {
+    merchant: { titleKey: 'eventMerchantTitle', descKey: 'eventMerchantDesc' },
+    chest: { titleKey: 'eventChestTitle', descKey: 'eventChestDesc' },
+    shortcut: { titleKey: 'eventShortcutTitle', descKey: 'eventShortcutDesc' },
+    sage: { titleKey: 'eventSageTitle', descKey: 'eventSageDesc' },
+    shrine: { titleKey: 'eventShrineTitle', descKey: 'eventShrineDesc' },
+    companion: { titleKey: 'eventCompanionTitle', descKey: 'eventCompanionDesc' },
+    spring: { titleKey: 'eventSpringTitle', descKey: 'eventSpringDesc' },
+    battlefield: { titleKey: 'eventBattlefieldTitle', descKey: 'eventBattlefieldDesc' },
+    gambler: { titleKey: 'eventGamblerTitle', descKey: 'eventGamblerDesc' }
+  };
+
+  // The "Lost Companion" event only makes sense if there's actually a companion
+  // left to recruit -- excluded from the roll otherwise rather than showing a
+  // dead-end offer.
+  function eligibleEventIds(run) {
+    var D = window.Game.Data, S = window.Game.State;
+    var ids = D.events.map(function (e) { return e.id; });
+    var hasRecruitable = !run.companionId && D.companions.some(function (c) { return S.isCompanionUnlocked(c.id); });
+    if (!hasRecruitable) ids = ids.filter(function (id) { return id !== 'companion'; });
+    return ids;
+  }
+
+  function maybeTriggerEvent(floor, onNone) {
+    var run = window.Game.State.current;
+    var D = window.Game.Data;
+    run.eventsSeen = run.eventsSeen || {};
+    var eligible = floor > 2 && !getWaypointForFloor(floor) && floor !== 100 && !D.getMiniBoss(floor) &&
+      !run.eventsSeen[floor] && (floor - (run.lastEventFloor || 0)) >= EVENT_MIN_GAP;
+    if (eligible && Math.random() < EVENT_CHANCE) {
+      var ids = eligibleEventIds(run);
+      if (ids.length) {
+        run.lastEventFloor = floor;
+        renderEvent(ids[Math.floor(Math.random() * ids.length)], floor);
+        window.Game.UI.showScreen('screen-event');
+        return;
+      }
     }
+    onNone();
+  }
+
+  // Not marked "seen" until the player actually makes a choice (mirrors
+  // markWaypointSeen) -- a reload mid-event just re-offers the same event.
+  function finishEvent(floor) {
+    var run = window.Game.State.current;
+    run.eventsSeen = run.eventsSeen || {};
+    run.eventsSeen[floor] = true;
+    if (lastEvent.id) window.Game.State.recordEventSeen(lastEvent.id);
+    window.Game.State.saveNow();
+    renderTower();
+    window.Game.UI.showScreen('screen-tower');
+  }
+
+  // Caches per-visit rolled content (merchant offers / shrine pair) the same
+  // way waypointState caches shop stock/treasure choices, so a language-toggle
+  // re-render (which calls renderEvent again) doesn't re-roll it.
+  var eventState = { id: null, floor: null };
+  var lastEvent = { id: null, floor: null };
+
+  function generateMerchantOffers(run, floor) {
+    var D = window.Game.Data, F = window.Game.Formulas;
+    var tier = F.itemTierForFloor(floor);
+    var evDef = D.getEvent('merchant');
+    var basePrice = evDef.offerGoldBase + evDef.offerGoldPerTier * F.tierForFloor(floor);
+    var offers = [];
+    var unheldBlessings = D.blessings.filter(function (b) { return (run.blessings || []).indexOf(b.id) === -1; });
+    if (unheldBlessings.length) {
+      var b = unheldBlessings[Math.floor(Math.random() * unheldBlessings.length)];
+      offers.push({ id: 'b_' + b.id, kind: 'blessing', blessing: b, price: basePrice });
+    }
+    var consumables = D.items.filter(function (it) { return it.kind === 'consumable' && it.id !== 'p_elixir' && it.tier <= tier && !it.questOnly; });
+    if (consumables.length) {
+      var it1 = consumables[Math.floor(Math.random() * consumables.length)];
+      offers.push({ id: 'i_' + it1.id, kind: 'item', item: it1, qty: 3, price: Math.round(F.shopPrice(it1) * 2.4) });
+    }
+    var materials = D.items.filter(function (it) { return it.kind === 'material' && it.tier === F.tierForFloor(floor); });
+    if (materials.length) {
+      var m = materials[Math.floor(Math.random() * materials.length)];
+      var qty = 3 + Math.floor(Math.random() * 3);
+      offers.push({ id: 'm_' + m.id, kind: 'item', item: m, qty: qty, price: Math.round(basePrice * 0.5) });
+    }
+    return offers;
+  }
+
+  function renderMerchantEvent(floor) {
+    var run = window.Game.State.current;
+    if (eventState.id !== 'merchant' || eventState.floor !== floor) {
+      eventState = { id: 'merchant', floor: floor, offers: generateMerchantOffers(run, floor), purchased: {} };
+    }
+    var body = document.getElementById('event-body');
+    function paint() {
+      var goldHtml = '<div class="waypoint-gold-display">' + I('coin') + (run.gold || 0) + ' ' + T('goldLabel') + '</div>';
+      var cardsHtml = eventState.offers.map(function (o, idx) {
+        var bought = eventState.purchased[o.id];
+        var canAfford = (run.gold || 0) >= o.price;
+        var icon = o.kind === 'blessing' ? o.blessing.icon : o.item.icon;
+        var name = o.kind === 'blessing' ? L(o.blessing, 'name') : L(o.item, 'name') + (o.qty > 1 ? ' x' + o.qty : '');
+        var desc = o.kind === 'blessing' ? L(o.blessing, 'desc') : L(o.item, 'desc');
+        return '<button class="select-card' + (bought ? ' locked' : '') + '" data-idx="' + idx + '"' + ((bought || !canAfford) ? ' disabled' : '') + '>' +
+          '<div class="select-card-icon">' + I(icon) + '</div>' +
+          '<div class="select-card-title">' + name + '</div>' +
+          '<div class="select-card-desc">' + desc + '</div>' +
+          '<div class="select-card-stats"><span class="stat-chip">' + (bought ? T('purchasedLabel') : (o.price + ' ' + T('goldLabel'))) + '</span></div>' +
+        '</button>';
+      }).join('');
+      body.innerHTML = goldHtml + '<div class="card-grid">' + cardsHtml + '</div>';
+      Array.prototype.forEach.call(body.querySelectorAll('.select-card:not([disabled])'), function (card) {
+        card.onclick = function () {
+          var idx = parseInt(card.getAttribute('data-idx'), 10);
+          var o = eventState.offers[idx];
+          if (!window.Game.State.spendGold(run, o.price)) return;
+          eventState.purchased[o.id] = true;
+          if (o.kind === 'blessing') window.Game.State.addBlessing(run, o.blessing.id);
+          else window.Game.State.addItem(run, o.item.id, o.qty);
+          window.Game.State.saveNow();
+          SFX('item_get');
+          paint();
+        };
+      });
+    }
+    paint();
+    document.getElementById('event-actions').innerHTML = '<button class="btn-primary" id="event-continue">' + T('continueBtn') + '</button>';
+    document.getElementById('event-continue').onclick = function () { SFX('ui_confirm'); finishEvent(floor); };
+  }
+
+  function eventChoiceCard(icon, titleKey, descKey, choice) {
+    return '<button class="select-card" data-choice="' + choice + '">' +
+      '<div class="select-card-icon">' + I(icon) + '</div>' +
+      '<div class="select-card-title">' + T(titleKey) + '</div>' +
+      '<div class="select-card-desc">' + T(descKey) + '</div>' +
+    '</button>';
+  }
+
+  function renderChestEvent(floor) {
+    var run = window.Game.State.current;
+    var evDef = window.Game.Data.getEvent('chest');
+    var body = document.getElementById('event-body');
+    body.innerHTML = '<div class="card-grid">' +
+      eventChoiceCard('eventChest', 'eventChestOpenBtn', 'eventChestOpenDesc', 'open') +
+      eventChoiceCard('doorway', 'eventChestLeaveBtn', 'eventChestLeaveDesc', 'leave') +
+    '</div>';
+    document.getElementById('event-actions').innerHTML = '';
+    Array.prototype.forEach.call(body.querySelectorAll('.select-card'), function (card) {
+      card.onclick = function () {
+        if (card.getAttribute('data-choice') === 'leave') { SFX('ui_cancel'); finishEvent(floor); return; }
+        SFX('item_get');
+        var D = window.Game.Data, S = window.Game.State, F = window.Game.Formulas;
+        if (Math.random() < evDef.goodChance) {
+          var roll = Math.random();
+          if (roll < 0.34) {
+            var gold = F.goldForExp(50 + floor * 4);
+            S.addGold(run, gold);
+            window.Game.UI.confirmModal({ title: T('eventChestGoodTitle'), message: T('eventChestGoldMsg', { gold: gold }), confirmLabel: T('closeBtn'), onConfirm: function () { finishEvent(floor); } });
+          } else if (roll < 0.67) {
+            var unheld = D.blessings.filter(function (b) { return (run.blessings || []).indexOf(b.id) === -1; });
+            if (unheld.length) {
+              var b = unheld[Math.floor(Math.random() * unheld.length)];
+              S.addBlessing(run, b.id);
+              window.Game.UI.confirmModal({ title: T('eventChestGoodTitle'), message: T('eventChestBlessingMsg', { name: L(b, 'name') }), confirmLabel: T('closeBtn'), onConfirm: function () { finishEvent(floor); } });
+            } else { finishEvent(floor); }
+          } else {
+            var tier = F.tierForFloor(floor);
+            var mats = D.items.filter(function (it) { return it.kind === 'material' && it.tier === tier; });
+            if (mats.length) {
+              var m = mats[Math.floor(Math.random() * mats.length)];
+              var qty = 3 + Math.floor(Math.random() * 3);
+              S.addItem(run, m.id, qty);
+              window.Game.UI.confirmModal({ title: T('eventChestGoodTitle'), message: T('eventChestMaterialMsg', { name: L(m, 'name'), qty: qty }), confirmLabel: T('closeBtn'), onConfirm: function () { finishEvent(floor); } });
+            } else { finishEvent(floor); }
+          }
+        } else {
+          var dmg = Math.max(1, Math.round(S.getMaxHp(run) * evDef.trapHpPct));
+          run.hp = Math.max(1, run.hp - dmg);
+          var c = D.curses[Math.floor(Math.random() * D.curses.length)];
+          S.addCurse(run, c.id, false);
+          window.Game.UI.confirmModal({ title: T('eventChestTrapTitle'), message: T('eventChestTrapMsg', { dmg: dmg, name: L(c, 'name') }), confirmLabel: T('closeBtn'), danger: true, onConfirm: function () { finishEvent(floor); } });
+        }
+      };
+    });
+  }
+
+  function renderShortcutEvent(floor) {
+    var run = window.Game.State.current;
+    var evDef = window.Game.Data.getEvent('shortcut');
+    var body = document.getElementById('event-body');
+    body.innerHTML = '<div class="card-grid">' +
+      eventChoiceCard('eventShortcut', 'eventShortcutPushBtn', 'eventShortcutPushDesc', 'push') +
+      eventChoiceCard('doorway', 'eventShortcutSafeBtn', 'eventShortcutSafeDesc', 'safe') +
+    '</div>';
+    document.getElementById('event-actions').innerHTML = '';
+    Array.prototype.forEach.call(body.querySelectorAll('.select-card'), function (card) {
+      card.onclick = function () {
+        if (card.getAttribute('data-choice') === 'safe') { SFX('ui_cancel'); finishEvent(floor); return; }
+        SFX('item_get');
+        var dmg = Math.max(1, Math.round(run.hp * evDef.hpCostPct));
+        run.hp = Math.max(1, run.hp - dmg);
+        run.currentFloor += 1;
+        window.Game.State.recordFloorReached(run.currentFloor);
+        run.eventsSeen = run.eventsSeen || {};
+        run.eventsSeen[floor] = true;
+        window.Game.State.recordEventSeen('shortcut');
+        window.Game.State.saveNow();
+        renderTower();
+        window.Game.UI.showScreen('screen-tower');
+      };
+    });
+  }
+
+  function renderSageEvent(floor) {
+    var run = window.Game.State.current;
+    var D = window.Game.Data, F = window.Game.Formulas, S = window.Game.State;
+    var evDef = D.getEvent('sage');
+    var goldCost = evDef.expTradeGoldBase + evDef.expTradeGoldPerTier * F.tierForFloor(floor);
+    var expGain = Math.round(goldCost * 0.6);
+    var matIds = Object.keys(run.inventory).filter(function (id) {
+      var it = D.getItem(id);
+      return it && it.kind === 'material' && (run.inventory[id] || 0) >= evDef.materialTradeQty;
+    });
+    var canTradeMat = matIds.length > 0;
+    var canTradeGold = (run.gold || 0) >= goldCost;
+    var body = document.getElementById('event-body');
+    body.innerHTML = '<div class="card-grid">' +
+      '<button class="select-card' + (canTradeGold ? '' : ' locked') + '" data-choice="gold"' + (canTradeGold ? '' : ' disabled') + '>' +
+        '<div class="select-card-icon">' + I('gem') + '</div><div class="select-card-title">' + T('eventSageGoldBtn') + '</div>' +
+        '<div class="select-card-desc">' + T('eventSageGoldDesc', { gold: goldCost, exp: expGain }) + '</div></button>' +
+      '<button class="select-card' + (canTradeMat ? '' : ' locked') + '" data-choice="material"' + (canTradeMat ? '' : ' disabled') + '>' +
+        '<div class="select-card-icon">' + I('scroll') + '</div><div class="select-card-title">' + T('eventSageMaterialBtn') + '</div>' +
+        '<div class="select-card-desc">' + T('eventSageMaterialDesc', { qty: evDef.materialTradeQty }) + '</div></button>' +
+      eventChoiceCard('doorway', 'declineBtn', 'eventDeclineDesc', 'decline') +
+    '</div>';
+    document.getElementById('event-actions').innerHTML = '';
+    Array.prototype.forEach.call(body.querySelectorAll('.select-card:not([disabled])'), function (card) {
+      card.onclick = function () {
+        var choice = card.getAttribute('data-choice');
+        if (choice === 'decline') { SFX('ui_cancel'); finishEvent(floor); return; }
+        SFX('item_get');
+        if (choice === 'gold') {
+          if (!S.spendGold(run, goldCost)) return;
+          S.addExp(run, expGain);
+        } else if (choice === 'material') {
+          S.removeItem(run, matIds[0], evDef.materialTradeQty);
+          S.addItem(run, 'skill_scroll', 1);
+          S.useConsumable(run, 'skill_scroll');
+        }
+        window.Game.State.saveNow();
+        finishEvent(floor);
+      };
+    });
+  }
+
+  function generateShrinePair(run) {
+    var D = window.Game.Data;
+    var unheldB = D.blessings.filter(function (b) { return (run.blessings || []).indexOf(b.id) === -1; });
+    var pool = unheldB.length ? unheldB : D.blessings;
+    var b = pool[Math.floor(Math.random() * pool.length)];
+    var bKeys = b.stat ? (Array.isArray(b.stat) ? b.stat : [b.stat]) : [];
+    var curseCandidates = D.curses.filter(function (c) {
+      var cKeys = c.stat ? (Array.isArray(c.stat) ? c.stat : [c.stat]) : [];
+      return !cKeys.some(function (k) { return bKeys.indexOf(k) !== -1; });
+    });
+    var pool2 = curseCandidates.length ? curseCandidates : D.curses;
+    var c = pool2[Math.floor(Math.random() * pool2.length)];
+    return { blessing: b, curse: c };
+  }
+
+  function renderShrineEvent(floor) {
+    var run = window.Game.State.current;
+    if (eventState.id !== 'shrine' || eventState.floor !== floor) {
+      eventState = { id: 'shrine', floor: floor, pair: generateShrinePair(run) };
+    }
+    var pair = eventState.pair;
+    var body = document.getElementById('event-body');
+    body.innerHTML = '<div class="card-grid">' +
+      '<button class="select-card" data-choice="accept">' +
+        '<div class="select-card-icon">' + I('eventShrine') + '</div>' +
+        '<div class="select-card-title">' + L(pair.blessing, 'name') + ' + ' + L(pair.curse, 'name') + '</div>' +
+        '<div class="select-card-desc">' + L(pair.blessing, 'desc') + ' — ' + L(pair.curse, 'desc') + '</div></button>' +
+      eventChoiceCard('doorway', 'declineBtn', 'eventDeclineDesc', 'decline') +
+    '</div>';
+    document.getElementById('event-actions').innerHTML = '';
+    Array.prototype.forEach.call(body.querySelectorAll('.select-card'), function (card) {
+      card.onclick = function () {
+        if (card.getAttribute('data-choice') === 'accept') {
+          SFX('item_get');
+          window.Game.State.addBlessing(run, pair.blessing.id);
+          window.Game.State.addCurse(run, pair.curse.id, true);
+          window.Game.State.saveNow();
+        } else { SFX('ui_cancel'); }
+        finishEvent(floor);
+      };
+    });
+  }
+
+  function renderCompanionEvent(floor) {
+    var run = window.Game.State.current, D = window.Game.Data, S = window.Game.State;
+    if (eventState.id !== 'companion' || eventState.floor !== floor) {
+      var candidates = D.companions.filter(function (c) { return S.isCompanionUnlocked(c.id) && run.companionId !== c.id; });
+      eventState = { id: 'companion', floor: floor, comp: candidates.length ? candidates[Math.floor(Math.random() * candidates.length)] : null };
+    }
+    var comp = eventState.comp;
+    var body = document.getElementById('event-body');
+    if (!comp) {
+      body.innerHTML = '<p class="empty-note">' + T('eventCompanionNoneNote') + '</p>';
+      document.getElementById('event-actions').innerHTML = '<button class="btn-primary" id="event-continue">' + T('continueBtn') + '</button>';
+      document.getElementById('event-continue').onclick = function () { SFX('ui_confirm'); finishEvent(floor); };
+      return;
+    }
+    body.innerHTML = '<div class="card-grid">' +
+      '<button class="select-card" data-choice="accept"><div class="select-card-icon">' + I(comp.icon) + '</div><div class="select-card-title">' + L(comp, 'name') + '</div><div class="select-card-desc">' + L(comp, 'desc') + '</div></button>' +
+      eventChoiceCard('doorway', 'declineBtn', 'eventDeclineDesc', 'decline') +
+    '</div>';
+    document.getElementById('event-actions').innerHTML = '';
+    Array.prototype.forEach.call(body.querySelectorAll('.select-card'), function (card) {
+      card.onclick = function () {
+        if (card.getAttribute('data-choice') === 'accept') {
+          SFX('item_get');
+          S.hireCompanion(run, comp.id);
+          window.Game.State.saveNow();
+        } else { SFX('ui_cancel'); }
+        finishEvent(floor);
+      };
+    });
+  }
+
+  // ---- 2nd wave events ----
+
+  function renderSpringEvent(floor) {
+    var run = window.Game.State.current, S = window.Game.State;
+    var body = document.getElementById('event-body');
+    body.innerHTML = '<div class="card-grid">' +
+      eventChoiceCard('eventSpring', 'eventSpringDrinkBtn', 'eventSpringDrinkDesc', 'drink') +
+      eventChoiceCard('doorway', 'eventSpringLeaveBtn', 'eventSpringLeaveDesc', 'leave') +
+    '</div>';
+    document.getElementById('event-actions').innerHTML = '';
+    Array.prototype.forEach.call(body.querySelectorAll('.select-card'), function (card) {
+      card.onclick = function () {
+        if (card.getAttribute('data-choice') === 'drink') {
+          SFX('heal');
+          S.fullRestore(run);
+          window.Game.State.saveNow();
+        } else { SFX('ui_cancel'); }
+        finishEvent(floor);
+      };
+    });
+  }
+
+  // Reuses the exact same reward-choice pool the floor-clear reward screen and
+  // Treasure Room waypoint already draw from (generateRewardChoices, defined
+  // above) -- a bonus free pick, no new item/reward logic needed.
+  function renderBattlefieldEvent(floor) {
+    if (eventState.id !== 'battlefield' || eventState.floor !== floor) {
+      eventState = { id: 'battlefield', floor: floor, choices: generateRewardChoices(floor) };
+    }
+    var choices = eventState.choices;
+    var body = document.getElementById('event-body');
+    body.innerHTML = '<div class="card-grid">' + choices.map(function (c, idx) {
+      var qtyLabel = c.qty > 1 ? ' x' + c.qty : '';
+      return '<button class="select-card" data-idx="' + idx + '">' +
+        '<div class="select-card-icon">' + I(c.item.icon) + '</div>' +
+        '<div class="select-card-title">' + L(c.item, 'name') + qtyLabel + '</div>' +
+        '<div class="select-card-desc">' + L(c.item, 'desc') + '</div>' +
+      '</button>';
+    }).join('') + '</div>';
+    document.getElementById('event-actions').innerHTML = '';
+    Array.prototype.forEach.call(body.querySelectorAll('.select-card'), function (card) {
+      card.onclick = function () {
+        SFX('item_get');
+        var idx = parseInt(card.getAttribute('data-idx'), 10);
+        var pick = choices[idx];
+        var run = window.Game.State.current;
+        window.Game.State.addItem(run, pick.item.id, pick.qty);
+        if (pick.item.id === 'p_elixir') window.Game.State.spendElixir(run);
+        autoEquipIfEmpty(run, pick.item.id);
+        finishEvent(floor);
+      };
+    });
+  }
+
+  var GAMBLER_TIER_KEYS = ['eventGamblerTierSmall', 'eventGamblerTierMedium', 'eventGamblerTierAll'];
+
+  function renderGamblerEvent(floor) {
+    var run = window.Game.State.current;
+    var evDef = window.Game.Data.getEvent('gambler');
+    var body = document.getElementById('event-body');
+    function paint() {
+      var gold = run.gold || 0;
+      var cardsHtml = evDef.betTiers.map(function (pct, idx) {
+        var bet = Math.round(gold * pct);
+        var affordable = bet > 0;
+        return '<button class="select-card' + (affordable ? '' : ' locked') + '" data-idx="' + idx + '"' + (affordable ? '' : ' disabled') + '>' +
+          '<div class="select-card-icon">' + I('eventGambler') + '</div>' +
+          '<div class="select-card-title">' + T(GAMBLER_TIER_KEYS[idx]) + '</div>' +
+          '<div class="select-card-desc">' + T('eventGamblerBetDesc', { gold: bet }) + '</div>' +
+        '</button>';
+      }).join('') + eventChoiceCard('doorway', 'eventGamblerLeaveBtn', 'eventGamblerLeaveDesc', 'leave');
+      body.innerHTML = '<div class="waypoint-gold-display">' + I('coin') + gold + ' ' + T('goldLabel') + '</div><div class="card-grid">' + cardsHtml + '</div>';
+      Array.prototype.forEach.call(body.querySelectorAll('.select-card:not([disabled])'), function (card) {
+        card.onclick = function () {
+          if (card.getAttribute('data-choice') === 'leave') { SFX('ui_cancel'); finishEvent(floor); return; }
+          var idx = parseInt(card.getAttribute('data-idx'), 10);
+          var bet = Math.round((run.gold || 0) * evDef.betTiers[idx]);
+          if (bet <= 0 || !window.Game.State.spendGold(run, bet)) return;
+          var won = Math.random() < 0.5;
+          if (won) {
+            window.Game.State.addGold(run, bet * 2);
+            if (idx === evDef.betTiers.length - 1) window.Game.State.setAchievementFlag('bigGambleWon');
+            SFX('item_get');
+            window.Game.UI.confirmModal({ title: T('eventGamblerWinTitle'), message: T('eventGamblerWinMsg', { gold: bet * 2 }), confirmLabel: T('closeBtn'), onConfirm: function () { finishEvent(floor); } });
+          } else {
+            SFX('hit_null');
+            window.Game.UI.confirmModal({ title: T('eventGamblerLoseTitle'), message: T('eventGamblerLoseMsg', { gold: bet }), confirmLabel: T('closeBtn'), danger: true, onConfirm: function () { finishEvent(floor); } });
+          }
+          window.Game.State.saveNow();
+        };
+      });
+    }
+    paint();
+  }
+
+  function renderEvent(eventId, floor) {
+    if (eventState.id !== eventId || eventState.floor !== floor) eventState = { id: null, floor: null };
+    lastEvent = { id: eventId, floor: floor };
+    var meta = EVENT_META[eventId];
+    var evDef = window.Game.Data.getEvent(eventId);
+    document.getElementById('event-icon').innerHTML = I(evDef.icon);
+    document.getElementById('event-title').textContent = T(meta.titleKey);
+    document.getElementById('event-desc').textContent = T(meta.descKey);
+    if (eventId === 'merchant') renderMerchantEvent(floor);
+    else if (eventId === 'chest') renderChestEvent(floor);
+    else if (eventId === 'shortcut') renderShortcutEvent(floor);
+    else if (eventId === 'sage') renderSageEvent(floor);
+    else if (eventId === 'shrine') renderShrineEvent(floor);
+    else if (eventId === 'companion') renderCompanionEvent(floor);
+    else if (eventId === 'spring') renderSpringEvent(floor);
+    else if (eventId === 'battlefield') renderBattlefieldEvent(floor);
+    else if (eventId === 'gambler') renderGamblerEvent(floor);
   }
 
   // Marks the currently-displayed waypoint as seen and persists it. Called only
@@ -74,7 +522,9 @@
     document.getElementById('tower-hero-summary').innerHTML =
       '<div class="hero-summary-icon">' + I(cls.icon) + '</div>' +
       '<div class="hero-summary-info">' +
-        '<div class="hero-summary-name">' + L(cls, 'name') + '<span class="lvl">Lv.' + run.level + '</span><span class="gold-chip">' + I('coin') + (run.gold || 0) + '</span></div>' +
+        '<div class="hero-summary-name">' + L(cls, 'name') + '<span class="lvl">Lv.' + run.level + '</span>' +
+          (run.ascension ? '<span class="lvl" title="' + T('ascensionChipLabel') + '">' + I('ascension') + run.ascension + '</span>' : '') +
+          '<span class="gold-chip">' + I('coin') + (run.gold || 0) + '</span></div>' +
         '<div class="bar-row">' + I('heart') + '<div class="bar-track"><div class="bar-fill hp" style="width:' + hpPct + '%"></div></div><span>' + run.hp + '/' + maxHp + '</span></div>' +
         '<div class="bar-row">' + I('drop') + '<div class="bar-track"><div class="bar-fill mp" style="width:' + mpPct + '%"></div></div><span>' + run.mp + '/' + maxMp + '</span></div>' +
       '</div>';
@@ -118,6 +568,13 @@
     var claimableCount = window.Game.Data.quests.filter(function (q) { return window.Game.State.isQuestClaimable(run, q); }).length;
     questBadge.textContent = claimableCount;
     questBadge.classList.toggle('hidden', claimableCount === 0);
+    document.querySelector('#tower-codex-btn .quest-btn-label').textContent = T('codexBtn');
+    document.getElementById('tower-codex-btn').onclick = function () {
+      SFX('ui_confirm');
+      window.Game.CodexUI.renderCodex();
+      window.Game.UI.showScreen('screen-codex');
+    };
+    document.getElementById('tower-codex-badge').classList.add('hidden');
     document.getElementById('tower-home').innerHTML = I('doorway');
     document.getElementById('tower-home').onclick = function () {
       SFX('ui_back');
@@ -161,7 +618,7 @@
         window.Game.UI.showScreen('screen-waypoint');
         return;
       }
-      startBattleMaybeConfirm(floor, false);
+      maybeTriggerEvent(floor, function () { startBattleMaybeConfirm(floor, false); });
     }
 
     var jumpBtn = document.getElementById('tower-jump-current');
@@ -258,6 +715,7 @@
         // let renderShop lazily regenerate against the new (post-clear) floor tier.
         if (window.Game.Data.getMiniBoss(lastRewardFloor)) run.shopStock = null;
         run.currentFloor += 1;
+        window.Game.State.recordFloorReached(run.currentFloor);
         window.Game.State.saveNow();
         goToTowerOrWaypoint();
       };
@@ -787,6 +1245,47 @@
     }
   }
 
+  // Companion picker (see data-companions.js) -- parallel to openEquipPicker but
+  // reads from D.companions/State.isCompanionUnlocked instead of run.inventory,
+  // since hiring is free/account-gated rather than an inventory item.
+  function openCompanionPicker() {
+    var run = window.Game.State.current, D = window.Game.Data, S = window.Game.State;
+    var listHtml = D.companions.map(function (c) {
+      var unlocked = S.isCompanionUnlocked(c.id);
+      return '<button class="submenu-option" data-id="' + c.id + '"' + (unlocked ? '' : ' disabled') + '>' +
+        '<div class="submenu-option-icon">' + I(unlocked ? c.icon : 'lock') + '</div>' +
+        '<div class="submenu-option-info"><div class="submenu-option-name">' + L(c, 'name') + '</div>' +
+        '<div class="submenu-option-desc">' + (unlocked ? L(c, 'desc') : T('companionLockedDesc', { floor: c.unlockFloor })) + '</div></div>' +
+      '</button>';
+    }).join('');
+    var root = document.getElementById('modal-root');
+    root.innerHTML = '<div class="modal-box"><h3>' + T('chooseCompanionTitle') + '</h3><div class="submenu-list">' + listHtml + '</div>' +
+      (run.companionId ? '<button class="btn-danger" id="dismiss-companion-btn">' + T('dismissCompanionBtn') + '</button>' : '') +
+      '<button class="btn-ghost" id="modal-cancel">' + T('closeBtn') + '</button></div>';
+    root.classList.remove('hidden');
+    function close() { root.classList.add('hidden'); root.innerHTML = ''; }
+    document.getElementById('modal-cancel').onclick = function () { SFX('ui_cancel'); close(); };
+    Array.prototype.forEach.call(root.querySelectorAll('.submenu-option:not([disabled])'), function (btn) {
+      btn.onclick = function () {
+        SFX('item_use');
+        S.hireCompanion(run, btn.getAttribute('data-id'));
+        window.Game.State.saveNow();
+        close();
+        renderStatus();
+      };
+    });
+    var dismissBtn = document.getElementById('dismiss-companion-btn');
+    if (dismissBtn) {
+      dismissBtn.onclick = function () {
+        SFX('ui_back');
+        S.hireCompanion(run, null);
+        window.Game.State.saveNow();
+        close();
+        renderStatus();
+      };
+    }
+  }
+
   function renderStatus() {
     var run = window.Game.State.current;
     var S = window.Game.State, D = window.Game.Data;
@@ -796,8 +1295,18 @@
 
     document.getElementById('status-header-title').textContent = T('statusScreenTitle');
 
+    var equippedTitle = S.getEquippedTitle();
+    var blessingChips = (run.blessings || []).map(function (id) {
+      var b = D.getBlessing(id);
+      return b ? '<span class="stat-chip" title="' + L(b, 'name') + '">' + I(b.icon) + ' ' + L(b, 'name') + '</span>' : '';
+    }).join('') + (run.curses || []).map(function (id) {
+      var c = D.getCurse(id);
+      return c ? '<span class="stat-chip" title="' + L(c, 'name') + '">' + I(c.icon) + ' ' + L(c, 'name') + '</span>' : '';
+    }).join('');
+
     document.getElementById('status-stats').innerHTML =
       '<div class="status-panel-title">' + T('statusPanelTitle') + '</div>' +
+      (equippedTitle ? '<p class="reward-sub" style="margin:0 0 .6rem">' + L(equippedTitle, 'title') + '</p>' : '') +
       statRow('heart', 'HP', run.hp + '/' + maxHp) +
       statRow('drop', 'MP', run.mp + '/' + maxMp) +
       statRow('swordAttack', 'ATK', total.atk) +
@@ -806,7 +1315,8 @@
       statRow('sparkles', 'RES', total.res) +
       statRow('wind', 'SPD', total.spd) +
       statRow('star', 'LUK', total.luk) +
-      '<div class="bar-row" style="margin-top:.6rem">' + I('gem') + '<div class="bar-track"><div class="bar-fill exp" style="width:' + Math.round(run.exp / run.expNext * 100) + '%"></div></div><span>' + run.exp + '/' + run.expNext + '</span></div>';
+      '<div class="bar-row" style="margin-top:.6rem">' + I('gem') + '<div class="bar-track"><div class="bar-fill exp" style="width:' + Math.round(run.exp / run.expNext * 100) + '%"></div></div><span>' + run.exp + '/' + run.expNext + '</span></div>' +
+      (blessingChips ? '<div class="select-card-stats" style="margin-top:.6rem">' + blessingChips + '</div>' : '');
 
     var SLOT_DEFAULT_ICON = { weapon: 'weaponSlot', armor: 'armorSlot', shoes: 'shoesSlot', accessory1: 'accessorySlot', accessory2: 'accessorySlot' };
     function slotHtml(slot, label) {
@@ -820,13 +1330,23 @@
         '</div>' +
       '</div>';
     }
+    var comp = run.companionId ? D.getCompanion(run.companionId) : null;
+    var companionRowHtml = '<div class="equip-slot" id="companion-slot">' +
+      '<div class="equip-slot-icon">' + I(comp ? comp.icon : 'companionSlot') + '</div>' +
+      '<div class="equip-slot-info">' +
+        '<div class="equip-slot-name">' + T('companionLabel') + (comp ? ': ' + L(comp, 'name') : '') + '</div>' +
+        '<div class="equip-slot-desc">' + (comp ? L(comp, 'desc') : T('emptySlot')) + '</div>' +
+      '</div>' +
+    '</div>';
     var equipEl = document.getElementById('status-equipment');
     equipEl.innerHTML = '<div class="status-panel-title">' + T('equipPanelTitle') + '</div>' +
       slotHtml('weapon', T('weaponLabel')) + slotHtml('armor', T('armorLabel')) + slotHtml('shoes', T('shoesLabel')) +
-      slotHtml('accessory1', T('accessoryLabelN', { n: 1 })) + slotHtml('accessory2', T('accessoryLabelN', { n: 2 }));
-    Array.prototype.forEach.call(equipEl.querySelectorAll('.equip-slot'), function (row) {
+      slotHtml('accessory1', T('accessoryLabelN', { n: 1 })) + slotHtml('accessory2', T('accessoryLabelN', { n: 2 })) +
+      companionRowHtml;
+    Array.prototype.forEach.call(equipEl.querySelectorAll('.equip-slot[data-slot]'), function (row) {
       row.onclick = function () { SFX('ui_confirm'); openEquipPicker(row.getAttribute('data-slot')); };
     });
+    document.getElementById('companion-slot').onclick = function () { SFX('ui_confirm'); openCompanionPicker(); };
 
     var invItems = Object.keys(run.inventory).map(function (id) { return D.getItem(id); }).filter(function (it) { return it && (it.kind === 'consumable' || it.kind === 'material'); });
     var invHtml = invItems.length ? invItems.map(function (it) {
@@ -862,6 +1382,8 @@
     else if (active.id === 'screen-quests') renderQuests();
     else if (active.id === 'screen-reward') renderReward(null);
     else if (active.id === 'screen-waypoint' && lastWaypoint.type) renderWaypoint(lastWaypoint.type, lastWaypoint.floor);
+    else if (active.id === 'screen-event' && lastEvent.id) renderEvent(lastEvent.id, lastEvent.floor);
+    else if (active.id === 'screen-codex' && window.Game.CodexUI) window.Game.CodexUI.refreshActiveScreen();
   }
 
   window.Game = window.Game || {};

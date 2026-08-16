@@ -23,12 +23,17 @@ const FILES = [
   'js/data-items.js',
   'js/data-recipes.js',
   'js/data-quests.js',
+  'js/data-blessings.js',
+  'js/data-events.js',
+  'js/data-companions.js',
+  'js/data-achievements.js',
   'js/formulas.js',
   'js/save.js',
   'js/state.js',
   'js/battle-engine.js',
   'js/ui-menu.js',
   'js/ui-tower.js',
+  'js/ui-codex.js',
   'js/ui-battle.js',
   'js/main.js'
 ];

@@ -899,4 +899,13 @@
     for (var i = 0; i < enemies.length; i++) if (enemies[i].id === id) return enemies[i];
     return null;
   };
+  // Every distinct template a battle can ever build an actor from (regular +
+  // mini-bosses + the final boss) -- the Bestiary/Codex screen's full roster,
+  // and the total the "discover them all" achievement counts against.
+  window.Game.Data.getAllEnemyTemplates = function () {
+    var out = enemies.slice();
+    Object.keys(minibosses).forEach(function (f) { out.push(minibosses[f]); });
+    out.push(boss);
+    return out;
+  };
 })();

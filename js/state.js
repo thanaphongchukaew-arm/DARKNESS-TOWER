@@ -34,7 +34,14 @@
   function addGold(run, amount) {
     if (!amount) return;
     run.gold = (run.gold || 0) + amount;
-    if (amount > 0) { ensureQuestState(run); run.stats.goldEarned += amount; }
+    if (amount > 0) {
+      ensureQuestState(run);
+      run.stats.goldEarned += amount;
+      // "Tower Tycoon" achievement -- a moment flag (see data-achievements.js),
+      // since run.gold resets with the run and can't be checked live like the
+      // meta-persistent achievements can.
+      if (run.gold >= 5000) setAchievementFlag('goldHoarder');
+    }
   }
 
   // Saves from before the quest system existed (or a save that's simply never
@@ -170,7 +177,7 @@
     return true;
   }
 
-  function createRun(difficultyId, classId) {
+  function createRun(difficultyId, classId, ascension) {
     deps();
     var cls = D.getClass(classId);
     var diff = F.DIFFICULTY[difficultyId] || F.DIFFICULTY.normal;
@@ -197,11 +204,41 @@
       // floor-clear/treasure reward pool always offer exactly one bottle once it's
       // available, then it goes on cooldown until the player has climbed another
       // ELIXIR_RESTOCK_FLOORS floors, tracked as the floor it next becomes buyable.
-      elixirUnlockFloor: 1
+      elixirUnlockFloor: 1,
+      // Run-long modifiers (see data-blessings.js) -- ids only, resolved through
+      // Data.getBlessing/getCurse wherever they're applied (getTotalStats,
+      // getRewardMult, battle-engine's revive check).
+      blessings: [],
+      curses: [],
+      blessingRevived: false,
+      // Nightmare-only prestige level chosen at run creation (see Formulas.ascensionEnemyMult/
+      // ascensionRewardMult and State.isAscensionUnlocked/recordAscensionClear).
+      ascension: ascension || 0,
+      // Companion hired from the Status screen (see data-companions.js) -- null means none.
+      companionId: null,
+      // Random Tower Events: one-shot-per-floor guard (mirrors waypointsSeen) plus
+      // the last floor an event fired on, so events can't cluster back to back.
+      eventsSeen: {},
+      lastEventFloor: 0
     };
     addItem(run, 'p_hp_small', diff.startPotions);
     addItem(run, 'p_mp_small', 1);
     window.Game.State.current = run;
+    recordFloorReached(1);
+    return run;
+  }
+
+  // Saves from before this feature set existed (or a save that's simply never
+  // touched one of these systems yet) won't have these fields -- fill them in on
+  // load instead of requiring a one-time migration pass, mirroring normalizeEquipment.
+  function normalizeRunExtras(run) {
+    if (!run.blessings) run.blessings = [];
+    if (!run.curses) run.curses = [];
+    if (run.blessingRevived == null) run.blessingRevived = false;
+    if (run.ascension == null) run.ascension = 0;
+    if (run.companionId === undefined) run.companionId = null;
+    if (!run.eventsSeen) run.eventsSeen = {};
+    if (run.lastEventFloor == null) run.lastEventFloor = 0;
     return run;
   }
 
@@ -230,6 +267,8 @@
     return total;
   }
 
+  var STAT_KEYS = ['hp', 'mp', 'atk', 'mag', 'def', 'res', 'spd', 'luk'];
+
   function getTotalStats(run) {
     deps();
     var cls = D.getClass(run.classId);
@@ -237,10 +276,256 @@
     var bonus = getEquipmentBonus(run);
     var total = {};
     Object.keys(base).forEach(function (k) { total[k] = base[k] + (bonus[k] || 0); });
-    ['hp', 'mp', 'atk', 'mag', 'def', 'res', 'spd', 'luk'].forEach(function (k) {
+    STAT_KEYS.forEach(function (k) {
       if (total[k] == null) total[k] = bonus[k] || 0;
+      total[k] = F.round(total[k] * blessingStatMult(run, k));
     });
     return total;
+  }
+
+  // Product of every held blessing's/curse's multiplier that touches `statKey`
+  // (a blessing/curse's `stat` field is a single key or an array of keys). This is
+  // the ONLY place run-long stat modifiers apply -- deliberately not routed through
+  // battle-engine's per-battle buffs/debuffs array, since those tick down each round
+  // and refresh-not-stack by stat key (a skill buff could silently clobber a
+  // "permanent" one). Composing here instead means every caller of getTotalStats
+  // (battle start, level-up HP/MP refill, clampVitals, the Status screen) is always
+  // correct with zero double-counting risk.
+  function blessingStatMult(run, statKey) {
+    deps();
+    var mult = 1;
+    (run.blessings || []).forEach(function (id) {
+      var b = D.getBlessing(id);
+      if (!b || !b.stat) return;
+      var keys = Array.isArray(b.stat) ? b.stat : [b.stat];
+      if (keys.indexOf(statKey) !== -1) mult *= (1 + b.amount);
+    });
+    (run.curses || []).forEach(function (id) {
+      var c = D.getCurse(id);
+      if (!c || !c.stat) return;
+      var keys = Array.isArray(c.stat) ? c.stat : [c.stat];
+      if (keys.indexOf(statKey) !== -1) mult *= (1 + c.amount);
+    });
+    return mult;
+  }
+
+  // Gold/EXP/material-drop-rate multiplier from held economy blessings/curses plus
+  // the Ascension reward bonus -- composed by callers into the `rate` argument
+  // BattleEngine.getGoldReward/getExpReward/getMaterialDrops already accept, so no
+  // battle-engine change was needed to wire this in.
+  // `b.economy`/`c.economy` is a single kind ('gold'/'exp'/'material') or an
+  // array of kinds (e.g. Blessing of the Wanderer touches both gold and exp) --
+  // matchesKind normalizes both shapes to the same indexOf check.
+  function matchesEconomyKind(economy, kind) {
+    if (!economy) return false;
+    return (Array.isArray(economy) ? economy : [economy]).indexOf(kind) !== -1;
+  }
+
+  function getRewardMult(run, kind) {
+    deps();
+    var mult = F.ascensionRewardMult(run.ascension || 0);
+    (run.blessings || []).forEach(function (id) {
+      var b = D.getBlessing(id);
+      if (b && matchesEconomyKind(b.economy, kind)) mult *= (1 + b.amount);
+    });
+    (run.curses || []).forEach(function (id) {
+      var c = D.getCurse(id);
+      if (c && matchesEconomyKind(c.economy, kind)) mult *= (1 + c.amount);
+    });
+    return mult;
+  }
+
+  // De-dupes by id (mirrors learnedSkills' dedupe) so the same blessing/curse can
+  // never stack with itself -- keeps the multiplier math simple and bounded.
+  // `deliberate` flips the "Risktaker" achievement flag: true for a player
+  // knowingly accepting a paired blessing+curse offer (the run-start risky pick,
+  // the in-run Cursed Shrine event), false/omitted for an unlucky trap (the
+  // Forbidden Chest) which shouldn't count as a deliberate risk taken.
+  // Also records into the meta store's blessingsEverHeld/cursesEverHeld sets --
+  // account-wide, survives permadeath -- purely so the "collect them all"
+  // achievements (see isAchievementUnlocked's blessingsAll/cursesAll cases) can
+  // check total-ever-held rather than currently-held (a run's blessings/curses
+  // are never removed once added, but a *new* run starts with none).
+  function addBlessing(run, id) {
+    run.blessings = run.blessings || [];
+    if (run.blessings.indexOf(id) !== -1) return false;
+    run.blessings.push(id);
+    if (run.blessings.length >= 3) setAchievementFlag('blessedStacker');
+    var meta = window.Game.Save.readMeta();
+    meta.blessingsEverHeld = meta.blessingsEverHeld || {};
+    if (!meta.blessingsEverHeld[id]) { meta.blessingsEverHeld[id] = true; window.Game.Save.writeMeta(meta); }
+    return true;
+  }
+
+  function addCurse(run, id, deliberate) {
+    run.curses = run.curses || [];
+    if (run.curses.indexOf(id) !== -1) return false;
+    run.curses.push(id);
+    if (deliberate) setAchievementFlag('riskTaker');
+    var meta = window.Game.Save.readMeta();
+    meta.cursesEverHeld = meta.cursesEverHeld || {};
+    if (!meta.cursesEverHeld[id]) { meta.cursesEverHeld[id] = true; window.Game.Save.writeMeta(meta); }
+    return true;
+  }
+
+  function hasReviveBlessing(run) {
+    deps();
+    return (run.blessings || []).some(function (id) {
+      var b = D.getBlessing(id);
+      return b && b.special === 'revive';
+    });
+  }
+
+  // ---- Companion (see data-companions.js) -- account-wide unlock gated on the
+  // best tower floor the player has ever reached (any run, survives permadeath),
+  // hire itself is per-run and free/swappable any time from the Status screen. ----
+  function isCompanionUnlocked(id) {
+    deps();
+    var c = D.getCompanion(id);
+    if (!c) return false;
+    var meta = window.Game.Save.readMeta();
+    return (meta.bestFloorReached || 0) >= c.unlockFloor;
+  }
+
+  function hireCompanion(run, id) {
+    if (id && !isCompanionUnlocked(id)) return false;
+    run.companionId = id || null;
+    if (id) {
+      var meta = window.Game.Save.readMeta();
+      meta.companionsRecruited = meta.companionsRecruited || {};
+      if (!meta.companionsRecruited[id]) {
+        meta.companionsRecruited[id] = true;
+        window.Game.Save.writeMeta(meta);
+      }
+    }
+    return true;
+  }
+
+  // Account-wide "highest floor ever reached" tracker (meta-persisted, survives
+  // clearRun()) -- gates companion unlocks and the two floorReached achievements.
+  function recordFloorReached(floor) {
+    var meta = window.Game.Save.readMeta();
+    if ((meta.bestFloorReached || 0) >= floor) return;
+    meta.bestFloorReached = floor;
+    window.Game.Save.writeMeta(meta);
+  }
+
+  // Bestiary: first-sighting tracker, called from the 3 enemy-actor-build sites in
+  // battle-engine.js. Purely additive (a meta write only) -- cannot affect battle math.
+  function recordEnemySeen(templateId) {
+    if (!templateId) return;
+    var meta = window.Game.Save.readMeta();
+    meta.bestiarySeen = meta.bestiarySeen || {};
+    if (meta.bestiarySeen[templateId]) return;
+    meta.bestiarySeen[templateId] = true;
+    window.Game.Save.writeMeta(meta);
+  }
+
+  // Event-type first-encounter tracker (see data-events.js), called from
+  // ui-tower.js's finishEvent -- the single chokepoint every event choice
+  // (including the no-op "decline"/"leave" ones) already funnels through, so
+  // this is the one call site that needs it. Backs the "Seen It All" achievement.
+  function recordEventSeen(eventId) {
+    if (!eventId) return;
+    var meta = window.Game.Save.readMeta();
+    meta.eventTypesSeen = meta.eventTypesSeen || {};
+    if (meta.eventTypesSeen[eventId]) return;
+    meta.eventTypesSeen[eventId] = true;
+    window.Game.Save.writeMeta(meta);
+  }
+
+  // ---- Ascension: Nightmare-only prestige level, chosen at run creation once
+  // unlocked. Deliberately does not touch the floor-100 boss-victory code path --
+  // main.js's showEnd(true) just increments this meta counter on a Nightmare clear,
+  // exactly like it already does for unlockNightmare/recordDifficultyCleared. ----
+  function recordAscensionClear() {
+    deps();
+    var meta = window.Game.Save.readMeta();
+    var next = Math.min(F.ASCENSION_MAX, (meta.ascensionUnlocked || 0) + 1);
+    if (next === (meta.ascensionUnlocked || 0)) return;
+    meta.ascensionUnlocked = next;
+    window.Game.Save.writeMeta(meta);
+  }
+
+  function getAscensionUnlocked() {
+    var meta = window.Game.Save.readMeta();
+    return meta.ascensionUnlocked || 0;
+  }
+
+  // ---- Achievements (see data-achievements.js) -- unlock state is derived LIVE
+  // from meta-persistent data wherever possible (survives permadeath with zero
+  // extra tracking); the few conditions that only make sense mid-run go through
+  // setAchievementFlag at one dedicated call site each, written straight to meta
+  // the moment they happen so they're not lost when the run ends. ----
+  function setAchievementFlag(flag) {
+    var meta = window.Game.Save.readMeta();
+    if (meta[flag]) return;
+    meta[flag] = true;
+    window.Game.Save.writeMeta(meta);
+  }
+
+  function isAchievementUnlocked(ach) {
+    deps();
+    var meta = window.Game.Save.readMeta();
+    switch (ach.type) {
+      case 'difficulty':
+        return !!(meta.clearedDifficulty && meta.clearedDifficulty[ach.difficulty]);
+      case 'allElites': {
+        var eliteIds = D.classes.filter(function (c) { return !!c.unlock; }).map(function (c) { return c.id; });
+        return eliteIds.length > 0 && eliteIds.every(function (id) { return isClassUnlocked(id); });
+      }
+      case 'ascension':
+        return (meta.ascensionUnlocked || 0) >= ach.target;
+      case 'survivalWaves':
+        return (meta.survivalBestWaves || 0) >= ach.target;
+      case 'bestiary': {
+        var seen = meta.bestiarySeen ? Object.keys(meta.bestiarySeen).length : 0;
+        var total = D.getAllEnemyTemplates().length;
+        return seen >= (ach.target === 'all' ? total : ach.target);
+      }
+      case 'floorReached':
+        return (meta.bestFloorReached || 0) >= ach.target;
+      case 'companionsAll': {
+        var recruited = meta.companionsRecruited || {};
+        return D.companions.every(function (c) { return !!recruited[c.id]; });
+      }
+      case 'blessingsAll': {
+        var everHeld = meta.blessingsEverHeld || {};
+        return D.blessings.every(function (b) { return !!everHeld[b.id]; });
+      }
+      case 'cursesAll': {
+        var everHeldC = meta.cursesEverHeld || {};
+        return D.curses.every(function (c) { return !!everHeldC[c.id]; });
+      }
+      case 'eventsAll': {
+        var seenTypes = meta.eventTypesSeen || {};
+        return D.events.every(function (e) { return !!seenTypes[e.id]; });
+      }
+      case 'flag':
+        return !!meta[ach.flag];
+      default:
+        return false;
+    }
+  }
+
+  function equipTitle(id) {
+    deps();
+    if (id) {
+      var ach = D.getAchievement(id);
+      if (!ach || !isAchievementUnlocked(ach)) return false;
+    }
+    var meta = window.Game.Save.readMeta();
+    meta.equippedTitle = id || null;
+    window.Game.Save.writeMeta(meta);
+    return true;
+  }
+
+  function getEquippedTitle() {
+    deps();
+    var meta = window.Game.Save.readMeta();
+    if (!meta.equippedTitle) return null;
+    var ach = D.getAchievement(meta.equippedTitle);
+    return ach && isAchievementUnlocked(ach) ? ach : null;
   }
 
   function getMaxHp(run) { return getTotalStats(run).hp; }
@@ -271,6 +556,9 @@
     if (leveledUp) {
       run.hp = getMaxHp(run);
       run.mp = getMaxMp(run);
+      // "Beyond the Limit" achievement -- a moment flag, same reasoning as
+      // addGold's goldHoarder check just above: run.level resets with the run.
+      if (run.level >= 75) setAchievementFlag('levelCapped');
     } else {
       clampVitals(run);
     }
@@ -446,7 +734,7 @@
   window.Game = window.Game || {};
   window.Game.State = {
     current: null,
-    pending: { difficulty: null, classId: null },
+    pending: { difficulty: null, classId: null, ascension: 0 },
     ELIXIR_RESTOCK_FLOORS: ELIXIR_RESTOCK_FLOORS,
     elixirAvailable: elixirAvailable,
     spendElixir: spendElixir,
@@ -461,6 +749,7 @@
     equip: equip,
     unequip: unequip,
     normalizeEquipment: normalizeEquipment,
+    normalizeRunExtras: normalizeRunExtras,
     addItem: addItem,
     removeItem: removeItem,
     addGold: addGold,
@@ -480,6 +769,21 @@
     recordDifficultyCleared: recordDifficultyCleared,
     recordSurvivalWaves: recordSurvivalWaves,
     isClassUnlocked: isClassUnlocked,
+    addBlessing: addBlessing,
+    addCurse: addCurse,
+    hasReviveBlessing: hasReviveBlessing,
+    getRewardMult: getRewardMult,
+    isCompanionUnlocked: isCompanionUnlocked,
+    hireCompanion: hireCompanion,
+    recordFloorReached: recordFloorReached,
+    recordEnemySeen: recordEnemySeen,
+    recordEventSeen: recordEventSeen,
+    recordAscensionClear: recordAscensionClear,
+    getAscensionUnlocked: getAscensionUnlocked,
+    setAchievementFlag: setAchievementFlag,
+    isAchievementUnlocked: isAchievementUnlocked,
+    equipTitle: equipTitle,
+    getEquippedTitle: getEquippedTitle,
     saveNow: saveNow,
     clearRun: clearRun
   };

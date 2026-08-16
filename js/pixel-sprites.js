@@ -2122,5 +2122,96 @@
   P.define('mat_drowned_core', ORB_GRID, { O: '#245868', G: '#7ad8e0' });
   P.define('mat_voltaic_core', ORB_GRID, { O: '#3a3a48', G: '#f0e050' });
 
+  // ---- Companion portraits (see data-companions.js) -- reuse proven, already
+  // width-checked grids from existing creatures with all-new palettes/identities,
+  // so there's zero risk of a row-length mismatch in hand-authored new grids. ----
+  P.define('emberFox', WOLF_GRID, { F: '#e8763c', D: '#a83c18', L: '#f7e6c8', K: '#0a0a0a', R: '#ff8a3d', T: '#fff3d6' });
+
+  P.define('dawnOwl', [
+    '......WW......',
+    '.....WWWW.....',
+    'CCC..WWWW..CCC',
+    'CCCCEEEEEECCCC',
+    '.CCCCEKKECCCC.',
+    '..CCCEEEECCC..',
+    '....EEEEEE....',
+    '....EEEEEE....',
+    '....WWWWWW....',
+    '....WWWWWW....',
+    '.....WWWW.....',
+    '.....CCCC.....',
+    '......CC......',
+    '......CC......'
+  ], { W: '#f4ecd8', C: '#8a6a42', E: '#f0d9a8', K: '#241a10' });
+
+  P.define('stoneheartBear', [
+    '...RRRRRRR...',
+    '..RRRRRRRRR..',
+    '..KKRRRRRKK..',
+    '..RRRRRRRRR..',
+    '.RRRRRRRRRRR.',
+    'RRRRRRRRRRRRR',
+    'RRDDRRRRRDDRR',
+    'RRRRRRRRRRRRR',
+    'RRRRRRRRRRRRR',
+    '.RRYRRRRRYRR.',
+    '.RRRRRRRRRRR.',
+    '..RRRRRRRRR..',
+    '..RR.....RR..',
+    '..RR.....RR..',
+    '..DD.....DD..'
+  ], { R: '#7a5a3c', K: '#1a120a', D: '#4a3420', Y: '#e8c878' });
+
+  P.define('stormSprite', [
+    '.....Y.Y.....',
+    '....YYYYY....',
+    '...YLKYKLY...',
+    '....YYYYY....',
+    'YY..YYYYY..YY',
+    '.YY.YYYYY.YY.',
+    '..YYYYYYYYY..',
+    '...YYYYYYY...',
+    '....Y...Y....',
+    '....Y...Y....'
+  ], { Y: '#7fd8e0', L: '#e8faff', K: '#12222a' });
+
+  // ---- Companion portraits, 2nd wave -- same reuse-a-proven-grid approach as
+  // the first 4 companions above (zero row-width risk). ----
+  P.define('sandScarab', [
+    '.................',
+    '.B.............B.',
+    '..BB...BBB...BB..',
+    '....B.BBBBB.B....',
+    'BBB..BBBBBBB..BBB',
+    '...BBBBRBRBBBB...',
+    '....BBBBBBBBB....',
+    '..BBBBBBBBBBBBB..',
+    'BB..BBBBBBBBB..BB',
+    '...B..BKBKB..B...',
+    '..B....BBB....B..',
+    '.B.............B.',
+    '.................'
+  ], { B: '#c8962a', R: '#3a2408', K: '#1a1408' });
+
+  P.define('frostHare', WOLF_GRID, { F: '#eaf6ff', D: '#9fd8f0', L: '#cdeeff', K: '#12222a', R: '#7fd8e0', T: '#ffffff' });
+
+  P.define('ironGolemCub', [
+    '...RRRRRRR...',
+    '..RRRRRRRRR..',
+    '..KKRRRRRKK..',
+    '..RRRRRRRRR..',
+    '.RRRRRRRRRRR.',
+    'RRRRRRRRRRRRR',
+    'RRDDRRRRRDDRR',
+    'RRRRRRRRRRRRR',
+    'RRRRRRRRRRRRR',
+    '.RRYRRRRRYRR.',
+    '.RRRRRRRRRRR.',
+    '..RRRRRRRRR..',
+    '..RR.....RR..',
+    '..RR.....RR..',
+    '..DD.....DD..'
+  ], { R: '#8a9ab8', K: '#181e28', D: '#5a6a88', Y: '#c8e0f0' });
+
   window.Game = window.Game || {};
 })();

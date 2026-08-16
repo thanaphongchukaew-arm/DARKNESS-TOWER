@@ -65,7 +65,61 @@
 
     // audio
     soundOn: '♪',
-    soundOff: '♪'
+    soundOff: '♪',
+
+    // tower events
+    eventMerchant: '⚖',
+    eventChest: '▣',
+    eventShortcut: '↯',
+    eventSage: '☯',
+    eventShrine: '☥',
+    eventCompanion: '☘',
+
+    // blessings
+    blessMight: '⚔',
+    blessInsight: '✵',
+    blessVitality: '✚',
+    blessClarity: '❉',
+    blessSwiftness: '☄',
+    blessFortune: '✾',
+    blessWealth: '❂',
+    blessWisdom: '❋',
+    blessGuardian: '☨',
+    blessIronSkin: '⛨',
+
+    // curses
+    curseFrailty: '⚱',
+    curseFool: '☹',
+    curseSlowness: '⌛',
+    cursePoverty: '⛓',
+    curseWeakArms: '⚹',
+    curseDullMind: '☁',
+
+    // companion / codex / ascension
+    companionSlot: '⚚',
+    trophy: '⚝',
+    medal: '❁',
+    codex: '❧',
+    ascension: '✺',
+
+    // blessings (2nd wave)
+    blessTitan: '⛰',
+    blessWanderer: '❦',
+    blessFocus: '✪',
+    blessWildcat: '⚡',
+    blessStoneSkin: '❊',
+    blessWarding: '✷',
+
+    // curses (2nd wave)
+    curseTitanBurden: '⚰',
+    curseWandererRuin: '⛔',
+    curseBrokenFocus: '☓',
+    curseFrailMind: '❍',
+
+    // events (2nd wave)
+    eventSpring: '⛲',
+    eventBattlefield: '❖',
+    eventGambler: '♠'
   };
 
   function glyph(name, extraClass) {

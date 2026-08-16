@@ -90,6 +90,19 @@
     return 1.22 * diff.statMult;
   }
 
+  // Ascension: an opt-in, Nightmare-only prestige multiplier chosen at run creation
+  // (see State.recordAscensionClear / isAscensionUnlocked), capped at 10 levels.
+  // Composed into the `scale` argument at each enemy-actor-build call site in
+  // battle-engine.js (never inside scaleStatsBlock itself, so a plain run is
+  // never affected), and into the reward `rate` alongside difficulty/blessings.
+  var ASCENSION_MAX = 10;
+  function ascensionEnemyMult(level) {
+    return 1 + 0.08 * clamp(level || 0, 0, ASCENSION_MAX);
+  }
+  function ascensionRewardMult(level) {
+    return 1 + 0.12 * clamp(level || 0, 0, ASCENSION_MAX);
+  }
+
   // Endless Arena (survival mode): anchored to the player's current tower floor
   // (so it's immediately relevant at any point in a run, per the "doesn't depend
   // on floor progress" brief -- it just uses where you already are as a starting
@@ -205,6 +218,9 @@
     itemTierForFloor: itemTierForFloor,
     enemyStatScale: enemyStatScale,
     bossStatScale: bossStatScale,
+    ASCENSION_MAX: ASCENSION_MAX,
+    ascensionEnemyMult: ascensionEnemyMult,
+    ascensionRewardMult: ascensionRewardMult,
     survivalStatScale: survivalStatScale,
     survivalEnemyCount: survivalEnemyCount,
     scaleStatsBlock: scaleStatsBlock,

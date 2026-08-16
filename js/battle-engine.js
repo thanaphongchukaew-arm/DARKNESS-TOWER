@@ -56,7 +56,11 @@
 
   // Shared by the floor-based curve (buildEnemyActor) and the Endless Arena's
   // wave-based curve (createSurvivalBattle), which each compute `scale` differently.
+  // Also the single chokepoint every regular enemy actor is built through, so this
+  // is where the Bestiary's first-sighting tracker hooks in (purely additive --
+  // a meta write only, cannot affect the stats/actor shape below it).
   function buildEnemyActorScaled(template, scale, groupScale, uid) {
+    S().recordEnemySeen(template.id);
     var stats = F().scaleStatsBlock(template.baseStats, scale, groupScale);
     return {
       uid: uid, templateId: template.id, name: L(template, 'name'), icon: template.icon, isBoss: false,
@@ -67,12 +71,17 @@
     };
   }
 
-  function buildEnemyActor(template, floor, difficultyId, groupScale, uid) {
-    return buildEnemyActorScaled(template, F().enemyStatScale(floor, difficultyId), groupScale, uid);
+  // `ascension` (0 if omitted) composes Formulas.ascensionEnemyMult into the scale
+  // at this call site, never inside scaleStatsBlock itself, so a plain (non-Nightmare
+  // or ascension-0) run's numbers are completely unaffected.
+  function buildEnemyActor(template, floor, difficultyId, groupScale, uid, ascension) {
+    var scale = F().enemyStatScale(floor, difficultyId) * F().ascensionEnemyMult(ascension);
+    return buildEnemyActorScaled(template, scale, groupScale, uid);
   }
 
-  function buildBossActor(template, difficultyId, uid) {
-    var scale = F().bossStatScale(difficultyId);
+  function buildBossActor(template, difficultyId, uid, ascension) {
+    S().recordEnemySeen(template.id);
+    var scale = F().bossStatScale(difficultyId) * F().ascensionEnemyMult(ascension);
     var stats = F().scaleStatsBlock(template.baseStats, scale, 1);
     return {
       uid: uid, templateId: template.id, name: L(template, 'name'), icon: template.icon, isBoss: true,
@@ -87,8 +96,9 @@
   // Mini-boss actors use the regular per-floor enemy curve (they're tuned via
   // hand-authored baseStats to already hit noticeably harder than a same-tier
   // regular enemy), not the flat end-game bossStatScale.
-  function buildMiniBossActor(template, floor, difficultyId, uid) {
-    var scale = F().enemyStatScale(floor, difficultyId);
+  function buildMiniBossActor(template, floor, difficultyId, uid, ascension) {
+    S().recordEnemySeen(template.id);
+    var scale = F().enemyStatScale(floor, difficultyId) * F().ascensionEnemyMult(ascension);
     var stats = F().scaleStatsBlock(template.baseStats, scale, 1);
     return {
       uid: uid, templateId: template.id, name: L(template, 'name'), icon: template.icon, isBoss: true,
@@ -98,6 +108,19 @@
       phase: 1, phasesData: template.phases || [],
       downed: false, alive: true, debuffs: []
     };
+  }
+
+  // Companion (see data-companions.js): a passive ally that auto-acts once per
+  // round via runCompanionPhase below. Its power is a fraction of the player's own
+  // *current* effective stats (computed fresh each round, not cached here), so it
+  // needs no growth curve of its own. Deliberately not an actor in `battle.enemies`
+  // and never targeted by enemy attacks (see runEnemyPhase, unchanged) -- this is
+  // what keeps the whole feature from touching checkBattleEnd/victory-defeat logic.
+  function buildCompanionActor(run) {
+    if (!run.companionId) return null;
+    var def = D().getCompanion(run.companionId);
+    if (!def) return null;
+    return { id: def.id, name: L(def, 'name'), icon: def.icon, def: def };
   }
 
   function buildPlayerActor(run) {
@@ -128,6 +151,16 @@
   function checkBattleEnd(battle, events) {
     if (battle.over) return;
     if (battle.run.hp <= 0) {
+      // Guardian Spirit blessing: a one-time-per-run safety net -- consumed here,
+      // the single chokepoint every defeat check already passes through (playerAction,
+      // confirmAllOut, runEnemyPhase, runCompanionPhase all call this same function),
+      // so there's exactly one place this can ever fire.
+      if (S().hasReviveBlessing(battle.run) && !battle.run.blessingRevived) {
+        battle.run.blessingRevived = true;
+        battle.run.hp = 1;
+        events.push({ type: 'blessingRevive', hpAfter: 1, maxHp: battle.player.maxHp });
+        return;
+      }
       battle.run.hp = 0;
       battle.over = true;
       battle.victory = false;
@@ -146,9 +179,9 @@
     var enemies = [];
     var miniBossTemplate = D().getMiniBoss(floor);
     if (isBossFloor) {
-      enemies.push(buildBossActor(D().boss, run.difficulty, 'e0'));
+      enemies.push(buildBossActor(D().boss, run.difficulty, 'e0', run.ascension));
     } else if (miniBossTemplate) {
-      enemies.push(buildMiniBossActor(miniBossTemplate, floor, run.difficulty, 'e0'));
+      enemies.push(buildMiniBossActor(miniBossTemplate, floor, run.difficulty, 'e0', run.ascension));
     } else {
       var tier = F().tierForFloor(floor);
       var pool = D().getEnemiesByTier(tier);
@@ -156,7 +189,7 @@
       var groupScale = F().groupScaleFactor(count);
       for (var i = 0; i < count; i++) {
         var template = pool[Math.floor(Math.random() * pool.length)];
-        enemies.push(buildEnemyActor(template, floor, run.difficulty, groupScale, 'e' + i));
+        enemies.push(buildEnemyActor(template, floor, run.difficulty, groupScale, 'e' + i, run.ascension));
       }
     }
     var player = buildPlayerActor(run);
@@ -167,7 +200,7 @@
 
     return {
       run: run, floor: floor, isBoss: !!isBossFloor,
-      player: player, enemies: enemies,
+      player: player, enemies: enemies, companion: buildCompanionActor(run),
       round: 1, playerAP: firstStrike === 'player' ? 2 : 1,
       awaitingAllOut: false, over: false, victory: false,
       pendingFirstStrike: firstStrike === 'enemy'
@@ -185,7 +218,7 @@
     var pool = D().getEnemiesByTier(tier);
     var count = F().survivalEnemyCount(wave);
     var groupScale = F().groupScaleFactor(count);
-    var scale = F().survivalStatScale(run.currentFloor, run.difficulty, wave);
+    var scale = F().survivalStatScale(run.currentFloor, run.difficulty, wave) * F().ascensionEnemyMult(run.ascension);
     var enemies = [];
     for (var i = 0; i < count; i++) {
       var template = pool[Math.floor(Math.random() * pool.length)];
@@ -199,7 +232,7 @@
 
     return {
       run: run, floor: run.currentFloor, isBoss: false, isSurvival: true, wave: wave,
-      player: player, enemies: enemies,
+      player: player, enemies: enemies, companion: buildCompanionActor(run),
       round: 1, playerAP: firstStrike === 'player' ? 2 : 1,
       awaitingAllOut: false, over: false, victory: false,
       pendingFirstStrike: firstStrike === 'enemy'
@@ -442,6 +475,63 @@
     return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP, round: battle.round };
   }
 
+  // Companion auto-turn: fires once per round, called from ui-battle.js's
+  // afterPlayerAction between the player's AP hitting 0 and runEnemyPhase --
+  // playerAP/enemy-iteration semantics are completely untouched by this. The
+  // companion is never pushed into battle.enemies and never a valid attack
+  // target, so it can't affect checkBattleEnd's living-enemies/defeat logic
+  // except by (legitimately) landing the killing blow as an attacker.
+  function runCompanionPhase(battle) {
+    var events = [];
+    if (battle.over || !battle.companion) {
+      return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP };
+    }
+    var comp = battle.companion;
+    var def = comp.def;
+    var playerEff = effectiveStats(battle.player, battle.player.buffs);
+    if (def.role === 'attacker') {
+      var living = battle.enemies.filter(function (e) { return e.alive; });
+      if (living.length) {
+        var target = living[Math.floor(Math.random() * living.length)];
+        var targetEff = effectiveStats(target, target.debuffs);
+        var isCrit = Math.random() < def.critChance;
+        // Reuses computeDamage's own physical-hit formula (mitigated by the
+        // target's DEF exactly like a normal attack) and its existing 1.6x crit
+        // multiplier -- def.critMult documents that fixed value rather than
+        // re-implementing a second crit-scaling path.
+        var amount = F().computeDamage({
+          element: 'phys', power: 1, atkStat: def.power * playerEff.atk, magStat: 0,
+          defStat: targetEff.def, resStat: targetEff.res, isCrit: isCrit
+        });
+        target.hp = Math.max(0, target.hp - amount);
+        events.push({ type: 'companionHit', companionName: comp.name, targetUid: target.uid, targetName: target.name, isCrit: isCrit, amount: amount, hpAfter: target.hp, maxHp: target.maxHp });
+        if (target.hp <= 0) {
+          target.alive = false;
+          events.push({ type: 'defeated', targetUid: target.uid, targetName: target.name, side: 'enemy' });
+        } else if (target.isBoss) {
+          var phaseMsg = checkBossPhase(target);
+          if (phaseMsg) events.push({ type: 'bossPhaseChange', message: phaseMsg });
+        }
+      }
+    } else if (def.role === 'healer') {
+      var maxHp = battle.player.maxHp;
+      var missing = maxHp - battle.run.hp;
+      if (missing > 0) {
+        var healAmt = Math.min(missing, Math.round(maxHp * def.healPct));
+        battle.run.hp += healAmt;
+        events.push({ type: 'companionHeal', companionName: comp.name, amount: healAmt, hpAfter: battle.run.hp, maxHp: maxHp });
+      }
+    } else if (def.role === 'guardian' || def.role === 'buffer') {
+      // Refreshed every round via applyStatMod, exactly like a skill buff would be --
+      // unlike run-long blessings (see state.js's blessingStatMult), a companion's
+      // per-round support IS the correct use of the per-battle buff array.
+      def.buffStats.forEach(function (stat) { applyStatMod(battle.player.buffs, stat, def.buffAmount, 1); });
+      events.push({ type: 'companionBuff', companionName: comp.name, stats: def.buffStats, amount: def.buffAmount });
+    }
+    checkBattleEnd(battle, events);
+    return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP };
+  }
+
   // `rate` optionally scales rewards down (used for replaying an
   // already-cleared floor, at 40% -- see BattleUI.handleVictory).
   function getExpReward(battle, rate) {
@@ -485,6 +575,7 @@
     playerAction: playerAction,
     confirmAllOut: confirmAllOut,
     runEnemyPhase: runEnemyPhase,
+    runCompanionPhase: runCompanionPhase,
     getExpReward: getExpReward,
     getGoldReward: getGoldReward,
     getMaterialDrops: getMaterialDrops,

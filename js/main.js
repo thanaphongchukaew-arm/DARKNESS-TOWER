@@ -20,6 +20,12 @@
       // Clearing any difficulty is also what unlocks that difficulty's
       // Valiant elite class (see data-classes.js's `unlock` field).
       if (run) window.Game.State.recordDifficultyCleared(run.difficulty);
+      // A Nightmare clear also raises the Ascension cap by one (see
+      // Formulas.ascensionEnemyMult/ascensionRewardMult and the picker shown
+      // at run creation once unlocked) -- deliberately just a meta counter
+      // bump here, same shape as the two calls above, so this never touches
+      // the battle/victory logic itself.
+      if (run && run.difficulty === 'nightmare') window.Game.State.recordAscensionClear();
       iconEl.innerHTML = window.Game.Icons.get('crownSkull', 'icon-xl');
       iconEl.style.color = 'var(--accent-gold)';
       titleEl.textContent = T('victoryTitle');

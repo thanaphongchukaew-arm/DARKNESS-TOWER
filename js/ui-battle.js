@@ -75,6 +75,12 @@
       case 'victory': return { text: T('logVictory'), cls: 'log-crit' };
       case 'defeat': return { text: T('logDefeat'), cls: 'log-weak' };
       case 'invalid': return { text: T('logInvalidAction'), cls: '' };
+      case 'companionHit':
+        var ctag = ev.isCrit ? T('critTag') : '';
+        return { text: T('logCompanionHit', { companion: ev.companionName, target: ev.targetName, amount: ev.amount, tag: ctag }), cls: ev.isCrit ? 'log-crit' : '' };
+      case 'companionHeal': return { text: T('logCompanionHeal', { companion: ev.companionName, amount: ev.amount }), cls: 'log-heal' };
+      case 'companionBuff': return { text: T('logCompanionBuff', { companion: ev.companionName }), cls: '' };
+      case 'blessingRevive': return { text: T('logBlessingRevive'), cls: 'log-crit' };
       default: return null;
     }
   }
@@ -293,6 +299,29 @@
         SFX('hit_null');
         showToast(T('toastInvalidAction'), 'miss');
         break;
+      case 'companionHit': {
+        var cPortrait = getEnemyPortraitEl(ev.targetUid);
+        if (ev.hpAfter != null && ev.maxHp != null) updateEnemyBarByUid(ev.targetUid, ev.hpAfter, ev.maxHp);
+        SFX(ev.isCrit ? 'hit_crit' : 'attack');
+        flashEl(cPortrait, 'hit-flash');
+        spawnFloatNumber(cPortrait, ev.amount, ev.isCrit ? 'dmg-crit' : 'dmg-hp');
+        break;
+      }
+      case 'companionHeal':
+        SFX('heal');
+        updatePlayerBarsDirect(ev.hpAfter, ev.maxHp);
+        spawnFloatNumber(getPlayerPortraitEl(), '+' + ev.amount, 'dmg-heal');
+        break;
+      case 'companionBuff':
+        SFX('item_get');
+        flashEl(getPlayerPortraitEl(), 'hit-flash');
+        break;
+      case 'blessingRevive':
+        SFX('level_up');
+        updatePlayerBarsDirect(ev.hpAfter, ev.maxHp);
+        showToast(T('toastBlessingRevive'), 'weak');
+        shakeScreen(true);
+        break;
     }
     var d = describeEvent(ev);
     if (d) logLine(d.text, d.cls);
@@ -384,6 +413,21 @@
     };
   }
 
+  // Small icon-chip row for held blessings/curses (reuses .stat-chip, no new CSS) --
+  // static for the whole battle like the companion panel, so it's built inline
+  // here rather than needing its own repaint hook.
+  function blessingBadgesHtml(run) {
+    var D = window.Game.Data;
+    var chips = (run.blessings || []).map(function (id) {
+      var b = D.getBlessing(id);
+      return b ? '<span class="stat-chip" title="' + L(b, 'name') + '">' + I(b.icon) + '</span>' : '';
+    }).join('') + (run.curses || []).map(function (id) {
+      var c = D.getCurse(id);
+      return c ? '<span class="stat-chip" title="' + L(c, 'name') + '">' + I(c.icon) + '</span>' : '';
+    }).join('');
+    return chips ? '<div class="player-name-row">' + chips + '</div>' : '';
+  }
+
   function renderPlayerPanel(battle) {
     var run = battle.run;
     var hpPct = Math.max(0, Math.round(run.hp / battle.player.maxHp * 100));
@@ -396,7 +440,22 @@
         '<div class="player-name-row"><span>' + battle.player.name + '</span><div class="ap-indicator">' + apDots + '</div></div>' +
         '<div class="bar-row">' + I('heart') + '<div class="bar-track"><div class="bar-fill hp" id="player-hp-bar" style="width:' + hpPct + '%"></div></div><span id="player-hp-text">' + run.hp + '/' + battle.player.maxHp + '</span></div>' +
         '<div class="bar-row">' + I('drop') + '<div class="bar-track"><div class="bar-fill mp" id="player-mp-bar" style="width:' + mpPct + '%"></div></div><span id="player-mp-text">' + run.mp + '/' + battle.player.maxMp + '</span></div>' +
+        blessingBadgesHtml(run) +
       '</div>';
+  }
+
+  // Static for the whole battle (the companion has no HP bar -- it's never a
+  // valid enemy target, see battle-engine.js's runCompanionPhase comment) so this
+  // only needs to run once at battle start and on a language toggle, unlike
+  // renderPlayerPanel which repaints after every event.
+  function renderCompanionPanel(battle) {
+    var el = document.getElementById('battle-companion-panel');
+    if (!battle.companion) { el.innerHTML = ''; return; }
+    var comp = battle.companion;
+    el.innerHTML =
+      '<div class="companion-portrait">' + I(comp.icon) + '</div>' +
+      '<div class="companion-info"><div class="companion-name">' + comp.name + '</div>' +
+      '<div class="companion-role">' + T('companionRole' + comp.def.role.charAt(0).toUpperCase() + comp.def.role.slice(1)) + '</div></div>';
   }
 
   function renderTurnOrder(battle) {
@@ -505,8 +564,14 @@
       setActionsEnabled(true);
     } else {
       setTimeout(function () {
-        var res2 = window.Game.BattleEngine.runEnemyPhase(battle);
-        playEvents(res2.events, function () { afterEnemyPhase(); });
+        var resC = window.Game.BattleEngine.runCompanionPhase(battle);
+        playEvents(resC.events, function () {
+          renderPlayerPanel(battle);
+          renderEnemies(battle);
+          if (battle.over) { handleBattleEnd(battle); return; }
+          var res2 = window.Game.BattleEngine.runEnemyPhase(battle);
+          playEvents(res2.events, function () { afterEnemyPhase(); });
+        });
       }, 500);
     }
   }
@@ -555,10 +620,22 @@
     // Replaying an already-cleared floor still pays out EXP/gold/materials,
     // just at 40% of a first clear's rate, and the chosen difficulty's own
     // rewardMult (shown on the difficulty-select card) always applies on top.
+    // Blessings/curses and the Ascension reward bonus each compose their own
+    // per-kind multiplier via State.getRewardMult (see state.js) on top of this
+    // base rate -- gold and EXP can differ (e.g. Wealth only touches gold).
     var diff = window.Game.Formulas.DIFFICULTY[run.difficulty] || window.Game.Formulas.DIFFICULTY.normal;
-    var rate = (currentIsReplay ? 0.4 : 1) * diff.rewardMult;
-    var exp = window.Game.BattleEngine.getExpReward(battle, rate);
-    var gold = window.Game.BattleEngine.getGoldReward(battle, rate);
+    var baseRate = (currentIsReplay ? 0.4 : 1) * diff.rewardMult;
+    var rateExp = baseRate * window.Game.State.getRewardMult(run, 'exp');
+    var rateGold = baseRate * window.Game.State.getRewardMult(run, 'gold');
+    var rateMat = baseRate * window.Game.State.getRewardMult(run, 'material');
+    var exp = window.Game.BattleEngine.getExpReward(battle, rateExp);
+    var gold = window.Game.BattleEngine.getGoldReward(battle, rateGold);
+    // Flawless Victor achievement: the floor-100 final boss only (battle.isBoss is
+    // true only for that fight, see createBattle), won without HP ever having
+    // dropped below max at the moment of victory.
+    if (battle.isBoss && battle.run.hp === battle.player.maxHp) {
+      window.Game.State.setAchievementFlag('flawlessVictor');
+    }
     var lvlRes = window.Game.State.addExp(run, exp);
     window.Game.State.addGold(run, gold);
     window.Game.State.recordBattleWon(run);
@@ -566,7 +643,7 @@
     SFX('victory');
     logLine(T('logExpGained', { exp: exp }), 'log-heal');
     logLine(T('logGoldGained', { gold: gold }), 'log-heal');
-    var drops = window.Game.BattleEngine.getMaterialDrops(battle, rate);
+    var drops = window.Game.BattleEngine.getMaterialDrops(battle, rateMat);
     drops.forEach(function (d) {
       window.Game.State.addItem(run, d.id, d.qty);
       var mat = window.Game.Data.getItem(d.id);
@@ -665,6 +742,7 @@
     window.Game.UI.showScreen('screen-battle');
     renderEnemies(currentBattle);
     renderPlayerPanel(currentBattle);
+    renderCompanionPanel(currentBattle);
     renderTurnOrder(currentBattle);
     renderActions();
     setActionsEnabled(false);
@@ -746,7 +824,7 @@
   function handleSurvivalWaveEnd(battle) {
     var run = window.Game.State.current;
     if (battle.victory) {
-      var exp = window.Game.BattleEngine.getExpReward(battle);
+      var exp = window.Game.BattleEngine.getExpReward(battle, window.Game.State.getRewardMult(run, 'exp'));
       var lvlRes = window.Game.State.addExp(run, exp);
       window.Game.State.recordBattleWon(run);
       window.Game.State.recordEnemiesDefeated(run, battle.enemies.length);
@@ -754,7 +832,7 @@
       SFX('victory');
       logLine(T('logExpGained', { exp: exp }), 'log-heal');
       survivalSession.totalExp += exp;
-      var drops = window.Game.BattleEngine.getMaterialDrops(battle);
+      var drops = window.Game.BattleEngine.getMaterialDrops(battle, window.Game.State.getRewardMult(run, 'material'));
       drops.forEach(function (d) {
         window.Game.State.addItem(run, d.id, d.qty);
         survivalSession.materials[d.id] = (survivalSession.materials[d.id] || 0) + d.qty;
@@ -847,6 +925,7 @@
     }
     renderEnemies(currentBattle);
     renderPlayerPanel(currentBattle);
+    renderCompanionPanel(currentBattle);
     renderTurnOrder(currentBattle);
     renderActions();
     setActionsEnabled(!currentBattle.over && currentBattle.playerAP > 0 && !currentBattle.awaitingAllOut && !targetPickCallback);
