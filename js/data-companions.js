@@ -10,8 +10,13 @@
     { id: 'ember_fox', name: 'จิ้งจอกเปลวไฟ', nameEn: 'Ember Fox', icon: 'emberFox', unlockFloor: 1,
       role: 'attacker', power: 0.28, critChance: 0.10, critMult: 1.6,
       desc: 'สหายจิ้งจอกที่พุ่งเข้ากัดศัตรูให้ทุกรอบการต่อสู้', descEn: 'A fox companion that lunges at a foe every round' },
+    // healPct is a flat %-of-maxHP heal every round for free -- unlike a DEF/RES%
+    // buff (whose payoff depends on the matchup) or a damage-power% (which only
+    // matters relative to the fight it lands in), a flat HP heal is unconditional
+    // value with no downside, so it's tuned noticeably below the guardian/buffer
+    // roles' own percentages rather than matching them 1:1.
     { id: 'dawn_owl', name: 'นกฮูกอรุณ', nameEn: 'Dawn Owl', icon: 'dawnOwl', unlockFloor: 15,
-      role: 'healer', healPct: 0.07,
+      role: 'healer', healPct: 0.05,
       desc: 'นกฮูกผู้เยียวยา ฟื้นฟู HP ให้เล็กน้อยทุกรอบ', descEn: 'A healing owl that restores a little HP every round' },
     { id: 'stoneheart_bear', name: 'หมีหัวใจศิลา', nameEn: 'Stoneheart Bear', icon: 'stoneheartBear', unlockFloor: 30,
       role: 'guardian', buffStats: ['def', 'res'], buffAmount: 0.18,
@@ -26,7 +31,7 @@
       role: 'attacker', power: 0.24, critChance: 0.16, critMult: 1.6,
       desc: 'สหายแมลงปีกแข็ง เน้นโจมตีคริติคอลสูงกว่าจิ้งจอกเปลวไฟ', descEn: 'A scarab companion built for a higher crit chance than Ember Fox, at slightly lower base power' },
     { id: 'frost_hare', name: 'กระต่ายน้ำแข็ง', nameEn: 'Frost Hare', icon: 'frostHare', unlockFloor: 70,
-      role: 'healer', healPct: 0.09,
+      role: 'healer', healPct: 0.065,
       desc: 'กระต่ายน้ำแข็ง ฟื้นฟู HP ให้มากกว่านกฮูกอรุณทุกรอบ', descEn: 'A frost hare that heals more HP per round than Dawn Owl' },
     { id: 'iron_golem_cub', name: 'ลูกโกเลมเหล็ก', nameEn: 'Iron Golem Cub', icon: 'ironGolemCub', unlockFloor: 85,
       role: 'guardian', buffStats: ['def', 'res'], buffAmount: 0.22,

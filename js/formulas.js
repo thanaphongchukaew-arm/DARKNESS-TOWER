@@ -95,12 +95,19 @@
   // Composed into the `scale` argument at each enemy-actor-build call site in
   // battle-engine.js (never inside scaleStatsBlock itself, so a plain run is
   // never affected), and into the reward `rate` alongside difficulty/blessings.
+  //
+  // The two rates are deliberately close (0.09 vs 0.11, not e.g. 0.08 vs 0.12):
+  // reward/enemy stays a roughly flat ~1.0-1.1 ratio across all 10 levels,
+  // matching how the existing difficulty ladder's own reward/statMult ratio stays
+  // in a tight band (Normal 1.14, Hard 1.18, Nightmare 1.20) rather than climbing.
+  // A wider gap here would make level 10 a strictly better reward-per-difficulty
+  // deal than level 1, turning "pick your Ascension level" into "always max it".
   var ASCENSION_MAX = 10;
   function ascensionEnemyMult(level) {
-    return 1 + 0.08 * clamp(level || 0, 0, ASCENSION_MAX);
+    return 1 + 0.09 * clamp(level || 0, 0, ASCENSION_MAX);
   }
   function ascensionRewardMult(level) {
-    return 1 + 0.12 * clamp(level || 0, 0, ASCENSION_MAX);
+    return 1 + 0.11 * clamp(level || 0, 0, ASCENSION_MAX);
   }
 
   // Endless Arena (survival mode): anchored to the player's current tower floor
