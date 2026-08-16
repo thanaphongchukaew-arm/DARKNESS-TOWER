@@ -123,6 +123,13 @@
     { icon: 'towerSpire', key: 'Floors' }, { icon: 'doorway', key: 'Waypoint' },
     { icon: 'crownSkull', key: 'Boss' }, { icon: 'skullFire', key: 'Difficulty' }
   ];
+  // Random events, blessings/curses, companions, Ascension, and the Codex --
+  // one card each, same guideCardGrid renderer as the sections above.
+  var GUIDE_FEATURES = [
+    { icon: 'eventShrine', key: 'Events' }, { icon: 'blessMight', key: 'Blessings' },
+    { icon: 'companionSlot', key: 'Companions' }, { icon: 'ascension', key: 'Ascension' },
+    { icon: 'codex', key: 'Codex' }
+  ];
   var GUIDE_TIPS = ['guideTip1', 'guideTip2'];
 
   // Shared card renderer for every guide grid (icon + short label + one-line
@@ -161,6 +168,10 @@
       '<div class="guide-section">' +
         '<h3>' + T('guideTowerTitle') + '</h3>' +
         guideCardGrid('guideTower', GUIDE_TOWER) +
+      '</div>' +
+      '<div class="guide-section">' +
+        '<h3>' + T('guideFeaturesTitle') + '</h3>' +
+        guideCardGrid('guideFeature', GUIDE_FEATURES) +
       '</div>' +
       '<div class="guide-section">' +
         '<h3>' + T('guideTipsTitle') + '</h3>' +

@@ -77,6 +77,32 @@
       th: 'ง่าย ศัตรูอ่อนลง+ไอเทมเริ่มต้นเพิ่ม, ปกติ สมดุลมาตรฐาน, ยาก ศัตรูแกร่งขึ้น+รางวัลมากขึ้น, ฝันร้าย โหดสุดปลดล็อกหลังพิชิตโหมดยาก',
       en: 'Easy weakens enemies and adds starting items, Normal is standard, Hard is tougher for bigger rewards, Nightmare — the harshest — unlocks after clearing Hard.'
     },
+    guideFeaturesTitle: { th: 'ระบบพิเศษ', en: 'Special Systems' },
+    guideFeatureEventsLabel: { th: 'เหตุการณ์สุ่ม', en: 'Random Events' },
+    guideFeatureEventsDesc: {
+      th: 'มีโอกาสเจอเหตุการณ์พิเศษระหว่างชั้น (นอกจุดพัก/มินิบอส) 9 รูปแบบ เช่น พ่อค้าลึกลับ กล่องต้องห้าม หรือบ่อนพนัน แต่ละแบบให้ทางเลือกเสี่ยง-คุ้มต่างกัน',
+      en: "A small chance of a special encounter between floors (outside waypoints/mini-bosses) -- 9 kinds, like a mysterious merchant, a forbidden chest, or a gambler's den, each with its own risk/reward choice."
+    },
+    guideFeatureBlessingsLabel: { th: 'พร & คำสาป', en: 'Blessings & Curses' },
+    guideFeatureBlessingsDesc: {
+      th: 'เลือกพร 1 อย่างตอนเริ่มการเดินทาง (หรือคู่พร+คำสาปที่แรงกว่า) และรับเพิ่มได้จากเหตุการณ์สุ่ม พรคงอยู่ตลอดการเดินทางนั้นจนกว่าจะตายหรือพิชิตหอคอย',
+      en: 'Choose one blessing at the start of a run (or a stronger blessing+curse pair), and pick up more from random events. They last for the whole run until you fall or conquer the tower.'
+    },
+    guideFeatureCompanionsLabel: { th: 'สหายร่วมทาง', en: 'Companions' },
+    guideFeatureCompanionsDesc: {
+      th: 'ปลดล็อกสหายตามชั้นสูงสุดที่เคยไปถึง (สะสมข้ามการตาย) เลือกได้ฟรีจากหน้าสถานะ สหายจะช่วยต่อสู้อัตโนมัติทุกรอบและไม่มีวันถูกโจมตี',
+      en: "Unlocked by the highest floor you've ever reached (persists across deaths). Choose one for free from the Status screen -- it acts automatically every round in battle and can never be attacked."
+    },
+    guideFeatureAscensionLabel: { th: 'Ascension', en: 'Ascension' },
+    guideFeatureAscensionDesc: {
+      th: 'ปลดล็อกหลังพิชิตหอคอยด้วยโหมด Nightmare เลือกระดับเพิ่มความยากได้ตอนเริ่มการเดินทางใหม่ ศัตรูแข็งแกร่งขึ้นแลกกับทอง/EXP/วัตถุดิบที่มากขึ้น',
+      en: 'Unlocked after clearing the tower on Nightmare. Choose an extra difficulty level when starting a new Nightmare run -- tougher enemies in exchange for more gold/EXP/material rewards.'
+    },
+    guideFeatureCodexLabel: { th: 'สมุดเวท (Codex)', en: 'Codex' },
+    guideFeatureCodexDesc: {
+      th: 'สมุดสัตว์ประหลาดบันทึกศัตรูที่เคยเผชิญหน้าโดยอัตโนมัติ ส่วนความสำเร็จปลดล็อกตำแหน่งให้นำไปสวมใส่โชว์ในหน้าสถานะ',
+      en: 'The Bestiary auto-records every enemy you\'ve ever fought; Achievements unlock cosmetic titles you can equip and show off on the Status screen.'
+    },
     guideTipsTitle: { th: 'เคล็ดลับ', en: 'Tips' },
     guideTip1: { th: 'ป้องกัน (Guard) เมื่อ HP ต่ำเพื่อลดดาเมจลงครึ่งหนึ่ง และพกไอเทมฟื้นฟูติดตัวเสมอ', en: 'Guard when your HP is low to halve incoming damage, and always keep a healing item on hand.' },
     guideTip2: { th: 'แวะร้านค้าเร่ร่อนที่จุดพักเพื่ออัปเกรดอาวุธ เกราะ และเครื่องประดับก่อนเจอมินิบอส', en: 'Stop by the Wandering Shop at waypoints to upgrade your weapon, armor, and accessory before facing the mini-boss.' },
