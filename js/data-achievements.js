@@ -8,7 +8,7 @@
 //
 // type: 'difficulty' (param: difficulty) | 'allElites' | 'ascension' (target) |
 //       'survivalWaves' (target) | 'bestiary' (target, or 'all') | 'floorReached' (target) |
-//       'companionsAll' | 'blessingsAll' | 'cursesAll' | 'eventsAll' |
+//       'companionsAll' | 'blessingsAll' | 'cursesAll' | 'eventsAll' | 'relicsAll' |
 //       'flag' (param: meta flag key set elsewhere -- flawlessVictor/blessedStacker/
 //       riskTaker/goldHoarder/levelCapped/bigGambleWon)
 (function () {
@@ -112,7 +112,11 @@
     { id: 'events_all', name: 'ผู้ท่องเหตุการณ์ครบทุกรูปแบบ', nameEn: 'Seen It All', icon: 'codex',
       type: 'eventsAll',
       desc: 'เคยพบเหตุการณ์สุ่มครบทุกประเภทอย่างน้อยครั้งหนึ่ง', descEn: 'Have ever encountered every type of random tower event.',
-      title: 'ผู้ท่องเหตุการณ์ครบทุกรูปแบบ', titleEn: 'Seen It All' }
+      title: 'ผู้ท่องเหตุการณ์ครบทุกรูปแบบ', titleEn: 'Seen It All' },
+    { id: 'relics_all', name: 'ผู้เชี่ยวชาญวัตถุโบราณ', nameEn: 'Relic Master', icon: 'relicVampiricFang',
+      type: 'relicsAll',
+      desc: 'เคยได้รับวัตถุโบราณครบทุกชนิดอย่างน้อยครั้งหนึ่ง (สะสมข้ามการเดินทาง)', descEn: 'Have ever held every relic at least once (across all runs).',
+      title: 'ผู้เชี่ยวชาญวัตถุโบราณ', titleEn: 'Relic Master' }
   ];
 
   window.Game = window.Game || {};

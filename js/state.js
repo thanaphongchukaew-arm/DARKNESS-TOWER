@@ -211,6 +211,9 @@
       blessings: [],
       curses: [],
       blessingRevived: false,
+      // Relics (see data-relics.js): ids only, resolved the same way as blessings/
+      // curses -- ever-growing, never removed once picked up, wiped on permadeath.
+      relics: [],
       // Nightmare-only prestige level chosen at run creation (see Formulas.ascensionEnemyMult/
       // ascensionRewardMult and State.isAscensionUnlocked/recordAscensionClear).
       ascension: ascension || 0,
@@ -234,6 +237,7 @@
   function normalizeRunExtras(run) {
     if (!run.blessings) run.blessings = [];
     if (!run.curses) run.curses = [];
+    if (!run.relics) run.relics = [];
     if (run.blessingRevived == null) run.blessingRevived = false;
     if (run.ascension == null) run.ascension = 0;
     if (run.companionId === undefined) run.companionId = null;
@@ -306,6 +310,15 @@
       var keys = Array.isArray(c.stat) ? c.stat : [c.stat];
       if (keys.indexOf(statKey) !== -1) mult *= (1 + c.amount);
     });
+    // Relics (see data-relics.js) reuse this same composition under distinct field
+    // names (statKey/statAmount, not stat/amount) so a relic that also touches the
+    // economy side (Cursed Coin's economy/economyAmount) can't collide on `amount`.
+    (run.relics || []).forEach(function (id) {
+      var r = D.getRelic(id);
+      if (!r || !r.statKey) return;
+      var keys = Array.isArray(r.statKey) ? r.statKey : [r.statKey];
+      if (keys.indexOf(statKey) !== -1) mult *= (1 + r.statAmount);
+    });
     return mult;
   }
 
@@ -331,6 +344,25 @@
     (run.curses || []).forEach(function (id) {
       var c = D.getCurse(id);
       if (c && matchesEconomyKind(c.economy, kind)) mult *= (1 + c.amount);
+    });
+    // Relics' economy field mirrors blessings/curses but reads economyAmount (not
+    // amount) -- see blessingStatMult's matching comment on the same collision.
+    (run.relics || []).forEach(function (id) {
+      var r = D.getRelic(id);
+      if (r && matchesEconomyKind(r.economy, kind)) mult *= (1 + r.economyAmount);
+    });
+    return mult;
+  }
+
+  // Product of every held relic's flat incoming-damage reduction (see data-relics.js's
+  // damageReductionPct) -- multiplicative like blessingStatMult, so future relics
+  // with this same field compose together instead of only the strongest applying.
+  function relicDamageMult(run) {
+    deps();
+    var mult = 1;
+    (run.relics || []).forEach(function (id) {
+      var r = D.getRelic(id);
+      if (r && r.damageReductionPct) mult *= (1 - r.damageReductionPct);
     });
     return mult;
   }
@@ -374,6 +406,25 @@
       var b = D.getBlessing(id);
       return b && b.special === 'revive';
     });
+  }
+
+  // Relics (see data-relics.js): granted from the reward-choice pool (floor-clear
+  // reward, Treasure Room, Battlefield event -- see ui-tower.js's generateRewardChoices),
+  // de-duped by id exactly like addBlessing/addCurse above. Also records into
+  // meta.relicsEverHeld (account-wide, survives permadeath) for the relicsAll
+  // achievement, mirroring blessingsEverHeld/cursesEverHeld.
+  function addRelic(run, id) {
+    run.relics = run.relics || [];
+    if (run.relics.indexOf(id) !== -1) return false;
+    run.relics.push(id);
+    var meta = window.Game.Save.readMeta();
+    meta.relicsEverHeld = meta.relicsEverHeld || {};
+    if (!meta.relicsEverHeld[id]) { meta.relicsEverHeld[id] = true; window.Game.Save.writeMeta(meta); }
+    return true;
+  }
+
+  function hasRelic(run, id) {
+    return (run.relics || []).indexOf(id) !== -1;
   }
 
   // ---- Companion (see data-companions.js) -- account-wide unlock gated on the
@@ -500,6 +551,10 @@
       case 'eventsAll': {
         var seenTypes = meta.eventTypesSeen || {};
         return D.events.every(function (e) { return !!seenTypes[e.id]; });
+      }
+      case 'relicsAll': {
+        var relicsHeld = meta.relicsEverHeld || {};
+        return D.relics.every(function (r) { return !!relicsHeld[r.id]; });
       }
       case 'flag':
         return !!meta[ach.flag];
@@ -772,6 +827,9 @@
     addBlessing: addBlessing,
     addCurse: addCurse,
     hasReviveBlessing: hasReviveBlessing,
+    addRelic: addRelic,
+    hasRelic: hasRelic,
+    relicDamageMult: relicDamageMult,
     getRewardMult: getRewardMult,
     isCompanionUnlocked: isCompanionUnlocked,
     hireCompanion: hireCompanion,

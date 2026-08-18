@@ -88,6 +88,11 @@
       th: 'เลือกพร 1 อย่างตอนเริ่มการเดินทาง (หรือคู่พร+คำสาปที่แรงกว่า) และรับเพิ่มได้จากเหตุการณ์สุ่ม พรคงอยู่ตลอดการเดินทางนั้นจนกว่าจะตายหรือพิชิตหอคอย',
       en: 'Choose one blessing at the start of a run (or a stronger blessing+curse pair), and pick up more from random events. They last for the whole run until you fall or conquer the tower.'
     },
+    guideFeatureRelicsLabel: { th: 'วัตถุโบราณ', en: 'Relics' },
+    guideFeatureRelicsDesc: {
+      th: 'ของวิเศษที่เปลี่ยนกฎการต่อสู้แทนที่จะบวกค่าสถานะตรง ๆ (เช่น ดูดเลือดจากการโจมตี หรือพลังพุ่งพล่านเมื่อ HP ต่ำ) มีโอกาสปรากฏเป็นตัวเลือกของรางวัลตั้งแต่ชั้น 5 ขึ้นไป คงอยู่ตลอดการเดินทางเหมือนพร และรวมกันได้หลายชิ้นเพื่อสร้างคอมโบเฉพาะตัว',
+      en: 'Items that bend a combat rule instead of just adding to a stat (e.g. leeching HP on hit, or surging in power at low HP). They have a chance to appear as a reward-screen choice from floor 5 onward, last for the whole run like a blessing, and stack together for your own combos.'
+    },
     guideFeatureCompanionsLabel: { th: 'สหายร่วมทาง', en: 'Companions' },
     guideFeatureCompanionsDesc: {
       th: 'ปลดล็อกสหายตามชั้นสูงสุดที่เคยไปถึง (สะสมข้ามการตาย) เลือกได้ฟรีจากหน้าสถานะ สหายจะช่วยต่อสู้อัตโนมัติทุกรอบและไม่มีวันถูกโจมตี',

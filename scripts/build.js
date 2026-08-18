@@ -24,6 +24,7 @@ const FILES = [
   'js/data-recipes.js',
   'js/data-quests.js',
   'js/data-blessings.js',
+  'js/data-relics.js',
   'js/data-events.js',
   'js/data-companions.js',
   'js/data-achievements.js',

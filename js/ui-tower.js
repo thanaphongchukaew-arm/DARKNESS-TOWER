@@ -417,14 +417,7 @@
     }
     var choices = eventState.choices;
     var body = document.getElementById('event-body');
-    body.innerHTML = '<div class="card-grid">' + choices.map(function (c, idx) {
-      var qtyLabel = c.qty > 1 ? ' x' + c.qty : '';
-      return '<button class="select-card" data-idx="' + idx + '">' +
-        '<div class="select-card-icon">' + I(c.item.icon) + '</div>' +
-        '<div class="select-card-title">' + L(c.item, 'name') + qtyLabel + '</div>' +
-        '<div class="select-card-desc">' + L(c.item, 'desc') + '</div>' +
-      '</button>';
-    }).join('') + '</div>';
+    body.innerHTML = '<div class="card-grid">' + choices.map(rewardCardHtml).join('') + '</div>';
     document.getElementById('event-actions').innerHTML = '';
     Array.prototype.forEach.call(body.querySelectorAll('.select-card'), function (card) {
       card.onclick = function () {
@@ -432,9 +425,7 @@
         var idx = parseInt(card.getAttribute('data-idx'), 10);
         var pick = choices[idx];
         var run = window.Game.State.current;
-        window.Game.State.addItem(run, pick.item.id, pick.qty);
-        if (pick.item.id === 'p_elixir') window.Game.State.spendElixir(run);
-        autoEquipIfEmpty(run, pick.item.id);
+        applyRewardPick(run, pick);
         finishEvent(floor);
       };
     });
@@ -669,12 +660,54 @@
     D.items.filter(function (it) { return it.kind === 'consumable' && it.tier <= tier && !it.questOnly && (it.id !== 'p_elixir' || S.elixirAvailable(run)); }).forEach(function (it) {
       pool.push({ type: 'consumable', item: it, qty: it.id === 'p_elixir' ? 1 : (2 + Math.floor(Math.random() * 2)) });
     });
+    // Relics (see data-relics.js): one unheld candidate competes for a slot in the
+    // pool alongside gear/consumables below, same as the merchant's single blessing
+    // offer -- not guaranteed every reward screen, gated past floor 5 so it never
+    // shows up before the player has a feel for basic combat.
+    if (floor >= 5) {
+      var unheldRelics = D.relics.filter(function (r) { return (run.relics || []).indexOf(r.id) === -1; });
+      if (unheldRelics.length) {
+        pool.push({ type: 'relic', relic: unheldRelics[Math.floor(Math.random() * unheldRelics.length)] });
+      }
+    }
     // shuffle
     for (var i = pool.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
       var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
     }
     return pool.slice(0, 3);
+  }
+
+  // Shared by every screen that offers a generateRewardChoices pool (floor-clear
+  // reward, Treasure Room waypoint, Battlefield event) so a relic card renders
+  // identically everywhere instead of each screen needing its own type check.
+  function rewardCardHtml(c, idx) {
+    if (c.type === 'relic') {
+      return '<button class="select-card" data-idx="' + idx + '">' +
+        '<div class="select-card-icon">' + I(c.relic.icon) + '</div>' +
+        '<div class="select-card-title">' + L(c.relic, 'name') + '</div>' +
+        '<div class="select-card-desc">' + L(c.relic, 'desc') + '</div>' +
+      '</button>';
+    }
+    var qtyLabel = c.qty > 1 ? ' x' + c.qty : '';
+    return '<button class="select-card" data-idx="' + idx + '">' +
+      '<div class="select-card-icon">' + I(c.item.icon) + '</div>' +
+      '<div class="select-card-title">' + L(c.item, 'name') + qtyLabel + '</div>' +
+      '<div class="select-card-desc">' + L(c.item, 'desc') + '</div>' +
+    '</button>';
+  }
+
+  // Grants a generateRewardChoices pick to the run -- shared by the same 3 screens
+  // as rewardCardHtml above, so a relic pick and an item/equip pick are applied
+  // identically everywhere.
+  function applyRewardPick(run, pick) {
+    if (pick.type === 'relic') {
+      window.Game.State.addRelic(run, pick.relic.id);
+      return;
+    }
+    window.Game.State.addItem(run, pick.item.id, pick.qty);
+    if (pick.item.id === 'p_elixir') window.Game.State.spendElixir(run);
+    autoEquipIfEmpty(run, pick.item.id);
   }
 
   var lastRewardFloor = null;
@@ -691,23 +724,14 @@
     var choices = lastRewardChoices;
     document.getElementById('reward-title').textContent = T('rewardClearedPrefix') + lastRewardFloor + T('rewardClearedSuffix');
     var el = document.getElementById('reward-cards');
-    el.innerHTML = choices.map(function (c, idx) {
-      var qtyLabel = c.qty > 1 ? ' x' + c.qty : '';
-      return '<button class="select-card" data-idx="' + idx + '">' +
-        '<div class="select-card-icon">' + I(c.item.icon) + '</div>' +
-        '<div class="select-card-title">' + L(c.item, 'name') + qtyLabel + '</div>' +
-        '<div class="select-card-desc">' + L(c.item, 'desc') + '</div>' +
-      '</button>';
-    }).join('');
+    el.innerHTML = choices.map(rewardCardHtml).join('');
     Array.prototype.forEach.call(el.querySelectorAll('.select-card'), function (card) {
       card.onclick = function () {
         SFX('item_get');
         var idx = parseInt(card.getAttribute('data-idx'), 10);
         var pick = choices[idx];
         var run = window.Game.State.current;
-        window.Game.State.addItem(run, pick.item.id, pick.qty);
-        if (pick.item.id === 'p_elixir') window.Game.State.spendElixir(run);
-        autoEquipIfEmpty(run, pick.item.id);
+        applyRewardPick(run, pick);
         var maxHp = window.Game.State.getMaxHp(run), maxMp = window.Game.State.getMaxMp(run);
         run.hp = Math.min(maxHp, run.hp + Math.round(maxHp * 0.3));
         run.mp = Math.min(maxMp, run.mp + Math.round(maxMp * 0.3));
@@ -829,14 +853,7 @@
     if (!waypointState.choices) waypointState.choices = generateRewardChoices(floor);
     var choices = waypointState.choices;
     var body = document.getElementById('waypoint-body');
-    body.innerHTML = '<div class="card-grid">' + choices.map(function (c, idx) {
-      var qtyLabel = c.qty > 1 ? ' x' + c.qty : '';
-      return '<button class="select-card" data-idx="' + idx + '">' +
-        '<div class="select-card-icon">' + I(c.item.icon) + '</div>' +
-        '<div class="select-card-title">' + L(c.item, 'name') + qtyLabel + '</div>' +
-        '<div class="select-card-desc">' + L(c.item, 'desc') + '</div>' +
-      '</button>';
-    }).join('') + '</div>';
+    body.innerHTML = '<div class="card-grid">' + choices.map(rewardCardHtml).join('') + '</div>';
     document.getElementById('waypoint-actions').innerHTML = '';
     Array.prototype.forEach.call(body.querySelectorAll('.select-card'), function (card) {
       card.onclick = function () {
@@ -844,9 +861,7 @@
         var idx = parseInt(card.getAttribute('data-idx'), 10);
         var pick = choices[idx];
         var run = window.Game.State.current;
-        window.Game.State.addItem(run, pick.item.id, pick.qty);
-        if (pick.item.id === 'p_elixir') window.Game.State.spendElixir(run);
-        autoEquipIfEmpty(run, pick.item.id);
+        applyRewardPick(run, pick);
         markWaypointSeen();
         renderTower();
         window.Game.UI.showScreen('screen-tower');
@@ -1302,6 +1317,9 @@
     }).join('') + (run.curses || []).map(function (id) {
       var c = D.getCurse(id);
       return c ? '<span class="stat-chip" title="' + L(c, 'name') + '">' + I(c.icon) + ' ' + L(c, 'name') + '</span>' : '';
+    }).join('') + (run.relics || []).map(function (id) {
+      var r = D.getRelic(id);
+      return r ? '<span class="stat-chip" title="' + L(r, 'name') + '">' + I(r.icon) + ' ' + L(r, 'name') + '</span>' : '';
     }).join('');
 
     document.getElementById('status-stats').innerHTML =

@@ -119,7 +119,16 @@
     // events (2nd wave)
     eventSpring: '⛲',
     eventBattlefield: '❖',
-    eventGambler: '♠'
+    eventGambler: '♠',
+
+    // relics
+    relicVampiricFang: '♆',
+    relicAdrenalineCore: '☢',
+    relicStoneWard: '⛊',
+    relicMomentumCharm: '↻',
+    relicCursedCoin: '⛃',
+    relicOpportunist: '⌖',
+    relicSwiftRecovery: '✜'
   };
 
   function glyph(name, extraClass) {

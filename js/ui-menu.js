@@ -127,6 +127,7 @@
   // one card each, same guideCardGrid renderer as the sections above.
   var GUIDE_FEATURES = [
     { icon: 'eventShrine', key: 'Events' }, { icon: 'blessMight', key: 'Blessings' },
+    { icon: 'relicVampiricFang', key: 'Relics' },
     { icon: 'companionSlot', key: 'Companions' }, { icon: 'ascension', key: 'Ascension' },
     { icon: 'codex', key: 'Codex' }
   ];

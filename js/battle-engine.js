@@ -33,6 +33,21 @@
     return eff;
   }
 
+  // Player's own outgoing ATK/MAG for damage/companion-power purposes -- wraps
+  // effectiveStats with any relic effect that depends on the player's own state
+  // (see data-relics.js's Adrenaline Core), so every call site that reads the
+  // player's offense (attack hits, All-Out Attack, the companion attacker role)
+  // picks it up identically instead of each re-checking the relic itself.
+  function playerOffenseEff(battle) {
+    var eff = effectiveStats(battle.player, battle.player.buffs);
+    var relic = D().getRelic('adrenaline_core');
+    if (relic && S().hasRelic(battle.run, 'adrenaline_core') && battle.run.hp <= battle.player.maxHp * relic.lowHpThreshold) {
+      eff.atk = Math.round(eff.atk * (1 + relic.lowHpPowerAmount));
+      eff.mag = Math.round(eff.mag * (1 + relic.lowHpPowerAmount));
+    }
+    return eff;
+  }
+
   function resolveHit(attackerEff, defenderEff, element, power) {
     var isCrit = Math.random() < F().critChance(attackerEff.luk);
     var amount = F().computeDamage({
@@ -294,8 +309,14 @@
         events.push({ type: 'hpSacrifice', amount: hpCostAmt, hpAfter: run.hp, maxHp: battle.player.maxHp });
       }
 
+      // Swift Recovery relic: boosts every HP-restoring skill (a heal-kind cast and
+      // a buffSelf's optional healPower) -- computed once so both branches below
+      // read the same multiplier (see data-relics.js).
+      var swiftRecovery = D().getRelic('swift_recovery');
+      var healMult = (swiftRecovery && S().hasRelic(run, 'swift_recovery')) ? (1 + swiftRecovery.healBoostPct) : 1;
+
       if (skill.kind === 'heal') {
-        var healAmt = Math.round(battle.player.maxHp * skill.power);
+        var healAmt = Math.round(battle.player.maxHp * skill.power * healMult);
         run.hp = Math.min(battle.player.maxHp, run.hp + healAmt);
         events.push({ type: 'heal', side: 'player', amount: healAmt, hpAfter: run.hp, maxHp: battle.player.maxHp });
         battle.playerAP -= 1;
@@ -303,7 +324,7 @@
         applyStatMod(battle.player.buffs, skill.stat, skill.amount, 3);
         events.push({ type: 'buff', side: 'player', stat: skill.stat, amount: skill.amount });
         if (skill.healPower) {
-          var hAmt = Math.round(battle.player.maxHp * skill.healPower);
+          var hAmt = Math.round(battle.player.maxHp * skill.healPower * healMult);
           run.hp = Math.min(battle.player.maxHp, run.hp + hAmt);
           events.push({ type: 'heal', side: 'player', amount: hAmt, hpAfter: run.hp, maxHp: battle.player.maxHp });
         }
@@ -330,7 +351,7 @@
       } else if (skill.kind === 'attack') {
         var hits = buildPlayerHits(skill, battle, action.targetIndex);
         var hadCrit = false;
-        var playerEff = effectiveStats(battle.player, battle.player.buffs);
+        var playerEff = playerOffenseEff(battle);
         hits.forEach(function (h) {
           var enemy = battle.enemies[h.targetIndex];
           if (!enemy || !enemy.alive) return;
@@ -341,6 +362,13 @@
           if (skill.executeThreshold && enemy.hp <= enemy.maxHp * skill.executeThreshold) {
             hitPower = hitPower * (1 + skill.executeBonus);
           }
+          // Opportunist relic: a second, independent execute-style bonus against
+          // low-HP targets -- composes multiplicatively with a skill's own
+          // executeThreshold above (e.g. Executioner), rather than replacing it.
+          var opportunist = D().getRelic('opportunist');
+          if (opportunist && S().hasRelic(run, 'opportunist') && enemy.hp <= enemy.maxHp * opportunist.executeThreshold) {
+            hitPower = hitPower * (1 + opportunist.executeBonus);
+          }
           var hit = resolveHit(playerEff, enemyEff, h.element, hitPower);
           enemy.hp = Math.max(0, enemy.hp - hit.amount);
           if (hit.isCrit) { hadCrit = true; enemy.downed = true; events.push({ type: 'downed', targetUid: enemy.uid, targetName: enemy.name }); }
@@ -349,6 +377,16 @@
             var healBack = Math.round(hit.amount * 0.4);
             run.hp = Math.min(battle.player.maxHp, run.hp + healBack);
             events.push({ type: 'heal', side: 'player', amount: healBack, hpAfter: run.hp, maxHp: battle.player.maxHp });
+          }
+          // Vampiric Fang relic: every attack hit leeches HP back, independently of
+          // (and stacking with) a skill's own drainSelf above.
+          var vampiricFang = D().getRelic('vampiric_fang');
+          if (vampiricFang && hit.amount > 0 && S().hasRelic(run, 'vampiric_fang')) {
+            var lifesteal = Math.round(hit.amount * vampiricFang.lifestealPct);
+            if (lifesteal > 0) {
+              run.hp = Math.min(battle.player.maxHp, run.hp + lifesteal);
+              events.push({ type: 'heal', side: 'player', amount: lifesteal, hpAfter: run.hp, maxHp: battle.player.maxHp });
+            }
           }
           // Shadowhunter-only: the strike itself cripples the target. Reuses applyStatMod's
           // refresh-not-stack behavior, so repeated hits from a multi-hit skill can't compound it.
@@ -365,7 +403,17 @@
           }
         });
         battle.playerAP -= 1;
-        if (hadCrit) battle.playerAP = Math.min(battle.playerAP + 1, 4);
+        if (hadCrit) {
+          battle.playerAP = Math.min(battle.playerAP + 1, 4);
+        } else {
+          // Momentum Charm relic: a non-crit attack has a flat chance to still
+          // grant the same bonus turn a crit would (only rolled when the crit
+          // itself didn't already grant it, so this can't double up per action).
+          var momentum = D().getRelic('momentum_charm');
+          if (momentum && S().hasRelic(run, 'momentum_charm') && Math.random() < momentum.bonusApChance) {
+            battle.playerAP = Math.min(battle.playerAP + 1, 4);
+          }
+        }
         // Vanguard-only: an attack-kind grantsBonusAp skill refunds its own AP same as
         // the buffSelf case above, regardless of whether it also happened to crit
         // (that's evaluated first; this still tops back up afterward).
@@ -392,7 +440,7 @@
       return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP };
     }
     var living = battle.enemies.filter(function (e) { return e.alive; });
-    var playerEff = effectiveStats(battle.player, battle.player.buffs);
+    var playerEff = playerOffenseEff(battle);
     var per = Math.max(1, Math.round((playerEff.atk * 0.9 + playerEff.mag * 0.5) * (1.5 + 0.12 * living.length) * (0.95 + Math.random() * 0.15)));
     events.push({ type: 'allOutStart' });
     living.forEach(function (e) {
@@ -456,6 +504,9 @@
         ap -= 1;
         hitsThisTurn += 1;
         var dmg = hit.amount;
+        // Stone Ward relic (see data-relics.js): flat reduction to all incoming
+        // enemy damage, applied before Guard's own halving so the two multiply.
+        dmg = Math.round(dmg * S().relicDamageMult(battle.run));
         if (battle.player.guarding) dmg = Math.round(dmg * 0.5);
         battle.run.hp = Math.max(0, battle.run.hp - dmg);
         if (atk.drainSelf && dmg > 0) enemy.hp = Math.min(enemy.maxHp, enemy.hp + Math.round(dmg * 0.4));
@@ -488,7 +539,7 @@
     }
     var comp = battle.companion;
     var def = comp.def;
-    var playerEff = effectiveStats(battle.player, battle.player.buffs);
+    var playerEff = playerOffenseEff(battle);
     if (def.role === 'attacker') {
       var living = battle.enemies.filter(function (e) { return e.alive; });
       if (living.length) {
