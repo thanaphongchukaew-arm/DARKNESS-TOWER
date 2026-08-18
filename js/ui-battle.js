@@ -711,12 +711,13 @@
     };
   }
 
-  // Floor 40+ shifts the tower backdrop into a bloodier, more menacing palette, then
-  // each new tier of the hidden upper tower (floors 45-99) recolors it again to match
-  // that zone's theme; floor 100 goes all the way to the final boss's own throne room,
-  // complete with its looming silhouette. Same flat pixel-art technique throughout
-  // (recolor via CSS filters + the existing PixelArt renderer), just a grander color story.
-  var AMBIENCE_TIER_CLASSES = ['battle-tier-5', 'battle-tier-6', 'battle-tier-7', 'battle-tier-8', 'battle-tier-9', 'battle-tier-10',
+  // Every tier (1-16, floors 1-99) recolors the shared backdrop pieces to match that
+  // zone's theme, escalating from a cool moonlit den up through molten/astral/chaos
+  // hues; floor 100 goes all the way to the final boss's own throne room, complete
+  // with its looming silhouette. Same flat pixel-art technique throughout (recolor via
+  // CSS filters + the existing PixelArt renderer), just a grander color story per tier.
+  var AMBIENCE_TIER_CLASSES = ['battle-tier-1', 'battle-tier-2', 'battle-tier-3', 'battle-tier-4', 'battle-tier-5',
+    'battle-tier-6', 'battle-tier-7', 'battle-tier-8', 'battle-tier-9', 'battle-tier-10',
     'battle-tier-11', 'battle-tier-12', 'battle-tier-13', 'battle-tier-14', 'battle-tier-15', 'battle-tier-16'];
 
   function applyBattleAmbience(floor, isBoss) {
@@ -730,7 +731,7 @@
       if (silhouette) silhouette.innerHTML = '';
       var tier = window.Game.Formulas.tierForFloor(floor);
       if (floor >= 40 && tier < 5) tier = 5; // floor-40 miniboss previews the deep-tower mood
-      if (tier >= 5) screenEl.classList.add('battle-tier-' + tier);
+      screenEl.classList.add('battle-tier-' + tier);
     }
   }
 
