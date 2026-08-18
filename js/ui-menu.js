@@ -117,7 +117,8 @@
   ];
   var GUIDE_COMBAT = [
     { icon: 'buffUp', key: 'Ap' }, { icon: 'swordAttack', key: 'Actions' },
-    { icon: 'debuffDown', key: 'Stagger' }, { icon: 'skull', key: 'Group' }
+    { icon: 'debuffDown', key: 'Stagger' }, { icon: 'skull', key: 'Group' },
+    { icon: 'sparkles', key: 'Focus' }, { icon: 'downedMark', key: 'Break' }
   ];
   var GUIDE_TOWER = [
     { icon: 'towerSpire', key: 'Floors' }, { icon: 'doorway', key: 'Waypoint' },

@@ -802,6 +802,26 @@
   letter-spacing: 0.05em;
 }
 
+.enemy-broken-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--bg-void);
+  background: var(--break-color);
+  padding: 0.05rem 0.5rem;
+  border-radius: 0;
+  letter-spacing: 0.05em;
+}
+
+/* Break meter: a slim bar under the HP bar, filling as the enemy takes hits.
+   Deliberately thinner than the HP bar so it reads as a secondary gauge. */
+.break-row {
+  margin-top: -0.1rem;
+}
+
+.break-track {
+  height: 0.28rem;
+}
+
 /* ---- Lower area ---- */
 .battle-lower {
   display: flex;
@@ -953,6 +973,21 @@
 
 .battle-actions button .icon {
   font-size: 1.5rem;
+}
+
+/* Overdrive only glows once Focus is full (not(:disabled)) -- the rest of the
+   time it sits flush with the other three secondary buttons, no separate
+   "greyed out" treatment needed since the shared disabled-button style already
+   covers that. */
+.btn-overdrive:not(:disabled) {
+  border-color: var(--focus-color);
+  box-shadow: 0 0 10px rgba(176,96,255,0.5);
+  animation: overdrive-glow 1.4s ease-in-out infinite;
+}
+
+@keyframes overdrive-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(176,96,255,0.5); }
+  50% { box-shadow: 0 0 18px rgba(176,96,255,0.85); }
 }
 
 .ap-indicator {

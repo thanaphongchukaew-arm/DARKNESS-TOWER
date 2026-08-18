@@ -62,6 +62,16 @@
       th: 'ชั้นลึก ๆ อาจเจอศัตรูเป็นกลุ่มสูงสุด 5 ตัว ยิ่งกลุ่มใหญ่แต่ละตัวยิ่งอ่อนลง แต่โจมตีคุณพร้อมกันได้หลายทาง',
       en: 'On deeper floors enemies can appear in groups of up to 5. Larger groups are individually weaker, but can all attack you the same round.'
     },
+    guideCombatFocusLabel: { th: 'พลังโฟกัส & โอเวอร์ไดรฟ์', en: 'Focus & Overdrive' },
+    guideCombatFocusDesc: {
+      th: 'ทุกครั้งที่โจมตีโดน พลังโฟกัสจะสะสมขึ้น (คริติคอลสะสมเร็วกว่า) เมื่อเต็มแถบ ใช้ท่า "โอเวอร์ไดรฟ์" โจมตีแรงแบบไม่เสีย MP ได้ทันที',
+      en: 'Every landed hit builds your Focus gauge (crits build it faster). Once it\'s full, unleash Overdrive for a heavy hit that costs no MP.'
+    },
+    guideCombatBreakLabel: { th: 'เกราะแตก', en: 'Break' },
+    guideCombatBreakDesc: {
+      th: 'ศัตรูที่โดนตีสะสมจะ "เกราะแตก" และรับดาเมจเพิ่มขึ้นไปตลอดเทิร์นนั้น แยกจากการเสียหลักโดยสิ้นเชิง ศัตรูตัวเดียวเสียหลักและเกราะแตกพร้อมกันได้',
+      en: 'An enemy that takes enough sustained hits becomes "Broken" and takes bonus damage for the rest of that round -- completely separate from Stagger, so an enemy can be staggered and broken at the same time.'
+    },
     guideTowerTitle: { th: 'การไต่หอคอย', en: 'Climbing the Tower' },
     guideTowerFloorsLabel: { th: '100 ชั้น', en: '100 Floors' },
     guideTowerFloorsDesc: { th: 'เอาชนะศัตรูแต่ละชั้นเพื่อไต่ขึ้นไป ทุกชั้นที่ผ่านได้เลือกของรางวัล 1 ชิ้น พร้อม EXP และทอง', en: 'Defeat the enemies on each floor to climb higher. Clearing a floor lets you pick one reward, plus EXP and gold.' },
@@ -289,6 +299,8 @@
     selectTargetTitle: { th: 'เลือกเป้าหมาย', en: 'Select a Target' },
     tapEnemyHint: { th: 'แตะศัตรูที่ต้องการเลือกเป็นเป้าหมาย', en: 'Tap the enemy you want to target' },
     downedTag: { th: 'เสียหลัก!', en: 'Staggered!' },
+    brokenTag: { th: 'เกราะแตก!', en: 'Broken!' },
+    overdriveLabel: { th: 'โอเวอร์ไดรฟ์', en: 'Overdrive' },
     phaseLabel: { th: ' · เฟส ', en: ' · Phase ' },
     replaySuffix: { th: ' (เล่นซ้ำ)', en: ' (Replay)' },
 
@@ -310,12 +322,15 @@
     toastPhase2: { th: 'เฟส 2!', en: 'Phase 2!' },
     toastPlayerCrit: { th: 'โดนคริติคอล!', en: 'Critical hit!' },
     toastInvalidAction: { th: 'ทำไม่ได้ตอนนี้', en: 'Can\'t do that right now' },
+    toastOverdriveReady: { th: 'พลังเต็ม! ใช้โอเวอร์ไดรฟ์ได้แล้ว', en: 'Focus maxed! Overdrive is ready!' },
 
     // battle log templates ({name}, {target}, {attacker}, {amount}, {skill}, {level}, {exp} placeholders)
     logSkillUsed: { th: 'ใช้ {name}', en: 'Used {name}' },
     logEnemyDamage: { th: '{target} ได้รับ {amount} ดาเมจ{tag}', en: '{target} took {amount} damage{tag}' },
     logPlayerDamage: { th: 'โดน {skill} จาก {attacker} ({amount} ดาเมจ){tag}', en: 'Hit by {attacker}\'s {skill} ({amount} damage){tag}' },
     logDowned: { th: '{target} เสียหลัก!', en: '{target} is staggered!' },
+    logEnemyBroken: { th: '{target} เกราะแตก! รับดาเมจเพิ่มขึ้น!', en: "{target}'s guard breaks! Taking bonus damage!" },
+    logOverdriveUsed: { th: 'ปลดปล่อยโอเวอร์ไดรฟ์!', en: 'Overdrive unleashed!' },
     logDefeated: { th: '{target} ถูกกำจัด!', en: '{target} was defeated!' },
     logHeal: { th: 'ฟื้นฟู {amount} HP', en: 'Restored {amount} HP' },
     logHpSacrifice: { th: 'สังเวย {amount} HP เพื่อร่ายพลังเลือด', en: 'Sacrificed {amount} HP to fuel blood magic' },

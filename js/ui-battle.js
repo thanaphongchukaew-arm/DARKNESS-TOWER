@@ -67,6 +67,8 @@
       case 'guard': return { text: T('logGuard'), cls: '' };
       case 'itemUsed': return { text: T('logItemUsed'), cls: 'log-heal' };
       case 'allOutReady': return { text: T('logAllOutReady'), cls: 'log-crit' };
+      case 'enemyBroken': return { text: T('logEnemyBroken', { target: ev.targetName }), cls: 'log-weak' };
+      case 'overdriveUsed': return { text: T('logOverdriveUsed'), cls: 'log-crit' };
       case 'allOutStart': return { text: T('logAllOutStart'), cls: 'log-crit' };
       case 'allOutHit': return { text: T('logAllOutHit', { target: ev.targetName, amount: ev.amount, defeated: ev.defeated ? T('logAllOutHitDefeatedTag') : '' }), cls: 'log-crit' };
       case 'allOutDeclined': return { text: T('logAllOutDeclined'), cls: '' };
@@ -119,6 +121,22 @@
     }
     var bar = document.getElementById('enemy-hp-' + uid);
     if (bar) bar.style.width = Math.max(0, Math.round(hp / maxHp * 100)) + '%';
+  }
+
+  // Break meter (see battle-engine.js's applyBreak): patches the existing bar in
+  // place, same pattern as updateEnemyBarByUid, and toggles the "Broken!" tag via
+  // setEnemyCardState. Takes the breakMeter/broken snapshot straight off the event
+  // (each hit/companionHit/allOutHit event carries its own post-hit values, exactly
+  // like hpAfter does) rather than reading live current state, so a multi-hit skill's
+  // bar fills incrementally per hit instead of jumping to its final value early.
+  function refreshBreakBar(uid, breakMeter, broken) {
+    if (!uid) return;
+    var bar = document.getElementById('enemy-break-' + uid);
+    if (bar) {
+      var pct = broken ? 100 : Math.min(100, Math.round(breakMeter / window.Game.Formulas.BREAK_THRESHOLD * 100));
+      bar.style.width = pct + '%';
+    }
+    setEnemyCardState(uid, { broken: broken });
   }
 
   function getEnemyPortraitEl(uid) {
@@ -180,11 +198,28 @@
       var existingTag = card.querySelector('.enemy-downed-tag');
       if (existingTag) existingTag.remove();
     }
+    if (opts.broken) {
+      card.classList.add('broken');
+      if (!card.querySelector('.enemy-broken-tag')) {
+        var brokenTag = document.createElement('span');
+        brokenTag.className = 'enemy-broken-tag';
+        brokenTag.textContent = T('brokenTag');
+        var brokenPortrait = card.querySelector('.enemy-portrait');
+        card.insertBefore(brokenTag, brokenPortrait ? brokenPortrait.nextSibling : card.firstChild);
+      }
+    }
+    if (opts.broken === false) {
+      card.classList.remove('broken');
+      var existingBrokenTag = card.querySelector('.enemy-broken-tag');
+      if (existingBrokenTag) existingBrokenTag.remove();
+    }
     if (opts.dead) {
       card.classList.add('dead');
-      card.classList.remove('downed', 'targetable');
+      card.classList.remove('downed', 'broken', 'targetable');
       var deadTag = card.querySelector('.enemy-downed-tag');
       if (deadTag) deadTag.remove();
+      var deadBrokenTag = card.querySelector('.enemy-broken-tag');
+      if (deadBrokenTag) deadBrokenTag.remove();
     }
   }
 
@@ -217,6 +252,7 @@
         if (ev.targetSide === 'enemy') {
           var ePortrait = getEnemyPortraitEl(ev.targetUid);
           if (ev.hpAfter != null && ev.maxHp != null) updateEnemyBarByUid(ev.targetUid, ev.hpAfter, ev.maxHp);
+          refreshBreakBar(ev.targetUid, ev.breakMeter, ev.broken);
           if (ev.isCrit) {
             SFX('hit_crit');
             showToast(T('toastCrit'), '');
@@ -277,6 +313,7 @@
       case 'allOutHit':
         SFX('hit_crit');
         updateEnemyBarByUid(ev.targetUid, ev.hpAfter, ev.maxHp);
+        refreshBreakBar(ev.targetUid, ev.breakMeter, ev.broken);
         setEnemyCardState(ev.targetUid, { downed: false, dead: ev.defeated });
         flashEl(getEnemyPortraitEl(ev.targetUid), 'hit-flash');
         spawnFloatNumber(getEnemyPortraitEl(ev.targetUid), ev.amount, 'dmg-crit');
@@ -285,6 +322,18 @@
       case 'allOutReady':
         SFX('allout_ready');
         showToast(T('toastAllOutReady'), 'weak');
+        break;
+      case 'enemyBroken':
+        SFX('enemy_broken');
+        flashEl(getEnemyPortraitEl(ev.targetUid), 'hit-shake');
+        break;
+      case 'focusReady':
+        SFX('overdrive_ready');
+        showToast(T('toastOverdriveReady'), 'weak');
+        break;
+      case 'overdriveUsed':
+        SFX('overdrive_start');
+        shakeScreen(true);
         break;
       case 'allOutStart':
         SFX('allout_start');
@@ -302,6 +351,7 @@
       case 'companionHit': {
         var cPortrait = getEnemyPortraitEl(ev.targetUid);
         if (ev.hpAfter != null && ev.maxHp != null) updateEnemyBarByUid(ev.targetUid, ev.hpAfter, ev.maxHp);
+        refreshBreakBar(ev.targetUid, ev.breakMeter, ev.broken);
         SFX(ev.isCrit ? 'hit_crit' : 'attack');
         flashEl(cPortrait, 'hit-flash');
         spawnFloatNumber(cPortrait, ev.amount, ev.isCrit ? 'dmg-crit' : 'dmg-hp');
@@ -342,6 +392,7 @@
     var classes = ['enemy-card'];
     if (!e.alive) classes.push('dead');
     if (e.downed) classes.push('downed');
+    if (e.broken) classes.push('broken');
     if (e.isBoss) classes.push('boss');
     if (targetPickCallback && e.alive) classes.push('targetable');
     var hpPct = Math.max(0, Math.round(e.hp / e.maxHp * 100));
@@ -360,11 +411,15 @@
     } else {
       hpBarHtml = '<div class="bar-row" style="width:100%"><div class="bar-track"><div class="bar-fill hp" id="enemy-hp-' + e.uid + '" style="width:' + hpPct + '%"></div></div></div>';
     }
+    var breakPct = e.broken ? 100 : Math.min(100, Math.round(e.breakMeter / window.Game.Formulas.BREAK_THRESHOLD * 100));
+    var breakBarHtml = e.alive ? '<div class="bar-row break-row"><div class="bar-track break-track"><div class="bar-fill break' + (e.broken ? ' full' : '') + '" id="enemy-break-' + e.uid + '" style="width:' + breakPct + '%"></div></div></div>' : '';
     return '<div class="' + classes.join(' ') + '" id="enemy-card-' + e.uid + '" data-uid="' + e.uid + '">' +
       '<div class="enemy-portrait">' + I(e.icon) + '</div>' +
       (e.downed && e.alive ? '<span class="enemy-downed-tag">' + T('downedTag') + '</span>' : '') +
+      (e.broken && e.alive ? '<span class="enemy-broken-tag">' + T('brokenTag') + '</span>' : '') +
       '<div class="enemy-name">' + e.name + (hasPhases ? T('phaseLabel') + e.phase : '') + '</div>' +
       hpBarHtml +
+      breakBarHtml +
     '</div>';
   }
 
@@ -432,6 +487,8 @@
     var run = battle.run;
     var hpPct = Math.max(0, Math.round(run.hp / battle.player.maxHp * 100));
     var mpPct = Math.max(0, Math.round(run.mp / battle.player.maxMp * 100));
+    var focusMax = window.Game.Formulas.FOCUS_MAX;
+    var focusPct = Math.min(100, Math.round(battle.player.focus / focusMax * 100));
     var apDots = '';
     for (var i = 0; i < 4; i++) apDots += '<div class="ap-dot' + (i < battle.playerAP ? ' filled' : '') + '"></div>';
     document.getElementById('battle-player-panel').innerHTML =
@@ -440,6 +497,7 @@
         '<div class="player-name-row"><span>' + battle.player.name + '</span><div class="ap-indicator">' + apDots + '</div></div>' +
         '<div class="bar-row">' + I('heart') + '<div class="bar-track"><div class="bar-fill hp" id="player-hp-bar" style="width:' + hpPct + '%"></div></div><span id="player-hp-text">' + run.hp + '/' + battle.player.maxHp + '</span></div>' +
         '<div class="bar-row">' + I('drop') + '<div class="bar-track"><div class="bar-fill mp" id="player-mp-bar" style="width:' + mpPct + '%"></div></div><span id="player-mp-text">' + run.mp + '/' + battle.player.maxMp + '</span></div>' +
+        '<div class="bar-row">' + I('star') + '<div class="bar-track"><div class="bar-fill focus' + (focusPct >= 100 ? ' full' : '') + '" id="player-focus-bar" style="width:' + focusPct + '%"></div></div></div>' +
         blessingBadgesHtml(run) +
       '</div>';
   }
@@ -525,8 +583,15 @@
     });
   }
 
+  // The Overdrive button is always in the DOM (rendered once, like the other
+  // four) but only meant to be clickable once Focus is full -- setActionsEnabled
+  // is the one chokepoint every "give control back to the player" path already
+  // runs through, so correcting its disabled state here (after the blanket
+  // enable/disable above) can't be forgotten at some call site.
   function setActionsEnabled(enabled) {
     Array.prototype.forEach.call(document.querySelectorAll('#battle-actions button'), function (b) { b.disabled = !enabled; });
+    var od = document.getElementById('act-overdrive');
+    if (od && enabled) od.disabled = !currentBattle || currentBattle.player.focus < window.Game.Formulas.FOCUS_MAX;
   }
 
   function renderActions() {
@@ -535,7 +600,8 @@
       '<button class="btn-primary" id="act-attack">' + I('swordAttack') + '<span>' + T('attackLabel') + '</span></button>' +
       '<button class="btn-secondary" id="act-skill">' + I('magicBurst') + '<span>' + T('skillsLabel') + '</span></button>' +
       '<button class="btn-secondary" id="act-guard">' + I('shieldGuard') + '<span>' + T('guardLabel') + '</span></button>' +
-      '<button class="btn-secondary" id="act-item">' + I('bagItem') + '<span>' + T('itemsLabel') + '</span></button>';
+      '<button class="btn-secondary" id="act-item">' + I('bagItem') + '<span>' + T('itemsLabel') + '</span></button>' +
+      '<button class="btn-secondary btn-overdrive" id="act-overdrive" disabled>' + I('sparkles') + '<span>' + T('overdriveLabel') + '</span></button>';
     document.getElementById('act-attack').onclick = function () {
       closeSubmenu();
       enterTargetSelect(function (idx) { doAction({ kind: 'attack', targetIndex: idx }); });
@@ -543,6 +609,10 @@
     document.getElementById('act-skill').onclick = function () { SFX('ui_confirm'); openSkillMenu(); };
     document.getElementById('act-guard').onclick = function () { doAction({ kind: 'guard' }); };
     document.getElementById('act-item').onclick = function () { SFX('ui_confirm'); openItemMenu(); };
+    document.getElementById('act-overdrive').onclick = function () {
+      closeSubmenu();
+      enterTargetSelect(function (idx) { doAction({ kind: 'overdrive', targetIndex: idx }); });
+    };
   }
 
   function doAction(action) {

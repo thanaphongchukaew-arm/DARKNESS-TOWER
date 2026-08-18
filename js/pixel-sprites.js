@@ -239,7 +239,6 @@
     '....KKK..KKK....'
   ], MONK_PAL);
 
-  var DRAGON_PAL = { H: '#d8c8a0', C: '#2f7a45', E: '#f5e050', W: '#6a2020', D: '#1c4a2a', K: '#0a0a0a', U: '#8fc06a', z: '#e4dabe', y: '#72a581', x: '#9a6767', w: '#65846e', v: '#b3d49a' };
   P.define('dragon', [
     '.........KHHK..KHHK.........',
     '........KKHHK..KHHHK........',
@@ -271,7 +270,6 @@
     '.......KvvUUK..KvvUUK.......'
   ], { H: '#e2d0a5', C: '#247a3e', E: '#ffe94e', W: '#671515', D: '#134121', K: '#0a0a0a', U: '#90cb64', z: '#ede3c9', y: '#6eac80', x: '#a06262', w: '#60866b', v: '#b9de9e' });
 
-  var DEMON_PAL = { H: '#3a1010', R: '#8a1818', K: '#0a0a0a', Y: '#f0d040', z: '#af6262', y: '#f5df7d' };
   P.define('demon', [
     '.........KHHK..KHHK.........',
     '........KHHHHK.KHHHKKK......',
@@ -527,7 +525,6 @@
 
   // ---- New creature silhouettes so each monster's art matches its name ----
 
-  var WOLF_PAL = { F: '#4a4058', D: '#2a2438', L: '#c8bfae', K: '#151018', R: '#d02838', T: '#f4f0e8', z: '#847d8d', y: '#df6d78' };
   var WOLF_GRID = [
     '....D......D....',
     '...DDD....DDD...',
@@ -581,7 +578,6 @@
     '.....KKKKKK..........KKKKKK.....'
   ], { F: '#443853', D: '#201b2e', L: '#d0c7b4', K: '#0b080d', R: '#e21529', T: '#f6f2e9', z: '#847c8f', y: '#ed6975' });
 
-  var HOUND_PAL = { F: '#5a1010', D: '#2a0808', L: '#3a1414', K: '#0a0a0a', R: '#f0d040', T: '#f4f0e8', z: '#8f5c5c', y: '#f5df7d' };
   P.define('hound', [
     '.......KDDK..........KDDK.......',
     '......KDDDDK........KDDDDK......',
@@ -617,7 +613,6 @@
     '.....KKKKKK..........KKKKKK.....'
   ], { F: '#520707', D: '#170202', L: '#2d0c0c', K: '#0a0a0a', R: '#ffdb37', T: '#f6f2e9', z: '#935656', y: '#ffe881' });
 
-  var SLIME_PAL = { H: '#a8e0a0', M: '#4a9850', K: '#1a3010', S: '#2f6a38', z: '#c4eabe', y: '#84b988', x: '#63725c', w: '#729a78' };
   P.define('slime', [
     '...........KzzHHK...........',
     '.........KKzzHHHHKK.........',
@@ -647,7 +642,6 @@
     '.......KwwwwSSSSSSSSK.......'
   ], { H: '#aeeaa5', M: '#409e48', K: '#102108', S: '#25672f', z: '#cff3ca', y: '#83c188', x: '#5f7157', w: '#6f9f76' });
 
-  var SPIDER_PAL = { B: '#3a2050', R: '#e8c050', K: '#0a0a0a', z: '#796788', y: '#efd488' };
   P.define('spider', [
     '..................................',
     '..KK..........................KK..',
@@ -677,7 +671,6 @@
     '..................................'
   ], { B: '#311748', R: '#f9ca46', K: '#0a0a0a', z: '#78638b', y: '#fbdd8b' });
 
-  var WINDSPRITE_PAL = { W: '#eaf6ff', C: '#9fd8f0', E: '#cdeeff', K: '#2a5878', z: '#bee4f5', y: '#6e8da3' };
   P.define('windSprite', [
     '...........KWWWWK...........',
     '..........KWWWWWWK..........',
@@ -709,7 +702,6 @@
     '...........KzzCCK...........'
   ], { W: '#e0f2ff', C: '#a6e1fa', E: '#e0f5ff', K: '#1f5378', z: '#ccedfc', y: '#6a8faa' });
 
-  var BANDIT_PAL = { H: '#3a4a3a', C: '#2c3a2c', K: '#0a0a0a', F: '#8a9a7a', G: '#c8ccd4', U: '#6a4a2a', z: '#798479', y: '#afbaa5', x: '#707970', w: '#9a846e', v: '#dadce2' };
   P.define('bandit', [
     '.............KHHK.............',
     '.............KHHHK............',
@@ -745,7 +737,6 @@
     '.....KKKKKK........KKKKKK.....'
   ], { H: '#324332', C: '#233123', K: '#0a0a0a', F: '#8b9f78', G: '#d2d5dd', U: '#674420', z: '#788578', y: '#b5c1a9', x: '#6e796e', w: '#9f856a', v: '#e6e8ed' });
 
-  var KNIGHT_PAL = { P: '#d02838', M: '#c8d0dc', K: '#1a2028', A: '#8894a8', Y: '#e8c050', z: '#df6d78', y: '#dadfe7', x: '#aeb6c4', w: '#efd488' };
   P.define('knight', [
     '.............KPPK.............',
     '.............KPPPK............',
@@ -781,21 +772,6 @@
     '.....KKKKKK........KKKKKK.....'
   ], { P: '#e21529', M: '#d2dae5', K: '#10151b', A: '#8896ae', Y: '#f9ca46', z: '#ed6975', y: '#e7ebf1', x: '#b4bdcc', w: '#fbdd8b' });
 
-  var HAWK_PAL = { F: '#8a6a3a', K: '#1a1006', Y: '#e8c050', z: '#af9a79', y: '#efd488' };
-  var HAWK_GRID = [
-    '.......F.......',
-    '......zFF......',
-    '.....KzFFK.....',
-    'F...zzzFFFF...F',
-    'zzzzzzFFFFFFFFF',
-    '.zzzzzFFFFFFFF.',
-    '...zzzzFFFFF...',
-    '...zzFFYzzFF...',
-    '...zzzzFFFFF...',
-    '....zzzFFFF....',
-    '....zF...zF....',
-    '....KK...KK....'
-  ];
   P.define('hawk', [
     '.............KFFK.............',
     '.............KFFFK............',
@@ -823,7 +799,6 @@
     '.......KKKKKK....KKKKKK.......'
   ], { F: '#8d682f', K: '#120a02', Y: '#f9ca46', z: '#b79e76', y: '#fbdd8b' });
 
-  var HARPY_PAL = { F: '#7a4a8a', K: '#1a0a1e', Y: '#e8c050', z: '#a584af', y: '#efd488' };
   P.define('harpy', [
     '.............KFFK.............',
     '.............KFFFK............',
@@ -851,7 +826,6 @@
     '.......KKKKKK....KKKKKK.......'
   ], { F: '#7a418e', K: '#0e0410', Y: '#f9ca46', z: '#aa83b6', y: '#fbdd8b' });
 
-  var SENTINEL_PAL = { M: '#7a8290', D: '#3a4048', R: '#e83838', Y: '#f0d040', K: '#1a1c20', z: '#a5aab4', y: '#ef7878', x: '#797d83', w: '#f5df7d' };
   P.define('sentinel', [
     '.....KzzMMMMKKzzMMMMK.....',
     '....KzzzzMMMMKzMMMMMMK....',
@@ -887,25 +861,6 @@
     '.KKKKKKKKKK....KKKKKKKKKK.'
   ], { M: '#788293', D: '#323841', R: '#fb2929', Y: '#ffdb37', K: '#0f1013', z: '#a9afba', y: '#fc7777', x: '#787d84', w: '#ffe881' });
 
-  var TROLL_PAL = { S: '#4a6a3a', K: '#1a2a10', W: '#f0ecd8', z: '#849a79' };
-  var TROLL_GRID = [
-    '....zzzSSSS....',
-    '...zzzzSSSSS...',
-    '..zzzzSSSSSSS..',
-    '..KKzzzSSSSKK..',
-    '..zzzzSSSSSSS..',
-    '..zSWWWWWWWzS..',
-    '.zzzzzSSSSSSSS.',
-    'zzzzzzSSSSSSSSS',
-    'zzzzzzSSSSSSSSS',
-    'zzzzzzSSSSSSSSS',
-    '.zzzzzSSSSSSSS.',
-    '..zzzzSSSSSSS..',
-    '...zzSS.zzSS...',
-    '...zS.....zS...',
-    '...zS.....zS...',
-    '...KK.....KK...'
-  ];
   P.define('troll', [
     '.......KzzzzzzSSSSSSSSK.......',
     '......KzzzzzzzSSSSSSSSSK......',
@@ -941,7 +896,6 @@
     '.....KKKKKK........KKKKKK.....'
   ], { S: '#436831', K: '#0f1b08', W: '#f8f5e7', z: '#849f77' });
 
-  var TITAN_PAL = { S: '#6a6a8a', K: '#1a1a2a', W: '#f0f0ff', z: '#9a9aaf' };
   P.define('titan', [
     '.......KzzzzzzSSSSSSSSK.......',
     '......KzzzzzzzSSSSSSSSSK......',
@@ -977,7 +931,6 @@
     '.....KKKKKK........KKKKKK.....'
   ], { S: '#66668d', K: '#10101d', W: '#e0e0ff', z: '#9d9db5' });
 
-  var GOLEM_PAL = { R: '#8a7a5a', K: '#e8c050', D: '#4a3e2a', Y: '#e85838', z: '#afa58f', y: '#efd488', x: '#847c6e', w: '#ef8d78' };
   P.define('golem', [
     '.....DzzzzzzRRRRRRRRD.....',
     '....DzzzzzzzRRRRRRRRRD....',
@@ -1011,7 +964,6 @@
     '...DxxDDD........DxxDDD...'
   ], { R: '#8d7a54', K: '#f9ca46', D: '#423621', Y: '#fb4f29', z: '#b6aa90', y: '#fbdd8b', x: '#867c6b', w: '#fc8f77' });
 
-  var FIEND_PAL = { F: '#7a1818', H: '#3a1010', R: '#f0d040', L: '#3a0a0a', T: '#f4f0e8', K: '#0a0a0a', z: '#a56262', y: '#f5df7d' };
   P.define('fiend', [
     '...KHHHHK............KHHHHK...',
     '....KHHK.KKKKKKKKKKKK.KHHK....',
@@ -1045,7 +997,6 @@
     '.....KKKKKK........KKKKKK.....'
   ], { F: '#790c0c', H: '#2c0808', R: '#ffdb37', L: '#2a0303', T: '#f6f2e9', K: '#0a0a0a', z: '#ad5b5b', y: '#ffe881' });
 
-  var HYDRA_PAL = { C: '#2f7a45', R: '#f5e050', D: '#1c4a2a', K: '#0a0a0a', z: '#72a581', y: '#65846e' };
   P.define('hydra', [
     '.............KzzCCCCK.............',
     '.............KzzCCCCCK............',

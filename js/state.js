@@ -1,4 +1,33 @@
 // Central mutable game state: the active run, plus mutators. No rendering here.
+//
+/**
+ * @typedef {Object} Run
+ * The save-persisted shape of one playthrough (see createRun below for the
+ * canonical field list/defaults). Every mutator in this file takes this
+ * object and mutates it in place rather than returning a new one.
+ * @property {string} difficulty - one of Formulas.DIFFICULTY's keys
+ * @property {string} classId
+ * @property {number} level
+ * @property {number} exp
+ * @property {number} expNext
+ * @property {number} currentFloor
+ * @property {number} hp
+ * @property {number} mp
+ * @property {number} gold
+ * @property {Object.<string, boolean>} waypointsSeen
+ * @property {{weapon: ?string, armor: ?string, shoes: ?string, accessory1: ?string, accessory2: ?string}} equipment
+ * @property {Object.<string, number>} inventory - itemId -> quantity
+ * @property {string[]} bonusSkills
+ * @property {?Object} shopStock
+ * @property {{enemiesDefeated: number, battlesWon: number, itemsCrafted: number, goldEarned: number, arenaWavesCleared: number}} stats
+ * @property {Object.<string, boolean>} questsClaimed
+ * @property {number} elixirUnlockFloor
+ * @property {string[]} blessings - ids, resolved via Data.getBlessing
+ * @property {string[]} curses - ids, resolved via Data.getCurse
+ * @property {boolean} blessingRevived
+ * @property {string[]} relics - ids, resolved via Data.getRelic
+ * @property {number} ascension - Nightmare-only prestige level
+ */
 (function () {
   var F = null, D = null; // resolved lazily so script load order only needs to precede usage
 
@@ -177,6 +206,13 @@
     return true;
   }
 
+  /**
+   * Builds a brand-new level-1 Run for the given difficulty/class/ascension.
+   * @param {string} difficultyId
+   * @param {string} classId
+   * @param {number} [ascension]
+   * @returns {Run}
+   */
   function createRun(difficultyId, classId, ascension) {
     deps();
     var cls = D.getClass(classId);
@@ -273,6 +309,12 @@
 
   var STAT_KEYS = ['hp', 'mp', 'atk', 'mag', 'def', 'res', 'spd', 'luk'];
 
+  /**
+   * Class base stats at the run's level, plus equipment bonuses and any
+   * run-long blessing/curse multipliers (see blessingStatMult below).
+   * @param {Run} run
+   * @returns {{hp: number, mp: number, atk: number, mag: number, def: number, res: number, spd: number, luk: number}}
+   */
   function getTotalStats(run) {
     deps();
     var cls = D.getClass(run.classId);
@@ -596,6 +638,7 @@
   function getMaxHp(run) { return getTotalStats(run).hp; }
   function getMaxMp(run) { return getTotalStats(run).mp; }
 
+  /** Clamps run.hp/run.mp into [0, max] after anything that could push them out of range. @param {Run} run */
   function clampVitals(run) {
     var maxHp = getMaxHp(run), maxMp = getMaxMp(run);
     run.hp = F.clamp(run.hp, 0, maxHp);
@@ -608,6 +651,13 @@
     run.mp = getMaxMp(run);
   }
 
+  /**
+   * Applies EXP, handling one or more level-ups in the same call (a big reward
+   * can cross multiple level thresholds at once).
+   * @param {Run} run
+   * @param {number} amount
+   * @returns {{leveledUp: boolean, level: number}}
+   */
   function addExp(run, amount) {
     deps();
     run.exp += amount;
@@ -646,6 +696,12 @@
 
   // slot is required for kinds with more than one slot (accessory); optional
   // for single-slot kinds where it defaults to the kind's own name.
+  /**
+   * @param {Run} run
+   * @param {string} itemId
+   * @param {string} [slot] - required for multi-slot kinds (accessory)
+   * @returns {boolean} whether the equip succeeded
+   */
   function equip(run, itemId, slot) {
     deps();
     var item = D.getItem(itemId);
@@ -694,6 +750,13 @@
     return true;
   }
 
+  /**
+   * Consumes one unit of a battle-usable item from the run's inventory and
+   * applies its effect (heal/restore MP/etc).
+   * @param {Run} run
+   * @param {string} itemId
+   * @returns {{ok: boolean, healedHp?: number, healedMp?: number}}
+   */
   function useConsumable(run, itemId) {
     deps();
     var item = D.getItem(itemId);

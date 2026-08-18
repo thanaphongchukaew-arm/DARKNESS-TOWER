@@ -813,7 +813,7 @@
       waypointState.stock = stock;
       waypointState.purchased = {};
     }
-    var stock = waypointState.stock;
+    stock = waypointState.stock;
     var purchased = waypointState.purchased;
     var body = document.getElementById('waypoint-body');
     function paint() {
@@ -1304,7 +1304,6 @@
   function renderStatus() {
     var run = window.Game.State.current;
     var S = window.Game.State, D = window.Game.Data;
-    var cls = D.getClass(run.classId);
     var total = S.getTotalStats(run);
     var maxHp = total.hp, maxMp = total.mp;
 

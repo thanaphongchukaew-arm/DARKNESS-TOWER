@@ -1,6 +1,62 @@
 // Battle engine: initiative/action-point economy, damage resolution, enemy AI, All-Out Attack.
 // Round structure: player phase (chained action-point turns) -> enemy phase -> next round.
 // A large SPD gap grants a one-time ambush (enemy first-strike) or head-start (bonus player AP) at battle start.
+//
+/**
+ * @typedef {Object} PlayerActor
+ * @property {string} classId
+ * @property {string} name
+ * @property {string} icon
+ * @property {number} maxHp
+ * @property {number} maxMp
+ * @property {number} atk
+ * @property {number} mag
+ * @property {number} def
+ * @property {number} res
+ * @property {number} spd
+ * @property {number} luk
+ * @property {Array<{stat: string, amount: number, turnsLeft: number}>} buffs
+ * @property {boolean} guarding
+ * @property {number} focus - 0-Formulas.FOCUS_MAX, see applyBreak/Overdrive below
+ * @property {Array} skills
+ */
+/**
+ * @typedef {Object} EnemyActor
+ * @property {string} uid - per-battle id, e.g. 'e0'
+ * @property {string} templateId
+ * @property {string} name
+ * @property {string} icon
+ * @property {boolean} isBoss
+ * @property {number} maxHp
+ * @property {number} hp
+ * @property {number} atk
+ * @property {number} mag
+ * @property {number} def
+ * @property {number} res
+ * @property {number} spd
+ * @property {number} luk
+ * @property {number} expReward
+ * @property {Array} attacksPool
+ * @property {boolean} downed - crit-triggered skip-turn/All-Out flag, cleared each round
+ * @property {boolean} alive
+ * @property {Array<{stat: string, amount: number, turnsLeft: number}>} debuffs
+ * @property {number} breakMeter - 0-Formulas.BREAK_THRESHOLD, see applyBreak below
+ * @property {boolean} broken - bonus-damage flag, cleared each round (independent of `downed`)
+ */
+/**
+ * @typedef {Object} Battle
+ * @property {Object} run - a state.js Run object (mutated in place: hp/mp/gold/inventory/etc)
+ * @property {number} floor
+ * @property {boolean} isBoss
+ * @property {PlayerActor} player
+ * @property {EnemyActor[]} enemies
+ * @property {?Object} companion
+ * @property {number} round
+ * @property {number} playerAP
+ * @property {boolean} awaitingAllOut
+ * @property {boolean} over
+ * @property {boolean} victory
+ */
 (function () {
   function D() { return window.Game.Data; }
   function F() { return window.Game.Formulas; }
@@ -59,6 +115,35 @@
     return { isCrit: isCrit, amount: amount };
   }
 
+  /**
+   * Applies the break bonus-damage multiplier (if the target is already broken
+   * from a previous hit this fight) and advances its break meter from *this*
+   * hit, flagging it broken once full -- this hit's own damage is never
+   * boosted by a break it just caused, only a hit landing on an
+   * already-broken target is. Called from every place damage lands on an
+   * enemy (player attack/skill, Overdrive, All-Out Attack, companion
+   * attacker) so break behaves identically no matter the source.
+   * `enemy.broken` is cleared each round in startNextRound.
+   * @param {EnemyActor} enemy
+   * @param {number} rawAmount - damage before the break multiplier
+   * @param {Array} events - pushed to in place if this hit crosses the break threshold
+   * @returns {number} the actual damage to apply, after any break multiplier
+   */
+  function applyBreak(enemy, rawAmount, events) {
+    var amount = enemy.broken ? Math.round(rawAmount * F().BREAK_DAMAGE_MULT) : rawAmount;
+    if (enemy.alive) {
+      enemy.breakMeter += F().BREAK_PER_HIT;
+      if (enemy.breakMeter >= F().BREAK_THRESHOLD) {
+        enemy.breakMeter = 0;
+        if (!enemy.broken) {
+          enemy.broken = true;
+          events.push({ type: 'enemyBroken', targetUid: enemy.uid, targetName: enemy.name });
+        }
+      }
+    }
+    return amount;
+  }
+
   function pickWeighted(list) {
     var total = list.reduce(function (s, a) { return s + (a.weight != null ? a.weight : 1); }, 0);
     var r = Math.random() * total;
@@ -82,7 +167,8 @@
       maxHp: stats.hp, hp: stats.hp, atk: stats.atk, mag: stats.mag, def: stats.def, res: stats.res, spd: stats.spd, luk: stats.luk,
       expReward: stats.exp,
       attacksPool: template.attacks.slice(),
-      downed: false, alive: true, debuffs: []
+      downed: false, alive: true, debuffs: [],
+      breakMeter: 0, broken: false
     };
   }
 
@@ -104,7 +190,8 @@
       expReward: stats.exp,
       attacksPool: template.attacks.slice(),
       phase: 1, phasesData: template.phases || [],
-      downed: false, alive: true, debuffs: []
+      downed: false, alive: true, debuffs: [],
+      breakMeter: 0, broken: false
     };
   }
 
@@ -121,7 +208,8 @@
       expReward: stats.exp,
       attacksPool: template.attacks.slice(),
       phase: 1, phasesData: template.phases || [],
-      downed: false, alive: true, debuffs: []
+      downed: false, alive: true, debuffs: [],
+      breakMeter: 0, broken: false
     };
   }
 
@@ -145,7 +233,7 @@
       classId: run.classId, name: L(cls, 'name'), icon: cls.icon,
       maxHp: total.hp, maxMp: total.mp,
       atk: total.atk, mag: total.mag, def: total.def, res: total.res, spd: total.spd, luk: total.luk,
-      buffs: [], guarding: false,
+      buffs: [], guarding: false, focus: 0,
       skills: S().learnedSkills(run)
     };
   }
@@ -190,6 +278,12 @@
     }
   }
 
+  /**
+   * @param {Object} run - a state.js Run
+   * @param {number} floor
+   * @param {boolean} isBossFloor
+   * @returns {Battle}
+   */
   function createBattle(run, floor, isBossFloor) {
     var enemies = [];
     var miniBossTemplate = D().getMiniBoss(floor);
@@ -273,6 +367,14 @@
     return res;
   }
 
+  /**
+   * Resolves one player action (attack/skill/guard/item/overdrive), mutating
+   * `battle` in place. `action.kind` selects the branch; `action.targetIndex`
+   * and `action.skillId`/`action.itemId` are read as needed per kind.
+   * @param {Battle} battle
+   * @param {{kind: string, targetIndex?: number, skillId?: string, itemId?: string}} action
+   * @returns {{events: Array, battleOver: boolean, victory?: boolean, awaitingAllOut?: boolean, playerAP: number}}
+   */
   function playerAction(battle, action) {
     var events = [];
     if (battle.over) return { events: events, battleOver: true, victory: battle.victory, playerAP: battle.playerAP };
@@ -282,6 +384,33 @@
       battle.player.guarding = true;
       battle.playerAP = 0;
       events.push({ type: 'guard' });
+    } else if (action.kind === 'overdrive') {
+      // Spends a full Focus gauge on a single almighty-element hit -- no MP cost
+      // (paid entirely in Focus), doesn't chain bonus AP even on a crit (unlike a
+      // normal attack) so it stays a clean "spend your turn" finisher rather than
+      // stacking with the crit/relic extra-turn rules above.
+      var odTarget = battle.enemies[action.targetIndex];
+      if (battle.player.focus < F().FOCUS_MAX || !odTarget || !odTarget.alive) {
+        events.push({ type: 'invalid' });
+        return { events: events, battleOver: false, playerAP: battle.playerAP };
+      }
+      battle.player.focus = 0;
+      events.push({ type: 'overdriveUsed' });
+      var odEff = playerOffenseEff(battle);
+      var odTargetEff = effectiveStats(odTarget, odTarget.debuffs);
+      var odHit = resolveHit(odEff, odTargetEff, 'almighty', F().OVERDRIVE_POWER);
+      var odDmg = applyBreak(odTarget, odHit.amount, events);
+      odTarget.hp = Math.max(0, odTarget.hp - odDmg);
+      if (odHit.isCrit) { odTarget.downed = true; events.push({ type: 'downed', targetUid: odTarget.uid, targetName: odTarget.name }); }
+      events.push({ type: 'hit', targetSide: 'enemy', targetUid: odTarget.uid, targetName: odTarget.name, element: 'almighty', isCrit: odHit.isCrit, amount: odDmg, hpAfter: odTarget.hp, maxHp: odTarget.maxHp, breakMeter: odTarget.breakMeter, broken: odTarget.broken });
+      if (odTarget.hp <= 0) {
+        odTarget.alive = false;
+        events.push({ type: 'defeated', targetUid: odTarget.uid, targetName: odTarget.name, side: 'enemy' });
+      } else if (odTarget.isBoss) {
+        var odPhaseMsg = checkBossPhase(odTarget);
+        if (odPhaseMsg) events.push({ type: 'bossPhaseChange', message: odPhaseMsg });
+      }
+      battle.playerAP -= 1;
     } else if (action.kind === 'item') {
       var itemDef = D().getItem(action.itemId);
       if (!itemDef || !itemDef.battleUsable) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
@@ -370,19 +499,26 @@
             hitPower = hitPower * (1 + opportunist.executeBonus);
           }
           var hit = resolveHit(playerEff, enemyEff, h.element, hitPower);
-          enemy.hp = Math.max(0, enemy.hp - hit.amount);
+          // Focus (see formulas.js): every landed attack hit builds the player's
+          // Overdrive gauge, crits building it faster -- gained on the raw hit,
+          // not the break-boosted amount, so it can't be inflated by breaking.
+          var focusBefore = battle.player.focus;
+          battle.player.focus = Math.min(F().FOCUS_MAX, battle.player.focus + F().FOCUS_PER_HIT + (hit.isCrit ? F().FOCUS_CRIT_BONUS : 0));
+          if (focusBefore < F().FOCUS_MAX && battle.player.focus >= F().FOCUS_MAX) events.push({ type: 'focusReady' });
+          var dmgAmt = applyBreak(enemy, hit.amount, events);
+          enemy.hp = Math.max(0, enemy.hp - dmgAmt);
           if (hit.isCrit) { hadCrit = true; enemy.downed = true; events.push({ type: 'downed', targetUid: enemy.uid, targetName: enemy.name }); }
-          events.push({ type: 'hit', targetSide: 'enemy', targetUid: enemy.uid, targetName: enemy.name, element: h.element, isCrit: hit.isCrit, amount: hit.amount, hpAfter: enemy.hp, maxHp: enemy.maxHp });
-          if (skill.drainSelf && hit.amount > 0) {
-            var healBack = Math.round(hit.amount * 0.4);
+          events.push({ type: 'hit', targetSide: 'enemy', targetUid: enemy.uid, targetName: enemy.name, element: h.element, isCrit: hit.isCrit, amount: dmgAmt, hpAfter: enemy.hp, maxHp: enemy.maxHp, breakMeter: enemy.breakMeter, broken: enemy.broken });
+          if (skill.drainSelf && dmgAmt > 0) {
+            var healBack = Math.round(dmgAmt * 0.4);
             run.hp = Math.min(battle.player.maxHp, run.hp + healBack);
             events.push({ type: 'heal', side: 'player', amount: healBack, hpAfter: run.hp, maxHp: battle.player.maxHp });
           }
           // Vampiric Fang relic: every attack hit leeches HP back, independently of
           // (and stacking with) a skill's own drainSelf above.
           var vampiricFang = D().getRelic('vampiric_fang');
-          if (vampiricFang && hit.amount > 0 && S().hasRelic(run, 'vampiric_fang')) {
-            var lifesteal = Math.round(hit.amount * vampiricFang.lifestealPct);
+          if (vampiricFang && dmgAmt > 0 && S().hasRelic(run, 'vampiric_fang')) {
+            var lifesteal = Math.round(dmgAmt * vampiricFang.lifestealPct);
             if (lifesteal > 0) {
               run.hp = Math.min(battle.player.maxHp, run.hp + lifesteal);
               events.push({ type: 'heal', side: 'player', amount: lifesteal, hpAfter: run.hp, maxHp: battle.player.maxHp });
@@ -432,6 +568,13 @@
     return { events: events, battleOver: battle.over, victory: battle.victory, awaitingAllOut: battle.awaitingAllOut, playerAP: battle.playerAP };
   }
 
+  /**
+   * Resolves the player's decision on the awaitingAllOut prompt (see
+   * playerAction's downed-check at the end of this file).
+   * @param {Battle} battle
+   * @param {boolean} use - true to unleash the All-Out Attack, false to decline
+   * @returns {{events: Array, battleOver: boolean, victory?: boolean, playerAP: number}}
+   */
   function confirmAllOut(battle, use) {
     battle.awaitingAllOut = false;
     var events = [];
@@ -444,11 +587,12 @@
     var per = Math.max(1, Math.round((playerEff.atk * 0.9 + playerEff.mag * 0.5) * (1.5 + 0.12 * living.length) * (0.95 + Math.random() * 0.15)));
     events.push({ type: 'allOutStart' });
     living.forEach(function (e) {
-      e.hp = Math.max(0, e.hp - per);
+      var perDmg = applyBreak(e, per, events);
+      e.hp = Math.max(0, e.hp - perDmg);
       e.downed = false;
       var defeated = e.hp <= 0;
       if (defeated) e.alive = false;
-      events.push({ type: 'allOutHit', targetUid: e.uid, targetName: e.name, amount: per, hpAfter: e.hp, maxHp: e.maxHp, defeated: defeated });
+      events.push({ type: 'allOutHit', targetUid: e.uid, targetName: e.name, amount: perDmg, hpAfter: e.hp, maxHp: e.maxHp, defeated: defeated, breakMeter: e.breakMeter, broken: e.broken });
       if (!defeated && e.isBoss) {
         var msg = checkBossPhase(e);
         if (msg) events.push({ type: 'bossPhaseChange', message: msg });
@@ -468,7 +612,7 @@
 
   function startNextRound(battle) {
     battle.round += 1;
-    battle.enemies.forEach(function (e) { if (e.alive) e.downed = false; tickBuffs(e.debuffs); });
+    battle.enemies.forEach(function (e) { if (e.alive) { e.downed = false; e.broken = false; } tickBuffs(e.debuffs); });
     tickBuffs(battle.player.buffs);
     var alive = battle.enemies.filter(function (e) { return e.alive; });
     var avgEnemySpd = alive.length ? alive.reduce(function (s, e) { return s + effectiveStats(e, e.debuffs).spd; }, 0) / alive.length : 0;
@@ -477,6 +621,12 @@
     battle.awaitingAllOut = false;
   }
 
+  /**
+   * Runs every living, non-downed enemy's turn in order, then (if the battle
+   * isn't over) advances to the next round via startNextRound.
+   * @param {Battle} battle
+   * @returns {{events: Array, battleOver: boolean, victory?: boolean, playerAP: number, round: number}}
+   */
   function runEnemyPhase(battle) {
     var events = [];
     if (battle.over) return { events: events, battleOver: true, victory: battle.victory, playerAP: battle.playerAP, round: battle.round };
@@ -532,6 +682,12 @@
   // companion is never pushed into battle.enemies and never a valid attack
   // target, so it can't affect checkBattleEnd's living-enemies/defeat logic
   // except by (legitimately) landing the killing blow as an attacker.
+  /**
+   * The companion's once-per-round auto-turn (attacker/healer/guardian/buffer
+   * role, see data-companions.js). No-ops if the run has no companion.
+   * @param {Battle} battle
+   * @returns {{events: Array, battleOver: boolean, victory?: boolean, playerAP: number}}
+   */
   function runCompanionPhase(battle) {
     var events = [];
     if (battle.over || !battle.companion) {
@@ -554,8 +710,9 @@
           element: 'phys', power: 1, atkStat: def.power * playerEff.atk, magStat: 0,
           defStat: targetEff.def, resStat: targetEff.res, isCrit: isCrit
         });
-        target.hp = Math.max(0, target.hp - amount);
-        events.push({ type: 'companionHit', companionName: comp.name, targetUid: target.uid, targetName: target.name, isCrit: isCrit, amount: amount, hpAfter: target.hp, maxHp: target.maxHp });
+        var compDmg = applyBreak(target, amount, events);
+        target.hp = Math.max(0, target.hp - compDmg);
+        events.push({ type: 'companionHit', companionName: comp.name, targetUid: target.uid, targetName: target.name, isCrit: isCrit, amount: compDmg, hpAfter: target.hp, maxHp: target.maxHp, breakMeter: target.breakMeter, broken: target.broken });
         if (target.hp <= 0) {
           target.alive = false;
           events.push({ type: 'defeated', targetUid: target.uid, targetName: target.name, side: 'enemy' });

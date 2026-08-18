@@ -392,6 +392,27 @@ button:disabled {
   50% { filter: brightness(1.5); box-shadow: 0 0 12px var(--hp-color); }
 }
 
+.bar-fill.focus {
+  background: linear-gradient(90deg, #5a2890, var(--focus-color));
+}
+
+.bar-fill.focus.full {
+  animation: bar-full-pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes bar-full-pulse {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.5); box-shadow: 0 0 12px var(--focus-color); }
+}
+
+.bar-fill.break {
+  background: linear-gradient(90deg, #8a4a10, var(--break-color));
+}
+
+.bar-fill.break.full {
+  animation: bar-full-pulse 0.9s ease-in-out infinite;
+}
+
 .bar-row {
   display: flex;
   align-items: center;

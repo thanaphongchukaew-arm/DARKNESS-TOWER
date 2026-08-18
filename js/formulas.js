@@ -153,6 +153,26 @@
     return clamp(0.05 + luk * 0.012, 0.05, 0.4);
   }
 
+  // Focus/Overdrive (see battle-engine.js): a battle-only resource built by landing
+  // attacks (both the basic Attack and attack-kind skills), capped at FOCUS_MAX.
+  // Spending a full gauge on Overdrive is a free (no MP) almighty-element hit,
+  // calibrated near the game's existing mid-tier almighty skills (1.4-1.8 power) --
+  // earned over several turns of real offense, not a shortcut around MP economy.
+  var FOCUS_MAX = 100;
+  var FOCUS_PER_HIT = 10;
+  var FOCUS_CRIT_BONUS = 8;
+  var OVERDRIVE_POWER = 1.6;
+
+  // Break (see battle-engine.js): an enemy-only meter built by taking hits from any
+  // source (player attacks/skills, Overdrive, companion), capped at BREAK_THRESHOLD.
+  // A full meter flags the enemy 'broken' for the rest of the round -- a bonus-damage
+  // window. Deliberately separate from the crit-triggered 'downed' (skip-turn/All-Out)
+  // mechanic so the two never fight over the same flag; an enemy can be downed,
+  // broken, both, or neither at once.
+  var BREAK_THRESHOLD = 100;
+  var BREAK_PER_HIT = 25;
+  var BREAK_DAMAGE_MULT = 1.3;
+
   function computeDamage(opts) {
     // opts: { element, power, atkStat, magStat, defStat, resStat, isCrit }
     var raw;
@@ -235,6 +255,13 @@
     computeDamage: computeDamage,
     goldForExp: goldForExp,
     shopPrice: shopPrice,
-    sellPrice: sellPrice
+    sellPrice: sellPrice,
+    FOCUS_MAX: FOCUS_MAX,
+    FOCUS_PER_HIT: FOCUS_PER_HIT,
+    FOCUS_CRIT_BONUS: FOCUS_CRIT_BONUS,
+    OVERDRIVE_POWER: OVERDRIVE_POWER,
+    BREAK_THRESHOLD: BREAK_THRESHOLD,
+    BREAK_PER_HIT: BREAK_PER_HIT,
+    BREAK_DAMAGE_MULT: BREAK_DAMAGE_MULT
   };
 })();
