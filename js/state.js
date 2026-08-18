@@ -386,6 +386,10 @@
     var meta = window.Game.Save.readMeta();
     meta.blessingsEverHeld = meta.blessingsEverHeld || {};
     if (!meta.blessingsEverHeld[id]) { meta.blessingsEverHeld[id] = true; window.Game.Save.writeMeta(meta); }
+    // A blessing's stat bonus can raise max HP/MP mid-run -- not strictly needed
+    // for a positive change, but kept here so addBlessing/addCurse/addRelic all
+    // clamp identically rather than only the curse/HP-penalty side doing it.
+    clampVitals(run);
     return true;
   }
 
@@ -397,6 +401,9 @@
     var meta = window.Game.Save.readMeta();
     meta.cursesEverHeld = meta.cursesEverHeld || {};
     if (!meta.cursesEverHeld[id]) { meta.cursesEverHeld[id] = true; window.Game.Save.writeMeta(meta); }
+    // A curse can shrink max HP/MP mid-run (e.g. Curse of Frailty) -- clamp so
+    // current HP/MP can never sit above the new, lower cap (mirrors equip/unequip).
+    clampVitals(run);
     return true;
   }
 
@@ -420,6 +427,9 @@
     var meta = window.Game.Save.readMeta();
     meta.relicsEverHeld = meta.relicsEverHeld || {};
     if (!meta.relicsEverHeld[id]) { meta.relicsEverHeld[id] = true; window.Game.Save.writeMeta(meta); }
+    // Cursed Coin's -10% max HP (statKey/statAmount) can shrink max HP mid-run --
+    // clamp so current HP can't sit above the new cap (mirrors addBlessing/addCurse).
+    clampVitals(run);
     return true;
   }
 
