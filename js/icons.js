@@ -59,6 +59,7 @@
 
     // equipment
     weaponSlot: '/',
+    weaponSlotMag: '†',
     armorSlot: 'Ω',
     accessorySlot: '◆',
     shoesSlot: 'Π',

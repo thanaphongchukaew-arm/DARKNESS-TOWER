@@ -100,6 +100,79 @@
     '....KKK..KKK....'
   ];
 
+  // Hooded ranged-fighter silhouette: same torso/leg build as BLADE_GRID,
+  // but a pointed scout hood instead of a helm and a strung bow (Y=wood,
+  // W=string) down the right side instead of a gauntlet.
+  var ARCHER_GRID = [
+    '.......G........',
+    '......GGG.......',
+    '.....GGKKGG.....',
+    '....GGGGGGGG....',
+    '...GGGRRRRGGG.YW',
+    '...GRRRRRRRRG.YW',
+    '...GRRYYRRG...YW',
+    '....RRRRRRRR..YW',
+    '.....RRYYRR...YW',
+    '.....RRRRRR...YW',
+    '.....RRRRRR...YW',
+    '......RRRR.....Y',
+    '......RRRR......',
+    '......G..G......',
+    '......G..G......',
+    '......G..G......',
+    '.....UU..UU.....',
+    '.....UU..UU.....'
+  ];
+
+  // Hooded duelist silhouette: same torso/leg build as BLADE_GRID with a
+  // bandana mask, but a pair of mirrored daggers (Y=blade, U=hilt) flanking
+  // the torso instead of a single gauntlet.
+  var ROGUE_GRID = [
+    '......GGGG......',
+    '.....GGGGGG.....',
+    '.....GGKKGG.....',
+    '....GGKKKKGG....',
+    '...GGGRRRRGGG...',
+    '..YGRRRRRRRRGY..',
+    '.YWGRRYYRRG..WY.',
+    '.YW.RRRRRRRR.WY.',
+    '.YW..RRYYRR..WY.',
+    '.YW..RRRRRR..WY.',
+    '.UU..RRRRRR..UU.',
+    '..U...RRRR...U..',
+    '......RRRR......',
+    '......G..G......',
+    '......G..G......',
+    '......G..G......',
+    '.....UU..UU.....',
+    '.....UU..UU.....'
+  ];
+
+  // Hooded performer silhouette: same proven hood as STAFFORB_GRID, but a
+  // lute (Y=body wood, s=strings) held against the torso instead of a
+  // floating magic orb.
+  var BARD_GRID = [
+    '........N.......',
+    '.......NN.......',
+    '......NNNN......',
+    '.....NNNNNN.....',
+    '....NNNNNNNN....',
+    '....NKKNNNN.....',
+    '.....NNNNNN.....',
+    '....NNBBBB.YY...',
+    '...NNBBBB.YsY...',
+    '..NNBBBBBYYYY...',
+    '..NBBBBBYYYYs...',
+    '..NBBBBBYYYYY...',
+    '..BBBBBBYYYYs...',
+    '...BBBBBYYY.....',
+    '....BBBBBB......',
+    '.....BBBBBB.....',
+    '......K..K......',
+    '......K..K......',
+    '....KKK..KKK....'
+  ];
+
   P.define('radiantOrb', [
     '........E.......',
     '.......EE.......',
@@ -170,28 +243,7 @@
     '.....UU..UU.....'
   ], PALADIN_PAL);
 
-  var RANGER_PAL = { K: '#0a0a0a', N: '#2f6b2f', B: '#7a5230', p: '#a8d060' };
-  P.define('ranger', [
-    '........N.......',
-    '.......NN.......',
-    '......NNNN......',
-    '.....NNNNNN.....',
-    '....NNNNNNNN....',
-    '....NKKNNNN.....',
-    '.....NNNNNN.....',
-    '....NNBBBBNN....',
-    '...NBBBBBBBBN...',
-    '...NBBppppBBN...',
-    '...NBBBBBBBBN...',
-    '....NBBBBBBN....',
-    '.....BBBBBB.....',
-    '.....BBBBBB.....',
-    '......BBBB......',
-    '......BBBB......',
-    '......K..K......',
-    '......K..K......',
-    '....KKK..KKK....'
-  ], RANGER_PAL);
+  P.define('ranger', ARCHER_GRID, { K: '#0a0a0a', G: '#2f6b2f', R: '#26421c', Y: '#8a5a30', U: '#4a3018', W: '#c8e070' });
 
   var NECROMANCER_PAL = { K: '#0a0a0a', N: '#3a1a4a', B: '#5a2060', p: '#c890ff' };
   P.define('necromancer', [
@@ -216,30 +268,32 @@
     '....KKK..KKK....'
   ], NECROMANCER_PAL);
 
-  var MONK_PAL = { K: '#0a0a0a', N: '#e0942a', B: '#a83a2a', p: '#f5f050' };
-  P.define('monk', [
-    '........N.......',
-    '.......NN.......',
-    '......NNNN......',
-    '.....NNNNNN.....',
-    '....NNNNNNNN....',
-    '....NKKNNNN.....',
-    '.....NNNNNN.....',
-    '....NNBBBBNN....',
-    '...NBBBBBBBBN...',
-    '...NBBppppBBN...',
-    '...NBBBBBBBBN...',
-    '....NBBBBBBN....',
-    '.....BBBBBB.....',
-    '.....BBBBBB.....',
-    '......BBBB......',
-    '......BBBB......',
-    '......K..K......',
-    '......K..K......',
-    '....KKK..KKK....'
-  ], MONK_PAL);
+  // Unarmed martial-artist silhouette: bald head, wrapped torso, bare fists
+  // thrown mid-punch on both sides, and a wide horse-stance instead of the
+  // narrow parallel legs every armed class uses.
+  var MONK_GRID = [
+    '......GGGG......',
+    '.....GGGGGG.....',
+    '.....GGKKGG.....',
+    '....GGGGGGGG....',
+    '...GGGRRRRGGG...',
+    '..WGRRRRRRRRGW..',
+    '.WWGRRYYRRG..WW.',
+    '.WW.RRRRRRRR.WW.',
+    '..W..RRYYRR..W..',
+    '.....RRRRRR.....',
+    '.....RRRRRR.....',
+    '....RRRRRRRR....',
+    '....YYYYYYYY....',
+    '...GG......GG...',
+    '...GG......GG...',
+    '..GG........GG..',
+    '..UU........UU..',
+    '..UU........UU..'
+  ];
+  P.define('monk', MONK_GRID, { K: '#0a0a0a', G: '#e0942a', R: '#a83a2a', Y: '#f5f050', U: '#7a2418', W: '#fff2d0' });
 
-  P.define('dragon', [
+  var DRAGON_GRID = [
     '.........KHHK..KHHK.........',
     '........KKHHK..KHHHK........',
     '.......KzzHHK..KzHHHK.......',
@@ -268,9 +322,27 @@
     '.......KyyCCK..KyyCCK.......',
     '.......KvvUUK..KvvUUK.......',
     '.......KvvUUK..KvvUUK.......'
-  ], { H: '#e2d0a5', C: '#247a3e', E: '#ffe94e', W: '#671515', D: '#134121', K: '#0a0a0a', U: '#90cb64', z: '#ede3c9', y: '#6eac80', x: '#a06262', w: '#60866b', v: '#b9de9e' });
+  ];
+  // Elder variant: the same proven dragon body with two extra rows of
+  // taller horn tips stacked on top, for the handful of "ancient/tyrant"
+  // dragons that should visibly loom larger than their kin.
+  var DRAGON_GRID_ELDER = [
+    '..........HH....HH..........',
+    '.........KHHK..KHHK.........'
+  ].concat(DRAGON_GRID);
+  P.define('dragon', DRAGON_GRID, { H: '#e2d0a5', C: '#247a3e', E: '#ffe94e', W: '#671515', D: '#134121', K: '#0a0a0a', U: '#90cb64', z: '#ede3c9', y: '#6eac80', x: '#a06262', w: '#60866b', v: '#b9de9e' });
+  // Palette-swapped dragons so each named wyrm actually matches its element/title
+  // instead of every tier wearing the same green-and-cream scales.
+  P.define('dragon_ice', DRAGON_GRID, { H: '#eaf6ff', C: '#3a7ab0', E: '#c8f0ff', W: '#2a4868', D: '#1a3850', K: '#0a0a0a', U: '#8ac8e8', z: '#f0f8ff', y: '#5a9ac0', x: '#4a7a9c', w: '#3a6888', v: '#b8e0f8' });
+  P.define('dragon_iceLord', DRAGON_GRID_ELDER, { H: '#f0e8ff', C: '#5a3a90', E: '#e8d0ff', W: '#241848', D: '#180f38', K: '#0a0a0a', U: '#8a68c8', z: '#e8ddff', y: '#7858a8', x: '#5a4478', w: '#3a2860', v: '#c8b0f0' });
+  P.define('dragon_fire', DRAGON_GRID, { H: '#3a1408', C: '#a83018', E: '#ffe040', W: '#7a0e0e', D: '#5a1206', K: '#0a0a0a', U: '#e86830', z: '#f0d0a8', y: '#d85020', x: '#8a2410', w: '#7a2c10', v: '#f0a860' });
+  P.define('dragon_iron', DRAGON_GRID, { H: '#d8dce4', C: '#5a6270', E: '#f9ca46', W: '#20242c', D: '#2c3038', K: '#0a0a0a', U: '#9098a8', z: '#eceef2', y: '#7a8290', x: '#6a7280', w: '#40444c', v: '#c0c6d0' });
+  P.define('dragon_gold', DRAGON_GRID_ELDER, { H: '#fff4c8', C: '#c89830', E: '#fff080', W: '#5a3808', D: '#7a5818', K: '#0a0a0a', U: '#e8c050', z: '#fff0d0', y: '#d8a840', x: '#a87828', w: '#8a6420', v: '#f0d888' });
+  P.define('dragon_void', DRAGON_GRID, { H: '#20102c', C: '#3a1858', E: '#c890ff', W: '#0a0512', D: '#150a20', K: '#0a0a0a', U: '#6838a0', z: '#2c1840', y: '#502878', x: '#1a0c28', w: '#180a24', v: '#8858c8' });
+  P.define('dragon_alpha', DRAGON_GRID, { H: '#3a2010', C: '#8a4a1c', E: '#ffd040', W: '#4a1808', D: '#5a2e10', K: '#0a0a0a', U: '#c87830', z: '#e8c0a0', y: '#a85c24', x: '#6a3414', w: '#5a3010', v: '#e0a868' });
+  P.define('dragon_obsidian', DRAGON_GRID_ELDER, { H: '#1a1a1e', C: '#141416', E: '#ff8030', W: '#2a0a04', D: '#0e0e10', K: '#0a0a0a', U: '#e85818', z: '#38383e', y: '#242428', x: '#502010', w: '#1e1e22', v: '#ff9848' });
 
-  P.define('demon', [
+  var DEMON_GRID = [
     '.........KHHK..KHHK.........',
     '........KHHHHK.KHHHKKK......',
     '........KHHHHK.KHHHHHHK.....',
@@ -299,9 +371,27 @@
     '.........KRRK..KRRK.........',
     '........KKKKK..KKKKK........',
     '.......KKKKKK..KKKKKK.......'
-  ], { H: '#2c0808', R: '#8c0b0b', K: '#0a0a0a', Y: '#ffdb37', z: '#b85b5b', y: '#ffe881' });
+  ];
+  // Elder variant: the same proven demon body with two extra rows of
+  // taller horn tips stacked on top, for the handful of "arch/overlord"
+  // demons that should visibly outrank the rest of the family.
+  var DEMON_GRID_ELDER = [
+    '..........HH....HH..........',
+    '.........KHHK..KHHK.........'
+  ].concat(DEMON_GRID);
+  P.define('demon', DEMON_GRID, { H: '#2c0808', R: '#8c0b0b', K: '#0a0a0a', Y: '#ffdb37', z: '#b85b5b', y: '#ffe881' });
+  // Palette-swapped devils so a duke, a succubus and an overlord don't all wear
+  // the literal same face.
+  P.define('demon_captain', DEMON_GRID, { H: '#3a1004', R: '#c8501a', K: '#0a0a0a', Y: '#fff060', z: '#e88848', y: '#fff2a0' });
+  P.define('demon_succubus', DEMON_GRID, { H: '#280a24', R: '#7a2068', K: '#0a0a0a', Y: '#ff70c8', z: '#a8489c', y: '#ffb0e0' });
+  P.define('demon_pit', DEMON_GRID, { H: '#180404', R: '#4a0a0a', K: '#0a0a0a', Y: '#ff8020', z: '#6a1414', y: '#ffb060' });
+  P.define('demon_arch', DEMON_GRID_ELDER, { H: '#1c0a2c', R: '#4a1868', K: '#0a0a0a', Y: '#f9ca46', z: '#6a3898', y: '#fbdd8b' });
+  P.define('demon_duke', DEMON_GRID, { H: '#380a04', R: '#d8380e', K: '#0a0a0a', Y: '#ffe040', z: '#f06828', y: '#fff090' });
+  P.define('demon_warden', DEMON_GRID, { H: '#301a04', R: '#b86818', K: '#0a0a0a', Y: '#ffe881', z: '#e0a848', y: '#fff2c0' });
+  P.define('demon_overlord', DEMON_GRID_ELDER, { H: '#0e0202', R: '#380606', K: '#0a0a0a', Y: '#ff5020', z: '#500c0c', y: '#ff9050' });
+  P.define('demon_matriarch', DEMON_GRID_ELDER, { H: '#140418', R: '#38103c', K: '#0a0a0a', Y: '#c890ff', z: '#582060', y: '#e0b8ff' });
 
-  P.define('shadowFigure', [
+  var SHADOWFIGURE_GRID = [
     '.......KVVK..........KVVK...',
     '......KVVVK........KKVVVK...',
     '.....KKVVVK......KKVVKKK....',
@@ -330,7 +420,12 @@
     '...KVVVVVVVVK..KVVVVVVVVK...',
     '...KKKKKKKKKK..KKKKKKKKKK...',
     '...KKKKKKKKKK..KKKKKKKKKK...'
-  ], { K: '#0a0a0a', W: '#f6f2e9', G: '#b6b6c1', D: '#5c5c65', R: '#e21529', Y: '#f9ca46', U: '#53300e', N: '#0e3077', B: '#2863d8', Pu: '#a76cff', E: '#f1eadd', V: '#311748', X: '#ff4848', O: '#e1d9c9', p: '#a76cff' });
+  ];
+  P.define('shadowFigure', SHADOWFIGURE_GRID, { K: '#0a0a0a', W: '#f6f2e9', G: '#b6b6c1', D: '#5c5c65', R: '#e21529', Y: '#f9ca46', U: '#53300e', N: '#0e3077', B: '#2863d8', Pu: '#a76cff', E: '#f1eadd', V: '#311748', X: '#ff4848', O: '#e1d9c9', p: '#a76cff' });
+  // Palette-swapped so Banshee and Thunder Revenant no longer wear the exact
+  // same violet cloak as Venom Wraith.
+  P.define('shadowFigure_banshee', SHADOWFIGURE_GRID, { K: '#0a0a0a', V: '#c8d0d8', X: '#eaf6ff' });
+  P.define('shadowFigure_storm', SHADOWFIGURE_GRID, { K: '#0a0a0a', V: '#2c2848', X: '#f5e050' });
 
   // The full robed-reaper figure -- used as an actual creature portrait
   // (Bone Reaper) and the game-over screen, where a body reads correctly.
@@ -510,7 +605,7 @@
     'UUUUUUUUUUUUUU'
   ], PAL);
 
-  P.define('bat', [
+  var BAT_GRID = [
     '...KVVK......KVVK...',
     '..KVVVVK....KVVVVK..',
     '.KKVVVVKK..KKVVVVKK.',
@@ -521,7 +616,10 @@
     '.KKVVVVVXXXXVVVVVKK.',
     '..KVVVVVKKKKVVVVVK..',
     '...KVVVVK..KVVVVK...'
-  ], { K: '#0a0a0a', W: '#f6f2e9', G: '#b6b6c1', D: '#5c5c65', R: '#e21529', Y: '#f9ca46', U: '#53300e', N: '#0e3077', B: '#2863d8', Pu: '#a76cff', E: '#f1eadd', V: '#311748', X: '#ff4848', O: '#e1d9c9', p: '#a76cff' });
+  ];
+  P.define('bat', BAT_GRID, { K: '#0a0a0a', W: '#f6f2e9', G: '#b6b6c1', D: '#5c5c65', R: '#e21529', Y: '#f9ca46', U: '#53300e', N: '#0e3077', B: '#2863d8', Pu: '#a76cff', E: '#f1eadd', V: '#311748', X: '#ff4848', O: '#e1d9c9', p: '#a76cff' });
+  // Blood Bat Queen gets her own deep-crimson wings instead of Nightfall Bat's palette.
+  P.define('bat_blood', BAT_GRID, { K: '#0a0a0a', V: '#5a0a14', X: '#ff5868' });
 
   // ---- New creature silhouettes so each monster's art matches its name ----
 
@@ -737,7 +835,7 @@
     '.....KKKKKK........KKKKKK.....'
   ], { H: '#324332', C: '#233123', K: '#0a0a0a', F: '#8b9f78', G: '#d2d5dd', U: '#674420', z: '#788578', y: '#b5c1a9', x: '#6e796e', w: '#9f856a', v: '#e6e8ed' });
 
-  P.define('knight', [
+  var KNIGHT_GRID = [
     '.............KPPK.............',
     '.............KPPPK............',
     '............KzPPPK............',
@@ -770,7 +868,11 @@
     '.....KxxAAK........KxxAAK.....',
     '.....KKKKKK........KKKKKK.....',
     '.....KKKKKK........KKKKKK.....'
-  ], { P: '#e21529', M: '#d2dae5', K: '#10151b', A: '#8896ae', Y: '#f9ca46', z: '#ed6975', y: '#e7ebf1', x: '#b4bdcc', w: '#fbdd8b' });
+  ];
+  P.define('knight', KNIGHT_GRID, { P: '#e21529', M: '#d2dae5', K: '#10151b', A: '#8896ae', Y: '#f9ca46', z: '#ed6975', y: '#e7ebf1', x: '#b4bdcc', w: '#fbdd8b' });
+  // Abyss Knight gets a void-purple recolor instead of wearing Frost Knight's
+  // ice-white armor unchanged.
+  P.define('knight_abyss', KNIGHT_GRID, { P: '#8a1868', M: '#2a1840', K: '#0a0612', A: '#4a2868', Y: '#7a3ad0', z: '#5a1848', y: '#6a4a98', x: '#3a2458', w: '#a878e8' });
 
   P.define('hawk', [
     '.............KFFK.............',
@@ -826,7 +928,7 @@
     '.......KKKKKK....KKKKKK.......'
   ], { F: '#7a418e', K: '#0e0410', Y: '#f9ca46', z: '#aa83b6', y: '#fbdd8b' });
 
-  P.define('sentinel', [
+  var SENTINEL_GRID = [
     '.....KzzMMMMKKzzMMMMK.....',
     '....KzzzzMMMMKzMMMMMMK....',
     '....KzzzzzzMMMMMMMMMMK....',
@@ -859,7 +961,10 @@
     '.KzzzzMMMMK....KzzzzMMMMK.',
     '.KKKKKKKKKK....KKKKKKKKKK.',
     '.KKKKKKKKKK....KKKKKKKKKK.'
-  ], { M: '#788293', D: '#323841', R: '#fb2929', Y: '#ffdb37', K: '#0f1013', z: '#a9afba', y: '#fc7777', x: '#787d84', w: '#ffe881' });
+  ];
+  P.define('sentinel', SENTINEL_GRID, { M: '#788293', D: '#323841', R: '#fb2929', Y: '#ffdb37', K: '#0f1013', z: '#a9afba', y: '#fc7777', x: '#787d84', w: '#ffe881' });
+  // Void Sentinel gets a purple recolor instead of Iron Sentinel's grey unchanged.
+  P.define('sentinel_void', SENTINEL_GRID, { M: '#3a2858', D: '#1a1228', R: '#a060ff', Y: '#6a4a98', K: '#0e0a16', z: '#6a5a88', y: '#d8c0ff', x: '#4a3868', w: '#c0a8f0' });
 
   P.define('troll', [
     '.......KzzzzzzSSSSSSSSK.......',
@@ -931,7 +1036,7 @@
     '.....KKKKKK........KKKKKK.....'
   ], { S: '#66668d', K: '#10101d', W: '#e0e0ff', z: '#9d9db5' });
 
-  P.define('golem', [
+  var GOLEM_GRID = [
     '.....DzzzzzzRRRRRRRRD.....',
     '....DzzzzzzzRRRRRRRRRD....',
     '....DzzzzzzzRRRRRRRRRD....',
@@ -962,7 +1067,12 @@
     '...DzzRRD........DzzRRD...',
     '...DxxDDD........DxxDDD...',
     '...DxxDDD........DxxDDD...'
-  ], { R: '#8d7a54', K: '#f9ca46', D: '#423621', Y: '#fb4f29', z: '#b6aa90', y: '#fbdd8b', x: '#867c6b', w: '#fc8f77' });
+  ];
+  P.define('golem', GOLEM_GRID, { R: '#8d7a54', K: '#f9ca46', D: '#423621', Y: '#fb4f29', z: '#b6aa90', y: '#fbdd8b', x: '#867c6b', w: '#fc8f77' });
+  // Crystal Golem and Steel-Forged Golem get palettes that actually look like
+  // crystal / forged steel instead of Stone Golem's tan rock unchanged.
+  P.define('golem_crystal', GOLEM_GRID, { R: '#4a7ab8', K: '#e8f8ff', D: '#1a2c40', Y: '#60d0f0', z: '#8ab8e0', y: '#c8ecff', x: '#3a5878', w: '#a0d8ff' });
+  P.define('golem_steel', GOLEM_GRID, { R: '#9098a8', K: '#fff4c0', D: '#2a2e38', Y: '#e85028', z: '#c8ced8', y: '#fff0d0', x: '#5a6270', w: '#f0a888' });
 
   P.define('fiend', [
     '...KHHHHK............KHHHHK...',
@@ -1212,30 +1322,36 @@
     '...KVVK............KVVK...'
   ], { V: '#214938', X: '#78e4b6', K: '#05100c', z: '#6b8a7d', y: '#aceed1' });
 
-  P.define('abyssalEel', [
-    '.......................KzzEEK...',
-    '......................KzzEEK....',
-    '.....................KKzzEEK....',
-    '....................KzzEEKK.....',
-    '...................KKzzEEK......',
-    '..................KzzEEKK.......',
-    '.................KKzzEEK........',
-    '................KzzEEKK.........',
-    '...............KKzzEEK..........',
-    '..............KzzEEKK...........',
-    '.............KKzzEEK............',
-    '............KzzEEKK.............',
-    '...........KKzzEEK..............',
-    '..........KzzEEKK...............',
-    '.........KKzzEEK................',
-    '........KzzEEKK.................',
-    '.......KKzzEEK..................',
-    '......KzzEEKK...................',
-    '......KzzEEK....................',
-    '.....KzzEEK.....................',
-    '....KKzzEEKK....................',
-    '...KKKzzEEKKK...................'
-  ], { E: '#256756', K: '#050f09', z: '#6f9f92' });
+  // Wavy serpent silhouette (S-curve body with a distinct head/eye and a
+  // tapering tail) shared by every "Serpent/Eel"-type enemy, so each one
+  // reads as an actual creature instead of a single straight diagonal bar.
+  var SERPENT_GRID = [
+    '...KzzzzK........................',
+    '..KzzEXEzzK......................',
+    '...KzzEEEzzK.....................',
+    '......KzzEEK.....................',
+    '........KzzEEK...................',
+    '..........KzzEEK.................',
+    '...........KzzEEK................',
+    '...........KzzEEK................',
+    '..........KzzEEK.................',
+    '........KzzEEK...................',
+    '......KzzEEK.....................',
+    '....KzzEEK.......................',
+    '....KzzEEK.......................',
+    '.....KzzEEK......................',
+    '.......KzzEEK....................',
+    '.........KzzEEK..................',
+    '...........KzzEEK................',
+    '.............KzzEEK..............',
+    '...............KzzEEK............',
+    '.................KzzEEK..........',
+    '...................KzzEEK........',
+    '......................KEEEK......',
+    '........................KEEK.....',
+    '...........................KEK...'
+  ];
+  P.define('abyssalEel', SERPENT_GRID, { E: '#256756', K: '#050f09', z: '#6f9f92', X: '#bfe8d8' });
 
   P.define('tideGolem', [
     '.....KzzzzzzCCCCCCCCK.....',
@@ -1409,30 +1525,7 @@
     '.....KKKKKK........KKKKKK.....'
   ], { M: '#8a9dc0', A: '#54678b', Y: '#ffed49', K: '#0e131b', z: '#b5c1d8', y: '#909db4' });
 
-  P.define('cloudSerpent', [
-    '.......................WzzWWW...',
-    '......................WzzWWW....',
-    '.....................WWzzWWW....',
-    '....................WzzWWWW.....',
-    '...................WWzzWWW......',
-    '..................WzzWWWW.......',
-    '.................WWzzWWW........',
-    '................WzzWWWW.........',
-    '...............WWzzWWW..........',
-    '..............WzzWWWW...........',
-    '.............WWzzWWW............',
-    '............WzzWWWW.............',
-    '...........WWzzWWW..............',
-    '..........WzzWWWW...............',
-    '.........WWzzWWW................',
-    '........WzzWWWW.................',
-    '.......WWzzWWW..................',
-    '......WzzWWWW...................',
-    '......WzzWWW....................',
-    '.....WzzWWW.....................',
-    '....WYzzWWYW....................',
-    '...WYYzzWWYYW...................'
-  ], { W: '#8bade3', Y: '#ece4fb', z: '#b7cded' });
+  P.define('cloudSerpent', SERPENT_GRID, { E: '#8bade3', K: '#3a5a8a', z: '#b7cded', X: '#ece4fb' });
 
   P.define('tempestMarshal', [
     '.............KYYK.............',
@@ -1492,30 +1585,7 @@
     '.......KzzUUKKzzUUK.......'
   ], { U: '#d4ae58', X: '#530e0e', K: '#2d210c', z: '#e4cc96', y: '#935c5c' });
 
-  P.define('boneSerpent', [
-    '.......................KOOOOK...',
-    '......................KOOOOK....',
-    '.....................KKOOOOK....',
-    '....................KOOOOKK.....',
-    '...................KKOOOOK......',
-    '..................KOOOOKK.......',
-    '.................KKOOOOK........',
-    '................KOOOOKK.........',
-    '...............KKOOOOK..........',
-    '..............KOOOOKK...........',
-    '.............KKOOOOK............',
-    '............KOOOOKK.............',
-    '...........KKOOOOK..............',
-    '..........KOOOOKK...............',
-    '.........KKOOOOK................',
-    '........KOOOOKK.................',
-    '.......KKOOOOK..................',
-    '......KOOOOKK...................',
-    '......KOOOOK....................',
-    '.....KOOOOK.....................',
-    '....KKOOOOKK....................',
-    '...KKKOOOOKKK...................'
-  ], { O: '#f1ead4', K: '#554321', z: '#92856a' });
+  P.define('boneSerpent', SERPENT_GRID, { E: '#f1ead4', K: '#554321', z: '#92856a', X: '#2a1f10' });
 
   P.define('scarabSwarm', [
     '...KDDK............KDDK...',
@@ -1660,30 +1730,7 @@
     '...KzzOOK........KzzOOK...'
   ], { K: '#1c100b', O: '#fe4f0b', Y: '#ffdb37', z: '#fe8e62', y: '#ffe881' });
 
-  P.define('lavaSerpent', [
-    '.......................KzzRRK...',
-    '......................KzzRRK....',
-    '.....................KKzzRRK....',
-    '....................KzzRRKK.....',
-    '...................KKzzRRK......',
-    '..................KzzRRKK.......',
-    '.................KKzzRRK........',
-    '................KzzRRKK.........',
-    '...............KKzzRRK..........',
-    '..............KzzRRKK...........',
-    '.............KKzzRRK............',
-    '............KzzRRKK.............',
-    '...........KKzzRRK..............',
-    '..........KzzRRKK...............',
-    '.........KKzzRRK................',
-    '........KzzRRKK.................',
-    '.......KKzzRRK..................',
-    '......KzzRRKK...................',
-    '......KzzRRK....................',
-    '.....KzzRRK.....................',
-    '....KKyyOOKK....................',
-    '...KKKyyOOKKK...................'
-  ], { O: '#fe4f0b', R: '#8c1902', K: '#120602', z: '#b96554', y: '#fe8e62' });
+  P.define('lavaSerpent', SERPENT_GRID, { E: '#fe4f0b', K: '#120602', z: '#b96554', X: '#fe8e62' });
 
   P.define('pyroclastBat', [
     '...KRRK......KRRK......KRRK...',
@@ -2183,30 +2230,7 @@
     '.....KPPK..KPPK..KPPK.......'
   ], { P: '#9d6df6', L: '#ede0ff', K: '#110821', z: '#c2a5f9' });
 
-  P.define('voidSerpent', [
-    '.......................KzzPPK...',
-    '......................KzzPPK....',
-    '.....................KKzzPPK....',
-    '....................KzzPPKK.....',
-    '...................KKzzPPK......',
-    '..................KzzPPKK.......',
-    '.................KKzzPPK........',
-    '................KzzPPKK.........',
-    '...............KKzzPPK..........',
-    '..............KzzPPKK...........',
-    '.............KKzzPPK............',
-    '............KzzPPKK.............',
-    '...........KKzzPPK..............',
-    '..........KzzPPKK...............',
-    '.........KKzzPPK................',
-    '........KzzPPKK.................',
-    '.......KKzzPPK..................',
-    '......KzzPPKK...................',
-    '......KzzPPK....................',
-    '.....KzzPPK.....................',
-    '....KKzzPPKK....................',
-    '...KKKzzPPKKK...................'
-  ], { P: '#551b94', K: '#090312', z: '#9168bd' });
+  P.define('voidSerpent', SERPENT_GRID, { E: '#551b94', K: '#090312', z: '#9168bd', X: '#c8a0ff' });
 
   P.define('nebulaGolem', [
     '.....KzzzzzzPPPPPPPPK.....',
@@ -2384,30 +2408,7 @@
     '.......KRRKKPPKKRRK.......'
   ], { P: '#561d6e', R: '#d8282b', X: '#f7c959', K: '#0c0411', z: '#9269a4', y: '#e67677', x: '#fadd98' });
 
-  P.define('fluxSerpent', [
-    '.......................KzzBBK...',
-    '......................KzzBBK....',
-    '.....................KKzzBBK....',
-    '....................KzzBBKK.....',
-    '...................KKzzBBK......',
-    '..................KzzBBKK.......',
-    '.................KKzzBBK........',
-    '................KzzBBKK.........',
-    '...............KKzzBBK..........',
-    '..............KzzBBKK...........',
-    '.............KKzzBBK............',
-    '............KzzBBKK.............',
-    '...........KKzzBBK..............',
-    '..........KzzBBKK...............',
-    '.........KKzzBBK................',
-    '........KzzBBKK.................',
-    '.......KKzzBBK..................',
-    '......KzzBBKK...................',
-    '......KzzBBK....................',
-    '.....KzzBBK.....................',
-    '....KRzzBBRK....................',
-    '...KRRzzBBRRK...................'
-  ], { R: '#d8282b', B: '#284fd8', K: '#090b1d', z: '#768ee6', y: '#e67677' });
+  P.define('fluxSerpent', SERPENT_GRID, { E: '#284fd8', K: '#090b1d', z: '#768ee6', X: '#d8282b' });
 
   P.define('forgeMaster', [
     '.......KYYK..KYYK..KYYK.......',
@@ -2525,30 +2526,7 @@
     '...KYYVVK........KVVYYK...'
   ], { V: '#32265a', Y: '#f4e28a', X: '#d1a1ff', K: '#0a0618', z: '#776f96', y: '#e5caff' });
 
-  P.define('chronoSerpent', [
-    '.......................KzzVVK...',
-    '......................KzzVVK....',
-    '.....................KKzzVVK....',
-    '....................KzzVVKK.....',
-    '...................KKzzVVK......',
-    '..................KzzVVKK.......',
-    '.................KKzzVVK........',
-    '................KzzVVKK.........',
-    '...............KKzzVVK..........',
-    '..............KzzVVKK...........',
-    '.............KKzzVVK............',
-    '............KzzVVKK.............',
-    '...........KKzzVVK..............',
-    '..........KzzVVKK...............',
-    '.........KKzzVVK................',
-    '........KzzVVKK.................',
-    '.......KKzzVVK..................',
-    '......KzzVVKK...................',
-    '......KzzVVK....................',
-    '.....KzzVVK.....................',
-    '....KYzzVVYK....................',
-    '...KYYzzVVYYK...................'
-  ], { V: '#382f65', Y: '#f4e28a', K: '#0a0618', z: '#7c769c' });
+  P.define('chronoSerpent', SERPENT_GRID, { E: '#382f65', K: '#0a0618', z: '#7c769c', X: '#f4e28a' });
 
   P.define('timelessHerald', [
     '.......KYYK..KYYK..KYYK.......',
@@ -2636,12 +2614,12 @@
 
   // ---- 16 additional playable classes (palette-swaps of BLADE_GRID / STAFFORB_GRID) ----
 
-  P.define('gunslinger', BLADE_GRID, { K: '#0a0a0a', G: '#8a7a5a', R: '#5a4030', Y: '#d8a840', U: '#3a2a1a', W: '#e8d8b0' });
+  P.define('gunslinger', ARCHER_GRID, { K: '#0a0a0a', G: '#8a7a5a', R: '#5a4030', Y: '#3a2a1a', U: '#2a1a10', W: '#e8d8b0' });
   P.define('samurai', BLADE_GRID, { K: '#0a0a0a', G: '#c8283a', R: '#1a1a1e', Y: '#e8c050', U: '#2a1a1a', W: '#f0f0f0' });
-  P.define('runeblade', BLADE_GRID, { K: '#0a0a0a', G: '#3a2050', R: '#22142e', Y: '#a060ff', U: '#150a1e', W: '#c890ff' });
-  P.define('beastmaster', BLADE_GRID, { K: '#0a0a0a', G: '#5a7a3a', R: '#7a5a30', Y: '#c8a850', U: '#3a2a18', W: '#e8e0c0' });
-  P.define('shadowDancer', BLADE_GRID, { K: '#0a0a0a', G: '#1a3838', R: '#102020', Y: '#40d8c0', U: '#0a1414', W: '#80f0e0' });
-  P.define('sharpshooter', BLADE_GRID, { K: '#0a0a0a', G: '#5a6070', R: '#3a4048', Y: '#d0d8e0', U: '#20242a', W: '#f0f4f8' });
+  P.define('runeblade', ROGUE_GRID, { K: '#22142e', G: '#3a2050', R: '#180c22', Y: '#a060ff', U: '#150a1e', W: '#c890ff' });
+  P.define('beastmaster', ARCHER_GRID, { K: '#0a0a0a', G: '#5a7a3a', R: '#3a4a20', Y: '#c8a850', U: '#3a2a18', W: '#e8e0c0' });
+  P.define('shadowDancer', ROGUE_GRID, { K: '#102020', G: '#1a3838', R: '#0a1a1a', Y: '#40d8c0', U: '#0a1414', W: '#80f0e0' });
+  P.define('sharpshooter', ARCHER_GRID, { K: '#0a0a0a', G: '#6a7284', R: '#3a4048', Y: '#8a929c', U: '#20242a', W: '#f0f4f8' });
   P.define('battlemage', BLADE_GRID, { K: '#0a0a0a', G: '#3a58a0', R: '#20305a', Y: '#f0d060', U: '#182040', W: '#a0c0ff' });
 
   P.define('druid', STAFFORB_GRID, { N: '#2f5a2a', K: '#0a0a0a', B: '#3a6a34', p: '#c8a838' });
@@ -2649,7 +2627,7 @@
   P.define('warlock', STAFFORB_GRID, { N: '#2a0a0a', K: '#0a0a0a', B: '#4a1414', p: '#ff8020' });
   P.define('frostOracle', STAFFORB_GRID, { N: '#3a5a7a', K: '#0a2030', B: '#5a80a0', p: '#e8f8ff' });
   P.define('stormCaller', STAFFORB_GRID, { N: '#3a3a48', K: '#0a0a0a', B: '#50505e', p: '#f0e050' });
-  P.define('bard', STAFFORB_GRID, { N: '#6a2838', K: '#0a0a0a', B: '#8a3a4a', p: '#f0c860' });
+  P.define('bard', BARD_GRID, { N: '#6a2838', K: '#0a0a0a', B: '#8a3a4a', Y: '#c8863a', s: '#f0e0a8' });
   P.define('puppeteer', STAFFORB_GRID, { N: '#403050', K: '#0a0a0a', B: '#584068', p: '#e04858' });
   P.define('tempestWitch', STAFFORB_GRID, { N: '#0a3a4a', K: '#0a0a0a', B: '#145a6a', p: '#60e8f0' });
   P.define('chronomancer', STAFFORB_GRID, { N: '#2a2a5a', K: '#0a0a0a', B: '#3a3a78', p: '#f0e8c0' });
@@ -2657,10 +2635,10 @@
   // ---- 5 unlockable "Valiant" elite classes (palette-swaps of BLADE_GRID / STAFFORB_GRID) ----
 
   P.define('warlord', BLADE_GRID, { K: '#0a0a0a', G: '#8a6a2a', R: '#3a2a14', Y: '#e8c060', U: '#1a1408', W: '#e04030' });
-  P.define('shadowhunter', BLADE_GRID, { K: '#0a0a0a', G: '#1a2438', R: '#0e1624', Y: '#6ae090', U: '#080c14', W: '#a0f0b8' });
-  P.define('executioner', BLADE_GRID, { K: '#0a0a0a', G: '#3a0a0a', R: '#1a0606', Y: '#d81828', U: '#100404', W: '#f04858' });
+  P.define('shadowhunter', ROGUE_GRID, { K: '#0e1624', G: '#1a2438', R: '#0a121e', Y: '#6ae090', U: '#080c14', W: '#a0f0b8' });
+  P.define('executioner', BLADE_GRID, { K: '#0a0a0a', G: '#7a1818', R: '#4a1010', Y: '#d81828', U: '#1a0808', W: '#f04858' });
   P.define('vanguard', BLADE_GRID, { K: '#0a0a0a', G: '#186878', R: '#0e3a44', Y: '#60e8f0', U: '#082028', W: '#c0f8ff' });
-  P.define('deathbringer', STAFFORB_GRID, { N: '#3a0a14', K: '#0a0a0a', B: '#5a1420', p: '#ff2030' });
+  P.define('deathbringer', STAFFORB_GRID, { N: '#7a1030', K: '#0a0a0a', B: '#921840', p: '#ff3050' });
 
   // ---- Equipment-slot & item icons (weapon, armor, shoes, accessory, potions) ----
 
@@ -2682,6 +2660,28 @@
     '..KYYYYK...',
     '...KKKK....'
   ], { K: '#0a0a0a', W: '#e8ecf2', Y: '#e8c050', U: '#5a3818' });
+
+  // Magic-weapon icon (wands/staves/grimoires): a glowing gem on a wooden
+  // shaft, same footprint as weaponSlot's sword so it drops into every slot
+  // that already renders an item icon.
+  P.define('weaponSlotMag', [
+    '.....K.....',
+    '....KGK....',
+    '...KGGGK...',
+    '..KGGGGGK..',
+    '...KGGGK...',
+    '....KGK....',
+    '....KWK....',
+    '.....W.....',
+    '.....W.....',
+    '.....W.....',
+    '.....W.....',
+    '.....W.....',
+    '....KWK....',
+    '...KYYYK...',
+    '...KYYYK...',
+    '....KKK....'
+  ], { K: '#0a0a0a', G: '#a060ff', W: '#8a6a4a', Y: '#e8c050' });
 
   // A Minecraft-style chestplate: blocky, no curves -- shoulder-strap prongs,
   // then a full-width sleeve row that sticks out past the torso on both

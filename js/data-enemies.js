@@ -119,14 +119,14 @@
       ]
     },
     {
-      id: 'crystal_golem', name: 'โกเลมแก้วอาถรรพ์', nameEn: 'Crystal Golem', tier: 2, icon: 'golem',
+      id: 'crystal_golem', name: 'โกเลมแก้วอาถรรพ์', nameEn: 'Crystal Golem', tier: 2, icon: 'golem_crystal',
       baseStats: { hp: 46, atk: 9, mag: 12, def: 9, res: 10, spd: 6, luk: 4, exp: 26 },
       attacks: [
         { name: 'ลำแสงตัดกระจก', nameEn: 'Prism Beam', element: 'light', power: 1.3, target: 'single', weight: 3 }
       ]
     },
     {
-      id: 'banshee', name: 'แม่มดร้องไห้', nameEn: 'Banshee', tier: 2, icon: 'shadowFigure',
+      id: 'banshee', name: 'แม่มดร้องไห้', nameEn: 'Banshee', tier: 2, icon: 'shadowFigure_banshee',
       baseStats: { hp: 32, atk: 8, mag: 13, def: 5, res: 7, spd: 12, luk: 7, exp: 26 },
       attacks: [
         { name: 'เสียงกรีดวิญญาณ', nameEn: 'Wailing Scream', element: 'dark', power: 1.2, target: 'single', weight: 3, debuff: { stat: 'res', amount: 0.15 } }
@@ -135,7 +135,7 @@
 
     // ---- Tier 3 : floors 21-30 ----
     {
-      id: 'abyss_knight', name: 'อัศวินก้นบึ้ง', nameEn: 'Abyss Knight', tier: 3, icon: 'knight',
+      id: 'abyss_knight', name: 'อัศวินก้นบึ้ง', nameEn: 'Abyss Knight', tier: 3, icon: 'knight_abyss',
       baseStats: { hp: 62, atk: 15, mag: 9, def: 12, res: 9, spd: 9, luk: 7, exp: 40 },
       attacks: [
         { name: 'ดาบเงามืด', nameEn: 'Shadow Blade', element: 'dark', power: 1.3, target: 'single', weight: 4 }
@@ -149,7 +149,7 @@
       ]
     },
     {
-      id: 'glacial_wyrm', name: 'มังกรน้ำแข็ง', nameEn: 'Glacial Wyrm', tier: 3, icon: 'dragon',
+      id: 'glacial_wyrm', name: 'มังกรน้ำแข็ง', nameEn: 'Glacial Wyrm', tier: 3, icon: 'dragon_ice',
       baseStats: { hp: 72, atk: 13, mag: 11, def: 11, res: 9, spd: 7, luk: 6, exp: 42 },
       attacks: [
         { name: 'ลมหายใจน้ำแข็ง', nameEn: 'Ice Breath', element: 'ice', power: 1.2, target: 'all', weight: 2 },
@@ -157,14 +157,14 @@
       ]
     },
     {
-      id: 'thunder_revenant', name: 'วิญญาณสายฟ้า', nameEn: 'Thunder Revenant', tier: 3, icon: 'shadowFigure',
+      id: 'thunder_revenant', name: 'วิญญาณสายฟ้า', nameEn: 'Thunder Revenant', tier: 3, icon: 'shadowFigure_storm',
       baseStats: { hp: 54, atk: 12, mag: 13, def: 8, res: 8, spd: 14, luk: 8, exp: 40 },
       attacks: [
         { name: 'ฟาดสายฟ้าคำสาป', nameEn: 'Cursed Bolt', element: 'elec', power: 1.35, target: 'single', weight: 3, drainSelf: true }
       ]
     },
     {
-      id: 'void_sentinel', name: 'ผู้พิทักษ์ห้วงว่าง', nameEn: 'Void Sentinel', tier: 3, icon: 'sentinel',
+      id: 'void_sentinel', name: 'ผู้พิทักษ์ห้วงว่าง', nameEn: 'Void Sentinel', tier: 3, icon: 'sentinel_void',
       baseStats: { hp: 60, atk: 12, mag: 12, def: 10, res: 10, spd: 9, luk: 7, exp: 42 },
       attacks: [
         { name: 'คลื่นห้วงว่าง', nameEn: 'Void Wave', element: 'dark', power: 1.3, target: 'single', weight: 4 }
@@ -179,7 +179,7 @@
       ]
     },
     {
-      id: 'imp_captain', name: 'หัวหน้าปีศาจ', nameEn: 'Imp Captain', tier: 3, icon: 'demon',
+      id: 'imp_captain', name: 'หัวหน้าปีศาจ', nameEn: 'Imp Captain', tier: 3, icon: 'demon_captain',
       baseStats: { hp: 56, atk: 14, mag: 15, def: 8, res: 9, spd: 11, luk: 6, exp: 41 },
       attacks: [
         { name: 'ไฟนรกจิ๋ว', nameEn: 'Infernal Spark', element: 'fire', power: 1.35, target: 'single', weight: 3 }
@@ -195,7 +195,7 @@
 
     // ---- Tier 4 : floors 31-40 (true dragons & greater demons) ----
     {
-      id: 'crimson_drake', name: 'มังกรไฟสีเลือด', nameEn: 'Crimson Drake', tier: 4, icon: 'dragon',
+      id: 'crimson_drake', name: 'มังกรไฟสีเลือด', nameEn: 'Crimson Drake', tier: 4, icon: 'dragon_fire',
       baseStats: { hp: 98, atk: 20, mag: 17, def: 13, res: 11, spd: 11, luk: 7, exp: 63 },
       attacks: [
         { name: 'ลมหายใจเพลิง', nameEn: 'Flame Breath', element: 'fire', power: 1.15, target: 'all', weight: 2 },
@@ -219,7 +219,7 @@
       ]
     },
     {
-      id: 'succubus', name: 'อสูรมารยั่วยวน', nameEn: 'Succubus', tier: 4, icon: 'demon',
+      id: 'succubus', name: 'อสูรมารยั่วยวน', nameEn: 'Succubus', tier: 4, icon: 'demon_succubus',
       baseStats: { hp: 80, atk: 10, mag: 19, def: 9, res: 12, spd: 13, luk: 9, exp: 63 },
       attacks: [
         { name: 'จุมพิตมัจจุราช', nameEn: 'Kiss of Ruin', element: 'dark', power: 1.3, target: 'single', weight: 3, drainSelf: true },
@@ -227,7 +227,7 @@
       ]
     },
     {
-      id: 'iron_wyrm', name: 'มังกรเหล็กจักรกล', nameEn: 'Iron Wyrm', tier: 4, icon: 'dragon',
+      id: 'iron_wyrm', name: 'มังกรเหล็กจักรกล', nameEn: 'Iron Wyrm', tier: 4, icon: 'dragon_iron',
       baseStats: { hp: 105, atk: 19, mag: 8, def: 16, res: 9, spd: 9, luk: 5, exp: 64 },
       attacks: [
         { name: 'ขากรรไกรเหล็ก', nameEn: 'Iron Jaw Crush', element: 'phys', power: 1.3, target: 'single', weight: 3 },
@@ -235,7 +235,7 @@
       ]
     },
     {
-      id: 'pit_fiend', name: 'ปีศาจขุมนรก', nameEn: 'Pit Fiend', tier: 4, icon: 'demon',
+      id: 'pit_fiend', name: 'ปีศาจขุมนรก', nameEn: 'Pit Fiend', tier: 4, icon: 'demon_pit',
       baseStats: { hp: 92, atk: 22, mag: 18, def: 12, res: 10, spd: 10, luk: 7, exp: 65 },
       attacks: [
         { name: 'ดาบเพลิงนรก', nameEn: 'Hellfire Blade', element: 'fire', power: 1.3, target: 'single', weight: 3 },
@@ -245,7 +245,7 @@
 
     // ---- Tier 5 : floors 41-44 (archdevils & ancient dragons) ----
     {
-      id: 'ancient_wyrm', name: 'มังกรโบราณ', nameEn: 'Ancient Wyrm', tier: 5, icon: 'dragon',
+      id: 'ancient_wyrm', name: 'มังกรโบราณ', nameEn: 'Ancient Wyrm', tier: 5, icon: 'dragon_gold',
       baseStats: { hp: 150, atk: 26, mag: 24, def: 18, res: 16, spd: 10, luk: 8, exp: 98 },
       attacks: [
         { name: 'ลมหายใจโบราณ', nameEn: 'Ancient Breath', element: 'fire', power: 1.2, target: 'all', weight: 2 },
@@ -253,7 +253,7 @@
       ]
     },
     {
-      id: 'archdevil', name: 'อาร์คเดวิลผู้บงการ', nameEn: 'Archdevil', tier: 5, icon: 'demon',
+      id: 'archdevil', name: 'อาร์คเดวิลผู้บงการ', nameEn: 'Archdevil', tier: 5, icon: 'demon_arch',
       baseStats: { hp: 135, atk: 24, mag: 27, def: 16, res: 18, spd: 13, luk: 10, exp: 99 },
       attacks: [
         { name: 'อาญาปีศาจ', nameEn: "Devil's Decree", element: 'dark', power: 1.35, target: 'single', weight: 3 },
@@ -268,7 +268,7 @@
       ]
     },
     {
-      id: 'void_dragon', name: 'มังกรห้วงว่าง', nameEn: 'Void Dragon', tier: 5, icon: 'dragon',
+      id: 'void_dragon', name: 'มังกรห้วงว่าง', nameEn: 'Void Dragon', tier: 5, icon: 'dragon_void',
       baseStats: { hp: 158, atk: 22, mag: 26, def: 17, res: 17, spd: 11, luk: 9, exp: 100 },
       attacks: [
         { name: 'คลื่นห้วงมิติ', nameEn: 'Void Ripple', element: 'dark', power: 1.3, target: 'single', weight: 3 },
@@ -276,7 +276,7 @@
       ]
     },
     {
-      id: 'inferno_duke', name: 'ดยุคเปลวนรก', nameEn: 'Inferno Duke', tier: 5, icon: 'demon',
+      id: 'inferno_duke', name: 'ดยุคเปลวนรก', nameEn: 'Inferno Duke', tier: 5, icon: 'demon_duke',
       baseStats: { hp: 130, atk: 27, mag: 20, def: 17, res: 14, spd: 12, luk: 8, exp: 97 },
       attacks: [
         { name: 'เพลิงราชศักดิ์', nameEn: 'Regal Blaze', element: 'fire', power: 1.4, target: 'single', weight: 3 },
@@ -709,7 +709,7 @@
   // regular enemy, but (unlike the floor-50 final boss) has no second phase.
   var minibosses = {
     5: {
-      id: 'steel_golem', name: 'โกเลมเหล็กกล้า', nameEn: 'Steel-Forged Golem', icon: 'golem', isBoss: true,
+      id: 'steel_golem', name: 'โกเลมเหล็กกล้า', nameEn: 'Steel-Forged Golem', icon: 'golem_steel', isBoss: true,
       baseStats: { hp: 75, atk: 13, mag: 3, def: 11, res: 6, spd: 6, luk: 4, exp: 55 },
       attacks: [
         { name: 'ทุบเกราะเหล็ก', nameEn: 'Iron Slam', element: 'phys', power: 1.3, target: 'single', weight: 3 },
@@ -718,7 +718,7 @@
       ]
     },
     10: {
-      id: 'bat_queen', name: 'ราชินีค้างคาวเลือด', nameEn: 'Blood Bat Queen', icon: 'bat', isBoss: true,
+      id: 'bat_queen', name: 'ราชินีค้างคาวเลือด', nameEn: 'Blood Bat Queen', icon: 'bat_blood', isBoss: true,
       baseStats: { hp: 100, atk: 14, mag: 14, def: 8, res: 9, spd: 19, luk: 9, exp: 95 },
       attacks: [
         { name: 'กัดดูดเลือดราชินี', nameEn: "Queen's Blood Drain", element: 'dark', power: 1.3, target: 'single', weight: 3, drainSelf: true },
@@ -727,7 +727,7 @@
       ]
     },
     15: {
-      id: 'inferno_warden', name: 'เจ้าไฟผู้พิทักษ์', nameEn: 'Inferno Warden', icon: 'demon', isBoss: true,
+      id: 'inferno_warden', name: 'เจ้าไฟผู้พิทักษ์', nameEn: 'Inferno Warden', icon: 'demon_warden', isBoss: true,
       baseStats: { hp: 155, atk: 20, mag: 20, def: 14, res: 11, spd: 11, luk: 8, exp: 150 },
       attacks: [
         { name: 'เปลวไฟผู้พิทักษ์', nameEn: "Warden's Blaze", element: 'fire', power: 1.35, target: 'single', weight: 3 },
@@ -736,7 +736,7 @@
       ]
     },
     20: {
-      id: 'wyvern_alpha', name: 'ไวเวิร์นจ่าฝูง', nameEn: 'Wyvern Alpha', icon: 'dragon', isBoss: true,
+      id: 'wyvern_alpha', name: 'ไวเวิร์นจ่าฝูง', nameEn: 'Wyvern Alpha', icon: 'dragon_alpha', isBoss: true,
       baseStats: { hp: 165, atk: 22, mag: 10, def: 14, res: 10, spd: 14, luk: 8, exp: 135 },
       attacks: [
         { name: 'กรงเล็บจ่าฝูง', nameEn: 'Alpha Talon', element: 'phys', power: 1.3, target: 'single', weight: 3 },
@@ -745,7 +745,7 @@
       ]
     },
     25: {
-      id: 'flame_overlord', name: 'จอมปีศาจเพลิง', nameEn: 'Flame Overlord', icon: 'demon', isBoss: true,
+      id: 'flame_overlord', name: 'จอมปีศาจเพลิง', nameEn: 'Flame Overlord', icon: 'demon_overlord', isBoss: true,
       baseStats: { hp: 212, atk: 26, mag: 24, def: 15, res: 13, spd: 12, luk: 9, exp: 210 },
       attacks: [
         { name: 'บัลลังก์เพลิง', nameEn: 'Throne of Flame', element: 'fire', power: 1.3, target: 'single', weight: 3 },
@@ -754,7 +754,7 @@
       ]
     },
     30: {
-      id: 'glacial_tyrant', name: 'ทรราชน้ำแข็งนิรันดร์', nameEn: 'Glacial Tyrant', icon: 'dragon', isBoss: true,
+      id: 'glacial_tyrant', name: 'ทรราชน้ำแข็งนิรันดร์', nameEn: 'Glacial Tyrant', icon: 'dragon_iceLord', isBoss: true,
       baseStats: { hp: 300, atk: 28, mag: 26, def: 18, res: 16, spd: 11, luk: 9, exp: 310 },
       attacks: [
         { name: 'ลมหายใจนิรันดร์', nameEn: 'Eternal Frost Breath', element: 'ice', power: 1.2, target: 'all', weight: 2 },
@@ -763,7 +763,7 @@
       ]
     },
     35: {
-      id: 'abyssal_matriarch', name: 'มารดาแห่งห้วงนรก', nameEn: 'Abyssal Matriarch', icon: 'demon', isBoss: true,
+      id: 'abyssal_matriarch', name: 'มารดาแห่งห้วงนรก', nameEn: 'Abyssal Matriarch', icon: 'demon_matriarch', isBoss: true,
       baseStats: { hp: 345, atk: 30, mag: 32, def: 19, res: 20, spd: 14, luk: 10, exp: 360 },
       attacks: [
         { name: 'เสียงเรียกห้วงนรก', nameEn: 'Abyssal Call', element: 'dark', power: 1.3, target: 'single', weight: 3 },
@@ -772,7 +772,7 @@
       ]
     },
     40: {
-      id: 'obsidian_dragon', name: 'มังกรหินอัคคี', nameEn: 'Obsidian Dragon', icon: 'dragon', isBoss: true,
+      id: 'obsidian_dragon', name: 'มังกรหินอัคคี', nameEn: 'Obsidian Dragon', icon: 'dragon_obsidian', isBoss: true,
       baseStats: { hp: 430, atk: 34, mag: 30, def: 22, res: 19, spd: 13, luk: 10, exp: 450 },
       attacks: [
         { name: 'ลมหายใจหินหลอมเหลว', nameEn: 'Molten Breath', element: 'fire', power: 1.25, target: 'all', weight: 2 },
