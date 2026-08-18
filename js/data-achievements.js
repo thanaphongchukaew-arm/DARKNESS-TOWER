@@ -67,7 +67,7 @@
       title: 'ผู้พิชิตบัลลังก์นิรันดร์', titleEn: 'Throne Conqueror' },
     { id: 'companions_all', name: 'มิตรแห่งสรรพสัตว์', nameEn: 'Friend of All', icon: 'companionSlot',
       type: 'companionsAll',
-      desc: 'รับสหายร่วมทางครบทั้ง 4 ตัว', descEn: 'Recruit all 4 companions at least once.',
+      desc: 'รับสหายร่วมทางครบทั้ง 7 ตัว', descEn: 'Recruit all 7 companions at least once.',
       title: 'มิตรแห่งสรรพสัตว์', titleEn: 'Friend of All' },
     { id: 'flawless_victor', name: 'ผู้ไร้รอยขีดข่วน', nameEn: 'Flawless Victor', icon: 'trophy',
       type: 'flag', flag: 'flawlessVictor',
