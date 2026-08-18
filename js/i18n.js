@@ -332,6 +332,8 @@
     logVictory: { th: 'ชนะการต่อสู้!', en: 'Victory!' },
     logDefeat: { th: 'คุณพ่ายแพ้...', en: 'You were defeated...' },
     logFirstStrike: { th: 'ศัตรูจู่โจมก่อน!', en: 'The enemy strikes first!' },
+    logBattleStart: { th: '{name} ปรากฏตัว!', en: '{name} appears!' },
+    logBattleStartMulti: { th: 'ศัตรูปรากฏตัว!', en: 'Enemies appear!' },
     logInvalidAction: { th: 'ทำไม่ได้ตอนนี้', en: 'Can\'t do that right now' },
     logExpGained: { th: 'ได้รับ {exp} EXP', en: 'Gained {exp} EXP' },
     logGoldGained: { th: 'ได้รับ {gold} ทอง', en: 'Gained {gold} Gold' },

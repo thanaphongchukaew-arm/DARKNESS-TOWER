@@ -15,6 +15,7 @@ const FILES = [
   'js/pixel-art.js',
   'js/pixel-sprites.js',
   'js/icons.js',
+  'js/pixel-icons.js',
   'js/i18n.js',
   'js/audio.js',
   'js/data-classes.js',

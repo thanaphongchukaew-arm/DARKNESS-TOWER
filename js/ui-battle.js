@@ -746,6 +746,14 @@
     renderTurnOrder(currentBattle);
     renderActions();
     setActionsEnabled(false);
+    // Always seed the log with an intro line -- otherwise the panel sits
+    // completely blank until the first action resolves, which reads as a
+    // rendering glitch rather than an empty dialogue box.
+    if (currentBattle.enemies.length === 1) {
+      logLine(T('logBattleStart', { name: currentBattle.enemies[0].name }), 'log-new');
+    } else {
+      logLine(T('logBattleStartMulti'), 'log-new');
+    }
     if (currentBattle.pendingFirstStrike) {
       logLine(T('logFirstStrike'), 'log-weak');
       setTimeout(function () {

@@ -9,7 +9,7 @@
   width: 100%;
   min-height: 100vh;
   padding: clamp(1rem, 3vw, 2.5rem);
-  animation: screen-in 0.2s steps(4, end);
+  animation: screen-in 0.2s steps(6, end);
 }
 
 .screen.active {
