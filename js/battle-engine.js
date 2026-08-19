@@ -1,8 +1,12 @@
 // ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
 
 // Battle engine: initiative/action-point economy, damage resolution, enemy AI, All-Out Attack.
-// Round structure: player phase (chained action-point turns) -> enemy phase -> next round.
-// A large SPD gap grants a one-time ambush (enemy first-strike) or head-start (bonus player AP) at battle start.
+// Round structure: player phase (one action-point turn per round, chainable only by a SPD-ahead
+// bonus AP, Vanguard's grantsBonusAp skills, or a Momentum Charm proc) -> enemy phase (one attack
+// per enemy per round, same SPD-ahead bonus) -> next round. Landing a crit no longer grants a
+// bonus action to either side -- only SPD advantage (see spdAheadBonus) and the two named
+// exceptions above can chain a second action in the same turn.
+// A large SPD gap also grants a one-time ambush (enemy first-strike) at battle start.
 //
 /**
  * @typedef {Object} PlayerActor
@@ -388,9 +392,9 @@
       events.push({ type: 'guard' });
     } else if (action.kind === 'overdrive') {
       // Spends a full Focus gauge on a single almighty-element hit -- no MP cost
-      // (paid entirely in Focus), doesn't chain bonus AP even on a crit (unlike a
-      // normal attack) so it stays a clean "spend your turn" finisher rather than
-      // stacking with the crit/relic extra-turn rules above.
+      // (paid entirely in Focus), never grants a bonus AP itself (unlike Vanguard's
+      // grantsBonusAp skills or a Momentum Charm proc) so it stays a clean
+      // "spend your turn" finisher.
       var odTarget = battle.enemies[action.targetIndex];
       if (battle.player.focus < F().FOCUS_MAX || !odTarget || !odTarget.alive) {
         events.push({ type: 'invalid' });
@@ -481,7 +485,6 @@
         battle.playerAP -= 1;
       } else if (skill.kind === 'attack') {
         var hits = buildPlayerHits(skill, battle, action.targetIndex);
-        var hadCrit = false;
         var playerEff = playerOffenseEff(battle);
         hits.forEach(function (h) {
           var enemy = battle.enemies[h.targetIndex];
@@ -509,7 +512,7 @@
           if (focusBefore < F().FOCUS_MAX && battle.player.focus >= F().FOCUS_MAX) events.push({ type: 'focusReady' });
           var dmgAmt = applyBreak(enemy, hit.amount, events);
           enemy.hp = Math.max(0, enemy.hp - dmgAmt);
-          if (hit.isCrit) { hadCrit = true; enemy.downed = true; events.push({ type: 'downed', targetUid: enemy.uid, targetName: enemy.name }); }
+          if (hit.isCrit) { enemy.downed = true; events.push({ type: 'downed', targetUid: enemy.uid, targetName: enemy.name }); }
           events.push({ type: 'hit', targetSide: 'enemy', targetUid: enemy.uid, targetName: enemy.name, element: h.element, isCrit: hit.isCrit, amount: dmgAmt, hpAfter: enemy.hp, maxHp: enemy.maxHp, breakMeter: enemy.breakMeter, broken: enemy.broken });
           if (skill.drainSelf && dmgAmt > 0) {
             var healBack = Math.round(dmgAmt * 0.4);
@@ -541,20 +544,15 @@
           }
         });
         battle.playerAP -= 1;
-        if (hadCrit) {
+        // Momentum Charm relic: a flat per-attack chance to grant a bonus action
+        // point, independent of whether the hit crit -- crits no longer grant one
+        // on their own, so this is the only random source of an extra player turn.
+        var momentum = D().getRelic('momentum_charm');
+        if (momentum && S().hasRelic(run, 'momentum_charm') && Math.random() < momentum.bonusApChance) {
           battle.playerAP = Math.min(battle.playerAP + 1, 4);
-        } else {
-          // Momentum Charm relic: a non-crit attack has a flat chance to still
-          // grant the same bonus turn a crit would (only rolled when the crit
-          // itself didn't already grant it, so this can't double up per action).
-          var momentum = D().getRelic('momentum_charm');
-          if (momentum && S().hasRelic(run, 'momentum_charm') && Math.random() < momentum.bonusApChance) {
-            battle.playerAP = Math.min(battle.playerAP + 1, 4);
-          }
         }
         // Vanguard-only: an attack-kind grantsBonusAp skill refunds its own AP same as
-        // the buffSelf case above, regardless of whether it also happened to crit
-        // (that's evaluated first; this still tops back up afterward).
+        // the buffSelf case above.
         if (skill.grantsBonusAp) battle.playerAP = Math.min(battle.playerAP + 1, 4);
       }
     }
@@ -640,21 +638,16 @@
       var playerSpd0 = effectiveStats(battle.player, battle.player.buffs).spd;
       // round 1 already grants a full ambush phase off this same speed gap (see createBattle) --
       // skip the bonus-action check there so a fast enemy doesn't double-dip the same lead.
+      // A crit no longer grants a bonus attack, so `ap` only ever counts down from its
+      // starting value -- at most 2 (the SPD-ahead bonus), never refilled mid-turn.
       var ap = (battle.round > 1 && spdAheadBonus(enemySpd0, playerSpd0)) ? 2 : 1;
-      // Crit hits grant bonus AP (mirrors the player's own extra-turn rule below),
-      // but without a hard cap a lucky streak could keep one enemy attacking all
-      // round -- cap each enemy to 2 attacks per turn no matter how many bonus-AP
-      // hits it lands.
-      var hitsThisTurn = 0;
-      var maxHitsPerTurn = 2;
-      while (ap > 0 && hitsThisTurn < maxHitsPerTurn) {
+      while (ap > 0) {
         if (battle.run.hp <= 0) break;
         var atk = pickWeighted(enemy.attacksPool);
         var attackerEff = effectiveStats(enemy, enemy.debuffs);
         var playerEff = effectiveStats(battle.player, battle.player.buffs);
         var hit = resolveHit(attackerEff, playerEff, atk.element, atk.power);
         ap -= 1;
-        hitsThisTurn += 1;
         var dmg = hit.amount;
         // Stone Ward relic (see data-relics.js): flat reduction to all incoming
         // enemy damage, applied before Guard's own halving so the two multiply.
@@ -667,7 +660,6 @@
           applyStatMod(battle.player.buffs, atk.debuff.stat, -atk.debuff.amount, 3);
           events.push({ type: 'buff', side: 'player', stat: atk.debuff.stat, amount: -atk.debuff.amount });
         }
-        if (hit.isCrit) ap = Math.min(ap + 1, 2);
         checkBattleEnd(battle, events);
         if (battle.over) break;
       }
