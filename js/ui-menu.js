@@ -63,6 +63,7 @@
         window.Game.State.current = run;
         window.Game.State.normalizeEquipment(run);
         window.Game.State.normalizeRunExtras(run);
+        window.Game.State.clampVitals(run);
         window.Game.TowerUI.renderTower();
         showScreen('screen-tower');
       };

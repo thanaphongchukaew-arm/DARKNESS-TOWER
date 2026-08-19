@@ -139,7 +139,7 @@
       var it1 = consumables[Math.floor(Math.random() * consumables.length)];
       offers.push({ id: 'i_' + it1.id, kind: 'item', item: it1, qty: 3, price: Math.round(F.shopPrice(it1) * 2.4) });
     }
-    var materials = D.items.filter(function (it) { return it.kind === 'material' && it.tier === F.tierForFloor(floor); });
+    var materials = D.items.filter(function (it) { return it.kind === 'material' && it.tier === Math.min(F.tierForFloor(floor), 9); });
     if (materials.length) {
       var m = materials[Math.floor(Math.random() * materials.length)];
       var qty = 3 + Math.floor(Math.random() * 3);
@@ -225,7 +225,7 @@
               window.Game.UI.confirmModal({ title: T('eventChestGoodTitle'), message: T('eventChestBlessingMsg', { name: L(b, 'name') }), confirmLabel: T('closeBtn'), onConfirm: function () { finishEvent(floor); } });
             } else { finishEvent(floor); }
           } else {
-            var tier = F.tierForFloor(floor);
+            var tier = Math.min(F.tierForFloor(floor), 9);
             var mats = D.items.filter(function (it) { return it.kind === 'material' && it.tier === tier; });
             if (mats.length) {
               var m = mats[Math.floor(Math.random() * mats.length)];

@@ -538,7 +538,8 @@
     var skills = battle.player.skills.filter(function (s) { return s.id !== 'attack'; });
     var root = document.getElementById('battle-submenu');
     var itemsHtml = skills.length ? skills.map(function (s) {
-      var disabled = battle.run.mp < s.cost;
+      var hpCostAmt = s.hpCost ? Math.round(battle.player.maxHp * s.hpCost) : 0;
+      var disabled = battle.run.mp < s.cost || (hpCostAmt > 0 && battle.run.hp <= hpCostAmt);
       return '<button class="submenu-option" ' + (disabled ? 'disabled' : '') + ' data-id="' + s.id + '">' +
         '<div class="submenu-option-icon">' + I(s.icon) + '</div>' +
         '<div class="submenu-option-info"><div class="submenu-option-name">' + L(s, 'name') + ' <span class="el-tag el-' + s.element + '">' + EN(s.element) + '</span></div><div class="submenu-option-desc">' + L(s, 'desc') + '</div></div>' +
@@ -830,8 +831,15 @@
     if (currentBattle.pendingFirstStrike) {
       logLine(T('logFirstStrike'), 'log-weak');
       setTimeout(function () {
-        var res = window.Game.BattleEngine.runEnemyPhase(currentBattle);
-        playEvents(res.events, function () { afterEnemyPhase(); });
+        var battle = currentBattle;
+        var resC = window.Game.BattleEngine.runCompanionPhase(battle);
+        playEvents(resC.events, function () {
+          renderPlayerPanel(battle);
+          renderEnemies(battle);
+          if (battle.over) { handleBattleEnd(battle); return; }
+          var res2 = window.Game.BattleEngine.runEnemyPhase(battle);
+          playEvents(res2.events, function () { afterEnemyPhase(); });
+        });
       }, 500);
     } else {
       setActionsEnabled(true);

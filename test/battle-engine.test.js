@@ -44,17 +44,19 @@ test('a landed attack damages the enemy and builds both Focus and Break', () => 
 
 test('Break flags the enemy broken once its meter fills, and a subsequent hit deals bonus damage', () => {
   const battle = soloBattle(1);
+  // Pin HP well above anything floor-1 attacks could deal in a handful of hits,
+  // so the break meter reliably fills before the enemy dies (otherwise this
+  // test could silently run zero assertions -- see the loop's alive checks below).
+  battle.enemies[0].hp = battle.enemies[0].maxHp = 999999;
   const hitsToBreak = Math.ceil(Formulas.BREAK_THRESHOLD / Formulas.BREAK_PER_HIT);
   let brokenEventSeen = false;
   for (let i = 0; i < hitsToBreak && battle.enemies[0].alive; i++) {
     const res = BE.playerAction(battle, { kind: 'attack', targetIndex: 0 });
     if (res.events.some((e) => e.type === 'enemyBroken')) brokenEventSeen = true;
-    if (!battle.enemies[0].alive) break; // a weak floor-1 enemy may die before the meter fills
   }
-  if (battle.enemies[0].alive) {
-    assert.ok(brokenEventSeen, 'the break threshold should have fired an enemyBroken event by now');
-    assert.equal(battle.enemies[0].broken, true);
-  }
+  assert.ok(battle.enemies[0].alive, 'the pinned-HP enemy should still be alive after hitsToBreak hits');
+  assert.ok(brokenEventSeen, 'the break threshold should have fired an enemyBroken event by now');
+  assert.equal(battle.enemies[0].broken, true);
 });
 
 test('Overdrive is rejected below full Focus and does not touch player state', () => {
@@ -90,17 +92,27 @@ test('runEnemyPhase can damage the player and always advances the round afterwar
   battle.playerAP = 0;
   const hpBefore = battle.run.hp;
   const roundBefore = battle.round;
-  BE.runEnemyPhase(battle);
-  assert.ok(battle.run.hp <= hpBefore);
+  const res = BE.runEnemyPhase(battle);
+  // computeDamage never returns less than 1 (see formulas.test.js), and every
+  // living, non-downed enemy always gets at least one attack, so this is a
+  // guaranteed strict decrease, not just "did not increase".
+  assert.ok(battle.run.hp < hpBefore, 'a live enemy should always land at least 1 damage');
+  assert.ok(res.events.some((e) => e.type === 'hit' && e.targetSide === 'player'), 'runEnemyPhase should emit a hit event against the player');
   if (!battle.over) assert.equal(battle.round, roundBefore + 1);
 });
 
 test('confirmAllOut damages every living enemy and always ends the player turn', () => {
   const battle = soloBattle(1);
+  const hpBefore = battle.enemies.map((e) => e.hp);
   battle.awaitingAllOut = true;
   const res = BE.confirmAllOut(battle, true);
   assert.equal(res.playerAP, 0);
   assert.ok(res.events.some((e) => e.type === 'allOutStart'));
+  // All-Out's per-enemy damage is Math.max(1, ...) (see battle-engine.js),
+  // so every enemy that was alive beforehand must show a strict HP decrease.
+  battle.enemies.forEach((e, i) => {
+    assert.ok(e.hp < hpBefore[i], `enemy ${i} should have taken All-Out damage`);
+  });
 });
 
 test('declining an All-Out Attack does not change any enemy HP', () => {

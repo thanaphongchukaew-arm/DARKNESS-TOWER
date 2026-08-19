@@ -276,6 +276,7 @@
     if (!run.blessings) run.blessings = [];
     if (!run.curses) run.curses = [];
     if (!run.relics) run.relics = [];
+    if (!run.bonusSkills) run.bonusSkills = [];
     if (run.blessingRevived == null) run.blessingRevived = false;
     if (run.ascension == null) run.ascension = 0;
     if (run.companionId === undefined) run.companionId = null;
@@ -319,7 +320,7 @@
    */
   function getTotalStats(run) {
     deps();
-    var cls = D.getClass(run.classId);
+    var cls = D.getClass(run.classId) || D.classes[0];
     var base = F.playerStatsAtLevel(cls, run.level);
     var bonus = getEquipmentBonus(run);
     var total = {};
@@ -791,6 +792,7 @@
           .filter(function (s) { return (s.classOnly === null || s.classOnly === run.classId) && s.minLevel <= run.level && !known[s.id]; })
           .sort(function (a, b) { return a.minLevel - b.minLevel; });
         if (candidates.length) {
+          run.bonusSkills = run.bonusSkills || [];
           run.bonusSkills.push(candidates[0].id);
           result.learnedSkillId = candidates[0].id;
         } else {

@@ -76,16 +76,18 @@ test('computeDamage: almighty ignores both defense stats and uses the higher of 
 });
 
 test('computeDamage: a crit hits noticeably harder than a non-crit, all else equal', () => {
-  // average over several rolls since computeDamage has +/-10% variance
-  function avg(isCrit) {
-    let total = 0;
-    const n = 200;
-    for (let i = 0; i < n; i++) {
-      total += F.computeDamage({ element: 'phys', power: 1, atkStat: 100, magStat: 0, defStat: 10, resStat: 0, isCrit });
-    }
-    return total / n;
+  // Pin the +/-10% variance roll to the same fixed value for both calls (rather
+  // than averaging over many unseeded rolls) so the comparison is deterministic.
+  const originalRandom = Math.random;
+  Math.random = () => 0.5;
+  let critDmg, normalDmg;
+  try {
+    critDmg = F.computeDamage({ element: 'phys', power: 1, atkStat: 100, magStat: 0, defStat: 10, resStat: 0, isCrit: true });
+    normalDmg = F.computeDamage({ element: 'phys', power: 1, atkStat: 100, magStat: 0, defStat: 10, resStat: 0, isCrit: false });
+  } finally {
+    Math.random = originalRandom;
   }
-  assert.ok(avg(true) > avg(false) * 1.3, 'a crit should deal substantially more damage on average');
+  assert.ok(critDmg > normalDmg * 1.3, 'a crit should deal substantially more damage than a non-crit');
 });
 
 test('computeDamage never returns less than 1', () => {

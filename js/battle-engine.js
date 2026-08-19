@@ -229,7 +229,7 @@
   }
 
   function buildPlayerActor(run) {
-    var cls = D().getClass(run.classId);
+    var cls = D().getClass(run.classId) || D().classes[0];
     var total = S().getTotalStats(run);
     return {
       classId: run.classId, name: L(cls, 'name'), icon: cls.icon,
@@ -427,7 +427,7 @@
       // MP -- must always leave the caster with at least 1 HP, so this can never be a
       // free suicide (checkBattleEnd only ever fires from *damage*, not from this cost).
       var hpCostAmt = skill && skill.hpCost ? Math.round(battle.player.maxHp * skill.hpCost) : 0;
-      if (!skill || run.mp < skill.cost || (hpCostAmt > 0 && run.hp <= hpCostAmt)) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
+      if (!skill || run.mp < skill.cost || (hpCostAmt > 0 && run.hp <= hpCostAmt) || (skill.kind === 'heal' && run.hp >= battle.player.maxHp)) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
       // validate the target *before* spending MP/HP, so an invalid/stale target can't waste resources
       if (skill.target === 'singleEnemy') {
         var checkTgt = battle.enemies[action.targetIndex];
@@ -714,6 +714,7 @@
         });
         var compDmg = applyBreak(target, amount, events);
         target.hp = Math.max(0, target.hp - compDmg);
+        if (isCrit) { target.downed = true; events.push({ type: 'downed', targetUid: target.uid, targetName: target.name }); }
         events.push({ type: 'companionHit', companionName: comp.name, targetUid: target.uid, targetName: target.name, isCrit: isCrit, amount: compDmg, hpAfter: target.hp, maxHp: target.maxHp, breakMeter: target.breakMeter, broken: target.broken });
         if (target.hp <= 0) {
           target.alive = false;
@@ -766,7 +767,7 @@
     battle.enemies.forEach(function (e) {
       var template = D().getEnemyTemplate(e.templateId);
       if (!template) return;
-      var tier = template.tier || F().tierForFloor(battle.floor);
+      var tier = Math.min(template.tier || F().tierForFloor(battle.floor), 9);
       var mats = D().items.filter(function (it) { return it.kind === 'material' && it.tier === tier; });
       if (!mats.length) return;
       var dropChance = (e.isBoss ? 1 : 0.5) * rate;
