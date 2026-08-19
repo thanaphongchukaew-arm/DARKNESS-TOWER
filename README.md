@@ -1,3 +1,5 @@
+<!-- ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.) -->
+
 # Shadow-tower
 
 `index.html` loads `dist/game.min.js`, a minified/mangled bundle of everything under `js/` (source of truth). After editing any file in `js/`, rebuild it:

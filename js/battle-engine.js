@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Battle engine: initiative/action-point economy, damage resolution, enemy AI, All-Out Attack.
 // Round structure: player phase (chained action-point turns) -> enemy phase -> next round.
 // A large SPD gap grants a one-time ambush (enemy first-strike) or head-start (bonus player AP) at battle start.

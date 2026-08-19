@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Random tower events: a small chance (see TowerUI's EVENT_CHANCE) of a full-screen
 // detour between floors, offering a risk/reward choice. Display text lives in i18n.js
 // (keys follow the `event<Id>...` convention, e.g. eventMerchantTitle) since these are

@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Casual deterrent only -- this cannot stop anyone determined (DevTools can
 // still be opened from the browser menu, or the page fetched directly), it
 // just removes the easy right-click / keyboard shortcuts most people reach for.

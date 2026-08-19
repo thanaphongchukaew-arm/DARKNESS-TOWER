@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Central glyph library. Text/ASCII-terminal icon set (no images, no external assets).
 (function () {
   var RAW = {

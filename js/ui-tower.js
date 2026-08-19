@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Tower map, reward screen, status/equip screen.
 (function () {
   function I(name, cls) { return window.Game.Icons.get(name, cls); }

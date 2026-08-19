@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Companion definitions: one passive ally, hired for free once its floor
 // requirement has ever been reached (State.recordFloorReached / meta.bestFloorReached
 // -- an account-wide unlock, like the Valiant elite classes). Acts automatically once

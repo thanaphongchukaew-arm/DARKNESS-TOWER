@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Quest definitions: always-active objectives (no "accept" step -- see the
 // Quests screen in ui-tower.js) that become claimable the moment their
 // condition is met and stay claimable until the player collects the reward.

@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Crafting recipes: consume monster-drop materials (+ gold) to produce a
 // craft-only equipment item (see the craftOnly items in data-items.js). One
 // recipe per tier, unlocked at the crafting bench once the player reaches

@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Hand-authored pixel-art sprite data (original art, NES-inspired). No image assets.
 (function () {
   var P = window.Game.PixelArt;

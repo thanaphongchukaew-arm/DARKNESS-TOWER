@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Enemy templates grouped by tier (which floor range they can appear on) + the floor-100 final boss.
 // baseStats are calibrated for floor 1; battle-engine scales them per floor/difficulty.
 // Tiers: 1 = floors 1-10 (beasts & lesser undead), 2 = 11-20 (knights & elementals),

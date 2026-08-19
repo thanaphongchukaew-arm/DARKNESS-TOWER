@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Pure formulas: stat growth, damage, exp curve, floor/difficulty scaling.
 (function () {
   // Each step up keeps the same ~1.3x jump in both statMult and rewardMult that

@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Skill pool. classOnly: null = shared by all classes, otherwise restricted to that class id.
 // kind: 'attack' | 'heal' | 'buffSelf' | 'debuffEnemy'
 // target: 'singleEnemy' | 'allEnemies' | 'self'

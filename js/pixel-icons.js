@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Pixel-art definitions filling the *remaining* gaps in icons.js's RAW glyph table.
 //
 // Most of that table already has real pixel-art sprites -- pixel-sprites.js defines

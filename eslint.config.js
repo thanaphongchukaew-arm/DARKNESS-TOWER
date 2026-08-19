@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Flat ESLint config (ESLint 9+). The game's js/*.js files are plain
 // browser-loaded scripts (see scripts/build.js -- no bundler, no modules), so
 // they get the browser globals + script sourceType; test/ and scripts/ run

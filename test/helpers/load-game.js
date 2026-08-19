@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Loads a subset of the real js/*.js source files into an isolated vm sandbox,
 // in the same dependency order scripts/build.js concatenates them in, so tests
 // exercise the actual production code (not a reimplementation of it). Returns

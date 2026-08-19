@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Bundles + minifies/mangles all game source files into dist/game.min.js so
 // the shipped code isn't trivially readable in DevTools. index.html loads
 // only the dist bundle, never the individual js/*.js files -- run

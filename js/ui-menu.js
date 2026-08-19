@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Main menu, difficulty select, class select screens + shared modal/confirm helper.
 (function () {
   function I(name, cls) { return window.Game.Icons.get(name, cls); }

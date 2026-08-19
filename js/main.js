@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // App boot + game-over/victory screen.
 (function () {
   function T(key) { return window.Game.I18n.t(key); }

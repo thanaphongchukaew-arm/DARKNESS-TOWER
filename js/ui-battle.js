@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Battle screen: rendering, action menu, target selection, event playback, All-Out Attack modal.
 (function () {
   function I(name, cls) { return window.Game.Icons.get(name, cls); }

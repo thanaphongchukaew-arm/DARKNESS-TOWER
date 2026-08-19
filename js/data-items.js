@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Equipment + consumable item definitions. tier matches the tower's floor tiers (1: 1-10, 2: 11-20,
 // 3: 21-30, 4: 31-40, 5: 41-44). Floors 45-100 (the hidden upper tower, see data-enemies.js) draw from
 // two more gear tiers layered on top -- 6 (floors 45-74) and 7 (floors 75-100) -- via

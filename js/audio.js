@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Chiptune audio engine: synthesized SFX + looping background tracks via Web Audio API.
 // No external audio files -- everything is oscillators/noise generated at runtime.
 (function () {

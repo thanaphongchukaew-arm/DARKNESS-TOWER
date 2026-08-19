@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Run-long blessing/curse modifiers. Never applied via battle-engine's per-battle
 // buff/debuff arrays (those tick down and refresh-not-stack by stat key -- see
 // state.js's blessingStatMult) -- these are pure multipliers composed once inside

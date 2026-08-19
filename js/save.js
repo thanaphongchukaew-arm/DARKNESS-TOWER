@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // localStorage persistence for the current tower run, plus a small separate
 // meta-progress store (achievements that must outlive any single run, like
 // unlocking Nightmare difficulty) that clear()/a fresh run never touches.

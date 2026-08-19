@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // One-off bragging-rights achievements (distinct from the cumulative-resource Quests
 // screen). Reward is purely cosmetic: a title string the player can equip from the
 // Codex screen (see State.equipTitle), shown next to their name on the Status screen.

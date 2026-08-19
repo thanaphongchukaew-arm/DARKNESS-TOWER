@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Bilingual (Thai/English) string dictionary + helpers. English falls back to Thai
 // wherever a translation is missing, and Thai falls back to Chakra Petch since
 // the 8-bit pixel font (Press Start 2P) has no Thai glyphs.

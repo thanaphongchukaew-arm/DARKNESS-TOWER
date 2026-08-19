@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Pixel-art rendering engine: turns a text grid into a crisp inline SVG sprite.
 // No image assets -- every sprite is authored as rows of palette-key characters.
 (function () {

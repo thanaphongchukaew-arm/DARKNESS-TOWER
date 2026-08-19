@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Codex screen: Bestiary + Achievements tabs, reachable from the tower map's
 // Codex button. Both tabs reuse the exact card/grid vocabulary the Quests screen
 // already established (.craft-card/.card-grid/.guide-section) -- Bestiary has no

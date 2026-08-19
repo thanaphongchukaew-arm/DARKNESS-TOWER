@@ -1,3 +1,5 @@
+// ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
+
 // Relics: run-long passive items that bend a combat *rule* rather than just
 // multiplying a stat (contrast data-blessings.js, which is pure %-stat/economy
 // multipliers). Each relic's mechanical effect is checked directly by id at its
