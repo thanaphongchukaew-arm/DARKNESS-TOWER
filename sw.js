@@ -1,4 +1,4 @@
-const CACHE_NAME = 'darkness-tower-v1';
+const CACHE_NAME = 'darkness-tower-v5';
 
 const PRECACHE_URLS = [
   './',
@@ -11,14 +11,14 @@ const PRECACHE_URLS = [
   './css/menu.css',
   './css/battle.css',
   './dist/game.min.js',
-  './img/menu-bg.jpg',
-  './รูปประกอบ/Start_BG.png',
-  './รูปประกอบ/roof.png',
-  './icon/icon-192.png',
-  './icon/icon-512.png',
-  './icon/favicon-16.png',
-  './icon/favicon-32.png',
-  './icon/apple-touch-icon.png',
+  './backgrounds/menu-bg.jpg',
+  './backgrounds/story-intro-bg.png',
+  './backgrounds/story-ending-bg.png',
+  './icons/android-chrome-192x192.png',
+  './icons/android-chrome-512x512.png',
+  './icons/favicon-16x16.png',
+  './icons/favicon-32x32.png',
+  './icons/apple-touch-icon.png',
 ];
 
 self.addEventListener('install', (event) => {

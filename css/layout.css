@@ -73,7 +73,7 @@
   background:
     radial-gradient(circle at 82% 12%, rgba(245, 232, 184, 0.3), rgba(245, 232, 184, 0) 9%),
     linear-gradient(180deg, rgba(12, 9, 22, 0.55) 0%, rgba(10, 8, 20, 0.6) 45%, rgba(6, 6, 12, 0.8) 80%, rgba(4, 4, 8, 0.92) 100%),
-    url('../img/menu-bg.jpg');
+    url('../backgrounds/menu-bg.jpg');
   background-size: auto, auto, cover;
   background-position: center, center, center 70%;
   background-repeat: no-repeat;
@@ -363,7 +363,7 @@ button.tower-jump-btn:hover:not(:disabled) {
   position: relative;
   background:
     linear-gradient(180deg, rgba(10, 8, 16, 0.55) 0%, rgba(8, 6, 12, 0.68) 55%, rgba(4, 4, 8, 0.85) 100%),
-    url('../รูปประกอบ/Start_BG.png');
+    url('../backgrounds/story-intro-bg.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -375,7 +375,7 @@ button.tower-jump-btn:hover:not(:disabled) {
   position: relative;
   background:
     linear-gradient(180deg, rgba(10, 8, 16, 0.55) 0%, rgba(8, 6, 12, 0.68) 55%, rgba(4, 4, 8, 0.85) 100%),
-    url('../รูปประกอบ/roof.png');
+    url('../backgrounds/story-ending-bg.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
