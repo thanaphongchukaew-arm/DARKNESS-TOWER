@@ -2,8 +2,8 @@
 
 // Pure formulas: stat growth, damage, exp curve, floor/difficulty scaling.
 (function () {
-  // Nightmare is the only difficulty selectable from the menu (see
-  // ui-menu.js's renderDifficulty) -- easy/normal/hard stay defined here
+  // Nightmare is the only difficulty a new run can start on (see
+  // ui-menu.js's startNightmareRun) -- easy/normal/hard stay defined here
   // because tests and other formulas (enemyStatScale, etc.) still reference
   // them, and each step keeps the same ~1.3x jump in statMult/rewardMult.
   var DIFFICULTY = {

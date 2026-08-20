@@ -69,10 +69,7 @@
       };
     }
     function startIntroStory() {
-      renderStory('intro', function () {
-        renderDifficulty();
-        showScreen('screen-difficulty');
-      });
+      renderStory('intro', startNightmareRun);
       showScreen('screen-story');
     }
     document.getElementById('btn-new').onclick = function () {
@@ -205,54 +202,25 @@
     btn.onclick = function () { SFX('ui_confirm'); onContinue(); };
   }
 
-  var DIFF_DESC_KEY = { nightmare: 'diffNightmareDesc' };
-  var DIFF_ICON = { nightmare: 'skullFire' };
-
-  // Nightmare is the only difficulty on offer -- always unlocked, since there's
-  // no easier mode left to clear first (see data-classes.js's elite-class
-  // unlock note for how clearing it still gates the 5 Valiant classes).
-  function renderDifficulty() {
-    var el = document.getElementById('difficulty-cards');
-    var F = window.Game.Formulas;
-    var order = ['nightmare'];
-    el.innerHTML = order.map(function (id) {
-      var d = F.DIFFICULTY[id];
-      return '<button class="select-card" data-id="' + id + '">' +
-        '<div class="select-card-icon">' + I(DIFF_ICON[id]) + '</div>' +
-        '<div class="select-card-title">' + L(d, 'name') + '</div>' +
-        '<div class="select-card-desc">' + T(DIFF_DESC_KEY[id]) + '</div>' +
-        '<div class="select-card-stats">' +
-          '<span class="stat-chip">' + T('enemyPowerLabel') + d.statMult.toFixed(2) + '</span>' +
-          '<span class="stat-chip">' + T('rewardLabel') + d.rewardMult.toFixed(2) + '</span>' +
-        '</div>' +
-      '</button>';
-    }).join('');
-    Array.prototype.forEach.call(el.querySelectorAll('.select-card'), function (card) {
-      card.onclick = function () {
-        var id = card.getAttribute('data-id');
-        SFX('ui_confirm');
-        window.Game.State.pending.difficulty = id;
-        // Ascension is Nightmare-only and only shown once the player has ever
-        // cleared the tower on Nightmare -- every other pick resets it to 0 and
-        // skips straight to class select, so the vast majority of runs never see
-        // this extra screen.
-        if (window.Game.State.getAscensionUnlocked() > 0) {
-          renderAscensionPick();
-          showScreen('screen-ascension');
-        } else {
-          window.Game.State.pending.ascension = 0;
-          renderClassSelect();
-          showScreen('screen-class');
-        }
-      };
-    });
-    document.getElementById('diff-back').innerHTML = I('back');
-    document.getElementById('diff-back').onclick = function () { SFX('ui_back'); renderMainMenu(); showScreen('screen-menu'); };
+  // Nightmare is the only difficulty in the game, so there's no picker screen
+  // for it -- a new run goes straight from the intro story into the ascension
+  // picker (once unlocked) or class select. See data-classes.js's elite-class
+  // unlock note for how clearing Nightmare still gates the 5 Valiant classes.
+  function startNightmareRun() {
+    window.Game.State.pending.difficulty = 'nightmare';
+    if (window.Game.State.getAscensionUnlocked() > 0) {
+      renderAscensionPick();
+      showScreen('screen-ascension');
+    } else {
+      window.Game.State.pending.ascension = 0;
+      renderClassSelect();
+      showScreen('screen-class');
+    }
   }
 
-  // Ascension level picker (Nightmare-only, see data note above renderDifficulty's
-  // proceed()). Reuses the exact locked/unlocked .select-card pattern the
-  // difficulty/class screens already use, just with plain integer levels
+  // Ascension level picker (Nightmare-only, see startNightmareRun above).
+  // Reuses the exact locked/unlocked .select-card pattern the class screen
+  // already uses, just with plain integer levels
   // 0..min(meta.ascensionUnlocked, Formulas.ASCENSION_MAX) instead of data records.
   function renderAscensionPick() {
     var F = window.Game.Formulas;
@@ -282,7 +250,7 @@
     });
     document.getElementById('ascension-sub').textContent = T('ascensionSub');
     document.getElementById('ascension-back').innerHTML = I('back');
-    document.getElementById('ascension-back').onclick = function () { SFX('ui_back'); renderDifficulty(); showScreen('screen-difficulty'); };
+    document.getElementById('ascension-back').onclick = function () { SFX('ui_back'); renderMainMenu(); showScreen('screen-menu'); };
   }
 
   // Locked-class reason text: the class's `unlock` field (data-classes.js)
@@ -330,13 +298,12 @@
     document.getElementById('class-back').innerHTML = I('back');
     document.getElementById('class-back').onclick = function () {
       SFX('ui_back');
-      var pending = window.Game.State.pending;
-      if (pending.difficulty === 'nightmare' && window.Game.State.getAscensionUnlocked() > 0) {
+      if (window.Game.State.getAscensionUnlocked() > 0) {
         renderAscensionPick();
         showScreen('screen-ascension');
       } else {
-        renderDifficulty();
-        showScreen('screen-difficulty');
+        renderMainMenu();
+        showScreen('screen-menu');
       }
     };
   }
@@ -430,7 +397,6 @@
     if (!active) return;
     if (active.id === 'screen-menu') renderMainMenu();
     else if (active.id === 'screen-guide') renderGuide();
-    else if (active.id === 'screen-difficulty') renderDifficulty();
     else if (active.id === 'screen-ascension') renderAscensionPick();
     else if (active.id === 'screen-class') renderClassSelect();
     else if (active.id === 'screen-blessing-pick') renderBlessingPick();
@@ -444,7 +410,6 @@
   window.Game.MenuUI = {
     renderMainMenu: renderMainMenu,
     renderGuide: renderGuide,
-    renderDifficulty: renderDifficulty,
     renderAscensionPick: renderAscensionPick,
     renderClassSelect: renderClassSelect,
     renderBlessingPick: renderBlessingPick,

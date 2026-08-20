@@ -153,9 +153,7 @@
     confirmBossFightBtn: { th: 'ไปสู้เลย', en: 'Fight Now' },
     confirmBossPrepareBtn: { th: 'เตรียมตัวก่อน', en: 'Prepare First' },
 
-    // difficulty select
-    chooseDifficultyTitle: { th: 'เลือกระดับความยาก', en: 'Choose Difficulty' },
-    diffNightmareDesc: { th: 'โหมดที่โหดที่สุด สมชื่อ ศัตรูแข็งแกร่งขึ้นมหาศาลและไม่มีไอเทมเริ่มต้นเลย แต่ของรางวัลก็มากที่สุดเช่นกัน', en: "The harshest mode there is. Enemies are drastically stronger and you start with no items at all, but the rewards are the biggest of any difficulty." },
+    // class lock reasons
     classLockedDifficultyDesc: { th: 'ล็อกอยู่ — พิชิตหอคอยด้วยโหมด {difficulty} ให้จบก่อนจึงจะปลดล็อกคลาสนี้', en: 'Locked — clear the tower on {difficulty} difficulty to unlock this class.' },
     classLockedSurvivalDesc: { th: 'ล็อกอยู่ — ผ่านคลื่นในสนามประลองไร้สิ้นสุดให้ครบ {waves} คลื่นในเซสชันเดียวจึงจะปลดล็อกคลาสนี้', en: 'Locked — clear {waves} waves in a single Survival Arena session to unlock this class.' },
     enemyPowerLabel: { th: 'พลังศัตรู x', en: 'Enemy power x' },
@@ -494,8 +492,6 @@
     { id: 'push-start', key: 'pushStart' },
     { id: 'guide-title', key: 'guideTitle' },
     { id: 'guide-back', key: 'ariaBack', attr: 'aria-label' },
-    { id: 'diff-title', key: 'chooseDifficultyTitle' },
-    { id: 'diff-back', key: 'ariaBack', attr: 'aria-label' },
     { id: 'class-title', key: 'chooseClassTitle' },
     { id: 'class-back', key: 'ariaBack', attr: 'aria-label' },
     { id: 'ascension-title', key: 'ascensionScreenTitle' },
