@@ -700,6 +700,35 @@ button:disabled {
   80% { transform: translate(5px, -2px); }
 }
 
+/* ---- Custom hover tooltip (see js/ui-tooltip.js): replaces the plain
+   native browser title bubble with the game's own pixel panel styling.
+   Kept in the DOM at all times (visibility, not display) so its size can
+   be measured for edge-clamped positioning without a flicker. ---- */
+.game-tooltip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  max-width: 240px;
+  padding: 0.5rem 0.65rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-card);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-size: 0.7rem;
+  line-height: 1.6;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
+.game-tooltip.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
 /* ---- Top-right controls: language toggle + audio panel ---- */
 .top-right-controls {
   position: fixed;

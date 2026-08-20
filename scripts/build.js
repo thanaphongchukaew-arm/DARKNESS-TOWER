@@ -39,6 +39,7 @@ const FILES = [
   'js/ui-tower.js',
   'js/ui-codex.js',
   'js/ui-battle.js',
+  'js/ui-tooltip.js',
   'js/main.js'
 ];
 

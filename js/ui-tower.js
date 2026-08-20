@@ -1223,6 +1223,40 @@
     };
   }
 
+  var INV_SECTION_ORDER = ['consumable', 'material'];
+  var INV_SECTION_LABEL_KEY = { consumable: 'shopConsumablesLabel', material: 'shopMaterialsLabel' };
+
+  // Tap target for a bag tile in the status screen's inventory grid --
+  // shows the full name/desc that the compact tile has no room for, plus a
+  // Use button for consumables.
+  function openInvItemDetail(id) {
+    var run = window.Game.State.current, D = window.Game.Data;
+    var it = D.getItem(id);
+    if (!it) return;
+    var qty = run.inventory[id] || 0;
+    var root = document.getElementById('modal-root');
+    root.innerHTML = '<div class="modal-box">' +
+      '<div class="select-card-icon" style="align-self:center;">' + I(it.icon) + '</div>' +
+      '<h3>' + L(it, 'name') + ' <span class="inv-item-count">x' + qty + '</span></h3>' +
+      '<p class="select-card-desc">' + L(it, 'desc') + '</p>' +
+      (it.kind === 'consumable' ? '<div class="modal-actions"><button class="btn-primary" id="inv-use-btn">' + T('useBtn') + '</button></div>' : '') +
+      '<button class="btn-ghost" id="modal-cancel">' + T('closeBtn') + '</button>' +
+    '</div>';
+    root.classList.remove('hidden');
+    function close() { root.classList.add('hidden'); root.innerHTML = ''; }
+    document.getElementById('modal-cancel').onclick = function () { SFX('ui_cancel'); close(); };
+    var useBtn = document.getElementById('inv-use-btn');
+    if (useBtn) {
+      useBtn.onclick = function () {
+        SFX('item_use');
+        window.Game.State.useConsumable(run, id);
+        window.Game.State.saveNow();
+        close();
+        renderStatus();
+      };
+    }
+  }
+
   function openEquipPicker(slot) {
     var run = window.Game.State.current, D = window.Game.Data;
     var kind = SLOT_TO_KIND[slot];
@@ -1314,13 +1348,13 @@
     var equippedTitle = S.getEquippedTitle();
     var blessingChips = (run.blessings || []).map(function (id) {
       var b = D.getBlessing(id);
-      return b ? '<span class="stat-chip" title="' + L(b, 'name') + '">' + I(b.icon) + ' ' + L(b, 'name') + '</span>' : '';
+      return b ? '<span class="stat-chip" data-tip="' + L(b, 'name') + ' — ' + L(b, 'desc') + '">' + I(b.icon) + ' ' + L(b, 'name') + '</span>' : '';
     }).join('') + (run.curses || []).map(function (id) {
       var c = D.getCurse(id);
-      return c ? '<span class="stat-chip" title="' + L(c, 'name') + '">' + I(c.icon) + ' ' + L(c, 'name') + '</span>' : '';
+      return c ? '<span class="stat-chip" data-tip="' + L(c, 'name') + ' — ' + L(c, 'desc') + '">' + I(c.icon) + ' ' + L(c, 'name') + '</span>' : '';
     }).join('') + (run.relics || []).map(function (id) {
       var r = D.getRelic(id);
-      return r ? '<span class="stat-chip" title="' + L(r, 'name') + '">' + I(r.icon) + ' ' + L(r, 'name') + '</span>' : '';
+      return r ? '<span class="stat-chip" data-tip="' + L(r, 'name') + ' — ' + L(r, 'desc') + '">' + I(r.icon) + ' ' + L(r, 'name') + '</span>' : '';
     }).join('');
 
     document.getElementById('status-stats').innerHTML =
@@ -1367,23 +1401,32 @@
     });
     document.getElementById('companion-slot').onclick = function () { SFX('ui_confirm'); openCompanionPicker(); };
 
-    var invItems = Object.keys(run.inventory).map(function (id) { return D.getItem(id); }).filter(function (it) { return it && (it.kind === 'consumable' || it.kind === 'material'); });
-    var invHtml = invItems.length ? invItems.map(function (it) {
-      var qty = run.inventory[it.id];
-      return '<div class="inv-item"><div class="inv-item-icon">' + I(it.icon) + '</div>' +
-        '<div class="inv-item-info"><div class="inv-item-name">' + L(it, 'name') + '</div><div class="inv-item-desc">' + L(it, 'desc') + '</div></div>' +
-        '<div class="inv-item-actions"><span class="inv-item-count">x' + qty + '</span>' +
-        (it.kind === 'consumable' ? '<button class="btn-secondary" data-use="' + it.id + '">' + T('useBtn') + '</button>' : '') + '</div></div>';
-    }).join('') : '<p class="empty-note">' + T('emptyInventory') + '</p>';
+    // Grouped by kind (consumable / material) into a compact icon-tile grid
+    // instead of a long wordy list, so a full bag of crafting mats doesn't
+    // turn into a wall of text -- tap a tile for name/desc/use in a modal.
+    var invByKind = { consumable: [], material: [] };
+    Object.keys(run.inventory).forEach(function (id) {
+      if ((run.inventory[id] || 0) <= 0) return;
+      var it = D.getItem(id);
+      if (it && invByKind[it.kind]) invByKind[it.kind].push(it);
+    });
+    var invHtml = INV_SECTION_ORDER.filter(function (k) { return invByKind[k].length; }).map(function (kind) {
+      var items = invByKind[kind].sort(function (a, b) {
+        return (a.tier || 0) - (b.tier || 0) || L(a, 'name').localeCompare(L(b, 'name'));
+      });
+      var tilesHtml = items.map(function (it) {
+        return '<button class="inv-tile" data-id="' + it.id + '" aria-label="' + L(it, 'name') + '" data-tip="' + L(it, 'name') + ' — ' + L(it, 'desc') + '">' +
+          '<div class="inv-tile-icon">' + I(it.icon) + '</div>' +
+          '<span class="inv-tile-qty">x' + run.inventory[it.id] + '</span></button>';
+      }).join('');
+      return '<div class="inv-section"><h4 class="inv-section-title">' + T(INV_SECTION_LABEL_KEY[kind]) + '</h4>' +
+        '<div class="inv-tile-grid">' + tilesHtml + '</div></div>';
+    }).join('');
     var invEl = document.getElementById('status-inventory');
-    invEl.innerHTML = '<div class="status-panel-title">' + T('inventoryPanelTitle') + '</div>' + invHtml;
-    Array.prototype.forEach.call(invEl.querySelectorAll('[data-use]'), function (btn) {
-      btn.onclick = function () {
-        SFX('item_use');
-        window.Game.State.useConsumable(run, btn.getAttribute('data-use'));
-        window.Game.State.saveNow();
-        renderStatus();
-      };
+    invEl.innerHTML = '<div class="status-panel-title">' + T('inventoryPanelTitle') + '</div>' +
+      (invHtml || '<p class="empty-note">' + T('emptyInventory') + '</p>');
+    Array.prototype.forEach.call(invEl.querySelectorAll('.inv-tile'), function (btn) {
+      btn.onclick = function () { SFX('ui_confirm'); openInvItemDetail(btn.getAttribute('data-id')); };
     });
 
     document.getElementById('status-back').innerHTML = I('back');
