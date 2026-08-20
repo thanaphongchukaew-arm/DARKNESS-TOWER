@@ -824,7 +824,7 @@
         var price = F.shopPrice(it);
         var bought = purchased[it.id];
         var canAfford = (run.gold || 0) >= price;
-        return '<button class="select-card' + (bought ? ' locked' : '') + '" data-id="' + it.id + '"' + ((bought || !canAfford) ? ' disabled' : '') + '>' +
+        return '<button class="select-card' + ((bought || !canAfford) ? ' locked' : '') + '" data-id="' + it.id + '"' + ((bought || !canAfford) ? ' disabled' : '') + '>' +
           '<div class="select-card-icon">' + I(it.icon) + '</div>' +
           '<div class="select-card-title">' + L(it, 'name') + '</div>' +
           '<div class="select-card-desc">' + L(it, 'desc') + '</div>' +
@@ -992,7 +992,7 @@
           var price = F.shopPrice(item);
           var soldOut = entry.qty <= 0;
           var canAfford = (run.gold || 0) >= price;
-          return '<button class="select-card' + (soldOut ? ' locked' : '') + '" data-id="' + entry.id + '"' + ((soldOut || !canAfford) ? ' disabled' : '') + '>' +
+          return '<button class="select-card' + ((soldOut || !canAfford) ? ' locked' : '') + '" data-id="' + entry.id + '"' + ((soldOut || !canAfford) ? ' disabled' : '') + '>' +
             '<div class="select-card-icon">' + I(item.icon) + '</div>' +
             '<div class="select-card-title">' + L(item, 'name') + '</div>' +
             '<div class="select-card-desc">' + L(item, 'desc') + '</div>' +
