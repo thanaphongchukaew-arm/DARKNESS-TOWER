@@ -789,7 +789,7 @@
         var known = {};
         learnedSkills(run).forEach(function (s) { known[s.id] = true; });
         var candidates = D.skills
-          .filter(function (s) { return (s.classOnly === null || s.classOnly === run.classId) && s.minLevel <= run.level && !known[s.id]; })
+          .filter(function (s) { return D.isSkillAllowedForClass(s, run.classId) && s.minLevel <= run.level && !known[s.id]; })
           .sort(function (a, b) { return a.minLevel - b.minLevel; });
         if (candidates.length) {
           run.bonusSkills = run.bonusSkills || [];

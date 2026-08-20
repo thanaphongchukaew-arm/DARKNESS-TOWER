@@ -936,7 +936,7 @@
       entries('material', tier, materialMaxQty)
     );
     var potionMaxQty = 4 + (tier - 1) * 2 + bonus; // 4, 6, 8, 10, 12 baseline, +1 per mini-boss cleared
-    var rareMaxQty = 2 + Math.floor((tier - 1) / 2) + Math.floor(bonus / 3); // 2, 2, 3, 3, 4 baseline -- scroll
+    var rareMaxQty = 1 + Math.floor((tier - 1) / 3) + Math.floor(bonus / 4); // 1, 1, 1, 2, 2 baseline (halved) -- scroll
     var scroll = D.getItem('skill_scroll');
     if (scroll && scroll.tier <= tier) stock.push({ id: scroll.id, maxQty: rareMaxQty, qty: rareMaxQty });
     shuffled(D.items.filter(function (it) { return it.kind === 'consumable' && it.tier <= tier && it.id !== 'skill_scroll' && it.id !== 'p_elixir' && !it.questOnly; }))

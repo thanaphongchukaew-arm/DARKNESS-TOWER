@@ -302,6 +302,32 @@
     { id: 'infinite_horizon', name: 'ขอบฟ้าไร้สิ้นสุด', nameEn: 'Infinite Horizon', element: 'wind', kind: 'attack', power: 1.35, cost: 18, target: 'allEnemies', minLevel: 18, classOnly: 'vanguard', icon: 'wind', desc: 'สายลมไร้สิ้นสุดกวาดล้างศัตรูทั้งหมด', descEn: 'A boundless gale sweeps across all enemies.' }
   ];
 
+  // Purely physical classes: their kit is built around weapon damage, not
+  // spellcasting, so they're barred from the shared elemental attack/heal
+  // skills (fire_bolt, heal, etc.) that every other class can pick up.
+  // Shared physical/utility skills (attack, focus, iron_stance, guard_break,
+  // haste) and each class's own classOnly signatures are unaffected.
+  var PHYSICAL_CLASSES = {
+    blade: true,
+    berserker: true,
+    ranger: true,
+    samurai: true,
+    shadowDancer: true,
+    beastmaster: true,
+    sharpshooter: true,
+    executioner: true
+  };
+
+  function isSharedMagicSkill(skill) {
+    return skill.classOnly === null && skill.element !== 'phys' && (skill.kind === 'attack' || skill.kind === 'heal');
+  }
+
+  function isSkillAllowedForClass(skill, classId) {
+    if (skill.classOnly !== null && skill.classOnly !== classId) return false;
+    if (PHYSICAL_CLASSES[classId] && isSharedMagicSkill(skill)) return false;
+    return true;
+  }
+
   window.Game = window.Game || {};
   window.Game.Data = window.Game.Data || {};
   window.Game.Data.skills = skills;
@@ -309,9 +335,10 @@
     for (var i = 0; i < skills.length; i++) if (skills[i].id === id) return skills[i];
     return null;
   };
+  window.Game.Data.isSkillAllowedForClass = isSkillAllowedForClass;
   window.Game.Data.getLearnedSkills = function (classId, level) {
     return skills.filter(function (s) {
-      return (s.classOnly === null || s.classOnly === classId) && s.minLevel <= level;
+      return isSkillAllowedForClass(s, classId) && s.minLevel <= level;
     });
   };
 })();
