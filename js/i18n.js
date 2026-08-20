@@ -155,14 +155,7 @@
 
     // difficulty select
     chooseDifficultyTitle: { th: 'เลือกระดับความยาก', en: 'Choose Difficulty' },
-    diffEasyDesc: { th: 'เหมาะสำหรับผู้เริ่มต้น ศัตรูอ่อนกำลังลง และได้รับไอเทมเริ่มต้นมากกว่า', en: 'Great for beginners. Enemies are weaker and you start with more items.' },
-    diffEasyTauntTitle: { th: 'แค่นี้เองเหรอ?', en: "That's all you've got?" },
-    diffEasyTauntMsg: { th: 'โหมดง่ายเนี่ยนะ? ศัตรูอ่อนยวบ ของรางวัลก็บาง ๆ ผู้กล้าตัวจริงเขาไม่เลือกทางสบายแบบนี้กันหรอก ลองโหมดปกติหรือโหมดยากดูไหม จะได้ท้าทายกว่านี้เยอะ', en: "Easy mode, really? Weak enemies, thin rewards -- real heroes don't take the easy road. Try Normal or Hard instead for an actual challenge." },
-    diffEasyTauntConfirmBtn: { th: 'เล่นโหมดง่ายต่อไป', en: 'Stick with Easy anyway' },
-    diffNormalDesc: { th: 'ความสมดุลมาตรฐาน ท้าทายแต่ยุติธรรม', en: 'The standard balance. Challenging but fair.' },
-    diffHardDesc: { th: 'ศัตรูแข็งแกร่งขึ้นมาก แต่ได้รับของรางวัลและ EXP มากขึ้นเป็นการตอบแทน', en: 'Enemies are much tougher, but rewards and EXP are greater in return.' },
     diffNightmareDesc: { th: 'โหมดที่โหดที่สุด สมชื่อ ศัตรูแข็งแกร่งขึ้นมหาศาลและไม่มีไอเทมเริ่มต้นเลย แต่ของรางวัลก็มากที่สุดเช่นกัน', en: "The harshest mode there is. Enemies are drastically stronger and you start with no items at all, but the rewards are the biggest of any difficulty." },
-    diffNightmareLockedDesc: { th: 'ล็อกอยู่ — พิชิตหอคอยด้วยโหมด Hard ให้จบก่อนจึงจะปลดล็อกโหมดนี้', en: 'Locked — clear the tower on Hard difficulty to unlock this mode.' },
     classLockedDifficultyDesc: { th: 'ล็อกอยู่ — พิชิตหอคอยด้วยโหมด {difficulty} ให้จบก่อนจึงจะปลดล็อกคลาสนี้', en: 'Locked — clear the tower on {difficulty} difficulty to unlock this class.' },
     classLockedSurvivalDesc: { th: 'ล็อกอยู่ — ผ่านคลื่นในสนามประลองไร้สิ้นสุดให้ครบ {waves} คลื่นในเซสชันเดียวจึงจะปลดล็อกคลาสนี้', en: 'Locked — clear {waves} waves in a single Survival Arena session to unlock this class.' },
     enemyPowerLabel: { th: 'พลังศัตรู x', en: 'Enemy power x' },

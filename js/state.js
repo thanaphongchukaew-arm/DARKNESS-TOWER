@@ -543,7 +543,7 @@
   // ---- Ascension: Nightmare-only prestige level, chosen at run creation once
   // unlocked. Deliberately does not touch the floor-100 boss-victory code path --
   // main.js's showEnd(true) just increments this meta counter on a Nightmare clear,
-  // exactly like it already does for unlockNightmare/recordDifficultyCleared. ----
+  // exactly like it already does for recordDifficultyCleared. ----
   function recordAscensionClear() {
     deps();
     var meta = window.Game.Save.readMeta();
@@ -811,24 +811,10 @@
     return result;
   }
 
-  // Nightmare stays locked until the tower has been cleared once on hard (or
-  // above) -- tracked in the separate meta store so it survives clearRun().
-  function isNightmareUnlocked() {
-    return !!window.Game.Save.readMeta().nightmareUnlocked;
-  }
-
-  function unlockNightmare() {
-    if (isNightmareUnlocked()) return;
-    var meta = window.Game.Save.readMeta();
-    meta.nightmareUnlocked = true;
-    window.Game.Save.writeMeta(meta);
-  }
-
   // The 5 unlockable "Valiant" elite classes (see data-classes.js's `unlock`
-  // field) each gate on either a tower difficulty clear or a Survival Arena
-  // wave milestone. Both are tracked in the meta store (like nightmareUnlocked
-  // above) so they survive clearRun() -- an elite class stays unlocked across
-  // permadeath once earned.
+  // field) all gate on clearing the tower on Nightmare -- the only difficulty
+  // on offer. Tracked in the meta store so it survives clearRun() -- an elite
+  // class stays unlocked across permadeath once earned.
   function recordDifficultyCleared(difficultyId) {
     var meta = window.Game.Save.readMeta();
     meta.clearedDifficulty = meta.clearedDifficulty || {};
@@ -896,8 +882,6 @@
     isQuestClaimable: isQuestClaimable,
     claimQuest: claimQuest,
     claimAllQuests: claimAllQuests,
-    isNightmareUnlocked: isNightmareUnlocked,
-    unlockNightmare: unlockNightmare,
     recordDifficultyCleared: recordDifficultyCleared,
     recordSurvivalWaves: recordSurvivalWaves,
     isClassUnlocked: isClassUnlocked,

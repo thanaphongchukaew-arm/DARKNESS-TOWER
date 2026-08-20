@@ -2,11 +2,10 @@
 
 // Pure formulas: stat growth, damage, exp curve, floor/difficulty scaling.
 (function () {
-  // Each step up keeps the same ~1.3x jump in both statMult and rewardMult that
-  // easy->normal->hard already establishes, so nightmare is tougher by the same
-  // proportion the player has already proven they can out-level/out-gear on hard
-  // -- not a new kind of wall, just one more consistent notch. Locked until the
-  // player has cleared the tower once on hard (see State.isNightmareUnlocked).
+  // Nightmare is the only difficulty selectable from the menu (see
+  // ui-menu.js's renderDifficulty) -- easy/normal/hard stay defined here
+  // because tests and other formulas (enemyStatScale, etc.) still reference
+  // them, and each step keeps the same ~1.3x jump in statMult/rewardMult.
   var DIFFICULTY = {
     easy: { id: 'easy', name: 'ง่าย', nameEn: 'Easy', statMult: 0.72, rewardMult: 1.15, startPotions: 3 },
     normal: { id: 'normal', name: 'ปกติ', nameEn: 'Normal', statMult: 0.88, rewardMult: 1.0, startPotions: 2 },

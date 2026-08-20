@@ -13,14 +13,10 @@
     var msgEl = document.getElementById('end-message');
     var actionsEl = document.getElementById('end-actions');
     if (victory) {
-      // showEnd(true) only ever fires from a final-boss clear (see BattleUI.handleVictory),
-      // so this is exactly the moment to check "cleared the tower on hard or above".
+      // showEnd(true) only ever fires from a final-boss clear (see BattleUI.handleVictory).
       var run = window.Game.State.current;
-      if (run && (run.difficulty === 'hard' || run.difficulty === 'nightmare')) {
-        window.Game.State.unlockNightmare();
-      }
-      // Clearing any difficulty is also what unlocks that difficulty's
-      // Valiant elite class (see data-classes.js's `unlock` field).
+      // Clearing Nightmare -- the only difficulty on offer -- is also what
+      // unlocks all 5 Valiant elite classes (see data-classes.js's `unlock` field).
       if (run) window.Game.State.recordDifficultyCleared(run.difficulty);
       // A Nightmare clear also raises the Ascension cap by one (see
       // Formulas.ascensionEnemyMult/ascensionRewardMult and the picker shown

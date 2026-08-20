@@ -246,20 +246,21 @@
       growth: { hp: 6.2, mp: 4.2, atk: 0.4, mag: 1.9, def: 1.1, res: 1.5, spd: 1.7, luk: 1.1 }
     },
 
-    // ---- 5 unlockable elite classes: each locked behind clearing one game
-    // mode (see State.isClassUnlocked), each ~10-25% above the base roster's
-    // stat total, and each built around one signature skill mechanic no
-    // other class has (see the classOnly skills below and the matching
-    // battle-engine.js additions: allEnemies debuffs, on-hit debuffs,
-    // execute bonuses, HP-cost skills, and free-action-point skills). ----
+    // ---- 5 unlockable elite classes: each locked behind clearing the tower
+    // on Nightmare (see State.isClassUnlocked), each ~10-25% above the base
+    // roster's stat total, and each built around one signature skill
+    // mechanic no other class has (see the classOnly skills below and the
+    // matching battle-engine.js additions: allEnemies debuffs, on-hit
+    // debuffs, execute bonuses, HP-cost skills, and free-action-point
+    // skills). ----
     {
       id: 'warlord',
       name: 'ผู้กล้าจอมบัญชาการ',
       nameEn: 'Valiant Warlord',
       icon: 'warlord',
-      unlock: { type: 'difficulty', difficulty: 'easy' },
-      description: 'ปลดล็อกด้วยการพิชิตหอคอยโหมด Easy จอมทัพผู้บัญชาการศึกที่สั่นสะเทือนขวัญศัตรูทั้งกลุ่มได้ในคำสั่งเดียว สมดุลระหว่างรุกและรับ',
-      descriptionEn: 'Unlocked by clearing the tower on Easy. A battlefield commander who can shake an entire enemy group with a single decree. Balanced offense and defense.',
+      unlock: { type: 'difficulty', difficulty: 'nightmare' },
+      description: 'ปลดล็อกด้วยการพิชิตหอคอยโหมด Nightmare จอมทัพผู้บัญชาการศึกที่สั่นสะเทือนขวัญศัตรูทั้งกลุ่มได้ในคำสั่งเดียว สมดุลระหว่างรุกและรับ',
+      descriptionEn: 'Unlocked by clearing the tower on Nightmare. A battlefield commander who can shake an entire enemy group with a single decree. Balanced offense and defense.',
       baseStats: { hp: 52, mp: 24, atk: 14, mag: 10, def: 13, res: 11, spd: 10, luk: 9 },
       growth: { hp: 9.0, mp: 3.3, atk: 2.2, mag: 1.5, def: 2.0, res: 1.7, spd: 1.1, luk: 1.0 }
     },
@@ -268,9 +269,9 @@
       name: 'ผู้กล้านักล่าเงา',
       nameEn: 'Valiant Shadowhunter',
       icon: 'shadowhunter',
-      unlock: { type: 'difficulty', difficulty: 'normal' },
-      description: 'ปลดล็อกด้วยการพิชิตหอคอยโหมด Normal นักล่าผู้ทำให้ทุกจังหวะโจมตีกลายเป็นบาดแผลถาวร ความเร็วและโชคสูงเป็นเลิศ',
-      descriptionEn: 'Unlocked by clearing the tower on Normal. A hunter whose every strike leaves a lasting wound. Superb SPD and LUK.',
+      unlock: { type: 'difficulty', difficulty: 'nightmare' },
+      description: 'ปลดล็อกด้วยการพิชิตหอคอยโหมด Nightmare นักล่าผู้ทำให้ทุกจังหวะโจมตีกลายเป็นบาดแผลถาวร ความเร็วและโชคสูงเป็นเลิศ',
+      descriptionEn: 'Unlocked by clearing the tower on Nightmare. A hunter whose every strike leaves a lasting wound. Superb SPD and LUK.',
       baseStats: { hp: 40, mp: 22, atk: 17, mag: 6, def: 8, res: 8, spd: 16, luk: 14 },
       growth: { hp: 6.9, mp: 3.0, atk: 3.1, mag: 0.6, def: 1.2, res: 1.2, spd: 1.9, luk: 1.6 }
     },
@@ -279,9 +280,9 @@
       name: 'ผู้กล้าเพชฌฆาตราตรี',
       nameEn: 'Valiant Executioner',
       icon: 'executioner',
-      unlock: { type: 'difficulty', difficulty: 'hard' },
-      description: 'ปลดล็อกด้วยการพิชิตหอคอยโหมด Hard เพชฌฆาตผู้ทวีพลังโจมตีทันทีเมื่อศัตรูใกล้ร่วงหล่น พลังโจมตีสูงจัด',
-      descriptionEn: 'Unlocked by clearing the tower on Hard. An executioner whose blows grow far deadlier the closer a foe is to death. Extremely high ATK.',
+      unlock: { type: 'difficulty', difficulty: 'nightmare' },
+      description: 'ปลดล็อกด้วยการพิชิตหอคอยโหมด Nightmare เพชฌฆาตผู้ทวีพลังโจมตีทันทีเมื่อศัตรูใกล้ร่วงหล่น พลังโจมตีสูงจัด',
+      descriptionEn: 'Unlocked by clearing the tower on Nightmare. An executioner whose blows grow far deadlier the closer a foe is to death. Extremely high ATK.',
       baseStats: { hp: 46, mp: 18, atk: 20, mag: 4, def: 9, res: 7, spd: 15, luk: 12 },
       growth: { hp: 7.9, mp: 2.4, atk: 3.6, mag: 0.3, def: 1.3, res: 1.1, spd: 1.8, luk: 1.4 }
     },
@@ -301,9 +302,9 @@
       name: 'ผู้กล้าไร้สิ้นสุด',
       nameEn: 'Valiant Vanguard',
       icon: 'vanguard',
-      unlock: { type: 'survivalWaves', waves: 30 },
-      description: 'ปลดล็อกด้วยการผ่านคลื่นในสนามประลองไร้สิ้นสุดให้ครบ 30 คลื่นในเซสชันเดียว นักรบแนวหน้าผู้บางท่วงท่าคืนพลังการกระทำให้ตนเองทันที โจมตีต่อเนื่องไม่หยุดยั้ง',
-      descriptionEn: 'Unlocked by clearing 30 waves in a single Survival Arena session. A frontline warrior whose flowing techniques refund their own action point, chaining attacks without pause.',
+      unlock: { type: 'difficulty', difficulty: 'nightmare' },
+      description: 'ปลดล็อกด้วยการพิชิตหอคอยโหมด Nightmare นักรบแนวหน้าผู้บางท่วงท่าคืนพลังการกระทำให้ตนเองทันที โจมตีต่อเนื่องไม่หยุดยั้ง',
+      descriptionEn: 'Unlocked by clearing the tower on Nightmare. A frontline warrior whose flowing techniques refund their own action point, chaining attacks without pause.',
       baseStats: { hp: 44, mp: 26, atk: 14, mag: 12, def: 9, res: 9, spd: 18, luk: 11 },
       growth: { hp: 7.6, mp: 3.6, atk: 2.4, mag: 2.1, def: 1.3, res: 1.3, spd: 2.1, luk: 1.3 }
     }

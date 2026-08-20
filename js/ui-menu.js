@@ -205,64 +205,45 @@
     btn.onclick = function () { SFX('ui_confirm'); onContinue(); };
   }
 
-  var DIFF_DESC_KEY = { easy: 'diffEasyDesc', normal: 'diffNormalDesc', hard: 'diffHardDesc', nightmare: 'diffNightmareDesc' };
-  var DIFF_ICON = { easy: 'star', normal: 'shieldGuard', hard: 'skullMark', nightmare: 'skullFire' };
+  var DIFF_DESC_KEY = { nightmare: 'diffNightmareDesc' };
+  var DIFF_ICON = { nightmare: 'skullFire' };
 
+  // Nightmare is the only difficulty on offer -- always unlocked, since there's
+  // no easier mode left to clear first (see data-classes.js's elite-class
+  // unlock note for how clearing it still gates the 5 Valiant classes).
   function renderDifficulty() {
     var el = document.getElementById('difficulty-cards');
     var F = window.Game.Formulas;
-    var order = ['easy', 'normal', 'hard', 'nightmare'];
-    var nightmareUnlocked = window.Game.State.isNightmareUnlocked();
+    var order = ['nightmare'];
     el.innerHTML = order.map(function (id) {
       var d = F.DIFFICULTY[id];
-      var locked = id === 'nightmare' && !nightmareUnlocked;
-      return '<button class="select-card' + (locked ? ' locked' : '') + '" data-id="' + id + '">' +
-        '<div class="select-card-icon">' + I(locked ? 'lock' : DIFF_ICON[id]) + '</div>' +
+      return '<button class="select-card" data-id="' + id + '">' +
+        '<div class="select-card-icon">' + I(DIFF_ICON[id]) + '</div>' +
         '<div class="select-card-title">' + L(d, 'name') + '</div>' +
-        '<div class="select-card-desc">' + T(locked ? 'diffNightmareLockedDesc' : DIFF_DESC_KEY[id]) + '</div>' +
-        (locked ? '' :
+        '<div class="select-card-desc">' + T(DIFF_DESC_KEY[id]) + '</div>' +
         '<div class="select-card-stats">' +
           '<span class="stat-chip">' + T('enemyPowerLabel') + d.statMult.toFixed(2) + '</span>' +
           '<span class="stat-chip">' + T('rewardLabel') + d.rewardMult.toFixed(2) + '</span>' +
-        '</div>') +
+        '</div>' +
       '</button>';
     }).join('');
     Array.prototype.forEach.call(el.querySelectorAll('.select-card'), function (card) {
-      if (card.classList.contains('locked')) {
-        card.onclick = function () { SFX('ui_cancel'); };
-        return;
-      }
       card.onclick = function () {
         var id = card.getAttribute('data-id');
-        var proceed = function () {
-          SFX('ui_confirm');
-          window.Game.State.pending.difficulty = id;
-          // Ascension is Nightmare-only and only shown once the player has ever
-          // cleared the tower on Nightmare -- every other pick resets it to 0 and
-          // skips straight to class select, so the vast majority of runs never see
-          // this extra screen.
-          if (id === 'nightmare' && window.Game.State.getAscensionUnlocked() > 0) {
-            renderAscensionPick();
-            showScreen('screen-ascension');
-          } else {
-            window.Game.State.pending.ascension = 0;
-            renderClassSelect();
-            showScreen('screen-class');
-          }
-        };
-        // A little friendly taunt on Easy -- nudges toward Normal/Hard without
-        // actually blocking the choice (Cancel just returns to this screen).
-        if (id === 'easy') {
-          SFX('ui_cancel');
-          confirmModal({
-            title: T('diffEasyTauntTitle'),
-            message: T('diffEasyTauntMsg'),
-            confirmLabel: T('diffEasyTauntConfirmBtn'),
-            onConfirm: proceed
-          });
-          return;
+        SFX('ui_confirm');
+        window.Game.State.pending.difficulty = id;
+        // Ascension is Nightmare-only and only shown once the player has ever
+        // cleared the tower on Nightmare -- every other pick resets it to 0 and
+        // skips straight to class select, so the vast majority of runs never see
+        // this extra screen.
+        if (window.Game.State.getAscensionUnlocked() > 0) {
+          renderAscensionPick();
+          showScreen('screen-ascension');
+        } else {
+          window.Game.State.pending.ascension = 0;
+          renderClassSelect();
+          showScreen('screen-class');
         }
-        proceed();
       };
     });
     document.getElementById('diff-back').innerHTML = I('back');
