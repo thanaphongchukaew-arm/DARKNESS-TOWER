@@ -691,8 +691,8 @@
   function handleVictory(battle) {
     var run = window.Game.State.current;
     // Replaying an already-cleared floor still pays out EXP/gold/materials,
-    // just at 40% of a first clear's rate, and the chosen difficulty's own
-    // rewardMult (shown on the difficulty-select card) always applies on top.
+    // just at 40% of a first clear's rate, and Nightmare's own rewardMult
+    // (Formulas.DIFFICULTY.nightmare) always applies on top.
     // Blessings/curses and the Ascension reward bonus each compose their own
     // per-kind multiplier via State.getRewardMult (see state.js) on top of this
     // base rate -- gold and EXP can differ (e.g. Wealth only touches gold).

@@ -10,7 +10,7 @@
     easy: { id: 'easy', name: 'ง่าย', nameEn: 'Easy', statMult: 0.72, rewardMult: 1.15, startPotions: 3 },
     normal: { id: 'normal', name: 'ปกติ', nameEn: 'Normal', statMult: 0.88, rewardMult: 1.0, startPotions: 2 },
     hard: { id: 'hard', name: 'ยาก', nameEn: 'Hard', statMult: 1.14, rewardMult: 1.35, startPotions: 1 },
-    nightmare: { id: 'nightmare', name: 'ฝันร้าย', nameEn: 'Nightmare', statMult: 1.5, rewardMult: 1.8, startPotions: 0 }
+    nightmare: { id: 'nightmare', name: 'ฝันร้าย', nameEn: 'Nightmare', statMult: 1.5, rewardMult: 1.0, startPotions: 0 }
   };
 
   function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
