@@ -134,6 +134,12 @@
   };
 
   // ---- Background music: lookahead step-sequencer ----
+  // "boss" is an original gallop-riff metal track (i-VII-VI-V in A natural minor,
+  // sawtooth lead over a chugging bass + synthesized kick/snare) -- inspired by the
+  // NWOBHM/Dio "Holy Diver" era feel, not a transcription of that song.
+  var BOSS_GALLOP_DRUM = ['kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick'];
+  function gallopBass(root) { return [root, null, root, root, root, null, root, root]; }
+
   var TRACKS = {
     menu: {
       step: 0.22,
@@ -144,8 +150,156 @@
       step: 0.14,
       lead: ['E4', 'E4', 'G4', 'E4', 'D4', 'D4', 'F4', 'D4', 'C4', 'C4', 'E4', 'C4', 'B3', 'B3', 'D4', 'B3'],
       bass: ['A3', null, 'A3', null, 'F3', null, 'F3', null, 'C3', null, 'C3', null, 'G3', null, 'G3', null]
+    },
+    boss: {
+      step: 0.11,
+      leadType: 'sawtooth',
+      leadGain: 0.1,
+      bassGain: 0.17,
+      lead: [
+        'E5', null, 'D5', 'C5', null, 'C5', 'D5', 'E5',
+        'D5', null, 'C5', 'B4', null, 'B4', 'C5', 'D5',
+        'C5', null, 'B4', 'A4', null, 'A4', 'B4', 'C5',
+        'B4', null, 'A4', 'G4', null, 'G4', 'A4', 'B4'
+      ],
+      bass: [].concat(gallopBass('A3'), gallopBass('G3'), gallopBass('F3'), gallopBass('E3')),
+      drum: [].concat(BOSS_GALLOP_DRUM, BOSS_GALLOP_DRUM, BOSS_GALLOP_DRUM, BOSS_GALLOP_DRUM)
+    },
+
+    // ---- Battle-track rotation: 20 original rock/metal riffs, each rooted in a
+    // different mode of the diatonic (white-key) scale so the harmony itself
+    // differs track to track, not just the melody -- see scripts docs for the
+    // generator. One is picked at random (excluding the last-played one) each
+    // time a non-boss battle starts; see playBattleMusic() below.
+    ashfallCharge: {
+      step: 0.115, leadType: 'sawtooth',
+      lead: ['A4', null, 'C5', 'B4', null, 'B4', 'C5', 'A4', 'G4', null, 'B4', 'A4', null, 'A4', 'B4', 'G4', 'F4', null, 'A4', 'G4', null, 'G4', 'A4', 'F4', 'E4', null, 'G4', 'F4', null, 'F4', 'G4', 'E4'],
+      bass: ['A3', null, 'A3', 'A3', 'A3', null, 'A3', 'A3', 'G3', null, 'G3', 'G3', 'G3', null, 'G3', 'G3', 'F3', null, 'F3', 'F3', 'F3', null, 'F3', 'F3', 'E3', null, 'E3', 'E3', 'E3', null, 'E3', 'E3'],
+      drum: ['kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick']
+    },
+    widowsMarch: {
+      step: 0.15, leadType: 'triangle',
+      lead: ['A4', null, 'G4', null, 'A4', null, 'B4', null, 'A4', null, 'G4', null, 'A4', null, 'B4', null, 'F4', null, 'E4', null, 'F4', null, 'G4', null, 'G4', null, 'F4', null, 'G4', null, 'A4', null],
+      bass: ['A3', null, null, null, null, null, 'A3', null, 'A3', null, null, null, null, null, 'A3', null, 'F3', null, null, null, null, null, 'F3', null, 'G3', null, null, null, null, null, 'G3', null],
+      drum: ['kick', null, null, null, null, null, 'snare', null, 'kick', null, null, null, null, null, 'snare', null, 'kick', null, null, null, null, null, 'snare', null, 'kick', null, null, null, null, null, 'snare', null]
+    },
+    crimsonOath: {
+      step: 0.1, leadType: 'square',
+      lead: ['A4', 'C5', null, 'A4', null, 'G4', 'B4', null, 'D4', 'F4', null, 'D4', null, 'C4', 'E4', null, 'G4', 'B4', null, 'G4', null, 'F4', 'A4', null, 'F4', 'A4', null, 'F4', null, 'E4', 'G4', null],
+      bass: ['A3', null, null, 'A3', null, 'A3', null, 'A3', 'D3', null, null, 'D3', null, 'D3', null, 'D3', 'G3', null, null, 'G3', null, 'G3', null, 'G3', 'F3', null, null, 'F3', null, 'F3', null, 'F3'],
+      drum: ['kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick']
+    },
+    thornVeil: {
+      step: 0.095, leadType: 'sawtooth',
+      lead: ['E4', 'E4', null, 'G4', null, 'E4', null, 'D4', 'B4', 'B4', null, 'D4', null, 'B4', null, 'A4', 'E4', 'E4', null, 'G4', null, 'E4', null, 'D4', 'D4', 'D4', null, 'F4', null, 'D4', null, 'C4'],
+      bass: ['E3', 'E3', 'E3', 'E3', 'E3', 'E3', null, 'E3', 'B3', 'B3', 'B3', 'B3', 'B3', 'B3', null, 'B3', 'E3', 'E3', 'E3', 'E3', 'E3', 'E3', null, 'E3', 'D3', 'D3', 'D3', 'D3', 'D3', 'D3', null, 'D3'],
+      drum: ['kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick']
+    },
+    sableHollow: {
+      step: 0.13, leadType: 'square',
+      lead: ['G4', null, 'F4', 'E4', null, 'E4', 'F4', 'G4', 'F4', null, 'E4', 'D4', null, 'D4', 'E4', 'F4', 'E4', null, 'D4', 'C4', null, 'C4', 'D4', 'E4', 'D4', null, 'C4', 'B4', null, 'B4', 'C4', 'D4'],
+      bass: ['E3', null, 'E3', null, 'E3', null, null, 'E3', 'D3', null, 'D3', null, 'D3', null, null, 'D3', 'C3', null, 'C3', null, 'C3', null, null, 'C3', 'B3', null, 'B3', null, 'B3', null, null, 'B3'],
+      drum: ['kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick']
+    },
+    blackReliquary: {
+      step: 0.16, leadType: 'triangle',
+      lead: ['E4', null, 'D4', null, 'E4', null, 'F4', null, 'E4', null, 'D4', null, 'E4', null, 'F4', null, 'C4', null, 'B4', null, 'C4', null, 'D4', null, 'D4', null, 'C4', null, 'D4', null, 'E4', null],
+      bass: ['E3', null, null, null, null, null, 'E3', null, 'E3', null, null, null, null, null, 'E3', null, 'C3', null, null, null, null, null, 'C3', null, 'D3', null, null, null, null, null, 'D3', null],
+      drum: ['kick', null, null, null, null, null, 'snare', null, 'kick', null, null, null, null, null, 'snare', null, 'kick', null, null, null, null, null, 'snare', null, 'kick', null, null, null, null, null, 'snare', null]
+    },
+    wolfsgate: {
+      step: 0.12, leadType: 'square',
+      lead: ['D4', 'E4', 'F4', 'G4', 'F4', 'E4', 'D4', null, 'F4', 'G4', 'A4', 'B4', 'A4', 'G4', 'F4', null, 'G4', 'A4', 'B4', 'C5', 'B4', 'A4', 'G4', null, 'E4', 'F4', 'G4', 'A4', 'G4', 'F4', 'E4', null],
+      bass: ['D3', null, 'D3', null, 'D3', null, 'D3', null, 'F3', null, 'F3', null, 'F3', null, 'F3', null, 'G3', null, 'G3', null, 'G3', null, 'G3', null, 'E3', null, 'E3', null, 'E3', null, 'E3', null],
+      drum: ['kick', null, null, null, 'snare', null, null, null, 'kick', null, null, null, 'snare', null, null, null, 'kick', null, null, null, 'snare', null, null, null, 'kick', null, null, null, 'snare', null, null, null]
+    },
+    graniteOath: {
+      step: 0.105, leadType: 'sawtooth',
+      lead: ['D4', null, 'F4', 'E4', null, 'E4', 'F4', 'D4', 'A4', null, 'C4', 'B4', null, 'B4', 'C4', 'A4', 'D4', null, 'F4', 'E4', null, 'E4', 'F4', 'D4', 'C4', null, 'E4', 'D4', null, 'D4', 'E4', 'C4'],
+      bass: ['D3', null, 'D3', 'D3', 'D3', null, 'D3', 'D3', 'A3', null, 'A3', 'A3', 'A3', null, 'A3', 'A3', 'D3', null, 'D3', 'D3', 'D3', null, 'D3', 'D3', 'C3', null, 'C3', 'C3', 'C3', null, 'C3', 'C3'],
+      drum: ['kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick']
+    },
+    huntersDrift: {
+      step: 0.09, leadType: 'square',
+      lead: ['D4', 'F4', null, 'D4', null, 'C4', 'E4', null, 'G4', 'B4', null, 'G4', null, 'F4', 'A4', null, 'C4', 'E4', null, 'C4', null, 'B4', 'D4', null, 'B4', 'D4', null, 'B4', null, 'A4', 'C4', null],
+      bass: ['D3', null, null, 'D3', null, 'D3', null, 'D3', 'G3', null, null, 'G3', null, 'G3', null, 'G3', 'C3', null, null, 'C3', null, 'C3', null, 'C3', 'B3', null, null, 'B3', null, 'B3', null, 'B3'],
+      drum: ['kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick']
+    },
+    brassHorizon: {
+      step: 0.125, leadType: 'square',
+      lead: ['G4', 'A4', 'B4', 'C5', 'B4', 'A4', 'G4', null, 'D4', 'E4', 'F4', 'G4', 'F4', 'E4', 'D4', null, 'G4', 'A4', 'B4', 'C5', 'B4', 'A4', 'G4', null, 'F4', 'G4', 'A4', 'B4', 'A4', 'G4', 'F4', null],
+      bass: ['G3', null, 'G3', null, 'G3', null, 'G3', null, 'D3', null, 'D3', null, 'D3', null, 'D3', null, 'G3', null, 'G3', null, 'G3', null, 'G3', null, 'F3', null, 'F3', null, 'F3', null, 'F3', null],
+      drum: ['kick', null, null, null, 'snare', null, null, null, 'kick', null, null, null, 'snare', null, null, null, 'kick', null, null, null, 'snare', null, null, null, 'kick', null, null, null, 'snare', null, null, null]
+    },
+    copperRevolt: {
+      step: 0.1, leadType: 'sawtooth',
+      lead: ['G4', 'G4', null, 'B4', null, 'G4', null, 'F4', 'G4', 'G4', null, 'B4', null, 'G4', null, 'F4', 'E4', 'E4', null, 'G4', null, 'E4', null, 'D4', 'F4', 'F4', null, 'A4', null, 'F4', null, 'E4'],
+      bass: ['G3', 'G3', null, null, 'G3', 'G3', null, null, 'G3', 'G3', null, null, 'G3', 'G3', null, null, 'E3', 'E3', null, null, 'E3', 'E3', null, null, 'F3', 'F3', null, null, 'F3', 'F3', null, null],
+      drum: ['kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick']
+    },
+    goldenSkirmish: {
+      step: 0.14, leadType: 'square',
+      lead: ['G4', null, 'B4', 'A4', null, 'A4', 'B4', 'G4', 'B4', null, 'D5', 'C5', null, 'C5', 'D5', 'B4', 'C5', null, 'E5', 'D5', null, 'D5', 'E5', 'C5', 'A4', null, 'C5', 'B4', null, 'B4', 'C5', 'A4'],
+      bass: ['G3', null, 'G3', null, 'G3', null, null, 'G3', 'B3', null, 'B3', null, 'B3', null, null, 'B3', 'C3', null, 'C3', null, 'C3', null, null, 'C3', 'A3', null, 'A3', null, 'A3', null, null, 'A3'],
+      drum: ['kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick']
+    },
+    hollowSigil: {
+      step: 0.088, leadType: 'sawtooth',
+      lead: ['B4', null, 'A4', null, 'B4', null, 'C5', null, 'B4', null, 'A4', null, 'B4', null, 'C5', null, 'G4', null, 'F4', null, 'G4', null, 'A4', null, 'A4', null, 'G4', null, 'A4', null, 'B4', null],
+      bass: ['B3', 'B3', 'B3', 'B3', 'B3', 'B3', null, 'B3', 'B3', 'B3', 'B3', 'B3', 'B3', 'B3', null, 'B3', 'G3', 'G3', 'G3', 'G3', 'G3', 'G3', null, 'G3', 'A3', 'A3', 'A3', 'A3', 'A3', 'A3', null, 'A3'],
+      drum: ['kick', 'snare', 'kick', 'snare', 'kick', 'snare', 'kick', 'snare', 'kick', 'snare', 'kick', 'snare', 'kick', 'snare', 'kick', 'snare', 'kick', 'snare', 'kick', 'snare', 'kick', 'snare', 'kick', 'snare', 'kick', 'snare', 'kick', 'snare', 'kick', 'snare', 'kick', 'snare']
+    },
+    brokenCompass: {
+      step: 0.1, leadType: 'square',
+      lead: ['D5', null, 'C5', 'B4', null, 'B4', 'C5', 'D5', 'G4', null, 'F4', 'E4', null, 'E4', 'F4', 'G4', 'C5', null, 'B4', 'A4', null, 'A4', 'B4', 'C5', 'B4', null, 'A4', 'G4', null, 'G4', 'A4', 'B4'],
+      bass: ['B3', null, null, 'B3', null, 'B3', null, 'B3', 'E3', null, null, 'E3', null, 'E3', null, 'E3', 'A3', null, null, 'A3', null, 'A3', null, 'A3', 'G3', null, null, 'G3', null, 'G3', null, 'G3'],
+      drum: ['kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick']
+    },
+    gildedSpire: {
+      step: 0.13, leadType: 'triangle',
+      lead: ['F4', 'G4', 'A4', 'B4', 'A4', 'G4', 'F4', null, 'A4', 'B4', 'C5', 'D5', 'C5', 'B4', 'A4', null, 'B4', 'C5', 'D5', 'E5', 'D5', 'C5', 'B4', null, 'G4', 'A4', 'B4', 'C5', 'B4', 'A4', 'G4', null],
+      bass: ['F3', null, 'F3', null, 'F3', null, 'F3', null, 'A3', null, 'A3', null, 'A3', null, 'A3', null, 'B3', null, 'B3', null, 'B3', null, 'B3', null, 'G3', null, 'G3', null, 'G3', null, 'G3', null],
+      drum: ['kick', null, null, null, 'snare', null, null, null, 'kick', null, null, null, 'snare', null, null, null, 'kick', null, null, null, 'snare', null, null, null, 'kick', null, null, null, 'snare', null, null, null]
+    },
+    auroraBreach: {
+      step: 0.1, leadType: 'sawtooth',
+      lead: ['F4', null, 'A4', 'G4', null, 'G4', 'A4', 'F4', 'C4', null, 'E4', 'D4', null, 'D4', 'E4', 'C4', 'F4', null, 'A4', 'G4', null, 'G4', 'A4', 'F4', 'E4', null, 'G4', 'F4', null, 'F4', 'G4', 'E4'],
+      bass: ['F3', null, 'F3', 'F3', 'F3', null, 'F3', 'F3', 'C3', null, 'C3', 'C3', 'C3', null, 'C3', 'C3', 'F3', null, 'F3', 'F3', 'F3', null, 'F3', 'F3', 'E3', null, 'E3', 'E3', 'E3', null, 'E3', 'E3'],
+      drum: ['kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick']
+    },
+    skylanceVow: {
+      step: 0.115, leadType: 'square',
+      lead: ['F4', 'A4', null, 'F4', null, 'E4', 'G4', null, 'E4', 'G4', null, 'E4', null, 'D4', 'F4', null, 'D4', 'F4', null, 'D4', null, 'C4', 'E4', null, 'C4', 'E4', null, 'C4', null, 'B4', 'D4', null],
+      bass: ['F3', null, 'F3', null, 'F3', null, null, 'F3', 'E3', null, 'E3', null, 'E3', null, null, 'E3', 'D3', null, 'D3', null, 'D3', null, null, 'D3', 'C3', null, 'C3', null, 'C3', null, null, 'C3'],
+      drum: ['kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick']
+    },
+    ironVerdict: {
+      step: 0.12, leadType: 'square',
+      lead: ['C4', 'D4', 'E4', 'F4', 'E4', 'D4', 'C4', null, 'E4', 'F4', 'G4', 'A4', 'G4', 'F4', 'E4', null, 'F4', 'G4', 'A4', 'B4', 'A4', 'G4', 'F4', null, 'D4', 'E4', 'F4', 'G4', 'F4', 'E4', 'D4', null],
+      bass: ['C3', null, 'C3', null, 'C3', null, 'C3', null, 'E3', null, 'E3', null, 'E3', null, 'E3', null, 'F3', null, 'F3', null, 'F3', null, 'F3', null, 'D3', null, 'D3', null, 'D3', null, 'D3', null],
+      drum: ['kick', null, null, null, 'snare', null, null, null, 'kick', null, null, null, 'snare', null, null, null, 'kick', null, null, null, 'snare', null, null, null, 'kick', null, null, null, 'snare', null, null, null]
+    },
+    daybreakSiege: {
+      step: 0.105, leadType: 'sawtooth',
+      lead: ['C4', 'C4', null, 'E4', null, 'C4', null, 'B4', 'G4', 'G4', null, 'B4', null, 'G4', null, 'F4', 'C4', 'C4', null, 'E4', null, 'C4', null, 'B4', 'B4', 'B4', null, 'D4', null, 'B4', null, 'A4'],
+      bass: ['C3', 'C3', null, null, 'C3', 'C3', null, null, 'G3', 'G3', null, null, 'G3', 'G3', null, null, 'C3', 'C3', null, null, 'C3', 'C3', null, null, 'B3', 'B3', null, null, 'B3', 'B3', null, null],
+      drum: ['kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick', 'kick', 'kick', null, 'kick', 'snare', 'kick', null, 'kick']
+    },
+    valorousRush: {
+      step: 0.095, leadType: 'square',
+      lead: ['C4', null, 'E4', 'D4', null, 'D4', 'E4', 'C4', 'F4', null, 'A4', 'G4', null, 'G4', 'A4', 'F4', 'B4', null, 'D4', 'C4', null, 'C4', 'D4', 'B4', 'A4', null, 'C4', 'B4', null, 'B4', 'C4', 'A4'],
+      bass: ['C3', null, 'C3', 'C3', 'C3', null, 'C3', 'C3', 'F3', null, 'F3', 'F3', 'F3', null, 'F3', 'F3', 'B3', null, 'B3', 'B3', 'B3', null, 'B3', 'B3', 'A3', null, 'A3', 'A3', 'A3', null, 'A3', 'A3'],
+      drum: ['kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick', 'kick', null, 'kick', 'kick', 'snare', null, 'kick', 'kick']
     }
   };
+
+  var BATTLE_TRACKS = [
+    'battle', 'ashfallCharge', 'widowsMarch', 'crimsonOath', 'thornVeil', 'sableHollow',
+    'blackReliquary', 'wolfsgate', 'graniteOath', 'huntersDrift', 'brassHorizon', 'copperRevolt',
+    'goldenSkirmish', 'hollowSigil', 'brokenCompass', 'gildedSpire', 'auroraBreach', 'skylanceVow',
+    'ironVerdict', 'daybreakSiege', 'valorousRush'
+  ];
+  var lastBattleTrack = null;
 
   var lookahead = 25; // ms
   var scheduleAheadTime = 0.1; // s
@@ -158,8 +312,28 @@
   function scheduleStep(track, time) {
     var lead = track.lead[stepIndex % track.lead.length];
     var bass = track.bass[stepIndex % track.bass.length];
-    if (lead) tone(NOTES[lead], time, track.step * 0.85, { type: 'square', gain: 0.08, bus: musicGain, attack: 0.005, release: 0.02 });
-    if (bass) tone(NOTES[bass] / 2, time, track.step * 0.9, { type: 'triangle', gain: 0.13, bus: musicGain, attack: 0.005, release: 0.03 });
+    if (lead) {
+      tone(NOTES[lead], time, track.step * 0.85, {
+        type: track.leadType || 'square',
+        gain: track.leadGain != null ? track.leadGain : 0.08,
+        bus: musicGain, attack: 0.005, release: 0.02
+      });
+    }
+    if (bass) {
+      tone(NOTES[bass] / 2, time, track.step * 0.9, {
+        type: track.bassType || 'triangle',
+        gain: track.bassGain != null ? track.bassGain : 0.13,
+        bus: musicGain, attack: 0.005, release: 0.03
+      });
+    }
+    if (track.drum) {
+      var hit = track.drum[stepIndex % track.drum.length];
+      if (hit === 'kick') {
+        tone(90, time, 0.07, { type: 'sine', gain: 0.32, slideTo: 40, attack: 0.001, release: 0.03, bus: musicGain });
+      } else if (hit === 'snare') {
+        noise(time, 0.06, { gain: 0.22, filterType: 'bandpass', filterFreq: 1800, bus: musicGain });
+      }
+    }
   }
 
   function schedulerLoop() {
@@ -196,6 +370,20 @@
     if (activeTrackName !== name) startMusic(name);
   }
 
+  // Picks a random track from BATTLE_TRACKS (never repeating the one that just
+  // played) for non-boss battles, so the rotation never feels stuck on one loop.
+  function playBattleMusic(isBoss) {
+    if (isBoss) {
+      lastBattleTrack = null;
+      playMusic('boss');
+      return;
+    }
+    var pool = BATTLE_TRACKS.filter(function (name) { return name !== lastBattleTrack; });
+    var pick = pool[Math.floor(Math.random() * pool.length)];
+    lastBattleTrack = pick;
+    playMusic(pick);
+  }
+
   function setMuted(val) {
     muted = !!val;
     try { localStorage.setItem(MUTE_KEY, muted ? '1' : '0'); } catch (e) { /* ignore */ }
@@ -229,9 +417,11 @@
   window.Game.Audio = {
     sfx: sfx,
     playMusic: playMusic,
+    playBattleMusic: playBattleMusic,
     stopMusic: function () { desiredTrackName = null; stopMusic(); },
     toggleMute: toggleMute,
     isMuted: function () { return muted; },
+    getActiveTrack: function () { return activeTrackName; },
     setMusicVolume: setMusicVolume,
     getMusicVolume: function () { return musicVolume; },
     unlock: ensureCtx

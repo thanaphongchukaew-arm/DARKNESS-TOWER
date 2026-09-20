@@ -814,6 +814,7 @@
   function beginBattleScreen() {
     document.getElementById('battle-log').innerHTML = '';
     window.Game.UI.showScreen('screen-battle');
+    if (window.Game.Audio) window.Game.Audio.playBattleMusic(currentIsBoss);
     renderEnemies(currentBattle);
     renderPlayerPanel(currentBattle);
     renderCompanionPanel(currentBattle);
