@@ -5,12 +5,52 @@
   "scripts": {
     "build": "node scripts/build.js",
     "test": "node --test \"test/**/*.test.js\"",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "start": "electron .",
+    "build:exe": "npm run build && electron-builder --win"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "electron": "^44.3.0",
+    "electron-builder": "^26.15.3",
     "eslint": "^10.8.1",
     "globals": "^17.11.0",
     "terser": "^5.49.2"
+  },
+  "description": "DARKNESS TOWER — หอคอยแห่งความมืด 100 ชั้น",
+  "author": "Thanaphong Chukaew",
+  "main": "electron/main.js",
+  "build": {
+    "appId": "com.thanaphong.darknesstower",
+    "productName": "DARKNESS TOWER",
+    "copyright": "Copyright © Thanaphong Chukaew. All rights reserved.",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**",
+      "index.html",
+      "dist/**",
+      "css/**",
+      "fonts/**",
+      "backgrounds/**",
+      "icons/**",
+      "manifest.webmanifest",
+      "!**/*-source.png"
+    ],
+    "win": {
+      "icon": "icons/android-chrome-512x512.png",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "portable": {
+      "artifactName": "DARKNESS-TOWER.exe"
+    }
   }
 }

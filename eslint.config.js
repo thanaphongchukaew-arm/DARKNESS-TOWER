@@ -8,7 +8,7 @@ const js = require('@eslint/js');
 const globals = require('globals');
 
 module.exports = [
-  { ignores: ['dist/**', 'node_modules/**'] },
+  { ignores: ['dist/**', 'node_modules/**', 'release/**'] },
   js.configs.recommended,
   {
     files: ['js/**/*.js'],
@@ -37,7 +37,7 @@ module.exports = [
     }
   },
   {
-    files: ['scripts/**/*.js', 'test/**/*.js', 'eslint.config.js'],
+    files: ['scripts/**/*.js', 'electron/**/*.js', 'test/**/*.js', 'eslint.config.js'],
     languageOptions: {
       sourceType: 'commonjs',
       ecmaVersion: 2021,
