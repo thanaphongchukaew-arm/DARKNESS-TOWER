@@ -151,7 +151,10 @@ test('cleanse and companion resource gains have their own semantic animation eve
   events=f.g.BattleEngine.runCompanionPhase(f.battle).events;assert.ok(events.some(e=>e.type==='cleanse'));
   f.run.companionId='frost_hare';f.battle=f.g.BattleEngine.createBattle(f.run,1,false);f.run.mp-=1;
   events=f.g.BattleEngine.runCompanionPhase(f.battle).events;const gain=events.find(e=>e.type==='resourceGain');assert.equal(gain.amount,1);assert.equal(f.g.BattleFX.profile(gain,f.battle).palette,'mana');
-  assert.ok(!fs.readFileSync(path.join(__dirname,'../js/audio.js'),'utf8').includes('Math.random'));
+  const audioSrc=fs.readFileSync(path.join(__dirname,'../js/audio.js'),'utf8');
+  // Only the cosmetic battle-track rotation may use Math.random; sound effects must stay deterministic.
+  const uses=audioSrc.split('\n').filter(l=>l.includes('Math.random'));
+  assert.equal(uses.length,1);assert.ok(uses[0].includes('pool['));
 });
 
 test('offensive companion buffs do not masquerade as shields and silenced monsters keep anatomical fallback motions',()=>{
