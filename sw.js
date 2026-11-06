@@ -1,4 +1,4 @@
-const CACHE_NAME = 'darkness-tower-v14';
+const CACHE_NAME = 'darkness-tower-v15';
 
 const PRECACHE_URLS = [
   './',

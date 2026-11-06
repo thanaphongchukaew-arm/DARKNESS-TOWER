@@ -4,7 +4,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <title>DARKNESS TOWER — หอคอยแห่งความมืด</title>
 <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
@@ -22,8 +22,19 @@
 <script>
 (function () {
   var W = 960, H = 640, root = document.documentElement;
+  // Phone detection (iPad excluded: its short side is >= 744px). ?mobile=1 forces it for testing.
+  var isMobile = /[?&]mobile=1/.test(location.search) ||
+    (window.matchMedia && matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 600);
+  if (isMobile) root.classList.add('is-mobile');
   function fit() {
     var vw = window.innerWidth, vh = window.innerHeight;
+    if (isMobile) {
+      // Battle needs the full 960x640 layout; other screens use a smaller logical size so text is larger.
+      var inBattle = document.querySelector('#screen-battle.active');
+      if (vw < vh) { W = 480; H = 640; }
+      else if (inBattle) { W = 900; H = 470; }
+      else { W = 820; H = 420; }
+    }
     var s = Math.max(0.2, Math.min(vw / W, vh / H, 2.5));
     root.style.setProperty('--ui-scale', s.toFixed(4));
     root.style.setProperty('--app-w', (vw / s).toFixed(2) + 'px');
@@ -31,6 +42,11 @@
   }
   fit();
   window.addEventListener('resize', fit);
+  if (isMobile && window.MutationObserver) {
+    document.addEventListener('DOMContentLoaded', function () {
+      new MutationObserver(fit).observe(document.getElementById('app-root'), { attributes: true, attributeFilter: ['class'], subtree: true });
+    });
+  }
   if (window.visualViewport) window.visualViewport.addEventListener('resize', fit);
 })();
 </script>
@@ -52,7 +68,7 @@
       <p class="menu-footer" id="menu-footer">ไต่หอคอย เอาชนะเงามืด ค้นหาจุดอ่อน สร้างสายฟ้าแห่งชัยชนะ</p>
       <p class="push-start" id="push-start">PUSH START</p>
     </div>
-    <span class="version-tag" id="version-tag">v0.20.16</span>
+    <span class="version-tag" id="version-tag">v0.20.17</span>
   </section>
 
   <!-- HOW TO PLAY / GUIDE -->

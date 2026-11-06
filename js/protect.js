@@ -16,4 +16,16 @@
       (e.metaKey && e.altKey && ['I', 'i', 'J', 'j', 'C', 'c'].indexOf(k) !== -1);
     if (blocked) e.preventDefault();
   });
+
+  // Zoom is only for touch devices (phones + iPad, via pinch). On mouse/keyboard
+  // devices block Ctrl/Cmd +/-/0 and Ctrl+wheel zoom; the UI auto-fits the window.
+  var touchDevice = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+  if (!touchDevice) {
+    document.addEventListener('wheel', function (e) {
+      if (e.ctrlKey || e.metaKey) e.preventDefault();
+    }, { passive: false });
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && ['+', '=', '-', '_', '0'].indexOf(e.key) !== -1) e.preventDefault();
+    });
+  }
 })();
