@@ -15,7 +15,12 @@
     { id: 'companion', icon: 'eventCompanion' },
     { id: 'spring', icon: 'eventSpring' },
     { id: 'battlefield', icon: 'eventBattlefield' },
-    { id: 'gambler', icon: 'eventGambler', betTiers: [0.25, 0.5, 1.0] }
+    { id: 'gambler', icon: 'eventGambler', betTiers: [0.25, 0.5, 1.0] },
+    // Bargain events: both cost something real (max HP for the run / the free heal).
+    { id: 'bloodAltar', icon: 'eventBloodAltar', minFloor: 8, minorPenalty: 0.08, majorPenalty: 0.16, maxPenalty: 0.4,
+      minorRunes: ['rune_fracture', 'rune_shelter', 'rune_vigor', 'rune_ember', 'rune_frost'],
+      rareRunes: ['rune_focus', 'rune_discovery', 'rune_thunder', 'rune_gale', 'rune_sun', 'rune_moon'] },
+    { id: 'nightCamp', icon: 'eventNightCamp', minFloor: 8, bazaarRuneMult: 3.2 }
   ];
 
   window.Game = window.Game || {};

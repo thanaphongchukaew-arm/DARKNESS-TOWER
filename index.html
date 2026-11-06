@@ -19,6 +19,21 @@
 <link rel="stylesheet" href="css/components.css">
 <link rel="stylesheet" href="css/menu.css">
 <link rel="stylesheet" href="css/battle.css">
+<script>
+(function () {
+  var W = 960, H = 640, root = document.documentElement;
+  function fit() {
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var s = Math.max(0.2, Math.min(vw / W, vh / H, 2.5));
+    root.style.setProperty('--ui-scale', s.toFixed(4));
+    root.style.setProperty('--app-w', (vw / s).toFixed(2) + 'px');
+    root.style.setProperty('--app-h', (vh / s).toFixed(2) + 'px');
+  }
+  fit();
+  window.addEventListener('resize', fit);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', fit);
+})();
+</script>
 </head>
 <body>
 <div id="app-root">
@@ -37,6 +52,7 @@
       <p class="menu-footer" id="menu-footer">ไต่หอคอย เอาชนะเงามืด ค้นหาจุดอ่อน สร้างสายฟ้าแห่งชัยชนะ</p>
       <p class="push-start" id="push-start">PUSH START</p>
     </div>
+    <span class="version-tag" id="version-tag">v0.20.16</span>
   </section>
 
   <!-- HOW TO PLAY / GUIDE -->

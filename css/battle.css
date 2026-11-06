@@ -1201,3 +1201,23 @@
     height: 90px;
   }
 }
+#battle-player-panel .player-portrait { width: 80px; height: 80px; overflow: visible; }
+#battle-player-panel .player-portrait .hero-visual { width: 78px; height: 78px; }
+@media(max-width: 600px) {
+  #battle-player-panel .player-portrait { width: 64px; height: 64px; }
+  #battle-player-panel .player-portrait .hero-visual { width: 62px; height: 62px; }
+}
+
+/* Pixel battle choreography: one viewport overlay, no input interception. */
+.battle-fx-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 44; image-rendering: pixelated; display: none; }
+.battle-fx-canvas.is-active { display: block; }
+.battle-fx-caption { position: fixed; top: max(76px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); z-index: 43; max-width: min(560px,88vw); padding: 9px 18px; border: 1px solid #b69a68; background: #171020ed; color: #ffe6ac; text-align: center; font-size: 14px; line-height: 1.7; pointer-events: none; opacity: 0; box-shadow: 4px 4px 0 #080610aa; }
+.battle-fx-caption.is-active { opacity: 1; }.battle-fx-caption.is-enemy { border-color: #bf718b; color: #ffbfd0; }
+.combat-modifiers { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin-top: 6px; }
+.combat-mod { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; line-height: 1.6; padding: 3px 5px; border: 1px solid #4a7765; background: #15231fe6; color: #b2edcc; }
+.combat-mod.is-negative { color: #e4b7ed; border-color: #78517e; background: #28182be6; }.combat-mod .icon,.combat-mod svg { width: 14px; height: 14px; }
+.fx-afflicted-poison .enemy-portrait { filter: drop-shadow(0 0 4px #80b86a66); }.fx-afflicted-burn .enemy-portrait { filter: drop-shadow(0 0 4px #ee734b77); }.fx-afflicted-silence .enemy-portrait { filter: drop-shadow(0 0 4px #a47ccd66); }
+.ailment-chip { animation: fx-badge-pulse 2.4s steps(4) infinite; }
+@keyframes fx-badge-pulse { 0%,100% { border-color: #605077; } 50% { border-color: #b48ac8; } }
+@media(max-width: 600px) { .battle-fx-caption { top: 104px; font-size: 11px; padding: 7px 12px; }.combat-mod { font-size: 9px; } }
+@media(prefers-reduced-motion: reduce) { .ailment-chip,.hit-flash,.hit-shake,.screen-shake,.screen-shake-strong { animation: none !important; } }

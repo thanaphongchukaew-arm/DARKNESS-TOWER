@@ -73,7 +73,9 @@
     companion: { titleKey: 'eventCompanionTitle', descKey: 'eventCompanionDesc' },
     spring: { titleKey: 'eventSpringTitle', descKey: 'eventSpringDesc' },
     battlefield: { titleKey: 'eventBattlefieldTitle', descKey: 'eventBattlefieldDesc' },
-    gambler: { titleKey: 'eventGamblerTitle', descKey: 'eventGamblerDesc' }
+    gambler: { titleKey: 'eventGamblerTitle', descKey: 'eventGamblerDesc' },
+    bloodAltar: { titleKey: 'eventAltarTitle', descKey: 'eventAltarDesc' },
+    nightCamp: { titleKey: 'eventCampTitle', descKey: 'eventCampDesc' }
   };
 
   // The "Lost Companion" event only makes sense if there's actually a companion
@@ -84,12 +86,21 @@
     var ids = D.events.map(function (e) { return e.id; });
     var hasRecruitable = !run.companionId && D.companions.some(function (c) { return S.isCompanionUnlocked(c.id); });
     if (!hasRecruitable) ids = ids.filter(function (id) { return id !== 'companion'; });
+    // Bargain events only appear deep enough to matter, and the altar stops
+    // offering once the run has already given up as much max HP as it allows.
+    ids = ids.filter(function (id) {
+      var def = D.getEvent(id);
+      if (def.minFloor && run.currentFloor < def.minFloor) return false;
+      if (id === 'bloodAltar' && (run.maxHpPenalty || 0) + def.minorPenalty > def.maxPenalty) return false;
+      return true;
+    });
     return ids;
   }
 
   function maybeTriggerEvent(floor, onNone) {
     var run = window.Game.State.current;
     var D = window.Game.Data;
+    if (window.Game.StoryUI.maybe(floor)) return;
     run.eventsSeen = run.eventsSeen || {};
     var eligible = floor > 2 && !getWaypointForFloor(floor) && floor !== 100 && !D.getMiniBoss(floor) &&
       !run.eventsSeen[floor] && (floor - (run.lastEventFloor || 0)) >= EVENT_MIN_GAP;
@@ -148,10 +159,11 @@
     return offers;
   }
 
-  function renderMerchantEvent(floor) {
+  function renderMerchantEvent(floor, stateId) {
     var run = window.Game.State.current;
-    if (eventState.id !== 'merchant' || eventState.floor !== floor) {
-      eventState = { id: 'merchant', floor: floor, offers: generateMerchantOffers(run, floor), purchased: {} };
+    stateId = stateId || 'merchant';
+    if (eventState.id !== stateId || eventState.floor !== floor) {
+      eventState = { id: stateId, floor: floor, offers: generateMerchantOffers(run, floor), purchased: {} };
     }
     var body = document.getElementById('event-body');
     function paint() {
@@ -428,6 +440,7 @@
         var pick = choices[idx];
         var run = window.Game.State.current;
         applyRewardPick(run, pick);
+        var skipButton=document.getElementById('reward-skip');if(skipButton)skipButton.remove();
         finishEvent(floor);
       };
     });
@@ -474,12 +487,116 @@
     paint();
   }
 
+
+  // ---- Bargain events: each choice costs something real ----
+
+  // Blood Altar: trade permanent (this-run) max HP for a rune.
+  function renderBloodAltarEvent(floor) {
+    var run = window.Game.State.current, S = window.Game.State, D = window.Game.Data;
+    var def = D.getEvent('bloodAltar');
+    var body = document.getElementById('event-body');
+    var penalty = run.maxHpPenalty || 0;
+    function offer(tier) {
+      if (eventState.id !== 'bloodAltar' || eventState.floor !== floor) eventState = { id: 'bloodAltar', floor: floor, minor: null, rare: null };
+      var key = tier === 'rare' ? 'rare' : 'minor';
+      if (!eventState[key]) { var pool = tier === 'rare' ? def.rareRunes : def.minorRunes; eventState[key] = pool[Math.floor(Math.random() * pool.length)]; }
+      return D.getItem(eventState[key]);
+    }
+    var minor = offer('minor'), rare = offer('rare');
+    if (eventState.done) {
+      body.innerHTML = '<p class="empty-note">' + T('eventAltarDoneTitle') + '</p>';
+      document.getElementById('event-actions').innerHTML = '<button class="btn-primary" id="event-continue">' + T('continueBtn') + '</button>';
+      document.getElementById('event-continue').onclick = function () { SFX('ui_confirm'); finishEvent(floor); };
+      return;
+    }
+    var minorCost = def.minorPenalty, majorCost = def.majorPenalty;
+    var canMinor = penalty + minorCost <= def.maxPenalty, canMajor = penalty + majorCost <= def.maxPenalty;
+    function card(icon, rune, cost, ok, choice, titleKey) {
+      return '<button class="select-card" data-choice="' + choice + '"' + (ok ? '' : ' disabled') + '><div class="select-card-icon">' + I(icon) + '</div>' +
+        '<div class="select-card-title">' + T(titleKey) + '</div>' +
+        '<div class="select-card-desc">' + T('eventAltarOfferDesc', { rune: L(rune, 'name'), pct: Math.round(cost * 100) }) + '</div></button>';
+    }
+    body.innerHTML = '<div class="altar-status">' + I('bondHeart') + '<span>' + T('eventAltarStatus', { pct: Math.round(penalty * 100), max: Math.round(def.maxPenalty * 100) }) + '</span></div>' +
+      '<div class="card-grid">' + card(minor.icon, minor, minorCost, canMinor, 'minor', 'eventAltarMinorBtn') + card(rare.icon, rare, majorCost, canMajor, 'major', 'eventAltarMajorBtn') +
+      eventChoiceCard('doorway', 'eventAltarLeaveBtn', 'eventAltarLeaveDesc', 'leave') + '</div>';
+    document.getElementById('event-actions').innerHTML = '';
+    Array.prototype.forEach.call(body.querySelectorAll('.select-card:not([disabled])'), function (cardEl) {
+      cardEl.onclick = function () {
+        var choice = cardEl.getAttribute('data-choice');
+        if (choice === 'leave') { SFX('ui_cancel'); finishEvent(floor); return; }
+        var rune = choice === 'major' ? rare : minor, cost = choice === 'major' ? majorCost : minorCost;
+        run.maxHpPenalty = Math.round(((run.maxHpPenalty || 0) + cost) * 100) / 100;
+        S.clampVitals(run);
+        S.addItem(run, rune.id, 1);
+        eventState.done = true; run.eventsSeen = run.eventsSeen || {}; run.eventsSeen[floor] = true;
+        S.saveNow();
+        SFX('item_get');
+        window.Game.UI.confirmModal({ title: T('eventAltarDoneTitle'), message: T('eventAltarDoneMsg', { rune: L(rune, 'name'), pct: Math.round(cost * 100), hp: S.getMaxHp(run) }), confirmLabel: T('closeBtn'), danger: true, onConfirm: function () { finishEvent(floor); } });
+      };
+    });
+  }
+
+  // Night Camp: rest by the fire (full heal) OR follow the lanterns to a pricey
+  // Night Bazaar -- you cannot do both.
+  function bazaarOffers(run, floor) {
+    var D = window.Game.Data, F = window.Game.Formulas, def = D.getEvent('nightCamp');
+    var offers = [];
+    var runeId = D.getEvent('bloodAltar').rareRunes[Math.floor(Math.random() * D.getEvent('bloodAltar').rareRunes.length)];
+    var rune = D.getItem(runeId);
+    offers.push({ id: 'i_' + rune.id, kind: 'item', item: rune, qty: 1, price: Math.round(F.shopPrice(rune) * def.bazaarRuneMult) });
+    var elixir = D.getItem('p_elixir');
+    offers.push({ id: 'i_p_elixir', kind: 'item', item: elixir, qty: 2, price: Math.round(F.shopPrice(elixir) * 2 * 2.2) });
+    var unheld = D.blessings.filter(function (b) { return (run.blessings || []).indexOf(b.id) === -1; });
+    if (unheld.length) {
+      var b = unheld[Math.floor(Math.random() * unheld.length)];
+      var evM = D.getEvent('merchant');
+      offers.push({ id: 'b_' + b.id, kind: 'blessing', blessing: b, price: Math.round((evM.offerGoldBase + evM.offerGoldPerTier * F.tierForFloor(floor)) * 0.8) });
+    }
+    return offers;
+  }
+
+  function renderNightCampEvent(floor) {
+    var run = window.Game.State.current, S = window.Game.State;
+    if (eventState.id !== 'nightCamp' || eventState.floor !== floor) eventState = { id: 'nightCamp', floor: floor, mode: 'choose' };
+    if (eventState.done) {
+      document.getElementById('event-body').innerHTML = '<p class="empty-note">' + T('eventCampRestedTitle') + '</p>';
+      document.getElementById('event-actions').innerHTML = '<button class="btn-primary" id="event-continue">' + T('continueBtn') + '</button>';
+      document.getElementById('event-continue').onclick = function () { SFX('ui_confirm'); finishEvent(floor); };
+      return;
+    }
+    if (eventState.mode === 'bazaar') {
+      if (!eventState.offers) { eventState.offers = bazaarOffers(run, floor); eventState.purchased = {}; }
+      renderMerchantEvent(floor, 'nightCamp');
+      document.getElementById('event-desc').textContent = T('eventCampBazaarDesc');
+      return;
+    }
+    var body = document.getElementById('event-body');
+    body.innerHTML = '<div class="card-grid">' +
+      eventChoiceCard('eventSpring', 'eventCampRestBtn', 'eventCampRestDesc', 'rest') +
+      eventChoiceCard('eventNightCamp', 'eventCampBazaarBtn', 'eventCampBazaarChoiceDesc', 'bazaar') + '</div>';
+    document.getElementById('event-actions').innerHTML = '';
+    Array.prototype.forEach.call(body.querySelectorAll('.select-card'), function (card) {
+      card.onclick = function () {
+        if (card.getAttribute('data-choice') === 'rest') {
+          S.fullRestore(run); run.ailments = []; eventState.done = true; run.eventsSeen = run.eventsSeen || {}; run.eventsSeen[floor] = true; S.saveNow(); SFX('heal');
+          window.Game.UI.confirmModal({ title: T('eventCampRestedTitle'), message: T('eventCampRestedMsg'), confirmLabel: T('closeBtn'), onConfirm: function () { finishEvent(floor); } });
+        } else {
+          SFX('ui_confirm');
+          eventState.mode = 'bazaar';
+          renderNightCampEvent(floor);
+        }
+      };
+    });
+  }
+
   function renderEvent(eventId, floor) {
     if (eventState.id !== eventId || eventState.floor !== floor) eventState = { id: null, floor: null };
     lastEvent = { id: eventId, floor: floor };
     var meta = EVENT_META[eventId];
     var evDef = window.Game.Data.getEvent(eventId);
-    document.getElementById('event-icon').innerHTML = I(evDef.icon);
+    var npcIcon = { merchant: 'npcMerchant', sage: 'npcSage', gambler: 'npcGambler' }[eventId];
+    document.getElementById('event-icon').innerHTML = I(npcIcon || evDef.icon);
+    document.getElementById('event-icon').classList.toggle('event-npc-icon', !!npcIcon);
     document.getElementById('event-title').textContent = T(meta.titleKey);
     document.getElementById('event-desc').textContent = T(meta.descKey);
     if (eventId === 'merchant') renderMerchantEvent(floor);
@@ -491,6 +608,8 @@
     else if (eventId === 'spring') renderSpringEvent(floor);
     else if (eventId === 'battlefield') renderBattlefieldEvent(floor);
     else if (eventId === 'gambler') renderGamblerEvent(floor);
+    else if (eventId === 'bloodAltar') renderBloodAltarEvent(floor);
+    else if (eventId === 'nightCamp') renderNightCampEvent(floor);
   }
 
   // Marks the currently-displayed waypoint as seen and persists it. Called only
@@ -507,15 +626,19 @@
   function renderTower() {
     var run = window.Game.State.current;
     var S = window.Game.State, D = window.Game.Data;
+    window.Game.Systems.ensure(run);
+    if (window.Game.Systems.pending(run)) window.Game.SystemsUI.talentPrompt();
     var cls = D.getClass(run.classId);
+    var activeRoute = window.Game.Systems.route(run, run.currentFloor);
+    window.Game.WorkshopUI.entryPoints();
     var maxHp = S.getMaxHp(run), maxMp = S.getMaxMp(run);
     var hpPct = Math.max(0, Math.round(run.hp / maxHp * 100));
     var mpPct = Math.max(0, Math.round(run.mp / maxMp * 100));
 
     document.getElementById('tower-hero-summary').innerHTML =
-      '<div class="hero-summary-icon">' + I(cls.icon) + '</div>' +
+      '<div class="hero-summary-icon">' + window.Game.HeroArt.render(run) + '</div>' +
       '<div class="hero-summary-info">' +
-        '<div class="hero-summary-name">' + L(cls, 'name') + '<span class="lvl">Lv.' + run.level + '</span>' +
+        '<div class="hero-summary-name">' + L(cls, 'name') + (activeRoute ? '<span class="lvl">' + I(activeRoute.icon) + L(activeRoute, 'name') + '</span>' : '') + '<span class="lvl">Lv.' + run.level + '</span>' +
           (run.ascension ? '<span class="lvl" title="' + T('ascensionChipLabel') + '">' + I('ascension') + run.ascension + '</span>' : '') +
           '<span class="gold-chip">' + I('coin') + (run.gold || 0) + '</span></div>' +
         '<div class="bar-row">' + I('heart') + '<div class="bar-track"><div class="bar-fill hp" style="width:' + hpPct + '%"></div></div><span>' + run.hp + '/' + maxHp + '</span></div>' +
@@ -611,7 +734,11 @@
         window.Game.UI.showScreen('screen-waypoint');
         return;
       }
-      maybeTriggerEvent(floor, function () { startBattleMaybeConfirm(floor, false); });
+      window.Game.SystemsUI.talentPrompt(function () {
+        window.Game.SystemsUI.routePrompt(floor, function () {
+          maybeTriggerEvent(floor, function () { startBattleMaybeConfirm(floor, false); });
+        });
+      });
     }
 
     var jumpBtn = document.getElementById('tower-jump-current');
@@ -667,7 +794,7 @@
     // offer -- not guaranteed every reward screen, gated past floor 5 so it never
     // shows up before the player has a feel for basic combat.
     if (floor >= 5) {
-      var unheldRelics = D.relics.filter(function (r) { return (run.relics || []).indexOf(r.id) === -1; });
+      var unheldRelics = D.relics.filter(function (r) { return !r.storyOnly && (run.relics || []).indexOf(r.id) === -1; });
       if (unheldRelics.length) {
         pool.push({ type: 'relic', relic: unheldRelics[Math.floor(Math.random() * unheldRelics.length)] });
       }
@@ -692,10 +819,11 @@
       '</button>';
     }
     var qtyLabel = c.qty > 1 ? ' x' + c.qty : '';
+    var need = window.Game.Micro.rewardNeed(window.Game.State.current, c.item.id);
     return '<button class="select-card" data-idx="' + idx + '">' +
       '<div class="select-card-icon">' + I(c.item.icon) + '</div>' +
       '<div class="select-card-title">' + L(c.item, 'name') + qtyLabel + '</div>' +
-      '<div class="select-card-desc">' + L(c.item, 'desc') + '</div>' +
+      '<div class="select-card-desc">' + L(c.item, 'desc') + '</div>' + need +
     '</button>';
   }
 
@@ -712,6 +840,39 @@
     autoEquipIfEmpty(run, pick.item.id);
   }
 
+  // The floor-clear reward is rolled and saved the moment a battle is won
+  // (run.pendingReward), so reloading while the reward screen is up -- or in the
+  // moment before it appears -- restores the same three cards instead of losing the pick.
+  function queueReward(floor) {
+    var run = window.Game.State.current;
+    if (run.pendingReward && run.pendingReward.floor === floor) return;
+    var picks = generateRewardChoices(floor).map(function (c) {
+      return c.type === 'relic' ? { type: 'relic', relicId: c.relic.id } : { type: c.type, itemId: c.item.id, qty: c.qty };
+    });
+    run.pendingReward = { floor: floor, picks: picks };
+    window.Game.State.saveNow();
+  }
+
+  function hydratePendingReward() {
+    var run = window.Game.State.current, D = window.Game.Data, pending = run.pendingReward;
+    if (!pending) return false;
+    lastRewardFloor = pending.floor;
+    lastRewardChoices = pending.picks.map(function (p) {
+      return p.type === 'relic' ? { type: 'relic', relic: D.relics.find(function (r) { return r.id === p.relicId; }) } : { type: p.type, item: D.getItem(p.itemId), qty: p.qty };
+    }).filter(function (c) { return c.relic || c.item; });
+    if (!lastRewardChoices.length) { run.pendingReward = null; return false; }
+    return true;
+  }
+
+  function resumePendingReward() {
+    if (!window.Game.State.current.pendingReward || !hydratePendingReward()) return false;
+    renderReward(null);
+    window.Game.UI.showScreen('screen-reward');
+    return true;
+  }
+
+  function clearPendingReward(run) { run.pendingReward = null; }
+
   var lastRewardFloor = null;
   var lastRewardChoices = null;
 
@@ -720,13 +881,16 @@
   // already-rolled choices don't get re-rolled out from under the player.
   function renderReward(floor) {
     if (floor != null) {
-      lastRewardFloor = floor;
-      lastRewardChoices = generateRewardChoices(floor);
+      queueReward(floor);
+      hydratePendingReward();
     }
     var choices = lastRewardChoices;
     document.getElementById('reward-title').textContent = T('rewardClearedPrefix') + lastRewardFloor + T('rewardClearedSuffix');
     var el = document.getElementById('reward-cards');
     el.innerHTML = choices.map(rewardCardHtml).join('');
+    var skip=document.getElementById('reward-skip');if(!skip){skip=document.createElement('button');skip.id='reward-skip';skip.className='btn-ghost micro-skip';el.after(skip);}
+    skip.innerHTML=I('microWarning')+window.Game.Systems.text('ข้ามรางวัล','Skip reward');
+    skip.onclick=function(){window.Game.UI.confirmModal({title:window.Game.Systems.text('ข้ามรางวัลชั้นนี้?','Skip this floor reward?'),message:window.Game.Systems.text('คุณจะไม่ได้เลือกของรางวัลจากชั้นนี้','You will not receive a pick from this floor.'),confirmLabel:window.Game.Systems.text('ข้ามรางวัล','Skip reward'),danger:true,onConfirm:function(){var run=window.Game.State.current,maxHp=window.Game.State.getMaxHp(run),maxMp=window.Game.State.getMaxMp(run);run.hp=Math.min(maxHp,run.hp+Math.round(maxHp*.3));run.mp=Math.min(maxMp,run.mp+Math.round(maxMp*.3));run.currentFloor++;clearPendingReward(run);window.Game.State.recordFloorReached(run.currentFloor);window.Game.State.saveNow();skip.remove();goToTowerOrWaypoint();}});};
     Array.prototype.forEach.call(el.querySelectorAll('.select-card'), function (card) {
       card.onclick = function () {
         SFX('item_get');
@@ -741,6 +905,7 @@
         // let renderShop lazily regenerate against the new (post-clear) floor tier.
         if (window.Game.Data.getMiniBoss(lastRewardFloor)) run.shopStock = null;
         run.currentFloor += 1;
+        clearPendingReward(run);
         window.Game.State.recordFloorReached(run.currentFloor);
         window.Game.State.saveNow();
         goToTowerOrWaypoint();
@@ -764,37 +929,17 @@
     var actionsEl = document.getElementById('waypoint-actions');
     actionsEl.innerHTML = '<button class="btn-primary" id="waypoint-continue">' + T('continueBtn') + '</button>';
     document.getElementById('waypoint-continue').onclick = function () {
-      SFX('ui_confirm');
-      markWaypointSeen();
-      renderTower();
-      window.Game.UI.showScreen('screen-tower');
+      var run=window.Game.State.current,unused=lastWaypoint.type==='rest'&&!window.Game.Workshop.ensure(run).camps[window.Game.Workshop.campKey(run)],unbought=lastWaypoint.type==='shop'&&(!waypointState.purchased||!Object.keys(waypointState.purchased).length);
+      function leave(){SFX('ui_confirm');markWaypointSeen();renderTower();window.Game.UI.showScreen('screen-tower');}
+      if(unused||unbought){window.Game.UI.confirmModal({title:window.Game.Systems.text('ออกจากจุดพัก?','Leave the waypoint?'),message:unused?window.Game.Systems.text('ยังไม่ได้เลือกกิจกรรมแคมป์','You have not chosen a camp activity.'):window.Game.Systems.text('ยังไม่ได้ซื้อของจากร้านนี้','You have not purchased anything here.'),confirmLabel:window.Game.Systems.text('ออกจากจุดพัก','Leave waypoint'),danger:true,onConfirm:leave});return;}
+      leave();
     };
   }
 
   function renderRestWaypoint() {
-    var run = window.Game.State.current, S = window.Game.State;
-    var body = document.getElementById('waypoint-body');
-    function paint() {
-      var maxHp = S.getMaxHp(run), maxMp = S.getMaxMp(run);
-      var hpPct = Math.max(0, Math.round(run.hp / maxHp * 100));
-      var mpPct = Math.max(0, Math.round(run.mp / maxMp * 100));
-      var fullyRested = run.hp >= maxHp && run.mp >= maxMp;
-      body.innerHTML = '<div class="waypoint-rest-box">' +
-        '<div class="bar-row">' + I('heart') + '<div class="bar-track"><div class="bar-fill hp" style="width:' + hpPct + '%"></div></div><span>' + run.hp + '/' + maxHp + '</span></div>' +
-        '<div class="bar-row">' + I('drop') + '<div class="bar-track"><div class="bar-fill mp" style="width:' + mpPct + '%"></div></div><span>' + run.mp + '/' + maxMp + '</span></div>' +
-        '<button class="btn-primary" id="waypoint-rest-btn"' + (fullyRested ? ' disabled' : '') + '>' + I('sparkles') + '<span>' + T('waypointRestBtn') + '</span></button>' +
-      '</div>';
-      var btn = document.getElementById('waypoint-rest-btn');
-      if (btn) {
-        btn.onclick = function () {
-          SFX('heal');
-          S.fullRestore(run);
-          window.Game.State.saveNow();
-          paint();
-        };
-      }
-    }
-    paint();
+    var run=window.Game.State.current,used=window.Game.Workshop.ensure(run).camps[window.Game.Workshop.campKey(run)];
+    document.getElementById('waypoint-body').innerHTML='<div class="ws-camp-scene">'+I('workCamp')+'<div><h3>'+window.Game.Systems.text('กิจกรรมรอบกองไฟ','Camp activities')+'</h3><p>'+window.Game.Systems.text('เลือกพัก เตรียมเสบียง ตั้งแนวรับ ศึกษารูน หรือคุยกับสหาย ได้หนึ่งกิจกรรมต่อช่วง 5 ชั้น','Choose rest, a meal, a ward, rune study or companion bonding. One activity per 5-floor stretch.')+'</p><button class="btn-primary" id="waypoint-camp-open">'+window.Game.Systems.text(used?'ดูแคมป์ที่ใช้แล้ว':'เลือกกิจกรรมแคมป์',used?'View camp':'Choose a camp activity')+'</button></div></div>';
+    document.getElementById('waypoint-camp-open').onclick=function(){window.Game.WorkshopUI.open('camp');};
   }
 
   function renderShopWaypoint(floor) {
@@ -957,8 +1102,8 @@
     return run.shopStock;
   }
 
-  var SHOP_KIND_ORDER = ['weapon', 'armor', 'shoes', 'accessory', 'material', 'consumable'];
-  var SHOP_KIND_LABEL_KEY = { weapon: 'weaponLabel', armor: 'armorLabel', shoes: 'shoesLabel', accessory: 'accessoryLabel', material: 'shopMaterialsLabel', consumable: 'shopConsumablesLabel' };
+  var SHOP_KIND_ORDER = ['weapon', 'armor', 'shoes', 'accessory', 'material', 'consumable', 'rune', 'component'];
+  var SHOP_KIND_LABEL_KEY = { weapon: 'weaponLabel', armor: 'armorLabel', shoes: 'shoesLabel', accessory: 'accessoryLabel', material: 'shopMaterialsLabel', consumable: 'shopConsumablesLabel', rune: 'workshopRuneLabel', component: 'workshopPartsLabel' };
 
   // Persists across renderShop() calls (re-renders on language toggle, tab
   // switch, etc.) so the player doesn't get bounced back to Buy every time.
@@ -969,6 +1114,7 @@
     var stock = ensureShopStock(run);
     document.getElementById('shop-header-title').textContent = T('shopScreenTitle');
     document.getElementById('shop-reset-note').textContent = T(shopMode === 'buy' ? 'shopResetNote' : 'shopSellNote');
+    window.Game.WorkshopUI.shortcuts('shop');
     document.getElementById('shop-back').innerHTML = I('back');
     document.getElementById('shop-back').onclick = function () { SFX('ui_back'); renderTower(); window.Game.UI.showScreen('screen-tower'); };
 
@@ -992,7 +1138,7 @@
           var price = F.shopPrice(item);
           var soldOut = entry.qty <= 0;
           var canAfford = (run.gold || 0) >= price;
-          return '<button class="select-card' + ((soldOut || !canAfford) ? ' locked' : '') + '" data-id="' + entry.id + '"' + ((soldOut || !canAfford) ? ' disabled' : '') + '>' +
+          return '<button class="select-card' + ((soldOut || !canAfford) ? ' locked' : '') + '" data-id="' + entry.id + '" title="' + String(L(item, 'desc')).replace(/"/g, '&quot;') + '"' + ((soldOut || !canAfford) ? ' disabled' : '') + '>' +
             '<div class="select-card-icon">' + I(item.icon) + '</div>' +
             '<div class="select-card-title">' + L(item, 'name') + '</div>' +
             '<div class="select-card-desc">' + L(item, 'desc') + '</div>' +
@@ -1040,7 +1186,7 @@
         var cardsHtml = byKind[kind].map(function (item) {
           var qty = run.inventory[item.id] || 0;
           var price = F.sellPrice(item, run.currentFloor);
-          return '<button class="select-card" data-id="' + item.id + '">' +
+          return '<div class="micro-sell-row"><button class="select-card" data-id="' + item.id + '">' +
             '<div class="select-card-icon">' + I(item.icon) + '</div>' +
             '<div class="select-card-title">' + L(item, 'name') + '</div>' +
             '<div class="select-card-desc">' + L(item, 'desc') + '</div>' +
@@ -1048,11 +1194,12 @@
               '<span class="stat-chip">' + T('shopSellPrice', { price: price }) + '</span>' +
               '<span class="stat-chip">' + T('shopStockLeft', { qty: qty }) + '</span>' +
             '</div>' +
-          '</button>';
+          '</button>' + ((qty>1&&!window.Game.Micro.protectedItem(run,item.id))?'<button class="btn-secondary micro-sell-duplicates" data-dup-id="'+item.id+'">'+I('microIngredient')+window.Game.Systems.text('ขายส่วนเกิน ×','Sell extras ×')+(qty-1)+'</button>':'')+'</div>';
         }).join('');
         return '<div class="guide-section"><h3>' + T(SHOP_KIND_LABEL_KEY[kind]) + '</h3><div class="card-grid">' + cardsHtml + '</div></div>';
       }).join('');
       document.getElementById('shop-content').innerHTML = html || ('<p class="empty-note">' + T('shopSellEmptyNote') + '</p>');
+      Array.prototype.forEach.call(document.querySelectorAll('#shop-content [data-dup-id]'),function(button){button.onclick=function(){var id=button.dataset.dupId,qty=(run.inventory[id]||0)-1;if(qty<1||window.Game.Micro.protectedItem(run,id))return;window.Game.UI.confirmModal({title:window.Game.Systems.text('ขายของส่วนเกิน?','Sell extra copies?'),message:window.Game.I18n.L(D.getItem(id),'name')+' ×'+qty+' · '+window.Game.Systems.text('เหลือไว้ 1 ชิ้น','Keep 1 copy'),confirmLabel:window.Game.Systems.text('ขายส่วนเกิน','Sell extras'),onConfirm:function(){window.Game.Micro.sellDuplicates(run,id);paintSell();}});};});
       Array.prototype.forEach.call(document.querySelectorAll('#shop-content .select-card'), function (card) {
         card.onclick = function () {
           var id = card.getAttribute('data-id');
@@ -1076,6 +1223,7 @@
     var run = window.Game.State.current, S = window.Game.State, D = window.Game.Data, F = window.Game.Formulas;
     document.getElementById('craft-header-title').textContent = T('craftScreenTitle');
     document.getElementById('craft-note').textContent = T('craftNote');
+    window.Game.WorkshopUI.shortcuts('craft');
     document.getElementById('craft-back').innerHTML = I('back');
     document.getElementById('craft-back').onclick = function () { SFX('ui_back'); renderTower(); window.Game.UI.showScreen('screen-tower'); };
 
@@ -1223,8 +1371,8 @@
     };
   }
 
-  var INV_SECTION_ORDER = ['consumable', 'material'];
-  var INV_SECTION_LABEL_KEY = { consumable: 'shopConsumablesLabel', material: 'shopMaterialsLabel' };
+  var INV_SECTION_ORDER = ['consumable', 'material', 'rune', 'component'];
+  var INV_SECTION_LABEL_KEY = { consumable: 'shopConsumablesLabel', material: 'shopMaterialsLabel', rune: 'workshopRuneLabel', component: 'workshopPartsLabel' };
 
   // Tap target for a bag tile in the status screen's inventory grid --
   // shows the full name/desc that the compact tile has no room for, plus a
@@ -1265,7 +1413,7 @@
     var listHtml = candidates.length ? candidates.map(function (it) {
       return '<button class="submenu-option" data-id="' + it.id + '">' +
         '<div class="submenu-option-icon">' + I(it.icon) + '</div>' +
-        '<div class="submenu-option-info"><div class="submenu-option-name">' + L(it, 'name') + '</div><div class="submenu-option-desc">' + L(it, 'desc') + '</div></div>' +
+        '<div class="submenu-option-info"><div class="submenu-option-name">' + L(it, 'name') + '</div><div class="submenu-option-desc">' + L(it, 'desc') + '</div>' + window.Game.SystemsUI.comparison(run, it, slot) + '</div>' +
       '</button>';
     }).join('') : '<p class="empty-note">' + T('noEquipInInventory') + '</p>';
     var root = document.getElementById('modal-root');
@@ -1306,7 +1454,7 @@
       return '<button class="submenu-option" data-id="' + c.id + '"' + (unlocked ? '' : ' disabled') + '>' +
         '<div class="submenu-option-icon">' + I(unlocked ? c.icon : 'lock') + '</div>' +
         '<div class="submenu-option-info"><div class="submenu-option-name">' + L(c, 'name') + '</div>' +
-        '<div class="submenu-option-desc">' + (unlocked ? L(c, 'desc') : T('companionLockedDesc', { floor: c.unlockFloor })) + '</div></div>' +
+        '<div class="submenu-option-desc">' + (unlocked ? L(c, 'desc') : T('companionLockedDesc', { floor: c.unlockFloor })) + '</div>' + (unlocked ? window.Game.BondUI.meter(c.id) : '') + '</div>' +
       '</button>';
     }).join('');
     var root = document.getElementById('modal-root');
@@ -1358,6 +1506,7 @@
     }).join('');
 
     document.getElementById('status-stats').innerHTML =
+      '<div class="hero-build-preview">' + window.Game.HeroArt.render(run) + '<div class="hero-preview-actions"><button class="btn-secondary" data-hero-motion="attack">' + window.Game.Systems.text('ลองโจมตี', 'Attack pose') + '</button><button class="btn-secondary" data-hero-motion="guard">' + window.Game.Systems.text('ลองตั้งรับ', 'Guard pose') + '</button></div></div>' +
       '<div class="status-panel-title">' + T('statusPanelTitle') + '</div>' +
       (equippedTitle ? '<p class="reward-sub" style="margin:0 0 .6rem">' + L(equippedTitle, 'title') + '</p>' : '') +
       statRow('heart', 'HP', run.hp + '/' + maxHp) +
@@ -1404,7 +1553,7 @@
     // Grouped by kind (consumable / material) into a compact icon-tile grid
     // instead of a long wordy list, so a full bag of crafting mats doesn't
     // turn into a wall of text -- tap a tile for name/desc/use in a modal.
-    var invByKind = { consumable: [], material: [] };
+    var invByKind = { consumable: [], material: [], rune: [], component: [] };
     Object.keys(run.inventory).forEach(function (id) {
       if ((run.inventory[id] || 0) <= 0) return;
       var it = D.getItem(id);
@@ -1429,7 +1578,13 @@
       btn.onclick = function () { SFX('ui_confirm'); openInvItemDetail(btn.getAttribute('data-id')); };
     });
 
+    document.querySelectorAll('[data-hero-motion]').forEach(function (button) { button.onclick = function () { window.Game.HeroArt.animate(button.dataset.heroMotion, document.querySelector('.hero-build-preview .hero-visual')); }; });
     document.getElementById('status-back').innerHTML = I('back');
+    var talentPanel = document.getElementById('status-talents');
+    if (!talentPanel) { talentPanel = document.createElement('div'); talentPanel.id = 'status-talents'; document.getElementById('status-back').parentNode.after(talentPanel); }
+    talentPanel.className = 'summary-talents';
+    talentPanel.innerHTML = window.Game.Systems.talents.filter(function (t) { return window.Game.Systems.has(run, t.id); }).map(function (t) { return '<span>' + I(t.icon) + L(t, 'name') + '<small>' + L(t, 'desc') + '</small></span>'; }).join('');
+    window.Game.WorkshopUI.status(run);
     document.getElementById('status-back').onclick = function () { SFX('ui_back'); renderTower(); window.Game.UI.showScreen('screen-tower'); };
   }
 
@@ -1437,13 +1592,15 @@
   function refreshActiveScreen() {
     var active = document.querySelector('.screen.active');
     if (!active) return;
-    if (active.id === 'screen-tower') renderTower();
+    if (active.id === 'screen-workshop') window.Game.WorkshopUI.render();
+    else if (active.id === 'screen-tower') renderTower();
     else if (active.id === 'screen-status') renderStatus();
     else if (active.id === 'screen-shop') renderShop();
     else if (active.id === 'screen-craft') renderCraft();
     else if (active.id === 'screen-quests') renderQuests();
     else if (active.id === 'screen-reward') renderReward(null);
     else if (active.id === 'screen-waypoint' && lastWaypoint.type) renderWaypoint(lastWaypoint.type, lastWaypoint.floor);
+    else if (active.id === 'screen-event' && window.Game.StoryUI.refresh()) return;
     else if (active.id === 'screen-event' && lastEvent.id) renderEvent(lastEvent.id, lastEvent.floor);
     else if (active.id === 'screen-codex' && window.Game.CodexUI) window.Game.CodexUI.refreshActiveScreen();
   }
@@ -1452,6 +1609,8 @@
   window.Game.TowerUI = {
     renderTower: renderTower,
     renderReward: renderReward,
+    queueReward: queueReward,
+    resumePendingReward: resumePendingReward,
     renderStatus: renderStatus,
     renderShop: renderShop,
     renderCraft: renderCraft,

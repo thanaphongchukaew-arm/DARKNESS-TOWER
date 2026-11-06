@@ -1,7 +1,7 @@
 {
   "name": "darkness-tower",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.20.16",
   "scripts": {
     "build": "node scripts/build.js",
     "test": "node --test \"test/**/*.test.js\"",

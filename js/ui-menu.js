@@ -8,6 +8,7 @@
   function L(obj, field) { return window.Game.I18n.L(obj, field); }
 
   function showScreen(id) {
+    if (id !== 'screen-battle' && window.Game.BattleUI && window.Game.BattleUI.cancelPlayback) window.Game.BattleUI.cancelPlayback();
     document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('active'); });
     document.getElementById(id).classList.add('active');
     if (window.Game.Audio) window.Game.Audio.playMusic(id === 'screen-battle' ? 'battle' : 'menu');
@@ -64,6 +65,7 @@
         window.Game.State.normalizeEquipment(run);
         window.Game.State.normalizeRunExtras(run);
         window.Game.State.clampVitals(run);
+        if (window.Game.TowerUI.resumePendingReward()) return;
         window.Game.TowerUI.renderTower();
         showScreen('screen-tower');
       };
@@ -126,13 +128,27 @@
   ];
   // Random events, blessings/curses, companions, Ascension, and the Codex --
   // one card each, same guideCardGrid renderer as the sections above.
-  var GUIDE_FEATURES = [
-    { icon: 'eventShrine', key: 'Events' }, { icon: 'blessMight', key: 'Blessings' },
-    { icon: 'relicVampiricFang', key: 'Relics' },
-    { icon: 'companionSlot', key: 'Companions' }, { icon: 'ascension', key: 'Ascension' },
-    { icon: 'codex', key: 'Codex' }
+  var GUIDE_START = [
+    { icon: 'crownSkull', key: 'Goal' }, { icon: 'towerSpire', key: 'Loop' },
+    { icon: 'swordAttack', key: 'Turn' }, { icon: 'sparkles', key: 'Save' }
   ];
-  var GUIDE_TIPS = ['guideTip1', 'guideTip2'];
+  // Special systems, split into themed groups so the page doesn't read as one wall.
+  var GUIDE_GROUPS = [
+    { title: 'guideGroupBuildTitle', items: [
+      { icon: 'talentRiposte', key: 'Talents' }, { icon: 'blessMight', key: 'Blessings' },
+      { icon: 'relicVampiricFang', key: 'Relics' }, { icon: 'workBench', key: 'Workshop' },
+      { icon: 'microNew', key: 'New' } ] },
+    { title: 'guideGroupJourneyTitle', items: [
+      { icon: 'routeExplore', key: 'Routes' }, { icon: 'eventShrine', key: 'Events' },
+      { icon: 'npcMira', key: 'Travelers' } ] },
+    { title: 'guideGroupAlliesTitle', items: [
+      { icon: 'companionSlot', key: 'Companions' }, { icon: 'sparkles', key: 'Bond' } ] },
+    { title: 'guideGroupDangerTitle', items: [
+      { icon: 'statusPoison', key: 'Ailments' }, { icon: 'skullFire', key: 'BossShift' } ] },
+    { title: 'guideGroupMetaTitle', items: [
+      { icon: 'ascension', key: 'Ascension' }, { icon: 'codex', key: 'Codex' } ] }
+  ];
+  var GUIDE_TIPS = ['guideTip1', 'guideTip2', 'guideTip3', 'guideTip4', 'guideTip5', 'guideTip6'];
 
   // Shared card renderer for every guide grid (icon + short label + one-line
   // description) -- prefix identifies the i18n key family, e.g. 'guideStat' + 'Hp' + 'Label'.
@@ -153,7 +169,18 @@
       return '<div class="guide-tip-card">' + I('sparkles') + '<span>' + T(key) + '</span></div>';
     }).join('');
 
+    var groupsHtml = GUIDE_GROUPS.map(function (g) {
+      return '<div class="guide-section">' +
+        '<h3>' + T('guideFeaturesTitle') + ' · ' + T(g.title) + '</h3>' +
+        guideCardGrid('guideFeature', g.items) +
+      '</div>';
+    }).join('');
+
     document.getElementById('guide-content').innerHTML =
+      '<div class="guide-section">' +
+        '<h3>' + T('guideStartTitle') + '</h3>' +
+        guideCardGrid('guideStart', GUIDE_START) +
+      '</div>' +
       '<div class="guide-section">' +
         '<h3>' + T('guideStatsTitle') + '</h3>' +
         guideCardGrid('guideStat', GUIDE_STATS) +
@@ -171,10 +198,7 @@
         '<h3>' + T('guideTowerTitle') + '</h3>' +
         guideCardGrid('guideTower', GUIDE_TOWER) +
       '</div>' +
-      '<div class="guide-section">' +
-        '<h3>' + T('guideFeaturesTitle') + '</h3>' +
-        guideCardGrid('guideFeature', GUIDE_FEATURES) +
-      '</div>' +
+      groupsHtml +
       '<div class="guide-section">' +
         '<h3>' + T('guideTipsTitle') + '</h3>' +
         '<div class="guide-tip-list">' + tipsHtml + '</div>' +
@@ -268,7 +292,7 @@
     var classes = window.Game.Data.classes;
     el.innerHTML = classes.map(function (c) {
       var locked = c.unlock && !window.Game.State.isClassUnlocked(c.id);
-      return '<button class="select-card' + (locked ? ' locked' : '') + '" data-id="' + c.id + '">' +
+      return '<button class="select-card' + (locked ? ' locked' : '') + '" data-id="' + c.id + '" title="' + String(locked ? classLockedDesc(c) : L(c, 'description')).replace(/"/g, '&quot;') + '">' +
         '<div class="select-card-icon">' + I(locked ? 'lock' : c.icon) + '</div>' +
         '<div class="select-card-title">' + L(c, 'name') + '</div>' +
         '<div class="select-card-desc">' + (locked ? classLockedDesc(c) : L(c, 'description')) + '</div>' +

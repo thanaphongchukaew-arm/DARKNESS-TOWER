@@ -30,7 +30,17 @@ const FILES = [
   'js/formulas.js',
   'js/save.js',
   'js/state.js',
-  'js/battle-engine.js'
+  'js/systems.js',
+  'js/story-system.js',
+  'js/data-workshop.js',
+  'js/workshop.js',
+  'js/micro-features.js',
+  'js/data-boss-shifts.js',
+  'js/data-vfx.js',
+  'js/bond.js',
+  'js/battle-engine.js',
+  'js/workshop-battle.js',
+  'js/battle-vfx.js'
 ];
 
 function makeLocalStorageStub() {
@@ -42,12 +52,13 @@ function makeLocalStorageStub() {
   };
 }
 
-function loadGame() {
+function loadGame(options = {}) {
   const sandbox = {
     window: {},
     localStorage: makeLocalStorageStub(),
     document: { documentElement: {} },
-    console
+    console,
+    Math: Object.assign(Object.create(Math), options.random ? { random: options.random } : {})
   };
   vm.createContext(sandbox);
   for (const rel of FILES) {

@@ -19,6 +19,8 @@
   var currentIsReplay = false;
   var targetPickCallback = null;
   var toastTimer = null;
+  var recentHistory=[];
+  var playbackEpoch = 0, playbackBusy = false, pendingLanguageRefresh = false;
 
   // Endless Arena (survival mode): 'tower' | 'survival'. currentBattle is reused
   // for both modes (same object shape, same BattleEngine calls) -- only what
@@ -33,6 +35,7 @@
     line.className = cls || '';
     line.textContent = text;
     log.appendChild(line);
+    if (cls !== 'log-new') { recentHistory.push(text); if(recentHistory.length>10)recentHistory.shift(); var panel=document.getElementById('battle-recent-history');if(panel){panel.querySelector('ol').innerHTML=recentHistory.map(function(entry){var li=document.createElement('li');li.textContent=entry;return li.outerHTML;}).join('');} }
     log.scrollTop = log.scrollHeight;
   }
 
@@ -45,11 +48,19 @@
     el.style.animation = 'none';
     void el.offsetWidth;
     el.style.animation = '';
-    toastTimer = setTimeout(function () { el.classList.add('hidden'); }, 900);
+    toastTimer = setTimeout(function () { el.classList.add('hidden'); }, 900 / window.Game.SystemsUI.speed());
   }
 
   function describeEvent(ev) {
     switch (ev.type) {
+      case 'cleanse': return { text: window.Game.Systems.text('ชำระล้างสถานะผิดปกติ', 'Ailment cleansed'), cls: 'log-heal' };
+      case 'enemyAction': return { text: ev.skillName, cls: '' };
+      case 'riposte': return { text: ev.message, cls: 'log-crit' };
+      case 'storySupport': return { text: window.Game.Systems.text('โอรินช่วยเปิดทาง! ', 'Orin clears the way! ') + ev.targetName + ' −' + ev.amount, cls: 'log-crit' };
+      case 'combo': return { text: ev.message, cls: 'log-heal' };
+      case 'affinity': return { text: ev.targetName + ' · ' + window.Game.Systems.text(ev.weak ? 'จุดอ่อน ×1.5' : 'ต้านทาน ×0.65', ev.weak ? 'WEAK ×1.5' : 'RESIST ×0.65'), cls: ev.weak ? 'log-crit' : '' };
+      case 'ailment': return { text: ev.targetName + ' · ' + window.Game.Systems.text('ติดสถานะ ', 'Inflicted: ') + window.Game.Systems.text({ poison: 'พิษ', burn: 'ไหม้', silence: 'ใบ้' }[ev.id], ev.id), cls: 'log-weak' };
+      case 'ailmentDamage': return { text: ev.targetName + ' · ' + ev.id + ' −' + ev.amount, cls: 'log-weak' };
       case 'skillUsed': return { text: T('logSkillUsed', { name: ev.name }), cls: '' };
       case 'hit':
         if (ev.targetSide === 'enemy') {
@@ -84,6 +95,9 @@
         return { text: T('logCompanionHit', { companion: ev.companionName, target: ev.targetName, amount: ev.amount, tag: ctag }), cls: ev.isCrit ? 'log-crit' : '' };
       case 'companionHeal': return { text: T('logCompanionHeal', { companion: ev.companionName, amount: ev.amount }), cls: 'log-heal' };
       case 'companionBuff': return { text: T('logCompanionBuff', { companion: ev.companionName }), cls: '' };
+      case 'duoStart': return { text: T('logDuoStart', { companion: ev.companionName, name: ev.name }), cls: 'log-crit' };
+      case 'companionSnared': return { text: T('logCompanionSnared', { companion: ev.companionName }), cls: 'log-weak' };
+      case 'shiftFocus': return { text: ev.message, cls: 'log-weak' };
       case 'blessingRevive': return { text: T('logBlessingRevive'), cls: 'log-crit' };
       default: return null;
     }
@@ -156,7 +170,7 @@
     num.className = 'dmg-number' + (cls ? ' ' + cls : '');
     num.textContent = text;
     anchorEl.appendChild(num);
-    setTimeout(function () { if (num.parentNode) num.parentNode.removeChild(num); }, 900);
+    setTimeout(function () { if (num.parentNode) num.parentNode.removeChild(num); }, 900 / window.Game.SystemsUI.speed());
   }
 
   function flashEl(el, cls) {
@@ -165,7 +179,7 @@
     el.classList.remove(c);
     void el.offsetWidth;
     el.classList.add(c);
-    setTimeout(function () { el.classList.remove(c); }, 450);
+    setTimeout(function () { el.classList.remove(c); }, 450 / window.Game.SystemsUI.speed());
   }
 
   function shakeScreen(strong) {
@@ -175,7 +189,7 @@
     el.classList.remove('screen-shake', 'screen-shake-strong');
     void el.offsetWidth;
     el.classList.add(c);
-    setTimeout(function () { el.classList.remove(c); }, 450);
+    setTimeout(function () { el.classList.remove(c); }, 450 / window.Game.SystemsUI.speed());
   }
 
   // Toggling just the CSS class left the "Staggered!" text tag out of sync -- it's built
@@ -240,11 +254,41 @@
   }
 
   function handleEventVisual(ev) {
+    if(ev.type==='affinity'&&ev.weak&&currentBattle){currentBattle.microWeakTargets=currentBattle.microWeakTargets||{};currentBattle.microWeakTargets[ev.targetUid]=true;}
+    if(ev.type==='enemyBroken'&&currentBattle&&currentBattle.microWeakTargets&&currentBattle.microWeakTargets[ev.targetUid]){SFX('level_up');showToast(window.Game.Systems.text('คอมโบ! จุดอ่อน + Break','COMBO! Weakness + Break'),'');logLine(window.Game.Systems.text('คอมโบ: เจาะจุดอ่อนจนเกราะแตก','Combo: weakness caused Break'),'log-crit');currentBattle.microWeakTargets[ev.targetUid]=false;window.Game.Micro.ensure(currentBattle.run).stats.combos++;}
+    if(ev.type==='companionHit'&&ev.hpAfter===0&&currentBattle.enemies.every(function(e){return !e.alive;})){SFX('level_up');showToast(window.Game.Systems.text('สหายปิดฉาก!','ALLY FINISH!'),'');logLine(window.Game.Systems.text('สหายจัดการศัตรูตัวสุดท้าย','Ally delivers the finishing blow'),'log-crit');}
+
     switch (ev.type) {
+      case 'resourceGain':
+        if (ev.resource === 'mp') updatePlayerBarsDirect(null, null, ev.mpAfter, ev.maxMp);
+        spawnFloatNumber(getPlayerPortraitEl(), '+' + ev.amount + (ev.resource === 'mp' ? ' MP' : ' Focus'), 'dmg-heal');
+        break;
+      case 'cleanse':
+        SFX('heal');
+        break;
+      case 'riposte':
+        window.Game.HeroArt.animate('attack');
+        updateEnemyBarByUid(ev.targetUid, ev.hpAfter, ev.maxHp);
+        refreshBreakBar(ev.targetUid, ev.breakMeter, ev.broken);
+        spawnFloatNumber(getEnemyPortraitEl(ev.targetUid), ev.amount, 'dmg-crit');
+        break;
+      case 'storySupport':
+        updateEnemyBarByUid(ev.targetUid, ev.hpAfter, ev.maxHp);
+        refreshBreakBar(ev.targetUid, ev.breakMeter, ev.broken);
+        spawnFloatNumber(getEnemyPortraitEl(ev.targetUid), ev.amount, 'dmg-hp');
+        flashEl(document.getElementById('battle-story-ally'), 'hit-flash');
+        break;
+      case 'ailmentDamage':
+        if (ev.targetSide === 'enemy') { updateEnemyBarByUid(ev.targetUid, ev.hpAfter, ev.maxHp); spawnFloatNumber(getEnemyPortraitEl(ev.targetUid), ev.amount, 'dmg-hp'); }
+        else { updatePlayerBarsDirect(ev.hpAfter, ev.maxHp, currentBattle.run.mp, currentBattle.player.maxMp); spawnFloatNumber(getPlayerPortraitEl(), ev.amount, 'dmg-hp'); }
+        break;
       case 'skillUsed':
+        var family = window.Game.VFXData.skill(ev.skillId, currentBattle.run.classId).family;
+        window.Game.HeroArt.animate(ev.kind === 'attack' && ['slash','cross','cleave','thrust','claw','bite','punch','arrow','bullet'].indexOf(family) !== -1 ? 'attack' : 'cast');
         SFX('skill_cast');
         break;
       case 'guard':
+        window.Game.HeroArt.animate('guard');
         SFX('guard');
         break;
       case 'buff':
@@ -269,6 +313,7 @@
             spawnFloatNumber(ePortrait, ev.amount, 'dmg-hp');
           }
         } else {
+          window.Game.HeroArt.animate('hurt');
           var pPortrait = getPlayerPortraitEl();
           updatePlayerBarsDirect(ev.hpAfter, ev.maxHp);
           if (ev.attackerUid && ev.attackerHpAfter != null) updateEnemyBarByUid(ev.attackerUid, ev.attackerHpAfter, ev.attackerMaxHp);
@@ -341,9 +386,23 @@
         SFX('allout_start');
         shakeScreen(true);
         break;
+      case 'duoStart':
+        SFX('allout_start');
+        showToast(ev.name, 'weak');
+        flashEl(getPlayerPortraitEl(), 'hit-flash');
+        break;
+      case 'companionSnared':
+        SFX('hit_null');
+        showToast(T('logCompanionSnared', { companion: ev.companionName }), 'miss');
+        break;
+      case 'shiftFocus':
+        SFX('ui_error');
+        showToast(ev.message, 'miss');
+        if (ev.mpAfter != null) updatePlayerBarsDirect(null, null, ev.mpAfter, currentBattle.player.maxMp);
+        break;
       case 'bossPhaseChange':
         SFX('boss_phase');
-        showToast(T('toastPhase2'), 'weak');
+        showToast(ev.shift ? T('toastPhaseShift') : T('toastPhase2'), 'weak');
         shakeScreen(true);
         break;
       case 'invalid':
@@ -375,19 +434,67 @@
         shakeScreen(true);
         break;
     }
+    if(ev.type==='hit'&&ev.targetSide==='enemy'&&currentBattle&&currentBattle.microWeakTargets)currentBattle.microWeakTargets[ev.targetUid]=false;
     var d = describeEvent(ev);
     if (d) logLine(d.text, d.cls);
   }
 
+  function cancelPlayback() {
+    playbackEpoch += 1; playbackBusy = false; pendingLanguageRefresh = false;
+    if (window.Game.PixelFX) window.Game.PixelFX.cancel();
+    clearTimeout(toastTimer);
+    var toast = document.getElementById('battle-toast'); if (toast) toast.classList.add('hidden');
+    var prompt = document.getElementById('allout-modal'); if (prompt) { prompt.classList.add('hidden'); prompt.innerHTML = ''; }
+    closeSubmenu();
+    var caption = document.getElementById('battle-fx-caption');
+    if (caption) caption.classList.remove('is-active');
+  }
+
+  function battleLater(callback, delay) {
+    var battle = currentBattle, epoch = playbackEpoch;
+    return setTimeout(function () { if (epoch === playbackEpoch && battle === currentBattle) callback(); }, delay);
+  }
+
+  function effectCaption(ev) {
+    var name = ev.type === 'skillUsed' ? ev.name : ev.type === 'enemyAction' ? ev.skillName : ev.type === 'itemUsed' ? L(window.Game.Data.getItem(ev.itemId), 'name') : ev.type === 'overdriveUsed' ? T('overdriveLabel') : ev.type === 'allOutStart' ? T('allOutTitle') : null;
+    if (!name) return;
+    var el = document.getElementById('battle-fx-caption');
+    if (!el) { el = document.createElement('div'); el.id = 'battle-fx-caption'; el.className = 'battle-fx-caption'; el.setAttribute('aria-hidden', 'true'); document.body.appendChild(el); }
+    el.textContent = name;
+    el.classList.toggle('is-enemy', ev.type === 'enemyAction');
+    el.classList.add('is-active');
+  }
+
   function playEvents(events, onDone) {
-    var i = 0;
-    function step() {
-      if (i >= events.length) { onDone(); return; }
-      var ev = events[i++];
-      handleEventVisual(ev);
-      setTimeout(step, 260);
+    if(currentBattle)window.Game.Micro.noteEvents(currentBattle.run,events);
+    var battle = currentBattle, epoch = playbackEpoch, completed = false;
+    function complete() { if (!completed && epoch === playbackEpoch && currentBattle === battle) { completed = true; onDone(); } }
+    document.getElementById('battle-home').disabled = !!battle.over;
+    var timeline = window.Game.BattleFX.timeline(events);
+    playbackBusy = true;
+    function valid() { return epoch === playbackEpoch && currentBattle === battle; }
+    async function play() {
+      for (var i = 0; i < timeline.length; i++) {
+        if (!valid()) return;
+        var step = timeline[i];
+        effectCaption(step.events[0]);
+        var result = await window.Game.BattleFX.play(step, battle, function () {
+          if (!valid()) return;
+          step.events.forEach(handleEventVisual);
+        });
+        if (result.cancelled || !valid()) return;
+      }
+      if (!valid()) return;
+      playbackBusy = false;
+      var caption = document.getElementById('battle-fx-caption');
+      if (caption) caption.classList.remove('is-active');
+      if (pendingLanguageRefresh) { pendingLanguageRefresh = false; refreshActiveScreen(); }
+      complete();
     }
-    step();
+    play().catch(function (error) {
+      console.error('[BattleFX] playback failed:', error);
+      if (valid()) { playbackBusy = false; window.Game.PixelFX.cancel(); complete(); }
+    });
   }
 
   function enemyCardHtml(e) {
@@ -396,6 +503,7 @@
     if (e.downed) classes.push('downed');
     if (e.broken) classes.push('broken');
     if (e.isBoss) classes.push('boss');
+    (e.ailments || []).forEach(function (a) { classes.push('fx-afflicted-' + a.id); });
     if (targetPickCallback && e.alive) classes.push('targetable');
     var hpPct = Math.max(0, Math.round(e.hp / e.maxHp * 100));
     var hasPhases = e.isBoss && e.phasesData && e.phasesData.length;
@@ -419,9 +527,9 @@
       '<div class="enemy-portrait">' + I(e.icon) + '</div>' +
       (e.downed && e.alive ? '<span class="enemy-downed-tag">' + T('downedTag') + '</span>' : '') +
       (e.broken && e.alive ? '<span class="enemy-broken-tag">' + T('brokenTag') + '</span>' : '') +
-      '<div class="enemy-name">' + e.name + (hasPhases ? T('phaseLabel') + e.phase : '') + '</div>' +
+      '<div class="enemy-name">' + (e.elite ? 'ELITE · ' : '') + e.name + (hasPhases ? T('phaseLabel') + e.phase : '') + '</div>' +
       hpBarHtml +
-      breakBarHtml +
+      breakBarHtml + window.Game.Systems.affinities(window.Game.Data.getEnemyTemplate(e.templateId), false, e) + window.Game.SystemsUI.ailments(e.ailments) + window.Game.BattleFX.modifiers(e.debuffs) +
     '</div>';
   }
 
@@ -486,6 +594,9 @@
   }
 
   function renderPlayerPanel(battle) {
+    var statusHost = document.getElementById('player-ailments');
+    if (!statusHost) { statusHost = document.createElement('div'); statusHost.id = 'player-ailments'; document.getElementById('battle-actions').before(statusHost); }
+    statusHost.innerHTML = window.Game.SystemsUI.ailments(battle.run.ailments) + window.Game.BattleFX.modifiers(battle.player.buffs);
     var run = battle.run;
     var hpPct = Math.max(0, Math.round(run.hp / battle.player.maxHp * 100));
     var mpPct = Math.max(0, Math.round(run.mp / battle.player.maxMp * 100));
@@ -494,13 +605,13 @@
     var apDots = '';
     for (var i = 0; i < 4; i++) apDots += '<div class="ap-dot' + (i < battle.playerAP ? ' filled' : '') + '"></div>';
     document.getElementById('battle-player-panel').innerHTML =
-      '<div class="player-portrait">' + I(battle.player.icon) + '</div>' +
+      '<div class="player-portrait">' + window.Game.HeroArt.render(run, battle.player.guarding ? 'is-guarding hero-guard' : '') + '</div>' +
       '<div class="player-bars">' +
         '<div class="player-name-row"><span>' + battle.player.name + '</span><div class="ap-indicator">' + apDots + '</div></div>' +
         '<div class="bar-row">' + I('heart') + '<div class="bar-track"><div class="bar-fill hp" id="player-hp-bar" style="width:' + hpPct + '%"></div></div><span id="player-hp-text">' + run.hp + '/' + battle.player.maxHp + '</span></div>' +
         '<div class="bar-row">' + I('drop') + '<div class="bar-track"><div class="bar-fill mp" id="player-mp-bar" style="width:' + mpPct + '%"></div></div><span id="player-mp-text">' + run.mp + '/' + battle.player.maxMp + '</span></div>' +
         '<div class="bar-row">' + I('star') + '<div class="bar-track"><div class="bar-fill focus' + (focusPct >= 100 ? ' full' : '') + '" id="player-focus-bar" style="width:' + focusPct + '%"></div></div></div>' +
-        blessingBadgesHtml(run) +
+        blessingBadgesHtml(run) + window.Game.WorkshopUI.battleBadges(run,battle) +
       '</div>';
   }
 
@@ -509,6 +620,10 @@
   // only needs to run once at battle start and on a language toggle, unlike
   // renderPlayerPanel which repaints after every event.
   function renderCompanionPanel(battle) {
+    var ally = document.getElementById('battle-story-ally');
+    if (!ally) { ally = document.createElement('div'); ally.id = 'battle-story-ally'; document.getElementById('battle-companion-panel').before(ally); }
+    var support = window.Game.Story.supportRounds(battle.run);
+    ally.innerHTML = support && battle.enemies.some(function (e) { return e.isBoss; }) ? '<div class="story-battle-ally">' + I(support >= 5 ? 'npcOrinStandard' : 'npcOrin') + '<span>' + window.Game.Systems.text('คำสัตย์ของโอริน · ช่วย ', 'Orin’s oath · aids ') + support + window.Game.Systems.text(' รอบแรก', ' opening rounds') + '</span></div>' : '';
     var el = document.getElementById('battle-companion-panel');
     if (!battle.companion) { el.innerHTML = ''; return; }
     var comp = battle.companion;
@@ -535,20 +650,29 @@
 
   function openSkillMenu() {
     var battle = currentBattle;
-    var skills = battle.player.skills.filter(function (s) { return s.id !== 'attack'; });
+    window.Game.Micro.ensure(battle.run);
+    var favorites = window.Game.Systems.ensure(battle.run).favoriteSkills;
+    var skills = battle.player.skills.filter(function (s) { return s.id !== 'attack'; }).sort(function (a, b) { return Number(favorites.indexOf(b.id) !== -1) - Number(favorites.indexOf(a.id) !== -1); });
     var root = document.getElementById('battle-submenu');
     var itemsHtml = skills.length ? skills.map(function (s) {
       var hpCostAmt = s.hpCost ? Math.round(battle.player.maxHp * s.hpCost) : 0;
-      var disabled = battle.run.mp < s.cost || (hpCostAmt > 0 && battle.run.hp <= hpCostAmt);
-      return '<button class="submenu-option" ' + (disabled ? 'disabled' : '') + ' data-id="' + s.id + '">' +
+      var disabled = (s.element !== 'phys' && battle.run.ailments.some(function (a) { return a.id === 'silence'; })) || battle.run.mp < s.cost || (hpCostAmt > 0 && battle.run.hp <= hpCostAmt);
+      return '<div class="skill-row"><button type="button" class="skill-favorite" data-favorite="' + s.id + '" aria-pressed="' + (favorites.indexOf(s.id) !== -1) + '" aria-label="' + window.Game.Systems.text('ปักหมุดทักษะ', 'Pin skill') + '">' + (favorites.indexOf(s.id) !== -1 ? '★' : '☆') + '</button><button class="submenu-option" ' + (disabled ? 'disabled' : '') + ' data-id="' + s.id + '">' +
         '<div class="submenu-option-icon">' + I(s.icon) + '</div>' +
-        '<div class="submenu-option-info"><div class="submenu-option-name">' + L(s, 'name') + ' <span class="el-tag el-' + s.element + '">' + EN(s.element) + '</span></div><div class="submenu-option-desc">' + L(s, 'desc') + '</div></div>' +
+        '<div class="submenu-option-info"><div class="submenu-option-name">' + L(s, 'name') + (window.Game.Micro.seen(battle.run,'skills',s.id)?'':window.Game.Micro.badge()) + ' <span class="el-tag el-' + s.element + '">' + EN(s.element) + '</span></div><div class="submenu-option-desc">' + L(s, 'desc') + '</div></div>' +
         '<div class="submenu-option-cost">' + (s.cost > 0 ? s.cost + ' MP' : T('freeLabel')) + '</div>' +
-      '</button>';
+      '</button></div>';
     }).join('') : '<p class="empty-note">' + T('noMoreSkills') + '</p>';
     root.innerHTML = '<div class="submenu-header"><h3>' + T('selectSkillTitle') + '</h3><button class="btn-icon" id="submenu-close">' + I('close') + '</button></div>' +
       '<div class="submenu-list">' + itemsHtml + '</div>';
     root.classList.remove('hidden');
+    window.Game.Micro.markAll(battle.run,'skills',skills.map(function(s){return s.id;}));
+    root.scrollTop = 0;
+    root.querySelectorAll('[data-favorite]').forEach(function (button) { button.onclick = function () {
+      var id = button.dataset.favorite, index = favorites.indexOf(id);
+      if (index === -1) favorites.push(id); else favorites.splice(index, 1);
+      window.Game.State.saveNow(); openSkillMenu();
+    }; });
     document.getElementById('submenu-close').onclick = function () { SFX('ui_cancel'); closeSubmenu(); };
     Array.prototype.forEach.call(root.querySelectorAll('.submenu-option:not([disabled])'), function (btn) {
       btn.onclick = function () {
@@ -592,9 +716,27 @@
   // runs through, so correcting its disabled state here (after the blanket
   // enable/disable above) can't be forgotten at some call site.
   function setActionsEnabled(enabled) {
+    document.getElementById('battle-home').disabled = !!(currentBattle && currentBattle.over);
     Array.prototype.forEach.call(document.querySelectorAll('#battle-actions button'), function (b) { b.disabled = !enabled; });
     var od = document.getElementById('act-overdrive');
     if (od && enabled) od.disabled = !currentBattle || currentBattle.player.focus < window.Game.Formulas.FOCUS_MAX;
+    if (enabled) refreshDuoButton(); else { var db = document.getElementById('act-duo'); if (db) db.disabled = true; }
+  }
+
+  // The Duo Move command: only shown when a bonded companion is at your side.
+  function duoButtonHtml() {
+    var duo = currentBattle && window.Game.Bond.duoFor(currentBattle);
+    if (!duo) return '';
+    return '<button class="btn-secondary btn-duo" id="act-duo" disabled>' + I('duo' + { attacker: 'Strike', healer: 'Heal', guardian: 'Guard', buffer: 'Boost' }[duo.role]) + '<span>' + T('duoLabel') + '</span></button>';
+  }
+
+  function refreshDuoButton() {
+    var btn = document.getElementById('act-duo');
+    if (!btn) return;
+    var duo = window.Game.Bond.duoFor(currentBattle);
+    btn.disabled = !duo || !duo.ready;
+    btn.title = !duo ? '' : duo.locked ? T('duoLockedHint') : duo.used ? T('duoUsedHint') : duo.snared ? T('duoSnaredHint') : duo.name;
+    btn.classList.toggle('is-locked', !!(duo && (duo.locked || duo.used)));
   }
 
   function renderActions() {
@@ -604,7 +746,16 @@
       '<button class="btn-secondary" id="act-skill">' + I('magicBurst') + '<span>' + T('skillsLabel') + '</span></button>' +
       '<button class="btn-secondary" id="act-guard">' + I('shieldGuard') + '<span>' + T('guardLabel') + '</span></button>' +
       '<button class="btn-secondary" id="act-item">' + I('bagItem') + '<span>' + T('itemsLabel') + '</span></button>' +
-      '<button class="btn-secondary btn-overdrive" id="act-overdrive" disabled>' + I('sparkles') + '<span>' + T('overdriveLabel') + '</span></button>';
+      '<button class="btn-secondary btn-overdrive" id="act-overdrive" disabled>' + I('sparkles') + '<span>' + T('overdriveLabel') + '</span></button>' +
+      duoButtonHtml();
+    var duoBtn = document.getElementById('act-duo');
+    if (duoBtn) duoBtn.onclick = function () {
+      var duo = window.Game.Bond.duoFor(currentBattle);
+      if (!duo || !duo.ready) return;
+      closeSubmenu();
+      if (duo.needsTarget) enterTargetSelect(function (idx) { doAction({ kind: 'duo', targetIndex: idx }); });
+      else doAction({ kind: 'duo' });
+    };
     document.getElementById('act-attack').onclick = function () {
       closeSubmenu();
       enterTargetSelect(function (idx) { doAction({ kind: 'attack', targetIndex: idx }); });
@@ -630,13 +781,14 @@
   function afterPlayerAction() {
     var battle = currentBattle;
     renderPlayerPanel(battle);
+    renderEnemies(battle);
     renderTurnOrder(battle);
     if (battle.over) { handleBattleEnd(battle); return; }
     if (battle.awaitingAllOut) { showAllOutModal(); return; }
     if (battle.playerAP > 0) {
       setActionsEnabled(true);
     } else {
-      setTimeout(function () {
+      battleLater(function () {
         var resC = window.Game.BattleEngine.runCompanionPhase(battle);
         playEvents(resC.events, function () {
           renderPlayerPanel(battle);
@@ -645,7 +797,7 @@
           var res2 = window.Game.BattleEngine.runEnemyPhase(battle);
           playEvents(res2.events, function () { afterEnemyPhase(); });
         });
-      }, 500);
+      }, 500 / window.Game.SystemsUI.speed());
     }
   }
 
@@ -681,6 +833,8 @@
   }
 
   function handleBattleEnd(battle) {
+    var leave = document.getElementById('leave-confirm');
+    if (leave) { var modal = document.getElementById('modal-root'); modal.classList.add('hidden'); modal.innerHTML = ''; }
     setActionsEnabled(false);
     closeSubmenu();
     if (currentMode === 'survival') { handleSurvivalWaveEnd(battle); return; }
@@ -690,6 +844,7 @@
 
   function handleVictory(battle) {
     var run = window.Game.State.current;
+    window.Game.Workshop.recordClear(run,battle,currentIsReplay);
     // Replaying an already-cleared floor still pays out EXP/gold/materials,
     // just at 40% of a first clear's rate, and Nightmare's own rewardMult
     // (Formulas.DIFFICULTY.nightmare) always applies on top.
@@ -700,7 +855,8 @@
     var baseRate = (currentIsReplay ? 0.4 : 1) * diff.rewardMult;
     var rateExp = baseRate * window.Game.State.getRewardMult(run, 'exp');
     var rateGold = baseRate * window.Game.State.getRewardMult(run, 'gold');
-    var rateMat = baseRate * window.Game.State.getRewardMult(run, 'material');
+    var routeModifiers = window.Game.Systems.route(run, battle.floor);
+    var rateMat = baseRate * window.Game.State.getRewardMult(run, 'material') * (routeModifiers ? routeModifiers.rewards : 1);
     var exp = window.Game.BattleEngine.getExpReward(battle, rateExp);
     var gold = window.Game.BattleEngine.getGoldReward(battle, rateGold);
     // Flawless Victor achievement: the floor-100 final boss only (battle.isBoss is
@@ -717,43 +873,56 @@
     logLine(T('logExpGained', { exp: exp }), 'log-heal');
     logLine(T('logGoldGained', { gold: gold }), 'log-heal');
     var drops = window.Game.BattleEngine.getMaterialDrops(battle, rateMat);
+    var chosenRoute = window.Game.Systems.route(run, battle.floor);
+    if (!currentIsReplay && battle.floor % 5 === 0 && chosenRoute && chosenRoute.id === 'explore') {
+      var materials = window.Game.Data.items.filter(function (it) { return it.kind === 'material' && it.tier === Math.min(9, window.Game.Formulas.tierForFloor(battle.floor)); });
+      if (materials.length) drops.push({ id: materials[Math.floor(battle.floor / 5) % materials.length], qty: 3 });
+    }
     drops.forEach(function (d) {
       window.Game.State.addItem(run, d.id, d.qty);
       var mat = window.Game.Data.getItem(d.id);
       logLine(T('logMaterialGained', { name: L(mat, 'name'), qty: d.qty }), 'log-heal');
     });
+    var bondResult = currentIsReplay ? null : window.Game.Bond.award(run, battle);
+    if (bondResult) {
+      var bondComp = window.Game.Data.getCompanion(bondResult.id);
+      logLine(T('bondGainLog', { companion: L(bondComp, 'name'), gain: bondResult.gained }), 'log-heal');
+      if (bondResult.leveled) battleLater(function () { window.Game.BondUI.showLevelUp(bondResult); }, 900 / window.Game.SystemsUI.speed());
+    }
     if (lvlRes.leveledUp) {
       logLine(T('logLevelUp', { level: lvlRes.level }), 'log-crit');
-      setTimeout(function () { SFX('level_up'); }, 450);
+      battleLater(function () { SFX('level_up'); }, 450 / window.Game.SystemsUI.speed());
     }
     if (currentIsReplay) {
       // Replaying an already-cleared floor: no floor advance, no reward pick,
       // and never re-trigger the end-game screen even for a repeat boss kill.
       window.Game.State.saveNow();
-      setTimeout(function () {
+      battleLater(function () {
         window.Game.TowerUI.renderTower();
         window.Game.UI.showScreen('screen-tower');
-      }, 1400);
+      }, 1400 / window.Game.SystemsUI.speed());
     } else if (battle.isBoss) {
-      setTimeout(function () {
+      battleLater(function () {
         window.Game.MenuUI.renderStory('ending', function () { window.Game.Main.showEnd(true); });
         window.Game.UI.showScreen('screen-story');
-      }, 1400);
+      }, 1400 / window.Game.SystemsUI.speed());
     } else {
-      window.Game.State.saveNow();
-      setTimeout(function () {
+      window.Game.TowerUI.queueReward(battle.floor);
+      battleLater(function () {
         window.Game.TowerUI.renderReward(battle.floor);
         window.Game.UI.showScreen('screen-reward');
-      }, 1400);
+      }, 1400 / window.Game.SystemsUI.speed());
     }
   }
 
   function handleDefeat() {
     SFX('defeat');
-    setTimeout(function () { window.Game.Main.showEnd(false); }, 1400);
+    battleLater(function () { window.Game.Main.showEnd(false); }, 1400 / window.Game.SystemsUI.speed());
   }
 
   function leaveBattle() {
+    if (currentBattle && currentBattle.over) return;
+    cancelPlayback();
     setActionsEnabled(false);
     closeSubmenu();
     if (window.Game.Audio) window.Game.Audio.stopMusic();
@@ -765,6 +934,7 @@
   }
 
   function confirmLeaveBattle() {
+    if (!currentBattle || currentBattle.over) return;
     SFX('ui_confirm');
     var root = document.getElementById('modal-root');
     root.innerHTML = '<div class="modal-box"><h3>' + T('leaveBattleTitle') + '</h3>' +
@@ -812,7 +982,9 @@
   // on only cares about currentBattle's generic shape (enemies/player/AP/etc),
   // not which mode produced it.
   function beginBattleScreen() {
-    document.getElementById('battle-log').innerHTML = '';
+    cancelPlayback();
+    window.Game.SystemsUI.speedControl();
+    document.getElementById('battle-log').innerHTML = '';recentHistory=[];var historyPanel=document.getElementById('battle-recent-history');if(!historyPanel){historyPanel=document.createElement('details');historyPanel.id='battle-recent-history';historyPanel.className='micro-history';document.getElementById('battle-log').after(historyPanel);}historyPanel.innerHTML='<summary>'+I('microHistory')+window.Game.Systems.text('การกระทำล่าสุด 10 รายการ','Last 10 actions')+'</summary><ol></ol>';
     window.Game.UI.showScreen('screen-battle');
     if (window.Game.Audio) window.Game.Audio.playBattleMusic(currentIsBoss);
     renderEnemies(currentBattle);
@@ -831,7 +1003,7 @@
     }
     if (currentBattle.pendingFirstStrike) {
       logLine(T('logFirstStrike'), 'log-weak');
-      setTimeout(function () {
+      battleLater(function () {
         var battle = currentBattle;
         var resC = window.Game.BattleEngine.runCompanionPhase(battle);
         playEvents(resC.events, function () {
@@ -841,7 +1013,7 @@
           var res2 = window.Game.BattleEngine.runEnemyPhase(battle);
           playEvents(res2.events, function () { afterEnemyPhase(); });
         });
-      }, 500);
+      }, 500 / window.Game.SystemsUI.speed());
     } else {
       setActionsEnabled(true);
     }
@@ -931,17 +1103,17 @@
       });
       if (lvlRes.leveledUp) {
         logLine(T('logLevelUp', { level: lvlRes.level }), 'log-crit');
-        setTimeout(function () { SFX('level_up'); }, 450);
+        battleLater(function () { SFX('level_up'); }, 450 / window.Game.SystemsUI.speed());
       }
       survivalSession.wavesCleared += 1;
       window.Game.State.saveNow();
-      setTimeout(function () { startSurvivalWave(survivalSession.wave + 1); }, 1400);
+      battleLater(function () { window.Game.SystemsUI.talentPrompt(function () { startSurvivalWave(survivalSession.wave + 1); }); }, 1400 / window.Game.SystemsUI.speed());
     } else {
       SFX('defeat');
       logLine(T('survivalKnockedOutLog'), 'log-weak');
       run.hp = 1;
       window.Game.State.clampVitals(run);
-      setTimeout(function () { endSurvivalSession(true); }, 1400);
+      battleLater(function () { endSurvivalSession(true); }, 1400 / window.Game.SystemsUI.speed());
     }
   }
 
@@ -1001,6 +1173,7 @@
     }
     if (document.getElementById('screen-battle').className.indexOf('active') === -1) return;
     if (!currentBattle) return;
+    if (playbackBusy) { pendingLanguageRefresh = true; return; }
     var D = window.Game.Data;
     currentBattle.player.name = window.Game.I18n.L(D.getClass(currentBattle.player.classId), 'name');
     currentBattle.enemies.forEach(function (e) {
@@ -1022,5 +1195,5 @@
   }
 
   window.Game = window.Game || {};
-  window.Game.BattleUI = { startBattle: startBattle, startSurvivalSession: startSurvivalSession, refreshActiveScreen: refreshActiveScreen };
+  window.Game.BattleUI = { cancelPlayback: cancelPlayback, isPlayingEffects: function () { return playbackBusy; }, startBattle: startBattle, startSurvivalSession: startSurvivalSession, refreshActiveScreen: refreshActiveScreen };
 })();

@@ -44,11 +44,15 @@
     return ctx;
   }
 
+  var soundNoiseSeed = 0x3a79b421;
   function noiseBuffer(c, duration) {
     var size = Math.max(1, Math.floor(c.sampleRate * duration));
     var buffer = c.createBuffer(1, size, c.sampleRate);
     var data = buffer.getChannelData(0);
-    for (var i = 0; i < size; i++) data[i] = Math.random() * 2 - 1;
+    for (var i = 0; i < size; i++) {
+      soundNoiseSeed ^= soundNoiseSeed << 13; soundNoiseSeed ^= soundNoiseSeed >>> 17; soundNoiseSeed ^= soundNoiseSeed << 5;
+      data[i] = (soundNoiseSeed >>> 0) / 2147483648 - 1;
+    }
     return buffer;
   }
 
@@ -413,9 +417,32 @@
     if (fn) fn();
   }
 
+  function battleEffect(profile, stage) {
+    if (muted) return;
+    var c = ensureCtx(); if (!c) return;
+    var t = c.currentTime, rate = window.Game.SystemsUI ? window.Game.SystemsUI.speed() : 1;
+    var duration = Math.max(.035, .16 / rate), family = profile.family;
+    if (stage === 'launch') {
+      if (['fireball','iceShard','magicBolt','windBlade','bomb','arrow','breath'].indexOf(family) !== -1) {
+        tone(180, t, duration * .6, { type: 'triangle', gain: .07, slideTo: 540 });
+        noise(t, duration * .6, { gain: .045, filterFreq: 2000 });
+      }
+      return;
+    }
+    if (profile.kind === 'item' || ['heal','shield','empower','haste','cleanse'].indexOf(family) !== -1) return;
+    if (family === 'music') { tone(660, t, duration, { type: 'triangle', gain: .09 }); tone(880, t + duration * .35, duration, { type: 'triangle', gain: .07 }); }
+    else if (profile.element === 'fire' || ['blast','overdrive','allout'].indexOf(family) !== -1) { noise(t, duration * 1.5, { filterType: 'lowpass', filterFreq: 600, gain: .16 }); tone(95, t, duration, { type: 'triangle', gain: .16, slideTo: 38 }); }
+    else if (profile.element === 'ice') { tone(1400, t, duration * .6, { type: 'square', gain: .075, slideTo: 380 }); noise(t, duration * .4, { gain: .055, filterFreq: 4200 }); }
+    else if (profile.element === 'elec') { tone(180, t, duration * .6, { type: 'sawtooth', gain: .08, slideTo: 1300 }); noise(t, duration * .7, { gain: .075, filterFreq: 2600 }); }
+    else if (profile.element === 'wind') noise(t, duration, { gain: .075, filterFreq: 1800 });
+    else if (profile.element === 'dark') tone(120, t, duration, { type: 'triangle', gain: .11, slideTo: 45 });
+    else if (profile.element === 'light') tone(1046, t, duration, { type: 'triangle', gain: .07, slideTo: 1568 });
+  }
+
   window.Game = window.Game || {};
   window.Game.Audio = {
     sfx: sfx,
+    battleEffect: battleEffect,
     playMusic: playMusic,
     playBattleMusic: playBattleMusic,
     stopMusic: function () { desiredTrackName = null; stopMusic(); },

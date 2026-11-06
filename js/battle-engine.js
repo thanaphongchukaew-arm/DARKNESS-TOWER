@@ -69,6 +69,82 @@
   function S() { return window.Game.State; }
   function L(obj, field) { return window.Game.I18n.L(obj, field); }
 
+  function X() { return window.Game.Systems; }
+
+  function addAilment(list, id, turns, isBoss, events, who, targetUid) {
+    var found = list.find(function (a) { return a.id === id; });
+    var duration = isBoss ? Math.min(2, turns) : turns;
+    if (found) found.turns = Math.max(found.turns, duration);
+    else list.push({ id: id, turns: duration });
+    events.push({ type: 'ailment', id: id, targetName: who, targetUid: targetUid || 'player', targetSide: targetUid && targetUid !== 'player' ? 'enemy' : 'player' });
+  }
+
+  function elementalHit(battle, enemy, element, amount, events) {
+    var template = D().getEnemyTemplate(enemy.templateId);
+    X().discover(enemy, element);
+    var weakEl = enemy.weakEl || (template && template.weak), resistEl = enemy.resistEl || (template && template.resist);
+    if (template && element === weakEl) {
+      amount = Math.round(amount * 1.5);
+      enemy.breakMeter += 15;
+      events.push({ type: 'affinity', weak: true, element: element, targetName: enemy.name });
+    } else if (template && element === resistEl) {
+      amount = Math.max(1, Math.round(amount * 0.65));
+      events.push({ type: 'affinity', weak: false, element: element, targetName: enemy.name });
+    }
+    if (element === 'wind' && enemy.ailments.some(function (a) { return a.id === 'burn'; })) {
+      amount = Math.round(amount * (X().has(battle.run, 'burning_wind') ? 1.55 : 1.25));
+    }
+    return amount;
+  }
+
+  function breakCombo(battle, events, from) {
+    if (battle.breakRewardRound === battle.round || !events.slice(from).some(function (e) { return e.type === 'enemyBroken'; })) return;
+    var amount = (X().effect(battle.run, 'break_prism') ? 4 : 0) + (X().has(battle.run, 'break_flow') ? 3 : 0);
+    if (amount) {
+      battle.breakRewardRound = battle.round;
+      var restored = Math.min(amount, battle.player.maxMp - battle.run.mp);
+      battle.run.mp += restored;
+      events.push({ type: 'combo', message: X().text('ทลายคืนพลัง +', 'Break flow +') + restored + ' MP' });
+      if (restored) events.push({ type: 'resourceGain', resource: 'mp', amount: restored, mpAfter: battle.run.mp, maxMp: battle.player.maxMp });
+    }
+  }
+
+  function tickAilments(battle, actor, player, events) {
+    var list = player ? battle.run.ailments : actor.ailments;
+    list.forEach(function (a) {
+      if (a.id === 'poison' || a.id === 'burn') {
+        var amount = Math.max(1, Math.round(actor.maxHp * (a.id === 'poison' ? 0.035 : 0.025) * (actor.isBoss ? 0.35 : 1)));
+        if (player) {
+          battle.run.hp = Math.max(0, battle.run.hp - amount);
+          battle.run.lastDamage = { name: X().text(a.id === 'poison' ? 'พิษ' : 'เผาไหม้', a.id), amount: amount };
+        } else {
+          actor.hp = Math.max(0, actor.hp - amount);
+          if (!actor.hp) actor.alive = false;
+        }
+        events.push({ type: 'ailmentDamage', id: a.id, targetName: player ? battle.player.name : actor.name, amount: amount, targetSide: player ? 'player' : 'enemy', targetUid: actor.uid, hpAfter: player ? battle.run.hp : actor.hp, maxHp: actor.maxHp });
+      }
+      a.turns -= 1;
+    });
+    for (var i = list.length - 1; i >= 0; i--) if (list[i].turns <= 0) list.splice(i, 1);
+  }
+
+  function prepareEnemies(run, floor, enemies, survival) {
+    X().ensure(run);
+    run.ailments = [];
+    if (survival) return;
+    var route = X().route(run, floor);
+    if (!route) return;
+    if (route.id === 'safe' && enemies.length > 1) enemies.pop();
+    enemies.forEach(function (enemy, i) {
+      ['maxHp', 'hp', 'atk', 'mag', 'def', 'res'].forEach(function (key) { enemy[key] = Math.max(1, Math.round(enemy[key] * route.stats)); });
+      enemy.expReward = Math.round(enemy.expReward * route.rewards);
+      if (route.id === 'elite' && i === 0) {
+        enemy.elite = true;
+        enemy.attacksPool = enemy.attacksPool.map(function (a) { return Object.assign({}, a, { drainSelf: true }); });
+      }
+    });
+  }
+
   function tickBuffs(list) {
     for (var i = list.length - 1; i >= 0; i--) {
       list[i].turnsLeft -= 1;
@@ -173,7 +249,7 @@
       maxHp: stats.hp, hp: stats.hp, atk: stats.atk, mag: stats.mag, def: stats.def, res: stats.res, spd: stats.spd, luk: stats.luk,
       expReward: stats.exp,
       attacksPool: template.attacks.slice(),
-      downed: false, alive: true, debuffs: [],
+      downed: false, alive: true, debuffs: [], ailments: [],
       breakMeter: 0, broken: false
     };
   }
@@ -196,7 +272,7 @@
       expReward: stats.exp,
       attacksPool: template.attacks.slice(),
       phase: 1, phasesData: template.phases || [],
-      downed: false, alive: true, debuffs: [],
+      downed: false, alive: true, debuffs: [], ailments: [],
       breakMeter: 0, broken: false
     };
   }
@@ -214,7 +290,7 @@
       expReward: stats.exp,
       attacksPool: template.attacks.slice(),
       phase: 1, phasesData: template.phases || [],
-      downed: false, alive: true, debuffs: [],
+      downed: false, alive: true, debuffs: [], ailments: [],
       breakMeter: 0, broken: false
     };
   }
@@ -254,8 +330,53 @@
     if (!next || enemy.hp > enemy.maxHp * next.hpThreshold) return null;
     enemy.phase += 1;
     enemy.attacksPool = next.attacks.slice();
-    return L(next, 'announce');
+    lastPhaseShift = null; // set below only when this phase carries a shift
+    var message = L(next, 'announce');
+    // A phase may also reshape the fight itself: flip or replace the elemental
+    // affinity and pick a "focus" (what the phase's signature attack targets).
+    if (next.shift) {
+      var template = D().getEnemyTemplate(enemy.templateId) || {};
+      var sh = next.shift;
+      enemy.weakEl = sh.flip ? template.resist : (sh.weak || enemy.weakEl);
+      enemy.resistEl = sh.flip ? template.weak : (sh.resist || enemy.resistEl);
+      enemy.shiftFocus = sh.focus || null;
+      lastPhaseShift = { focus: enemy.shiftFocus, weak: enemy.weakEl, resist: enemy.resistEl, phase: enemy.phase };
+      message += ' ' + X().text('[จุดอ่อนใหม่: ', '[New weakness: ') + (window.Game.ElementName ? window.Game.ElementName(enemy.weakEl) : enemy.weakEl) + ' · ' + shiftFocusLabel(enemy.shiftFocus) + ']';
+    }
+    return message;
   }
+
+  var lastPhaseShift = null;
+  function bossEvent(message) { return { type: 'bossPhaseChange', message: message, shift: lastPhaseShift }; }
+  function shiftFocusLabel(focus) {
+    return { companion: X().text('ล่าสหาย', 'hunts your companion'), mana: X().text('ดูดมานา', 'drains mana'), buffs: X().text('ลบบัฟ', 'strips buffs') }[focus] || '';
+  }
+
+
+  // Phase-shift "signature" attacks (attack.shiftHit) carry the boss's current
+  // focus: the boss changes *what it goes after*, not just how hard it hits.
+  function applyShiftFocus(battle, enemy, events) {
+    var focus = enemy.shiftFocus;
+    if (focus === 'companion' && battle.companion) {
+      battle.companionSnaredRound = battle.round + 1;
+      events.push({ type: 'shiftFocus', focus: focus, targetName: battle.companion.name, message: X().text(battle.companion.name + ' ถูกตรึงไว้ในรอบหน้า!', battle.companion.name + ' is pinned down next round!') });
+    } else if (focus === 'mana') {
+      var drain = Math.min(battle.run.mp, Math.max(1, Math.round(battle.player.maxMp * 0.08)));
+      if (drain > 0) {
+        battle.run.mp -= drain;
+        events.push({ type: 'shiftFocus', focus: focus, amount: drain, mpAfter: battle.run.mp, message: X().text('มานาถูกดูด −' + drain + ' MP', 'Mana drained −' + drain + ' MP') });
+      }
+    } else if (focus === 'buffs') {
+      var idx = -1;
+      battle.player.buffs.forEach(function (b, i) { if (idx === -1 && b.amount > 0) idx = i; });
+      if (idx !== -1) {
+        battle.player.buffs.splice(idx, 1);
+        events.push({ type: 'shiftFocus', focus: focus, message: X().text('บัฟถูกลบออก 1 อย่าง!', 'One of your buffs was stripped!') });
+      }
+    }
+  }
+
+  function checkEchoEnd(battle, events) { checkBattleEnd(battle, events); return battle.over; }
 
   function checkBattleEnd(battle, events) {
     if (battle.over) return;
@@ -307,6 +428,7 @@
         enemies.push(buildEnemyActor(template, floor, run.difficulty, groupScale, 'e' + i, run.ascension));
       }
     }
+    prepareEnemies(run, floor, enemies, false);
     var player = buildPlayerActor(run);
     var avgEnemySpd = enemies.reduce(function (s, e) { return s + e.spd; }, 0) / enemies.length;
     var firstStrike = null;
@@ -339,6 +461,7 @@
       var template = pool[Math.floor(Math.random() * pool.length)];
       enemies.push(buildEnemyActorScaled(template, scale, groupScale, 'e' + i));
     }
+    prepareEnemies(run, run.currentFloor, enemies, true);
     var player = buildPlayerActor(run);
     var avgEnemySpd = enemies.reduce(function (s, e) { return s + e.spd; }, 0) / enemies.length;
     var firstStrike = null;
@@ -365,10 +488,11 @@
       return out;
     }
     var hitsCount = skill.hits || 1;
+    if (skill.id === 'attack' && X().has(battle.run, 'flurry')) hitsCount = 2;
     var res = [];
     for (var i = 0; i < hitsCount; i++) {
       var el = skill.randomElement ? skill.randomElement[Math.floor(Math.random() * skill.randomElement.length)] : skill.element;
-      res.push({ targetIndex: targetIndex, element: el, power: skill.power });
+      res.push({ targetIndex: targetIndex, element: el, power: skill.power * (skill.id === 'attack' && i > 0 ? 0.4 : 1) });
     }
     return res;
   }
@@ -385,11 +509,27 @@
     var events = [];
     if (battle.over) return { events: events, battleOver: true, victory: battle.victory, playerAP: battle.playerAP };
     var run = battle.run;
+    if (battle.playerAP <= 0 || battle.awaitingAllOut) return { events: [{ type: 'invalid' }], battleOver: false, playerAP: battle.playerAP };
 
     if (action.kind === 'guard') {
       battle.player.guarding = true;
+      battle.riposteUsed = false;
+      if (X().has(run, 'clean_guard') && run.ailments.length) { run.ailments = []; events.push({ type: 'cleanse', side: 'player' }); }
+      var guardFocus = (X().has(run, 'focus_guard') ? 20 : 0) + (X().effect(run, 'guard_lantern') ? 15 : 0);
+      battle.player.focus = Math.min(F().FOCUS_MAX, battle.player.focus + guardFocus);
       battle.playerAP = 0;
       events.push({ type: 'guard' });
+      var guardRune = window.Game.Workshop.battleEffects(battle).guardMp || 0;
+      if (guardRune && battle.runeGuardRound !== battle.round) { battle.runeGuardRound=battle.round; var gain=Math.min(guardRune,battle.player.maxMp-run.mp); run.mp+=gain; if(gain) events.push({type:'resourceGain',resource:'mp',amount:gain,mpAfter:run.mp,maxMp:battle.player.maxMp}); }
+    } else if (action.kind === 'duo') {
+      var duo = window.Game.Bond.duoFor(battle);
+      if (!duo || !duo.ready) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
+      var duoTarget = battle.enemies[action.targetIndex];
+      if (duo.needsTarget && (!duoTarget || !duoTarget.alive)) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
+      battle.duoUsed = true;
+      battle.playerAP -= 1;
+      events.push({ type: 'duoStart', companionId: battle.companion.id, companionName: battle.companion.name, name: duo.name, role: duo.role });
+      window.Game.Bond.perform(battle, duo, duoTarget, events, { applyBreak: applyBreak, breakCombo: breakCombo, resolveHit: resolveHit, applyStatMod: applyStatMod, playerOffenseEff: playerOffenseEff, effectiveStats: effectiveStats, checkBossPhase: checkBossPhase, bossEvent: bossEvent });
     } else if (action.kind === 'overdrive') {
       // Spends a full Focus gauge on a single almighty-element hit -- no MP cost
       // (paid entirely in Focus), never grants a bonus AP itself (unlike Vanguard's
@@ -405,18 +545,25 @@
       var odEff = playerOffenseEff(battle);
       var odTargetEff = effectiveStats(odTarget, odTarget.debuffs);
       var odHit = resolveHit(odEff, odTargetEff, 'almighty', F().OVERDRIVE_POWER);
-      var odDmg = applyBreak(odTarget, odHit.amount, events);
+      var odBreakStart = events.length;
+      odTarget.breakMeter += window.Game.Workshop.battleEffects(battle).break || 0;
+      var odDmg = applyBreak(odTarget, Math.round(odHit.amount * window.Game.Workshop.damageMult(battle,odTarget,'almighty',odHit.isCrit)), events);
+      breakCombo(battle, events, odBreakStart);
       odTarget.hp = Math.max(0, odTarget.hp - odDmg);
       if (odHit.isCrit) { odTarget.downed = true; events.push({ type: 'downed', targetUid: odTarget.uid, targetName: odTarget.name }); }
-      events.push({ type: 'hit', targetSide: 'enemy', targetUid: odTarget.uid, targetName: odTarget.name, element: 'almighty', isCrit: odHit.isCrit, amount: odDmg, hpAfter: odTarget.hp, maxHp: odTarget.maxHp, breakMeter: odTarget.breakMeter, broken: odTarget.broken });
+      events.push({ type: 'hit', skillId: 'overdrive', sourceSide: 'player', sourceClassId: run.classId, targetSide: 'enemy', targetUid: odTarget.uid, targetName: odTarget.name, element: 'almighty', isCrit: odHit.isCrit, amount: odDmg, hpAfter: odTarget.hp, maxHp: odTarget.maxHp, breakMeter: odTarget.breakMeter, broken: odTarget.broken });
       if (odTarget.hp <= 0) {
         odTarget.alive = false;
         events.push({ type: 'defeated', targetUid: odTarget.uid, targetName: odTarget.name, side: 'enemy' });
       } else if (odTarget.isBoss) {
         var odPhaseMsg = checkBossPhase(odTarget);
-        if (odPhaseMsg) events.push({ type: 'bossPhaseChange', message: odPhaseMsg });
+        if (odPhaseMsg) events.push(bossEvent(odPhaseMsg));
       }
       battle.playerAP -= 1;
+      if (!checkEchoEnd(battle, events) && (X().has(run, 'overdrive_echo') || X().effect(run, 'echo_bell'))) {
+        var echo = runCompanionPhase(battle, true);
+        Array.prototype.push.apply(events, echo.events);
+      }
     } else if (action.kind === 'item') {
       var itemDef = D().getItem(action.itemId);
       if (!itemDef || !itemDef.battleUsable) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
@@ -431,14 +578,14 @@
       // MP -- must always leave the caster with at least 1 HP, so this can never be a
       // free suicide (checkBattleEnd only ever fires from *damage*, not from this cost).
       var hpCostAmt = skill && skill.hpCost ? Math.round(battle.player.maxHp * skill.hpCost) : 0;
-      if (!skill || run.mp < skill.cost || (hpCostAmt > 0 && run.hp <= hpCostAmt) || (skill.kind === 'heal' && run.hp >= battle.player.maxHp)) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
+      if (!skill || (skill.element !== 'phys' && (run.ailments || []).some(function (a) { return a.id === 'silence'; })) || run.mp < skill.cost || (hpCostAmt > 0 && run.hp <= hpCostAmt) || (skill.kind === 'heal' && run.hp >= battle.player.maxHp)) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
       // validate the target *before* spending MP/HP, so an invalid/stale target can't waste resources
       if (skill.target === 'singleEnemy') {
         var checkTgt = battle.enemies[action.targetIndex];
         if (!checkTgt || !checkTgt.alive) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
       }
       run.mp -= skill.cost;
-      events.push({ type: 'skillUsed', name: L(skill, 'name'), element: skill.element });
+      events.push({ type: 'skillUsed', skillId: skill.id, sourceClassId: run.classId, kind: skill.kind, target: skill.target, name: L(skill, 'name'), element: skill.element });
       if (hpCostAmt > 0) {
         run.hp -= hpCostAmt;
         events.push({ type: 'hpSacrifice', amount: hpCostAmt, hpAfter: run.hp, maxHp: battle.player.maxHp });
@@ -451,17 +598,17 @@
       var healMult = (swiftRecovery && S().hasRelic(run, 'swift_recovery')) ? (1 + swiftRecovery.healBoostPct) : 1;
 
       if (skill.kind === 'heal') {
-        var healAmt = Math.round(battle.player.maxHp * skill.power * healMult);
+        var healAmt = Math.min(battle.player.maxHp - run.hp, Math.round(battle.player.maxHp * skill.power * healMult));
         run.hp = Math.min(battle.player.maxHp, run.hp + healAmt);
-        events.push({ type: 'heal', side: 'player', amount: healAmt, hpAfter: run.hp, maxHp: battle.player.maxHp });
+        events.push({ type: 'heal', skillId: skill.id, side: 'player', amount: healAmt, hpAfter: run.hp, maxHp: battle.player.maxHp });
         battle.playerAP -= 1;
       } else if (skill.kind === 'buffSelf') {
         applyStatMod(battle.player.buffs, skill.stat, skill.amount, 3);
-        events.push({ type: 'buff', side: 'player', stat: skill.stat, amount: skill.amount });
+        events.push({ type: 'buff', skillId: skill.id, side: 'player', stat: skill.stat, amount: skill.amount });
         if (skill.healPower) {
-          var hAmt = Math.round(battle.player.maxHp * skill.healPower * healMult);
+          var hAmt = Math.min(battle.player.maxHp - run.hp, Math.round(battle.player.maxHp * skill.healPower * healMult));
           run.hp = Math.min(battle.player.maxHp, run.hp + hAmt);
-          events.push({ type: 'heal', side: 'player', amount: hAmt, hpAfter: run.hp, maxHp: battle.player.maxHp });
+          if (hAmt > 0) events.push({ type: 'heal', skillId: skill.id, side: 'player', amount: hAmt, hpAfter: run.hp, maxHp: battle.player.maxHp });
         }
         battle.playerAP -= 1;
         // Vanguard-only: refunds the AP this cast just spent, so it chains straight
@@ -475,21 +622,23 @@
           battle.enemies.forEach(function (e) {
             if (!e.alive) return;
             applyStatMod(e.debuffs, skill.stat, -skill.amount, 3);
-            events.push({ type: 'buff', side: 'enemy', targetName: e.name, stat: skill.stat, amount: -skill.amount });
+            events.push({ type: 'buff', skillId: skill.id, targetUid: e.uid, side: 'enemy', targetName: e.name, stat: skill.stat, amount: -skill.amount });
           });
         } else {
           var tgt = battle.enemies[action.targetIndex];
           applyStatMod(tgt.debuffs, skill.stat, -skill.amount, 3);
-          events.push({ type: 'buff', side: 'enemy', targetName: tgt.name, stat: skill.stat, amount: -skill.amount });
+          events.push({ type: 'buff', skillId: skill.id, targetUid: tgt.uid, side: 'enemy', targetName: tgt.name, stat: skill.stat, amount: -skill.amount });
         }
         battle.playerAP -= 1;
       } else if (skill.kind === 'attack') {
         var hits = buildPlayerHits(skill, battle, action.targetIndex);
         var playerEff = playerOffenseEff(battle);
-        hits.forEach(function (h) {
+        hits.forEach(function (h, hitIndex) {
           var enemy = battle.enemies[h.targetIndex];
           if (!enemy || !enemy.alive) return;
           var enemyEff = effectiveStats(enemy, enemy.debuffs);
+          enemyEff.def *= 1 - Math.max(skill.armorPierce || 0, X().has(run, 'pierce') ? 0.35 : 0);
+          if (X().has(run, 'pierce')) enemyEff.res *= 0.8;
           // Executioner-only: this hit's power spikes against a low-HP target, checked
           // fresh per hit so a multi-hit skill can cross the threshold mid-combo.
           var hitPower = h.power;
@@ -508,39 +657,48 @@
           // Overdrive gauge, crits building it faster -- gained on the raw hit,
           // not the break-boosted amount, so it can't be inflated by breaking.
           var focusBefore = battle.player.focus;
-          battle.player.focus = Math.min(F().FOCUS_MAX, battle.player.focus + F().FOCUS_PER_HIT + (hit.isCrit ? F().FOCUS_CRIT_BONUS : 0));
+          battle.player.focus = Math.min(F().FOCUS_MAX, battle.player.focus + F().FOCUS_PER_HIT + (hit.isCrit ? F().FOCUS_CRIT_BONUS : 0) + (window.Game.Workshop.battleEffects(battle).focus || 0));
           if (focusBefore < F().FOCUS_MAX && battle.player.focus >= F().FOCUS_MAX) events.push({ type: 'focusReady' });
-          var dmgAmt = applyBreak(enemy, hit.amount, events);
+          var breakStart = events.length;
+          var elementalAmount = Math.round(elementalHit(battle, enemy, h.element, hit.amount, events) * window.Game.Workshop.damageMult(battle,enemy,h.element,hit.isCrit));
+          enemy.breakMeter += window.Game.Workshop.battleEffects(battle).break || 0;
+          var dmgAmt = applyBreak(enemy, elementalAmount, events);
+          breakCombo(battle, events, breakStart);
+          if (h.element === 'fire' && (X().has(run, 'burning_wind') || Math.random() < 0.3)) addAilment(enemy.ailments, 'burn', 3, enemy.isBoss, events, enemy.name, enemy.uid);
+          if (skill.id === 'attack' && X().has(run, 'affliction')) addAilment(enemy.ailments, 'poison', 3, enemy.isBoss, events, enemy.name, enemy.uid);
+          if (h.element === 'dark' && Math.random() < 0.2) addAilment(enemy.ailments, 'silence', 2, enemy.isBoss, events, enemy.name, enemy.uid);
           enemy.hp = Math.max(0, enemy.hp - dmgAmt);
           if (hit.isCrit) { enemy.downed = true; events.push({ type: 'downed', targetUid: enemy.uid, targetName: enemy.name }); }
-          events.push({ type: 'hit', targetSide: 'enemy', targetUid: enemy.uid, targetName: enemy.name, element: h.element, isCrit: hit.isCrit, amount: dmgAmt, hpAfter: enemy.hp, maxHp: enemy.maxHp, breakMeter: enemy.breakMeter, broken: enemy.broken });
+          events.push({ type: 'hit', skillId: skill.id, sourceSide: 'player', sourceClassId: run.classId, hitIndex: hitIndex, target: skill.target, targetSide: 'enemy', targetUid: enemy.uid, targetName: enemy.name, element: h.element, isCrit: hit.isCrit, amount: dmgAmt, hpAfter: enemy.hp, maxHp: enemy.maxHp, breakMeter: enemy.breakMeter, broken: enemy.broken });
+          var runeLeech=window.Game.Workshop.battleEffects(battle).leech || 0;
+          if (runeLeech && dmgAmt>0) { var leeched=Math.min(battle.player.maxHp-run.hp,Math.round(dmgAmt*runeLeech)); run.hp+=leeched; if(leeched) events.push({type:'heal',vfxHeal:'drain',side:'player',amount:leeched,hpAfter:run.hp,maxHp:battle.player.maxHp}); }
           if (skill.drainSelf && dmgAmt > 0) {
-            var healBack = Math.round(dmgAmt * 0.4);
+            var healBack = Math.min(battle.player.maxHp - run.hp, Math.round(dmgAmt * 0.4));
             run.hp = Math.min(battle.player.maxHp, run.hp + healBack);
-            events.push({ type: 'heal', side: 'player', amount: healBack, hpAfter: run.hp, maxHp: battle.player.maxHp });
+            if (healBack > 0) events.push({ type: 'heal', vfxHeal: 'drain', side: 'player', amount: healBack, hpAfter: run.hp, maxHp: battle.player.maxHp });
           }
           // Vampiric Fang relic: every attack hit leeches HP back, independently of
           // (and stacking with) a skill's own drainSelf above.
           var vampiricFang = D().getRelic('vampiric_fang');
           if (vampiricFang && dmgAmt > 0 && S().hasRelic(run, 'vampiric_fang')) {
-            var lifesteal = Math.round(dmgAmt * vampiricFang.lifestealPct);
+            var lifesteal = Math.min(battle.player.maxHp - run.hp, Math.round(dmgAmt * vampiricFang.lifestealPct));
             if (lifesteal > 0) {
               run.hp = Math.min(battle.player.maxHp, run.hp + lifesteal);
-              events.push({ type: 'heal', side: 'player', amount: lifesteal, hpAfter: run.hp, maxHp: battle.player.maxHp });
+              events.push({ type: 'heal', vfxHeal: 'drain', side: 'player', amount: lifesteal, hpAfter: run.hp, maxHp: battle.player.maxHp });
             }
           }
           // Shadowhunter-only: the strike itself cripples the target. Reuses applyStatMod's
           // refresh-not-stack behavior, so repeated hits from a multi-hit skill can't compound it.
           if (skill.onHitDebuff && enemy.alive) {
             applyStatMod(enemy.debuffs, skill.onHitDebuff.stat, -skill.onHitDebuff.amount, 3);
-            events.push({ type: 'buff', side: 'enemy', targetName: enemy.name, stat: skill.onHitDebuff.stat, amount: -skill.onHitDebuff.amount });
+            events.push({ type: 'buff', skillId: skill.id, targetUid: enemy.uid, side: 'enemy', targetName: enemy.name, stat: skill.onHitDebuff.stat, amount: -skill.onHitDebuff.amount });
           }
           if (enemy.hp <= 0) {
             enemy.alive = false;
             events.push({ type: 'defeated', targetUid: enemy.uid, targetName: enemy.name, side: 'enemy' });
           } else if (enemy.isBoss) {
             var phaseMsg = checkBossPhase(enemy);
-            if (phaseMsg) events.push({ type: 'bossPhaseChange', message: phaseMsg });
+            if (phaseMsg) events.push(bossEvent(phaseMsg));
           }
         });
         battle.playerAP -= 1;
@@ -587,15 +745,18 @@
     var per = Math.max(1, Math.round((playerEff.atk * 0.9 + playerEff.mag * 0.5) * (1.5 + 0.12 * living.length) * (0.95 + Math.random() * 0.15)));
     events.push({ type: 'allOutStart' });
     living.forEach(function (e) {
-      var perDmg = applyBreak(e, per, events);
+      var allBreakStart = events.length;
+      e.breakMeter += window.Game.Workshop.battleEffects(battle).break || 0;
+      var perDmg = applyBreak(e, Math.round(per * window.Game.Workshop.damageMult(battle,e,'almighty',false)), events);
+      breakCombo(battle, events, allBreakStart);
       e.hp = Math.max(0, e.hp - perDmg);
       e.downed = false;
       var defeated = e.hp <= 0;
       if (defeated) e.alive = false;
-      events.push({ type: 'allOutHit', targetUid: e.uid, targetName: e.name, amount: perDmg, hpAfter: e.hp, maxHp: e.maxHp, defeated: defeated, breakMeter: e.breakMeter, broken: e.broken });
+      events.push({ type: 'allOutHit', skillId: 'allout', target: 'allEnemies', targetUid: e.uid, targetName: e.name, amount: perDmg, hpAfter: e.hp, maxHp: e.maxHp, defeated: defeated, breakMeter: e.breakMeter, broken: e.broken });
       if (!defeated && e.isBoss) {
         var msg = checkBossPhase(e);
-        if (msg) events.push({ type: 'bossPhaseChange', message: msg });
+        if (msg) events.push(bossEvent(msg));
       }
     });
     battle.playerAP = 0;
@@ -633,6 +794,12 @@
     for (var i = 0; i < battle.enemies.length; i++) {
       var enemy = battle.enemies[i];
       if (!enemy.alive) continue;
+      var wasSilenced = enemy.ailments.some(function (a) { return a.id === 'silence'; });
+      tickAilments(battle, enemy, false, events);
+      if (enemy.alive) { var ailmentPhase = checkBossPhase(enemy); if (ailmentPhase) events.push(bossEvent(ailmentPhase)); }
+      checkBattleEnd(battle, events);
+      if (battle.over) break;
+      if (!enemy.alive) continue;
       if (enemy.downed) { events.push({ type: 'enemyPhaseSkip', targetName: enemy.name }); continue; }
       var enemySpd0 = effectiveStats(enemy, enemy.debuffs).spd;
       var playerSpd0 = effectiveStats(battle.player, battle.player.buffs).spd;
@@ -643,7 +810,10 @@
       var ap = (battle.round > 1 && spdAheadBonus(enemySpd0, playerSpd0)) ? 2 : 1;
       while (ap > 0) {
         if (battle.run.hp <= 0) break;
-        var atk = pickWeighted(enemy.attacksPool);
+        var silenced = wasSilenced;
+        var attackPool = silenced ? enemy.attacksPool.filter(function (a) { return a.element === 'phys'; }) : enemy.attacksPool;
+        var atk = attackPool.length ? pickWeighted(attackPool) : { element: 'phys', power: 0.7, name: 'โจมตีติดขัด', nameEn: 'Disrupted strike' };
+        events.push({ type: 'enemyAction', attackerUid: enemy.uid, attackerTemplateId: enemy.templateId, vfxKey: atk.vfxKey || 'disrupted', skillName: L(atk, 'name'), element: atk.element });
         var attackerEff = effectiveStats(enemy, enemy.debuffs);
         var playerEff = effectiveStats(battle.player, battle.player.buffs);
         var hit = resolveHit(attackerEff, playerEff, atk.element, atk.power);
@@ -651,20 +821,40 @@
         var dmg = hit.amount;
         // Stone Ward relic (see data-relics.js): flat reduction to all incoming
         // enemy damage, applied before Guard's own halving so the two multiply.
-        dmg = Math.round(dmg * S().relicDamageMult(battle.run));
+        dmg = Math.round(dmg * S().relicDamageMult(battle.run) * (battle.workshop && battle.workshop.ward ? .92 : 1));
         if (battle.player.guarding) dmg = Math.round(dmg * 0.5);
         battle.run.hp = Math.max(0, battle.run.hp - dmg);
+        battle.run.lastDamage = { name: enemy.name + ' · ' + L(atk, 'name'), amount: dmg };
+        if (!silenced && atk.element === 'fire' && Math.random() < 0.25) addAilment(battle.run.ailments, 'burn', 3, false, events, battle.player.name);
+        if (!silenced && atk.element === 'dark' && Math.random() < 0.18) addAilment(battle.run.ailments, 'silence', 2, false, events, battle.player.name);
+        if (atk.element === 'phys' && /venom|spider|hydra|spore/.test(enemy.templateId) && Math.random() < 0.3) addAilment(battle.run.ailments, 'poison', 3, false, events, battle.player.name);
         if (atk.drainSelf && dmg > 0) enemy.hp = Math.min(enemy.maxHp, enemy.hp + Math.round(dmg * 0.4));
-        events.push({ type: 'hit', targetSide: 'player', attackerUid: enemy.uid, attackerName: enemy.name, skillName: L(atk, 'name'), element: atk.element, isCrit: hit.isCrit, amount: dmg, hpAfter: battle.run.hp, maxHp: battle.player.maxHp, attackerHpAfter: enemy.hp, attackerMaxHp: enemy.maxHp });
+        if (atk.shiftHit && enemy.shiftFocus && dmg > 0) applyShiftFocus(battle, enemy, events);
+        events.push({ type: 'hit', vfxKey: atk.vfxKey || 'disrupted', attackerTemplateId: enemy.templateId, sourceSide: 'enemy', targetSide: 'player', attackerUid: enemy.uid, attackerName: enemy.name, skillName: L(atk, 'name'), element: atk.element, isCrit: hit.isCrit, amount: dmg, hpAfter: battle.run.hp, maxHp: battle.player.maxHp, attackerHpAfter: enemy.hp, attackerMaxHp: enemy.maxHp });
         if (atk.debuff) {
           applyStatMod(battle.player.buffs, atk.debuff.stat, -atk.debuff.amount, 3);
-          events.push({ type: 'buff', side: 'player', stat: atk.debuff.stat, amount: -atk.debuff.amount });
+          events.push({ type: 'buff', vfxKey: atk.vfxKey || 'disrupted', attackerUid: enemy.uid, targetUid: 'player', side: 'player', stat: atk.debuff.stat, amount: -atk.debuff.amount });
         }
         checkBattleEnd(battle, events);
-        if (battle.over) break;
+        if (!battle.over && battle.player.guarding && !battle.riposteUsed && X().has(battle.run, 'riposte')) {
+          battle.riposteUsed = true;
+          var counter = F().computeDamage({ element: 'almighty', power: 0.75, atkStat: playerEff.atk, magStat: playerEff.mag, defStat: 0, resStat: 0, isCrit: false });
+          var counterStart = events.length;
+          counter = applyBreak(enemy, counter, events);
+          enemy.hp = Math.max(0, enemy.hp - counter);
+          if (!enemy.hp) enemy.alive = false;
+          breakCombo(battle, events, counterStart);
+          events.push({ type: 'riposte', targetUid: enemy.uid, targetName: enemy.name, amount: counter, hpAfter: enemy.hp, maxHp: enemy.maxHp, breakMeter: enemy.breakMeter, broken: enemy.broken, message: X().text('สวนกลับ ', 'Riposte ') + enemy.name + ' −' + counter });
+          if (!enemy.alive) events.push({ type: 'defeated', targetUid: enemy.uid, targetName: enemy.name, side: 'enemy' });
+          var counterPhase = enemy.alive ? checkBossPhase(enemy) : null;
+          if (counterPhase) events.push(bossEvent(counterPhase));
+          checkBattleEnd(battle, events);
+        }
+        if (battle.over || !enemy.alive) break;
       }
       if (battle.over) break;
     }
+    if (!battle.over) { tickAilments(battle, battle.player, true, events); checkBattleEnd(battle, events); }
     battle.player.guarding = false;
     if (!battle.over) startNextRound(battle);
     return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP, round: battle.round };
@@ -682,12 +872,44 @@
    * @param {Battle} battle
    * @returns {{events: Array, battleOver: boolean, victory?: boolean, playerAP: number}}
    */
-  function runCompanionPhase(battle) {
+  function runStorySupport(battle, events) {
+    var rounds = window.Game.Story.supportRounds(battle.run);
+    if (!rounds || battle.round > rounds || battle.storySupportRound === battle.round || !battle.enemies.some(function (e) { return e.alive && e.isBoss; })) return;
+    battle.storySupportRound = battle.round;
+    var target = battle.enemies.find(function (e) { return e.alive && e.isBoss; });
+    var eff = playerOffenseEff(battle), start = events.length;
+    var damage = F().computeDamage({ element: 'almighty', power: 0.65, atkStat: eff.atk, magStat: eff.mag, defStat: 0, resStat: 0, isCrit: false });
+    damage = applyBreak(target, damage, events);
+    target.hp = Math.max(0, target.hp - damage);
+    if (!target.hp) target.alive = false;
+    breakCombo(battle, events, start);
+    events.push({ type: 'storySupport', targetUid: target.uid, targetName: target.name, amount: damage, hpAfter: target.hp, maxHp: target.maxHp, breakMeter: target.breakMeter, broken: target.broken });
+    if (!target.alive) events.push({ type: 'defeated', targetUid: target.uid, targetName: target.name, side: 'enemy' });
+    if (target.alive) { var phase = checkBossPhase(target); if (phase) events.push(bossEvent(phase)); }
+    checkBattleEnd(battle, events);
+  }
+
+  function runCompanionPhase(battle, echo) {
     var events = [];
+    if (!battle.over && !echo) runStorySupport(battle, events);
     if (battle.over || !battle.companion) {
       return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP };
     }
+    if (!echo && battle.companionRound === battle.round) return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP };
+    if (!echo) battle.companionRound = battle.round;
     var comp = battle.companion;
+    if (!echo && battle.companionSnaredRound === battle.round) {
+      events.push({ type: 'companionSnared', companionId: comp.id, companionName: comp.name });
+      return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP };
+    }
+    if (comp.id === 'dawn_owl' && battle.run.ailments.length) {
+      battle.run.ailments.shift();
+      events.push({ type: 'cleanse', companionId: comp.id, side: 'player' });
+      events.push({ type: 'combo', message: X().text('นกฮูกชำระสถานะผิดปกติ', 'Dawn Owl cleanses an ailment') });
+    }
+    if (comp.id === 'frost_hare') { var mpGain = Math.min(2, battle.player.maxMp - battle.run.mp); battle.run.mp += mpGain; if (mpGain) events.push({ type: 'resourceGain', companionId: comp.id, resource: 'mp', amount: mpGain, mpAfter: battle.run.mp, maxMp: battle.player.maxMp }); }
+    if (comp.id === 'iron_golem_cub') { var focusGain = Math.min(5, F().FOCUS_MAX - battle.player.focus); battle.player.focus += focusGain; if (focusGain) events.push({ type: 'resourceGain', companionId: comp.id, resource: 'focus', amount: focusGain }); }
+    if (comp.id === 'stoneheart_bear') battle.player.buffs.forEach(function (b) { if (b.amount < 0) b.turnsLeft = Math.max(1, b.turnsLeft - 1); });
     var def = comp.def;
     var playerEff = playerOffenseEff(battle);
     if (def.role === 'attacker') {
@@ -702,18 +924,21 @@
         // re-implementing a second crit-scaling path.
         var amount = F().computeDamage({
           element: 'phys', power: 1, atkStat: def.power * playerEff.atk, magStat: 0,
-          defStat: targetEff.def, resStat: targetEff.res, isCrit: isCrit
+          defStat: targetEff.def * (comp.id === 'sand_scarab' ? 0.5 : 1), resStat: targetEff.res, isCrit: isCrit
         });
+        var compStart = events.length;
+        if (comp.id === 'ember_fox') target.breakMeter += 15;
         var compDmg = applyBreak(target, amount, events);
+        breakCombo(battle, events, compStart);
         target.hp = Math.max(0, target.hp - compDmg);
         if (isCrit) { target.downed = true; events.push({ type: 'downed', targetUid: target.uid, targetName: target.name }); }
-        events.push({ type: 'companionHit', companionName: comp.name, targetUid: target.uid, targetName: target.name, isCrit: isCrit, amount: compDmg, hpAfter: target.hp, maxHp: target.maxHp, breakMeter: target.breakMeter, broken: target.broken });
+        events.push({ type: 'companionHit', companionId: comp.id, companionName: comp.name, targetUid: target.uid, targetName: target.name, isCrit: isCrit, amount: compDmg, hpAfter: target.hp, maxHp: target.maxHp, breakMeter: target.breakMeter, broken: target.broken });
         if (target.hp <= 0) {
           target.alive = false;
           events.push({ type: 'defeated', targetUid: target.uid, targetName: target.name, side: 'enemy' });
         } else if (target.isBoss) {
           var phaseMsg = checkBossPhase(target);
-          if (phaseMsg) events.push({ type: 'bossPhaseChange', message: phaseMsg });
+          if (phaseMsg) events.push(bossEvent(phaseMsg));
         }
       }
     } else if (def.role === 'healer') {
@@ -722,14 +947,14 @@
       if (missing > 0) {
         var healAmt = Math.min(missing, Math.round(maxHp * def.healPct));
         battle.run.hp += healAmt;
-        events.push({ type: 'companionHeal', companionName: comp.name, amount: healAmt, hpAfter: battle.run.hp, maxHp: maxHp });
+        events.push({ type: 'companionHeal', companionId: comp.id, companionName: comp.name, amount: healAmt, hpAfter: battle.run.hp, maxHp: maxHp });
       }
     } else if (def.role === 'guardian' || def.role === 'buffer') {
       // Refreshed every round via applyStatMod, exactly like a skill buff would be --
       // unlike run-long blessings (see state.js's blessingStatMult), a companion's
       // per-round support IS the correct use of the per-battle buff array.
-      def.buffStats.forEach(function (stat) { applyStatMod(battle.player.buffs, stat, def.buffAmount, 1); });
-      events.push({ type: 'companionBuff', companionName: comp.name, stats: def.buffStats, amount: def.buffAmount });
+      def.buffStats.forEach(function (stat) { applyStatMod(battle.player.buffs, stat, def.buffAmount, 2); });
+      events.push({ type: 'companionBuff', companionId: comp.id, companionName: comp.name, stats: def.buffStats, amount: def.buffAmount });
     }
     checkBattleEnd(battle, events);
     return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP };

@@ -42,6 +42,11 @@
   window.Game = window.Game || {};
   window.Game.PixelArt = {
     define: define,
+    getDefinition: function (name) {
+      var def = REGISTRY[name];
+      return def ? { grid: def.grid.slice(), palette: Object.assign({}, def.palette) } : null;
+    },
+    renderGrid: renderGrid,
     has: has,
     render: render
   };

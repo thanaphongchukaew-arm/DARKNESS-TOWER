@@ -329,6 +329,8 @@
       if (total[k] == null) total[k] = bonus[k] || 0;
       total[k] = F.round(total[k] * blessingStatMult(run, k));
     });
+    // Blood-altar bargains (see ui-tower's eventBloodAltar) permanently shave max HP for the run.
+    if (run.maxHpPenalty > 0) total.hp = Math.max(1, F.round(total.hp * (1 - run.maxHpPenalty)));
     return total;
   }
 
@@ -767,15 +769,20 @@
     var result = { ok: true };
     var maxHp = getMaxHp(run), maxMp = getMaxMp(run);
     switch (item.effect && item.effect.type) {
+      case 'cleanse':
+        if (!run.ailments || !run.ailments.length) return { ok: false, reason: 'full' };
+        run.ailments.length = 0;
+        result.cleansed = true;
+        break;
       case 'healHp':
         if (run.hp >= maxHp) return { ok: false, reason: 'full' };
+        result.healedHp = Math.min(maxHp - run.hp, item.effect.amount);
         run.hp = F.clamp(run.hp + item.effect.amount, 0, maxHp);
-        result.healedHp = item.effect.amount;
         break;
       case 'healMp':
         if (run.mp >= maxMp) return { ok: false, reason: 'full' };
+        result.healedMp = Math.min(maxMp - run.mp, item.effect.amount);
         run.mp = F.clamp(run.mp + item.effect.amount, 0, maxMp);
-        result.healedMp = item.effect.amount;
         break;
       case 'healBoth':
         if (run.hp >= maxHp && run.mp >= maxMp) return { ok: false, reason: 'full' };
@@ -877,6 +884,7 @@
     useConsumable: useConsumable,
     recordEnemiesDefeated: recordEnemiesDefeated,
     recordBattleWon: recordBattleWon,
+    recordItemCrafted: recordItemCrafted,
     recordArenaWaveCleared: recordArenaWaveCleared,
     getQuestProgress: getQuestProgress,
     isQuestClaimable: isQuestClaimable,

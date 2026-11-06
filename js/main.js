@@ -34,6 +34,7 @@
       titleEl.textContent = T('defeatTitle');
       msgEl.textContent = T('defeatMsg');
     }
+    if (window.Game.State.current) window.Game.SystemsUI.summary(window.Game.State.current, victory);
     window.Game.State.clearRun();
     actionsEl.innerHTML = '<button class="btn-primary" id="end-menu-btn">' + T('backToMenu') + '</button>';
     document.getElementById('end-menu-btn').onclick = function () {
@@ -53,6 +54,8 @@
     msgEl.textContent = T(lastVictory ? 'victoryMsg' : 'defeatMsg');
     var btn = document.getElementById('end-menu-btn');
     if (btn) btn.textContent = T('backToMenu');
+    var lastRun = window.Game.Save.readMeta().lastRun;
+    if (lastRun && lastRun.currentFloor) window.Game.SystemsUI.summary(lastRun, lastVictory);
   }
 
   function initAudioToggle() {

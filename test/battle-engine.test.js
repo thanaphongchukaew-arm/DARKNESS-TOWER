@@ -51,6 +51,9 @@ test('Break flags the enemy broken once its meter fills, and a subsequent hit de
   const hitsToBreak = Math.ceil(Formulas.BREAK_THRESHOLD / Formulas.BREAK_PER_HIT);
   let brokenEventSeen = false;
   for (let i = 0; i < hitsToBreak && battle.enemies[0].alive; i++) {
+    // This unit test isolates meter accumulation from the AP / All-Out UI flow.
+    battle.playerAP = 1;
+    battle.awaitingAllOut = false;
     const res = BE.playerAction(battle, { kind: 'attack', targetIndex: 0 });
     if (res.events.some((e) => e.type === 'enemyBroken')) brokenEventSeen = true;
   }

@@ -20,8 +20,9 @@
     var seen = !!(meta.bestiarySeen && meta.bestiarySeen[template.id]);
     return '<div class="craft-card' + (seen ? '' : ' locked') + '">' +
       '<div class="select-card-icon">' + I(seen ? template.icon : 'lock') + '</div>' +
-      '<div class="select-card-title">' + (seen ? L(template, 'name') : '???') + '</div>' +
+      '<div class="select-card-title">' + (seen ? L(template, 'name') + (meta.bestiaryNew&&meta.bestiaryNew[template.id]?window.Game.Micro.badge():'') : '???') + '</div>' +
       '<div class="select-card-desc">' + (seen ? T('bestiaryDiscoveredNote') : T('bestiaryUndiscoveredNote')) + '</div>' +
+      (seen ? window.Game.Systems.affinities(template, false) : '') +
     '</div>';
   }
 
@@ -38,6 +39,7 @@
       '</div></div>';
     var bossHtml = '<div class="guide-section"><h3>' + T('bestiaryBossLabel') + '</h3><div class="card-grid">' + bestiaryTileHtml(D.boss) + '</div></div>';
     document.getElementById('codex-content').innerHTML = tiersHtml + minibossHtml + bossHtml;
+    var meta=window.Game.Save.readMeta();if(meta.bestiaryNew&&Object.keys(meta.bestiaryNew).length){meta.bestiaryNew={};window.Game.Save.writeMeta(meta);}
   }
 
   function renderAchievementsTab() {
@@ -69,15 +71,18 @@
 
   function renderCodex() {
     document.getElementById('codex-header-title').textContent = T('codexScreenTitle');
-    document.getElementById('codex-note').textContent = T(codexMode === 'bestiary' ? 'bestiaryNote' : 'achievementsNote');
+    document.getElementById('codex-note').textContent = codexMode === 'stories' ? window.Game.Systems.text('การตัดสินใจและคำสัญญาในการเดินทางครั้งนี้', 'Choices and promises from this journey') : T(codexMode === 'bestiary' ? 'bestiaryNote' : 'achievementsNote');
     document.getElementById('codex-back').innerHTML = I('back');
     document.getElementById('codex-back').onclick = function () { SFX('ui_back'); window.Game.TowerUI.renderTower(); window.Game.UI.showScreen('screen-tower'); };
     document.getElementById('codex-tabs').innerHTML =
       '<button class="' + (codexMode === 'bestiary' ? 'btn-primary' : 'btn-secondary') + '" id="codex-tab-bestiary">' + T('bestiaryTabBtn') + '</button>' +
-      '<button class="' + (codexMode === 'achievements' ? 'btn-primary' : 'btn-secondary') + '" id="codex-tab-achievements">' + T('achievementsTabBtn') + '</button>';
+      '<button class="' + (codexMode === 'achievements' ? 'btn-primary' : 'btn-secondary') + '" id="codex-tab-achievements">' + T('achievementsTabBtn') + '</button>' +
+      '<button class="' + (codexMode === 'stories' ? 'btn-primary' : 'btn-secondary') + '" id="codex-tab-stories">' + window.Game.Systems.text('ผู้ร่วมทาง', 'Travelers') + '</button>';
     document.getElementById('codex-tab-bestiary').onclick = function () { SFX('ui_confirm'); codexMode = 'bestiary'; renderCodex(); };
     document.getElementById('codex-tab-achievements').onclick = function () { SFX('ui_confirm'); codexMode = 'achievements'; renderCodex(); };
-    if (codexMode === 'bestiary') renderBestiaryTab(); else renderAchievementsTab();
+    document.getElementById('codex-tab-stories').onclick = function () { SFX('ui_confirm'); codexMode = 'stories'; renderCodex(); };
+    if (codexMode === 'stories') document.getElementById('codex-content').innerHTML = window.Game.StoryUI.journal();
+    else if (codexMode === 'bestiary') renderBestiaryTab(); else renderAchievementsTab();
   }
 
   function refreshActiveScreen() {
