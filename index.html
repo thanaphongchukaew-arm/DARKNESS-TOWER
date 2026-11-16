@@ -35,7 +35,7 @@
       else if (inBattle) { W = 900; H = 470; }
       else { W = 820; H = 420; }
     }
-    var s = Math.max(0.2, Math.min(vw / W, vh / H, 2.5));
+    var s = Math.max(0.2, Math.min(vw / W, vh / H, isMobile ? 2.5 : 1.15) * (isMobile ? 1 : 0.7));
     root.style.setProperty('--ui-scale', s.toFixed(4));
     root.style.setProperty('--app-w', (vw / s).toFixed(2) + 'px');
     root.style.setProperty('--app-h', (vh / s).toFixed(2) + 'px');
@@ -68,7 +68,7 @@
       <p class="menu-footer" id="menu-footer">ไต่หอคอย เอาชนะเงามืด ค้นหาจุดอ่อน สร้างสายฟ้าแห่งชัยชนะ</p>
       <p class="push-start" id="push-start">PUSH START</p>
     </div>
-    <span class="version-tag" id="version-tag">v0.20.17</span>
+    <span class="version-tag" id="version-tag">v0.20.18</span>
   </section>
 
   <!-- HOW TO PLAY / GUIDE -->

@@ -136,6 +136,7 @@
 
   function glyph(name, extraClass) {
     var cls = extraClass ? 'icon ' + extraClass : 'icon';
+    if (window.Game.ClassArt && window.Game.ClassArt.has(name)) return '<span class="' + cls + '" aria-hidden="true">' + window.Game.ClassArt.render(name) + '</span>';
     if (window.Game.PixelArt && window.Game.PixelArt.has(name)) {
       return '<span class="' + cls + ' pixel-icon" aria-hidden="true">' + window.Game.PixelArt.render(name) + '</span>';
     }

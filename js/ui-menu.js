@@ -293,9 +293,14 @@
     el.innerHTML = classes.map(function (c) {
       var locked = c.unlock && !window.Game.State.isClassUnlocked(c.id);
       return '<button class="select-card' + (locked ? ' locked' : '') + '" data-id="' + c.id + '" title="' + String(locked ? classLockedDesc(c) : L(c, 'description')).replace(/"/g, '&quot;') + '">' +
-        '<div class="select-card-icon">' + I(locked ? 'lock' : c.icon) + '</div>' +
+        '<div class="select-card-icon">' + I(c.icon) + (locked ? '<span class="class-lock-badge">' + I('lock') + '</span>' : '') + '</div>' +
         '<div class="select-card-title">' + L(c, 'name') + '</div>' +
         '<div class="select-card-desc">' + (locked ? classLockedDesc(c) : L(c, 'description')) + '</div>' +
+        (locked || !c.pros ? '' :
+        '<ul class="class-tradeoffs">' +
+          '<li class="pro"><span class="arrow up">\u25B2</span>' + L(c, 'pros') + '</li>' +
+          '<li class="con"><span class="arrow down">\u25BC</span>' + L(c, 'cons') + '</li>' +
+        '</ul>') +
         (locked ? '' :
         '<div class="select-card-stats">' +
           '<span class="stat-chip">HP ' + c.baseStats.hp + '</span>' +

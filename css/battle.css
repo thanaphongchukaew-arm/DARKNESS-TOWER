@@ -684,7 +684,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  width: 164px;
+  width: 210px;
   cursor: default;
   transition: transform 0.15s ease, opacity 0.3s ease;
 }
@@ -716,8 +716,8 @@
 
 /* sprite stands directly on the tower floor: no card box, just a grounding shadow */
 .enemy-portrait {
-  width: 114px;
-  height: 124px;
+  width: 172px;
+  height: 186px;
   background: transparent;
   border: none;
   display: flex;
@@ -731,7 +731,7 @@
 .enemy-portrait .icon {
   position: relative;
   z-index: 1;
-  font-size: 4rem;
+  font-size: 6.2rem;
   filter: drop-shadow(0 5px 3px rgba(0,0,0,0.55));
 }
 
@@ -742,8 +742,8 @@
   left: 50%;
   bottom: 6px;
   transform: translateX(-50%);
-  width: 102px;
-  height: 102px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255,68,68,0.35) 0%, transparent 70%);
   opacity: 0;
@@ -775,17 +775,17 @@
 }
 
 .enemy-card.boss .enemy-portrait {
-  width: 134px;
-  height: 144px;
+  width: 210px;
+  height: 226px;
 }
 
 .enemy-card.boss .enemy-portrait .icon {
-  font-size: 5.1rem;
+  font-size: 8rem;
 }
 
 .enemy-card.boss .enemy-portrait::before {
-  width: 124px;
-  height: 124px;
+  width: 190px;
+  height: 190px;
 }
 
 .enemy-name {
@@ -1170,35 +1170,35 @@
   }
 
   .enemy-card {
-    width: 110px;
+    width: 132px;
   }
 
   .enemy-portrait {
-    width: 86px;
-    height: 93px;
+    width: 112px;
+    height: 122px;
   }
 
   .enemy-portrait .icon {
-    font-size: 2.8rem;
+    font-size: 4.2rem;
   }
 
   .enemy-portrait::before {
-    width: 74px;
-    height: 74px;
+    width: 98px;
+    height: 98px;
   }
 
   .enemy-card.boss .enemy-portrait {
-    width: 104px;
-    height: 112px;
+    width: 140px;
+    height: 150px;
   }
 
   .enemy-card.boss .enemy-portrait .icon {
-    font-size: 3.6rem;
+    font-size: 5.4rem;
   }
 
   .enemy-card.boss .enemy-portrait::before {
-    width: 90px;
-    height: 90px;
+    width: 124px;
+    height: 124px;
   }
 }
 #battle-player-panel .player-portrait { width: 80px; height: 80px; overflow: visible; }

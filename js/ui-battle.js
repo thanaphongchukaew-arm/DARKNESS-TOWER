@@ -283,6 +283,7 @@
         else { updatePlayerBarsDirect(ev.hpAfter, ev.maxHp, currentBattle.run.mp, currentBattle.player.maxMp); spawnFloatNumber(getPlayerPortraitEl(), ev.amount, 'dmg-hp'); }
         break;
       case 'skillUsed':
+        aimHeroDash();
         var family = window.Game.VFXData.skill(ev.skillId, currentBattle.run.classId).family;
         window.Game.HeroArt.animate(ev.kind === 'attack' && ['slash','cross','cleave','thrust','claw','bite','punch','arrow','bullet'].indexOf(family) !== -1 ? 'attack' : 'cast');
         SFX('skill_cast');
@@ -593,6 +594,55 @@
     return chips ? '<div class="player-name-row">' + chips + '</div>' : '';
   }
 
+  // Status auras around the hero: poison/burn tint and an Overdrive-ready glow.
+  function portraitStateClasses(run, focusPct) {
+    var c = '';
+    (run.ailments || []).forEach(function (a) { if (a.id === 'poison' || a.id === 'burn') c += ' has-' + a.id; });
+    if (focusPct >= 100) c += ' overdrive-ready';
+    return c;
+  }
+
+  // Sparkles + rising light ring around the hero when a level is gained.
+  // Points the attack dash at the first living enemy: distance from the hero to
+  // just short of that enemy, converted into the zoomed UI's local pixels.
+  function aimHeroDash() {
+    var hero = document.querySelector('#battle-player-panel .hero-visual');
+    var enemy = null;
+    if (!hero || !currentBattle) return;
+    currentBattle.enemies.some(function (e) { if (e.alive && !enemy) enemy = getEnemyPortraitEl(e.uid); return !!enemy; });
+    if (!enemy) return;
+    var scale = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ui-scale')) || 1;
+    var h = hero.getBoundingClientRect(), t = enemy.getBoundingClientRect();
+    var dx = (t.left + t.width / 2) - (h.left + h.width / 2) - h.width * 0.45 - t.width * 0.35;
+    var dy = (t.top + t.height * 0.75) - (h.top + h.height * 0.5);
+    hero.style.setProperty('--dash-x', Math.round(dx / scale) + 'px');
+    hero.style.setProperty('--dash-y', Math.round(dy / scale) + 'px');
+  }
+
+  function heroLevelUpFx() {
+    var el = document.getElementById('screen-battle');
+    if (!el) return;
+    el.classList.remove('hero-levelup');
+    void el.offsetWidth;
+    el.classList.add('hero-levelup');
+    setTimeout(function () { el.classList.remove('hero-levelup'); }, 2400);
+  }
+
+  // Gear tier -> visual band (0 = none). Equipment can't be redrawn on the
+  // illustrated class art, so it shows through weapon-trail colour, armour
+  // rim light and accessory sparkles instead.
+  function gearBand(tier) { return !tier ? 0 : tier <= 2 ? 1 : tier <= 4 ? 2 : tier <= 6 ? 3 : 4; }
+  function gearClasses(run) {
+    var eq = run.equipment || {}, D = window.Game.Data, c = '';
+    function tierOf(id) { var it = id && D.getItem(id); return it ? (it.tier || 1) : 0; }
+    var w = gearBand(tierOf(eq.weapon)), a = gearBand(tierOf(eq.armor));
+    var acc = (eq.accessory1 ? 1 : 0) + (eq.accessory2 ? 1 : 0);
+    if (w) c += ' gear-w' + w;
+    if (a) c += ' gear-a' + a;
+    if (acc) c += ' gear-acc' + acc;
+    return c;
+  }
+
   function renderPlayerPanel(battle) {
     var statusHost = document.getElementById('player-ailments');
     if (!statusHost) { statusHost = document.createElement('div'); statusHost.id = 'player-ailments'; document.getElementById('battle-actions').before(statusHost); }
@@ -605,7 +655,7 @@
     var apDots = '';
     for (var i = 0; i < 4; i++) apDots += '<div class="ap-dot' + (i < battle.playerAP ? ' filled' : '') + '"></div>';
     document.getElementById('battle-player-panel').innerHTML =
-      '<div class="player-portrait">' + window.Game.HeroArt.render(run, battle.player.guarding ? 'is-guarding hero-guard' : '') + '</div>' +
+      '<div class="player-portrait' + portraitStateClasses(run, focusPct) + gearClasses(run) + '">' + window.Game.HeroArt.render(run, battle.player.guarding ? 'is-guarding hero-guard' : '') + '</div>' +
       '<div class="player-bars">' +
         '<div class="player-name-row"><span>' + battle.player.name + '</span><div class="ap-indicator">' + apDots + '</div></div>' +
         '<div class="bar-row">' + I('heart') + '<div class="bar-track"><div class="bar-fill hp" id="player-hp-bar" style="width:' + hpPct + '%"></div></div><span id="player-hp-text">' + run.hp + '/' + battle.player.maxHp + '</span></div>' +
@@ -717,6 +767,11 @@
   // enable/disable above) can't be forgotten at some call site.
   function setActionsEnabled(enabled) {
     document.getElementById('battle-home').disabled = !!(currentBattle && currentBattle.over);
+    var battleScreen = document.getElementById('screen-battle');
+    if (battleScreen) {
+      battleScreen.classList.toggle('player-turn', !!enabled);
+      battleScreen.classList.toggle('player-waiting', !enabled && !!(currentBattle && !currentBattle.over));
+    }
     Array.prototype.forEach.call(document.querySelectorAll('#battle-actions button'), function (b) { b.disabled = !enabled; });
     var od = document.getElementById('act-overdrive');
     if (od && enabled) od.disabled = !currentBattle || currentBattle.player.focus < window.Game.Formulas.FOCUS_MAX;
@@ -837,6 +892,11 @@
     if (leave) { var modal = document.getElementById('modal-root'); modal.classList.add('hidden'); modal.innerHTML = ''; }
     setActionsEnabled(false);
     closeSubmenu();
+    var endScreen = document.getElementById('screen-battle');
+    if (endScreen) {
+      endScreen.classList.remove('battle-won', 'battle-lost');
+      endScreen.classList.add(battle.victory ? 'battle-won' : 'battle-lost');
+    }
     if (currentMode === 'survival') { handleSurvivalWaveEnd(battle); return; }
     if (window.Game.Audio) window.Game.Audio.stopMusic();
     if (battle.victory) handleVictory(battle); else handleDefeat(battle);
@@ -891,7 +951,7 @@
     }
     if (lvlRes.leveledUp) {
       logLine(T('logLevelUp', { level: lvlRes.level }), 'log-crit');
-      battleLater(function () { SFX('level_up'); }, 450 / window.Game.SystemsUI.speed());
+      battleLater(function () { SFX('level_up'); heroLevelUpFx(); }, 450 / window.Game.SystemsUI.speed());
     }
     if (currentIsReplay) {
       // Replaying an already-cleared floor: no floor advance, no reward pick,
@@ -983,6 +1043,8 @@
   // not which mode produced it.
   function beginBattleScreen() {
     cancelPlayback();
+    var resetScreen = document.getElementById('screen-battle');
+    if (resetScreen) resetScreen.classList.remove('battle-won', 'battle-lost', 'hero-levelup');
     window.Game.SystemsUI.speedControl();
     document.getElementById('battle-log').innerHTML = '';recentHistory=[];var historyPanel=document.getElementById('battle-recent-history');if(!historyPanel){historyPanel=document.createElement('details');historyPanel.id='battle-recent-history';historyPanel.className='micro-history';document.getElementById('battle-log').after(historyPanel);}historyPanel.innerHTML='<summary>'+I('microHistory')+window.Game.Systems.text('การกระทำล่าสุด 10 รายการ','Last 10 actions')+'</summary><ol></ol>';
     window.Game.UI.showScreen('screen-battle');
@@ -1103,7 +1165,7 @@
       });
       if (lvlRes.leveledUp) {
         logLine(T('logLevelUp', { level: lvlRes.level }), 'log-crit');
-        battleLater(function () { SFX('level_up'); }, 450 / window.Game.SystemsUI.speed());
+        battleLater(function () { SFX('level_up'); heroLevelUpFx(); }, 450 / window.Game.SystemsUI.speed());
       }
       survivalSession.wavesCleared += 1;
       window.Game.State.saveNow();

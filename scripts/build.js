@@ -48,6 +48,7 @@ const FILES = [
   'js/data-boss-shifts.js',
   'js/data-vfx.js',
   'js/bond.js',
+  'js/class-art.js',
   'js/hero-art.js',
   'js/battle-engine.js',
   'js/workshop-battle.js',

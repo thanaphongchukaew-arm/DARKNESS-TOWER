@@ -310,6 +310,185 @@
     }
   ];
 
+  // Short strengths / weaknesses shown on the class-select cards.
+  var tradeoffs = {
+    "blade": {
+      "pros": "ATK และ HP สูง ทนทาน เล่นง่าย",
+      "prosEn": "High ATK and HP, sturdy and easy to play",
+      "cons": "MAG ต่ำมาก ไม่มีเวทโจมตี",
+      "consEn": "Very low MAG, no magic offense"
+    },
+    "elementalist": {
+      "pros": "MAG สูงมาก ใช้ได้หลายธาตุเจาะจุดอ่อน",
+      "prosEn": "Huge MAG, many elements to exploit weaknesses",
+      "cons": "HP/DEF ต่ำ ตายง่ายเมื่อโดนรุม",
+      "consEn": "Low HP/DEF, dies fast when focused"
+    },
+    "cleric": {
+      "pros": "สมดุล ฮีลและฟื้นฟูทีมได้",
+      "prosEn": "Balanced, heals and restores the party",
+      "cons": "ไม่โดดเด่นด้านใดเป็นพิเศษ ดาเมจปานกลาง",
+      "consEn": "Jack of all trades, only moderate damage"
+    },
+    "berserker": {
+      "pros": "HP และ ATK สูงลิ่ว ดาเมจแรงสุดตั้งแต่ต้น",
+      "prosEn": "Massive HP and ATK, hits hard from the start",
+      "cons": "DEF/RES ต่ำมาก โดนเวทเจ็บหนัก",
+      "consEn": "Very low DEF/RES, takes heavy magic damage"
+    },
+    "ranger": {
+      "pros": "SPD และ LUK สูง ออกตัวก่อน คริติคอลบ่อย",
+      "prosEn": "High SPD and LUK, acts first, crits often",
+      "cons": "HP/MP ต่ำ ทนการโจมตีไม่ได้",
+      "consEn": "Low HP/MP, fragile in long fights"
+    },
+    "necromancer": {
+      "pros": "MAG สูงจัด คำสาปและวิญญาณทรงพลัง",
+      "prosEn": "Extreme MAG, strong curses and spirits",
+      "cons": "HP/DEF ต่ำมาก ต้องมีคนคุ้มกัน",
+      "consEn": "Very low HP/DEF, needs protection"
+    },
+    "monk": {
+      "pros": "SPD สูง สมดุลกายภาพและเวท",
+      "prosEn": "High SPD, balanced physical and magic",
+      "cons": "ไม่เก่งสุดทางใดทางหนึ่ง DEF ปานกลาง",
+      "consEn": "Not the best at either, average DEF"
+    },
+    "paladin": {
+      "pros": "DEF/RES สูงเยี่ยม ทนทานและมีแสงศักดิ์สิทธิ์",
+      "prosEn": "Outstanding DEF/RES, durable with holy light",
+      "cons": "SPD ต่ำ ลงมือช้า",
+      "consEn": "Low SPD, acts late"
+    },
+    "gunslinger": {
+      "pros": "SPD/LUK สูง เน้นคริติคอล",
+      "prosEn": "High SPD/LUK built for crits",
+      "cons": "DEF/RES ต่ำ MP น้อย",
+      "consEn": "Low DEF/RES, small MP pool"
+    },
+    "druid": {
+      "pros": "MAG และ HP ดี มีฟื้นฟูตัวเอง",
+      "prosEn": "Solid MAG and HP with self-healing",
+      "cons": "พลังโจมตีไม่ถึงขั้นสูงสุด SPD ต่ำ",
+      "consEn": "Damage not top tier, low SPD"
+    },
+    "alchemist": {
+      "pros": "MP สูงมาก พิษ/ไฟกัดกร่อนศัตรูต่อเนื่อง",
+      "prosEn": "Very high MP, poison and fire wear foes down",
+      "cons": "ดาเมจตรงต่ำ ใช้เวลาสะสมผล",
+      "consEn": "Low direct damage, slow to pay off"
+    },
+    "samurai": {
+      "pros": "ATK และ SPD สูง ดาบหนักและเร็ว",
+      "prosEn": "High ATK and SPD, heavy fast strikes",
+      "cons": "DEF/RES ต่ำ MAG แทบไม่มี",
+      "consEn": "Low DEF/RES, almost no MAG"
+    },
+    "warlock": {
+      "pros": "MAG สูงมาก ดูดเลือดฟื้น HP ได้",
+      "prosEn": "Extreme MAG with life-drain sustain",
+      "cons": "ร่างกายบอบบาง HP/DEF ต่ำ",
+      "consEn": "Frail, low HP/DEF"
+    },
+    "battlemage": {
+      "pros": "สมดุล ATK/MAG ใช้ได้ทั้งสองแนว",
+      "prosEn": "Balanced ATK/MAG, flexible offense",
+      "cons": "ไม่เก่งสุดทางใด ดาเมจสูงสุดสู้สายเฉพาะทางไม่ได้",
+      "consEn": "Master of none, outdamaged by specialists"
+    },
+    "frostOracle": {
+      "pros": "ผสมเวทน้ำแข็งกับการฟื้นฟู RES ดี",
+      "prosEn": "Frost magic plus restoration, good RES",
+      "cons": "ดาเมจและ SPD ต่ำกว่าสายเวทอื่น",
+      "consEn": "Lower damage and SPD than other casters"
+    },
+    "stormCaller": {
+      "pros": "MAG และ SPD สูงเยี่ยม ฟ้าผ่าทรงพลัง",
+      "prosEn": "Sky-high MAG and SPD, strong lightning",
+      "cons": "เปราะบางที่สุดในบรรดานักเวท",
+      "consEn": "Frailest of all spellcasters"
+    },
+    "shadowDancer": {
+      "pros": "SPD/LUK สูงลิ่ว จู่โจมรวดเร็ว",
+      "prosEn": "Blazing SPD/LUK, swift strikes",
+      "cons": "HP ต่ำมาก DEF/RES ต่ำ",
+      "consEn": "Very low HP, low DEF/RES"
+    },
+    "bard": {
+      "pros": "บัฟทีมเก่ง LUK สูง",
+      "prosEn": "Great at buffs, high LUK",
+      "cons": "ดาเมจตรงต่ำ",
+      "consEn": "Modest direct damage"
+    },
+    "beastmaster": {
+      "pros": "ATK/SPD สูง บุกต่อเนื่อง",
+      "prosEn": "High ATK/SPD for relentless assault",
+      "cons": "RES ต่ำ โดนเวทเจ็บ",
+      "consEn": "Low RES, vulnerable to magic"
+    },
+    "runeblade": {
+      "pros": "ทนทานสูง ผสมดาบกับเวทเงา",
+      "prosEn": "Very durable, blends blade and shadow magic",
+      "cons": "SPD ต่ำ ลงมือช้า",
+      "consEn": "Low SPD, acts late"
+    },
+    "sharpshooter": {
+      "pros": "LUK/SPD สูงสุด คริติคอลรุนแรง",
+      "prosEn": "Top LUK/SPD, devastating crits",
+      "cons": "HP/MP ต่ำ เปราะบาง",
+      "consEn": "Low HP/MP, fragile"
+    },
+    "puppeteer": {
+      "pros": "ลดสถานะศัตรูเก่ง RES ดี",
+      "prosEn": "Great at draining enemy stats, good RES",
+      "cons": "ATK ต่ำ ดาเมจดิบน้อย",
+      "consEn": "Low ATK, little raw damage"
+    },
+    "tempestWitch": {
+      "pros": "MAG สูงมาก โจมตีศัตรูทั้งกลุ่มได้",
+      "prosEn": "Extreme MAG, sweeps whole enemy groups",
+      "cons": "แทบไม่มีพลังกายภาพ ร่างกายบอบบาง",
+      "consEn": "Almost no physical power, frail"
+    },
+    "chronomancer": {
+      "pros": "SPD สูงสุดของนักเวท คุมบัฟ/ดีบัฟและจังหวะ",
+      "prosEn": "Fastest caster, controls buffs, debuffs and tempo",
+      "cons": "ดาเมจตรงต่ำ",
+      "consEn": "Low direct damage"
+    },
+    "warlord": {
+      "pros": "HP/DEF สูง สมดุลรุกรับ สั่งการสะเทือนศัตรูทั้งกลุ่ม",
+      "prosEn": "High HP/DEF, balanced, shakes whole enemy group",
+      "cons": "SPD ปานกลาง ต้องปลดล็อกด้วย Nightmare",
+      "consEn": "Average SPD, locked behind Nightmare clear"
+    },
+    "shadowhunter": {
+      "pros": "ATK/SPD/LUK สูง บาดแผลต่อเนื่อง",
+      "prosEn": "High ATK/SPD/LUK, lasting wounds",
+      "cons": "DEF/RES ต่ำ",
+      "consEn": "Low DEF/RES"
+    },
+    "executioner": {
+      "pros": "ATK สูงสุด ดาเมจแรงขึ้นเมื่อศัตรูใกล้ตาย",
+      "prosEn": "Highest ATK, deadlier on weakened foes",
+      "cons": "MAG/RES ต่ำ พึ่งการจบเกมให้ทัน",
+      "consEn": "Low MAG/RES, needs to finish fights fast"
+    },
+    "deathbringer": {
+      "pros": "แข็งแกร่งที่สุดในห้าคลาสผู้กล้า ATK+MAG สูง",
+      "prosEn": "Strongest Valiant class, high ATK and MAG",
+      "cons": "ใช้ HP แทน MP เสี่ยงตายเอง",
+      "consEn": "Spends HP instead of MP, risks self-death"
+    },
+    "vanguard": {
+      "pros": "SPD สูงสุด คืนแอ็คชันโจมตีต่อเนื่อง",
+      "prosEn": "Top SPD, refunds actions to chain attacks",
+      "cons": "DEF/RES ต่ำกว่านักรบแนวหน้าอื่น",
+      "consEn": "Lower DEF/RES than other frontliners"
+    }
+  };
+  classes.forEach(function (c) { var t = tradeoffs[c.id]; if (t) { c.pros = t.pros; c.prosEn = t.prosEn; c.cons = t.cons; c.consEn = t.consEn; } });
+
   window.Game = window.Game || {};
   window.Game.Data = window.Game.Data || {};
   window.Game.Data.classes = classes;

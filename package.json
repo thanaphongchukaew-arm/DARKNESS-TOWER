@@ -1,7 +1,7 @@
 {
   "name": "darkness-tower",
   "private": true,
-  "version": "0.20.17",
+  "version": "0.20.18",
   "scripts": {
     "build": "node scripts/build.js",
     "test": "node --test \"test/**/*.test.js\"",
@@ -34,6 +34,7 @@
       "css/**",
       "fonts/**",
       "backgrounds/**",
+      "assets/classes/**",
       "icons/**",
       "manifest.webmanifest",
       "!**/*-source.png"
