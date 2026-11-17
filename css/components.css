@@ -108,7 +108,7 @@
 }
 
 button:disabled {
-  opacity: 0.4;
+  opacity: 0.6;
   cursor: not-allowed;
   transform: none !important;
 }
@@ -1134,3 +1134,21 @@ html:not(.kbd-nav) .enemy-card:focus, html:not(.kbd-nav) .floor-row:focus, html:
   .settings-slider { width: 7rem; }
   .tip-card { font-size: 0.8rem; }
 }
+
+/* Shared pixel equipment frames: tier remains legible without color perception. */
+.item-art { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 1.5em; height: 1.5em; padding: .14em; border: 2px solid var(--item-tier-color); background: #171424; box-shadow: inset 0 0 0 2px #080810, 2px 2px 0 #080810; vertical-align: middle; }
+.item-art > .icon { width: 100%; height: 100%; }
+.item-art small { position: absolute; bottom: -5px; right: -5px; padding: 1px 3px; background: #14101f; color: var(--item-tier-color); font: bold 10px/1.3 monospace; border: 1px solid var(--item-tier-color); }
+.npc-story-body:has(.story-scene-layout) { flex: 1; width: 100%; display: flex; flex-direction: column; justify-content: center; gap: clamp(8px,2vh,24px); }
+.npc-story-body .story-scene-layout { width: 100%; min-height: clamp(300px,42vh,520px); grid-template-columns: minmax(280px,.9fr) 1.4fr; margin-bottom: 0; }
+.npc-story-body .npc-dialogue { display: flex; flex-direction: column; justify-content: center; }
+.npc-story-body .npc-portrait { width: 65%; height: 78%; left: 5%; }
+.npc-story-body .story-choices,.npc-story-body .story-result { width: 100%; }
+#screen-reward.active #reward-title { animation: reward-arrive .45s both; }
+#screen-reward.active #reward-cards > * { animation: reward-arrive .55s both; animation-delay: .25s; }
+#screen-reward.active #reward-cards > :nth-child(2) { animation-delay: .45s; }
+#screen-reward.active #reward-cards > :nth-child(3) { animation-delay: .65s; }
+@keyframes reward-arrive { from { opacity: 0; transform: translateY(18px) scale(.95); } to { opacity: 1; transform: none; } }
+@media(max-width: 680px) { .npc-story-body .story-scene-layout { grid-template-columns: 1fr; min-height: 0; } .npc-story-body .npc-scene { min-height: 260px; } .npc-story-body .npc-portrait { width: 150px; height: 195px; left: calc(50% - 100px); } }
+@media(prefers-reduced-motion: reduce) { #screen-reward.active #reward-cards > *,#screen-reward.active #reward-title { animation: none; } }
+.select-card-icon > .item-art,.inv-item-icon > .item-art,.inv-tile-icon > .item-art,.submenu-option-icon > .item-art { box-sizing: border-box; width: 100%; height: 100%; max-width: 64px; max-height: 64px; }

@@ -1,4 +1,4 @@
-// Individually generated pixel-art assets from the approved art direction.
+// Class portraits share the palette-grid art direction used by enemies and NPCs.
 // SVG coordinates preserve talent overlays and battle animation hooks.
 (function () {
   var names = {
@@ -35,9 +35,7 @@
   function has(id) { return Object.prototype.hasOwnProperty.call(names, id); }
   function render(id) {
     if (!has(id)) return '';
-    return '<svg xmlns="http://www.w3.org/2000/svg" class="class-character hero-art" viewBox="0 0 160 152" role="img" aria-label="' + names[id] + '">' +
-      '<image class="hero-body" href="assets/classes/' + id + '.webp" x="0" y="0" width="160" height="152" preserveAspectRatio="xMidYMid meet"/>' +
-      '</svg>';
+    return window.Game.PixelArt.render(id, 'class-character hero-art');
   }
   window.Game.ClassArt = { has: has, render: render };
 })();

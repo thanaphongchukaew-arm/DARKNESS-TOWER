@@ -618,6 +618,13 @@
     tipShop: { th: 'ของในร้านเปลี่ยนตามโซนของหอคอย ขายของที่ไม่ใช้เพื่อแลกทองได้', en: 'Shop stock changes with the tower zone. Sell what you do not use for gold.' },
     tipCraft: { th: 'วัตถุดิบจากศัตรูใช้คราฟต์อุปกรณ์ที่ร้านไม่มีขาย ปักหมุดสูตรไว้เพื่อดูว่ายังขาดอะไร', en: 'Enemy materials craft gear the shop does not sell. Pin a recipe to track what you still need.' },
     tipKnockedSteady: { th: 'ศัตรูที่เพิ่งล้มจะ "ตั้งหลัก" ในรอบถัดไป ล้มซ้ำทันทีไม่ได้ สลับเป้าหมายเพื่อให้ล้มพร้อมกัน', en: 'An enemy that was just down stands firm next round. Spread your hits to floor them all together.' },
+    floorFoldShow: { th: '▸ ชั้นที่ผ่านแล้ว {n} ชั้น (กดเพื่อดู / เล่นซ้ำ)', en: '▸ {n} cleared floors (tap to show / replay)' },
+    floorFoldHide: { th: '▾ ซ่อนชั้นที่ผ่านแล้ว', en: '▾ Hide cleared floors' },
+    phaseChip: { th: 'เฟส {n}/{max}', en: 'Phase {n}/{max}' },
+    diffChartTitle: { th: 'ความแรงของศัตรูตามชั้น', en: 'Enemy strength by floor' },
+    diffChartHint: { th: 'เส้นยิ่งสูงยิ่งโดนหนัก ชี้ที่การ์ดความยากเพื่อไฮไลต์เส้นของระดับนั้น', en: 'Higher means harder hits. Point at a difficulty card to highlight its line.' },
+    diffChartFloor: { th: 'ชั้น', en: 'Floor' },
+    diffChartCp: { th: 'จุดเซฟ (ยกเว้นฝันร้าย)', en: 'Checkpoint (not on Nightmare)' },
     ariaLangToggle: { th: 'เปลี่ยนภาษา', en: 'Change language' }
   };
 

@@ -12,7 +12,7 @@ function loadArt() {
   return context.window.Game;
 }
 
-test('all 29 playable classes resolve to separate shipped WebP portraits and offline assets', () => {
+test('all 29 classes use pixel sprites and retain shipped illustration assets offline', () => {
   const game = loadArt();
   const hashes = new Set();
   const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
@@ -23,7 +23,9 @@ test('all 29 playable classes resolve to separate shipped WebP portraits and off
     assert.ok(game.ClassArt.has(cls.icon), cls.id);
     const svg = game.ClassArt.render(cls.icon);
     const relative = 'assets/classes/' + cls.icon + '.webp';
-    assert.ok(svg.includes('href="' + relative + '"'), cls.id);
+    assert.ok(svg.includes('pixel-sprite'), cls.id);
+    assert.ok(game.PixelArt.has(cls.icon), cls.id);
+    assert.ok(!svg.includes('<image'), cls.id);
     const png = fs.readFileSync(path.join(root, relative));
     assert.equal(png.subarray(0, 4).toString('latin1'), 'RIFF', cls.id);
     assert.equal(png.subarray(8, 12).toString('latin1'), 'WEBP', cls.id);
@@ -37,11 +39,11 @@ test('all 29 playable classes resolve to separate shipped WebP portraits and off
   assert.equal(game.ClassArt.render('not-a-class'), '');
 });
 
-test('battle uses the same class asset and retains animation and talent layers', () => {
+test('battle uses pixel class sprites and retains animation and talent layers', () => {
   const game = loadArt();
   for (const cls of game.Data.classes) {
     const html = game.HeroArt.render({ classId: cls.id, talents: { 5: 'riposte', 10: 'affliction', 15: 'focus_guard' } }, 'hero-guard');
-    for (const marker of ['assets/classes/' + cls.icon + '.webp', 'hero-body', 'hero-guard', 'hero-halo', 'hero-runes', 'hero-armament', 'hero-slash', 'hero-ward']) {
+    for (const marker of ['pixel-sprite', 'hero-body', 'hero-guard', 'hero-halo', 'hero-runes', 'hero-armament', 'hero-slash', 'hero-ward']) {
       assert.ok(html.includes(marker), cls.id + ': ' + marker);
     }
   }

@@ -672,6 +672,9 @@
     window.Game.State.saveNow();
   }
 
+  // Whether the tower map lists every cleared floor or just the latest few.
+  var showClearedFloors = false;
+
   // Floor a checkpoint was just taken on; announced by the next renderTower.
   var checkpointNotice = null;
 
@@ -803,15 +806,22 @@
     jumpBtn.innerHTML = I('enterFloor') + '<span>' + T('towerJumpCurrent') + '</span>';
     jumpBtn.onclick = function () { enterFloor(run.currentFloor); };
 
+    // Cleared floors fold away: only the last two stay visible until the player expands the list.
+    var KEEP_CLEARED = 2;
+    var hiddenCleared = Math.max(0, run.currentFloor - 1 - KEEP_CLEARED);
     var rowsHtml = '';
+    if (hiddenCleared > 0) {
+      rowsHtml += '<button class="floor-fold" id="floor-fold-toggle">' + (showClearedFloors ? T('floorFoldHide') : T('floorFoldShow', { n: hiddenCleared })) + '</button>';
+    }
     for (var i = 1; i <= 100; i++) {
+      if (i < run.currentFloor - KEEP_CLEARED && !showClearedFloors) continue;
       var isBoss = i === 100;
       var miniBoss = D.getMiniBoss(i);
       var state = i < run.currentFloor ? 'cleared' : (i === run.currentFloor ? 'current' : 'locked');
       var icon = state === 'cleared' ? 'check' : state === 'current' ? ((isBoss || miniBoss) ? 'crownSkull' : 'doorway') : 'lock';
       var title = isBoss ? T('bossFloorTitle') : miniBoss ? (T('floorLabel') + i + ' · ' + L(miniBoss, 'name')) : (T('floorLabel') + i);
       var sub = isBoss ? T('bossFloorSub') : miniBoss ? T('miniBossFloorSub') : (T('floorSub') + i);
-      rowsHtml += '<div class="floor-row ' + state + ((isBoss || miniBoss) ? ' boss-row' : '') + '" data-floor="' + i + '">' +
+      rowsHtml += '<div class="floor-row ' + state + (state === 'cleared' ? ' compact' : '') + ((isBoss || miniBoss) ? ' boss-row' : '') + '" data-floor="' + i + '">' +
         '<div class="floor-num">' + ((isBoss || miniBoss) ? I('crownSkull') : i) + '</div>' +
         '<div class="floor-info"><div class="floor-info-title">' + title + '</div><div class="floor-info-sub">' + sub + '</div></div>' +
         '<div class="floor-status-icon">' + I(icon) + '</div>' +
@@ -819,6 +829,14 @@
     }
     var container = document.getElementById('tower-floors');
     container.innerHTML = rowsHtml;
+    var foldBtn = document.getElementById('floor-fold-toggle');
+    if (foldBtn) foldBtn.onclick = function () { SFX('ui_confirm'); showClearedFloors = !showClearedFloors; renderTower(); };
+    // Bring the current floor into view (phones show only the menu rows at first).
+    setTimeout(function () {
+      var cur = container.querySelector('.floor-row.current');
+      var screenEl = document.getElementById('screen-tower');
+      if (cur && screenEl && screenEl.classList.contains('active') && cur.scrollIntoView) cur.scrollIntoView({ block: 'nearest' });
+    }, 90);
     Array.prototype.forEach.call(container.querySelectorAll('.floor-row.current'), function (row) {
       row.onclick = function () { enterFloor(parseInt(row.getAttribute('data-floor'), 10)); };
     });
@@ -879,7 +897,7 @@
     var qtyLabel = c.qty > 1 ? ' x' + c.qty : '';
     var need = window.Game.Micro.rewardNeed(window.Game.State.current, c.item.id);
     return '<button class="select-card" data-idx="' + idx + '">' +
-      '<div class="select-card-icon">' + I(c.item.icon) + '</div>' +
+      '<div class="select-card-icon">' + window.Game.Icons.item(c.item) + '</div>' +
       '<div class="select-card-title">' + L(c.item, 'name') + qtyLabel + '</div>' +
       '<div class="select-card-desc">' + L(c.item, 'desc') + '</div>' + need +
     '</button>';
@@ -1029,7 +1047,7 @@
         var bought = purchased[it.id];
         var canAfford = (run.gold || 0) >= price;
         return '<button class="select-card' + ((bought || !canAfford) ? ' locked' : '') + '" data-id="' + it.id + '"' + ((bought || !canAfford) ? ' disabled' : '') + '>' +
-          '<div class="select-card-icon">' + I(it.icon) + '</div>' +
+          '<div class="select-card-icon">' + window.Game.Icons.item(it) + '</div>' +
           '<div class="select-card-title">' + L(it, 'name') + '</div>' +
           '<div class="select-card-desc">' + L(it, 'desc') + '</div>' +
           '<div class="select-card-stats"><span class="stat-chip">' + (bought ? T('purchasedLabel') : (price + ' ' + T('goldLabel'))) + '</span></div>' +
@@ -1198,7 +1216,7 @@
           var soldOut = entry.qty <= 0;
           var canAfford = (run.gold || 0) >= price;
           return '<button class="select-card' + ((soldOut || !canAfford) ? ' locked' : '') + '" data-id="' + entry.id + '" title="' + String(L(item, 'desc')).replace(/"/g, '&quot;') + '"' + ((soldOut || !canAfford) ? ' disabled' : '') + '>' +
-            '<div class="select-card-icon">' + I(item.icon) + '</div>' +
+            '<div class="select-card-icon">' + window.Game.Icons.item(item) + '</div>' +
             '<div class="select-card-title">' + L(item, 'name') + '</div>' +
             '<div class="select-card-desc">' + L(item, 'desc') + '</div>' +
             '<div class="select-card-stats">' +
@@ -1246,7 +1264,7 @@
           var qty = run.inventory[item.id] || 0;
           var price = F.sellPrice(item, run.currentFloor);
           return '<div class="micro-sell-row"><button class="select-card" data-id="' + item.id + '">' +
-            '<div class="select-card-icon">' + I(item.icon) + '</div>' +
+            '<div class="select-card-icon">' + window.Game.Icons.item(item) + '</div>' +
             '<div class="select-card-title">' + L(item, 'name') + '</div>' +
             '<div class="select-card-desc">' + L(item, 'desc') + '</div>' +
             '<div class="select-card-stats">' +
@@ -1300,7 +1318,7 @@
           var have = run.inventory[m.id] || 0;
           var ok = have >= m.qty;
           if (!ok) matsOk = false;
-          return '<div class="craft-mat-row' + (ok ? '' : ' craft-mat-short') + '">' + I(mat.icon) +
+          return '<div class="craft-mat-row' + (ok ? '' : ' craft-mat-short') + '">' + window.Game.Icons.item(mat) +
             '<span class="craft-mat-name">' + L(mat, 'name') + '</span>' +
             '<span class="craft-mat-count">' + have + '/' + m.qty + '</span></div>';
         }).join('');
@@ -1341,7 +1359,7 @@
     (reward.items || []).forEach(function (it) {
       var item = window.Game.Data.getItem(it.id);
       if (!item) return;
-      chips += '<span class="stat-chip">' + I(item.icon) + ' ' + L(item, 'name') + (it.qty > 1 ? ' x' + it.qty : '') + '</span>';
+      chips += '<span class="stat-chip">' + window.Game.Icons.item(item) + ' ' + L(item, 'name') + (it.qty > 1 ? ' x' + it.qty : '') + '</span>';
     });
     return chips;
   }
@@ -1357,7 +1375,7 @@
     var itemsHtml = itemIds.map(function (id) {
       var it = D.getItem(id);
       if (!it) return '';
-      return '<div class="inv-item"><div class="inv-item-icon">' + I(it.icon) + '</div>' +
+      return '<div class="inv-item"><div class="inv-item-icon">' + window.Game.Icons.item(it) + '</div>' +
         '<div class="inv-item-info"><div class="inv-item-name">' + L(it, 'name') + '</div></div>' +
         '<div class="inv-item-actions"><span class="inv-item-count">x' + total.items[id] + '</span></div></div>';
     }).join('');
@@ -1443,7 +1461,7 @@
     var qty = run.inventory[id] || 0;
     var root = document.getElementById('modal-root');
     root.innerHTML = '<div class="modal-box">' +
-      '<div class="select-card-icon" style="align-self:center;">' + I(it.icon) + '</div>' +
+      '<div class="select-card-icon" style="align-self:center;">' + window.Game.Icons.item(it) + '</div>' +
       '<h3>' + L(it, 'name') + ' <span class="inv-item-count">x' + qty + '</span></h3>' +
       '<p class="select-card-desc">' + L(it, 'desc') + '</p>' +
       (it.kind === 'consumable' ? '<div class="modal-actions"><button class="btn-primary" id="inv-use-btn">' + T('useBtn') + '</button></div>' : '') +
@@ -1471,7 +1489,7 @@
     var currentId = run.equipment[slot];
     var listHtml = candidates.length ? candidates.map(function (it) {
       return '<button class="submenu-option" data-id="' + it.id + '">' +
-        '<div class="submenu-option-icon">' + I(it.icon) + '</div>' +
+        '<div class="submenu-option-icon">' + window.Game.Icons.item(it) + '</div>' +
         '<div class="submenu-option-info"><div class="submenu-option-name">' + L(it, 'name') + '</div><div class="submenu-option-desc">' + L(it, 'desc') + '</div>' + window.Game.SystemsUI.comparison(run, it, slot) + '</div>' +
       '</button>';
     }).join('') : '<p class="empty-note">' + T('noEquipInInventory') + '</p>';
@@ -1624,7 +1642,7 @@
       });
       var tilesHtml = items.map(function (it) {
         return '<button class="inv-tile" data-id="' + it.id + '" aria-label="' + L(it, 'name') + '" data-tip="' + L(it, 'name') + ' — ' + L(it, 'desc') + '">' +
-          '<div class="inv-tile-icon">' + I(it.icon) + '</div>' +
+          '<div class="inv-tile-icon">' + window.Game.Icons.item(it) + '</div>' +
           '<span class="inv-tile-qty">x' + run.inventory[it.id] + '</span></button>';
       }).join('');
       return '<div class="inv-section"><h4 class="inv-section-title">' + T(INV_SECTION_LABEL_KEY[kind]) + '</h4>' +

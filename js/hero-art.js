@@ -19,14 +19,6 @@
   }
   function render(run, extraClass) {
     var cls = G.Data.getClass(run.classId) || G.Data.classes[0], def = P.getDefinition(cls.icon);
-    if (G.ClassArt && G.ClassArt.has(cls.icon)) {
-      var build = run.talents || {}, tint = schemes[build[5]], accents = '';
-      if (build[15]) accents += '<ellipse class="hero-halo" cx="80" cy="21" rx="34" ry="17" fill="none" stroke="' + (tint ? tint.glow : '#ffe2a1') + '" stroke-width="2"/>';
-      if (build[10]) accents += '<path class="hero-runes" d="M29 137L42 132 54 139 67 132 80 139 93 132 106 139 119 132 132 137" fill="none" stroke="' + (build[10] === 'affliction' ? '#84e5a8' : '#b4edff') + '" stroke-width="2"/>';
-      if (tint) accents += '<path class="hero-armament" d="M71 64L80 57 89 64 80 75Z" fill="' + tint.glow + '" stroke="' + tint.edge + '" stroke-width="2"/>';
-      var illustration = G.ClassArt.render(cls.icon).replace('</svg>', accents + '</svg>');
-      return '<span class="hero-visual ' + (extraClass || '') + '" data-primary="' + (build[5] || 'base') + '" aria-hidden="true">' + illustration + '<span class="hero-slash"></span><span class="hero-ward"></span></span>';
-    }
     if (!def) return G.Icons.get(cls.icon);
     var talents = run.talents || {}, primary = talents[5], scheme = schemes[primary];
     var palette = def.palette, layers = '', magic = cls.baseStats.mag > cls.baseStats.atk || cls.id === 'monk';

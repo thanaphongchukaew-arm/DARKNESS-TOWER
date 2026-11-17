@@ -1221,3 +1221,17 @@
 @keyframes fx-badge-pulse { 0%,100% { border-color: #605077; } 50% { border-color: #b48ac8; } }
 @media(max-width: 600px) { .battle-fx-caption { top: 104px; font-size: 11px; padding: 7px 12px; }.combat-mod { font-size: 9px; } }
 @media(prefers-reduced-motion: reduce) { .ailment-chip,.hit-flash,.hit-shake,.screen-shake,.screen-shake-strong { animation: none !important; } }
+
+/* Set dressing and foreground haze add depth without covering battle controls. */
+#battle-zone-props { position: absolute; inset: 22% 8% 30%; display: flex; justify-content: space-between; align-items: end; opacity: .42; filter: drop-shadow(5px 8px 0 #080713); }
+#battle-zone-props > span { width: clamp(48px,9vw,120px); height: 110px; transform: rotate(-12deg); }
+#battle-zone-props > span:nth-child(2) { align-self: start; transform: scale(.65); opacity: .5; }
+#battle-zone-props > span:last-child { transform: rotate(16deg); }
+#battle-zone-props .icon,#battle-zone-props svg { width: 100%; height: 100%; }
+.battle-backdrop::after { content: ''; position: absolute; inset: 30% -15% -10%; background: radial-gradient(ellipse at 20% 80%,#8aa5c52b,transparent 50%),radial-gradient(ellipse at 80% 90%,#c8b0d52b,transparent 45%); animation: zone-mist 12s ease-in-out infinite alternate; }
+@keyframes zone-mist { to { transform: translateX(8%); opacity: .5; } }
+.battle-entrance { position: absolute; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; color: #ffe4a5; background: linear-gradient(transparent,#100d20ee 38%,#100d20ee 62%,transparent); font-size: clamp(20px,4vw,42px); letter-spacing: .12em; text-shadow: 3px 3px #090710; animation: battle-arrival calc(1.4s / var(--combat-speed,1)) both; pointer-events: none; }
+.boss-entrance { color: #ffd1a3; border-block: 2px solid #ab7441; }
+@keyframes battle-arrival { 0% { opacity: 0; transform: scale(1.08); } 20%,75% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
+.enemy-card.boss .enemy-portrait .icon { width: clamp(100px,14vw,160px); height: clamp(100px,14vw,160px); }
+@media(prefers-reduced-motion: reduce) { .battle-backdrop::after,.battle-entrance { animation: none; } #screen-battle.screen-shake-strong,#screen-battle.screen-shake { animation: none; } }

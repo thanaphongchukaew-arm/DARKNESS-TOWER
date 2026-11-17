@@ -144,9 +144,18 @@
     return '<span class="' + cls + '" aria-hidden="true">' + g + '</span>';
   }
 
+  function itemGlyph(item) {
+    if (!item) return glyph('bagItem');
+    var tier = Math.max(1, Math.min(16, Number(item.tier) || 1));
+    var colors = ['#a9b3c5','#84c994','#65bfe8','#b395ef','#efb86c','#ee8498','#f0df99','#83e3d6','#e9a2eb','#c9df79','#ffa275','#a3a4ff','#78deff','#f888ba','#ffe8b7','#ffffff'];
+    var mark = item.icon === 'mpPotion' ? 'MP·' + tier : item.icon === 'potion' ? 'HP·' + tier : 'T' + tier;
+    return '<span class="item-art" style="--item-tier-color:' + colors[tier - 1] + '">' + glyph(item.icon) + '<small>' + mark + '</small></span>';
+  }
+
   window.Game = window.Game || {};
   window.Game.Icons = {
     get: glyph,
+    item: itemGlyph,
     has: function (name) { return !!RAW[name]; }
   };
   window.Game.ElementNames = {

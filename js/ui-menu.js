@@ -203,7 +203,7 @@
   // description) -- prefix identifies the i18n key family, e.g. 'guideStat' + 'Hp' + 'Label'.
   function guideCardGrid(prefix, items) {
     return '<div class="guide-stat-grid">' + items.map(function (it) {
-      return '<div class="guide-stat-card">' + I(it.icon) +
+      return '<div class="guide-stat-card">' + window.Game.Icons.item(it) +
         '<div><div class="guide-stat-card-label">' + T(prefix + it.key + 'Label') + '</div>' +
         '<div class="guide-stat-card-desc">' + T(prefix + it.key + 'Desc') + '</div></div>' +
       '</div>';
@@ -299,6 +299,41 @@
     }
   }
 
+  // Line chart of enemy strength for every floor and difficulty, straight from Formulas.
+  function difficultyChartHtml() {
+    var F = window.Game.Formulas;
+    var W = 640, H = 190, padL = 34, padR = 10, padT = 10, padB = 26;
+    var maxV = 0, series = {};
+    DIFFICULTY_ORDER.forEach(function (id) {
+      var pts = [];
+      for (var f = 1; f <= 100; f++) { var v = F.enemyStatScale(f, id); pts.push(v); if (v > maxV) maxV = v; }
+      series[id] = pts;
+    });
+    maxV = Math.ceil(maxV * 2) / 2;
+    function x(f) { return padL + (f - 1) / 99 * (W - padL - padR); }
+    function y(v) { return padT + (1 - v / maxV) * (H - padT - padB); }
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + T('diffChartTitle') + '">';
+    for (var g = 0.5; g <= maxV + 0.001; g += 0.5) {
+      svg += '<line class="dl-grid" x1="' + padL + '" x2="' + (W - padR) + '" y1="' + y(g).toFixed(1) + '" y2="' + y(g).toFixed(1) + '"/>' +
+        '<text class="dl-axis" x="' + (padL - 5) + '" y="' + (y(g) + 3).toFixed(1) + '" text-anchor="end">×' + g.toFixed(1) + '</text>';
+    }
+    [1, 20, 40, 60, 80, 100].forEach(function (f) {
+      svg += '<text class="dl-axis" x="' + x(f).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + f + '</text>';
+    });
+    DIFFICULTY_ORDER.forEach(function (id) {
+      svg += '<polyline class="dl-line dl-' + id + '" points="' + series[id].map(function (v, i) { return x(i + 1).toFixed(1) + ',' + y(v).toFixed(1); }).join(' ') + '"/>';
+    });
+    for (var cp = 11; cp <= 91; cp += 10) {
+      var cx = x(cp), cy = H - padB + 4;
+      svg += '<path class="dl-cp" d="M' + cx.toFixed(1) + ' ' + (cy - 4) + 'L' + (cx + 4).toFixed(1) + ' ' + cy + 'L' + cx.toFixed(1) + ' ' + (cy + 4) + 'L' + (cx - 4).toFixed(1) + ' ' + cy + 'Z"/>';
+    }
+    svg += '</svg>';
+    var legend = DIFFICULTY_ORDER.map(function (id) {
+      return '<span class="lg-' + id + '"><i></i>' + L(F.DIFFICULTY[id], 'name') + '</span>';
+    }).join('') + '<span class="lg-cp"><i></i>' + T('diffChartCp') + '</span>';
+    return '<h3>' + T('diffChartTitle') + '</h3><p class="diff-chart-hint">' + T('diffChartHint') + '</p>' + svg + '<div class="diff-chart-legend">' + legend + '</div>';
+  }
+
   function renderDifficultyPick() {
     var F = window.Game.Formulas;
     var el = document.getElementById('difficulty-cards');
@@ -323,6 +358,15 @@
         window.Game.State.pending.difficulty = card.getAttribute('data-id');
         afterDifficultyPicked();
       };
+    });
+    var chart = document.getElementById('difficulty-chart');
+    chart.innerHTML = difficultyChartHtml();
+    Array.prototype.forEach.call(el.querySelectorAll('.select-card'), function (card) {
+      var hot = function () { chart.setAttribute('data-hot', card.getAttribute('data-id')); };
+      card.addEventListener('mouseenter', hot);
+      card.addEventListener('focus', hot);
+      card.addEventListener('mouseleave', function () { chart.removeAttribute('data-hot'); });
+      card.addEventListener('blur', function () { chart.removeAttribute('data-hot'); });
     });
     document.getElementById('difficulty-sub').textContent = T('difficultySub');
     document.getElementById('difficulty-back').innerHTML = I('back');

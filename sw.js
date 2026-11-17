@@ -1,4 +1,4 @@
-const CACHE_NAME = 'darkness-tower-v34';
+const CACHE_NAME = 'darkness-tower-v35';
 
 const PRECACHE_URLS = [
   './',
@@ -10,6 +10,7 @@ const PRECACHE_URLS = [
   './css/components.css',
   './css/menu.css',
   './css/battle.css',
+  './css/polish.css',
   './dist/game.min.js',
   './assets/classes/blade.webp',
   './assets/classes/staffOrb.webp',

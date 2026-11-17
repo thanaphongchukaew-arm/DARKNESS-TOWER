@@ -1,0 +1,156 @@
+/* ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.) */
+
+/* UI polish layer. Loaded last so it can refine the earlier sheets without
+   touching their rules: running-text font, header alignment, tower nav and
+   floor list, difficulty chart, boss health bar and contrast. */
+
+/* ---- 1. Running text uses Chakra Petch (Thai + Latin + digits match) ---- */
+.select-card-desc, .class-tradeoffs, .guide-section p, .guide-stat-card-desc, .guide-tip-card span,
+.reward-sub, .modal-box .note, .tactical-choice span, .summary-talents small, .summary-talents span,
+.equip-compare, .floor-info-sub, .story-body, .battle-log, .stat-chip, .settings-content,
+.tip-card, #end-message, .menu-footer, .micro-needed, .empty-note, .submenu-option-info,
+.status-talents, #status-talents, .talent-hero-preview + strong + span, .affinity-row, .enemy-name,
+.hero-summary-name, .waypoint-gold-display, .quest-btn-label, .diff-chart {
+  font-family: var(--font-text);
+}
+.select-card-desc, .tactical-choice span, .guide-stat-card-desc { letter-spacing: 0; }
+.stat-chip { font-weight: 500; }
+.battle-log { font-size: 0.82rem; }
+
+/* ---- 3. Sub-screen headers: no stray ">" glyph, same width as the content under it ---- */
+.screen-header h2::before { content: none; }
+#screen-class .screen-header { max-width: none; }
+
+.settings-content {
+  max-width: 1100px;
+  overflow: visible;
+  padding: 0 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+.settings-content .guide-section { margin: 0; }
+#credits-content { max-width: 1100px; margin: 0 auto; width: 100%; }
+
+/* ---- 4. Contrast ---- */
+.floor-row.cleared { opacity: 0.88; }
+.floor-row.locked { opacity: 0.62; }
+.floor-info-sub { color: var(--text-secondary); }
+.status-panel-title, .reward-sub { color: var(--text-secondary); }
+
+/* ---- 5. Tower menu: every entry point in one row under the hero summary ---- */
+#screen-tower .tower-header { align-items: flex-start; }
+.tower-header-right.tower-nav {
+  flex: 1 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.tower-nav button { position: relative; flex: 1 1 auto; width: auto; justify-content: center; white-space: nowrap; padding-left: 0.5rem; padding-right: 0.5rem; font-size: 0.82rem; }
+#tower-survival-btn.tower-survival-fab, #tower-quests-btn.tower-quests-fab, #tower-codex-btn.tower-codex-fab {
+  position: relative; left: auto; right: auto; bottom: auto; z-index: auto; box-shadow: none;
+}
+#tower-quests-btn.tower-quests-fab { color: var(--accent-gold); background: rgba(232, 192, 80, 0.08); }
+#tower-codex-btn.tower-codex-fab { color: var(--el-ice); background: rgba(72, 200, 232, 0.08); }
+#tower-survival-btn.tower-survival-fab { color: #ff8a8a; background: rgba(232, 48, 48, 0.1); }
+#tower-quests-btn.tower-quests-fab:hover:not(:disabled) { background: var(--accent-gold); color: var(--bg-void); }
+#tower-codex-btn.tower-codex-fab:hover:not(:disabled) { background: var(--el-ice); color: var(--bg-void); }
+#tower-survival-btn.tower-survival-fab:hover:not(:disabled) { background: var(--accent-red); color: #fff; }
+.tower-nav .quest-badge { top: -0.45rem; right: -0.45rem; }
+
+/* ---- 2. Floor list: cleared floors fold into slim rows ---- */
+.floor-row.cleared.compact { padding: 0.3rem 0.8rem; gap: 0.6rem; opacity: 0.8; animation: none; }
+.floor-row.cleared.compact:hover { opacity: 1; }
+.floor-row.cleared.compact .floor-num { width: 1.7rem; height: 1.7rem; font-size: 0.72rem; }
+.floor-row.cleared.compact .floor-info-sub { display: none; }
+.floor-row.cleared.compact .floor-info-title { font-size: 0.8rem; font-weight: 500; }
+.floor-row.cleared.compact .floor-status-icon { font-size: 0.95rem; }
+button.floor-fold {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.8rem;
+  background: rgba(72, 160, 88, 0.08);
+  border: 1px dashed var(--success);
+  color: #8fe0a8;
+  font-family: var(--font-text);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+button.floor-fold:hover { background: rgba(72, 160, 88, 0.2); }
+
+/* ---- 6. Difficulty screen: enemy strength by floor ---- */
+.diff-chart {
+  max-width: 1100px;
+  width: 100%;
+  margin: 1.2rem auto 0;
+  padding: 0.9rem 1.1rem 0.7rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-soft);
+}
+.diff-chart h3 { font-size: 0.95rem; color: var(--accent-gold); margin-bottom: 0.15rem; font-family: var(--font-text); }
+.diff-chart-hint { font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+.diff-chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+.diff-chart .dl-grid { stroke: rgba(255, 255, 255, 0.08); stroke-width: 1; }
+.diff-chart .dl-axis { fill: var(--text-secondary); font-size: 10px; font-family: var(--font-text); }
+.diff-chart .dl-line { fill: none; stroke-width: 2.5; stroke-linejoin: round; transition: opacity 0.15s; }
+.diff-chart .dl-easy { stroke: #58b878; } .diff-chart .dl-normal { stroke: #e8c050; }
+.diff-chart .dl-hard { stroke: #f0a030; } .diff-chart .dl-nightmare { stroke: #e83030; }
+.diff-chart .dl-cp { fill: #8fe0a8; }
+.diff-chart[data-hot] .dl-line { opacity: 0.22; }
+.diff-chart[data-hot="easy"] .dl-easy, .diff-chart[data-hot="normal"] .dl-normal,
+.diff-chart[data-hot="hard"] .dl-hard, .diff-chart[data-hot="nightmare"] .dl-nightmare { opacity: 1; stroke-width: 3.5; }
+.diff-chart-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.4rem; }
+.diff-chart-legend i { display: inline-block; width: 1.4rem; height: 0.28rem; margin-right: 0.35rem; vertical-align: middle; }
+.diff-chart-legend .lg-easy i { background: #58b878; } .diff-chart-legend .lg-normal i { background: #e8c050; }
+.diff-chart-legend .lg-hard i { background: #f0a030; } .diff-chart-legend .lg-nightmare i { background: #e83030; }
+.diff-chart-legend .lg-cp i { width: 0.5rem; height: 0.5rem; background: #8fe0a8; transform: rotate(45deg); }
+.difficulty-card.selected, .difficulty-card:hover { border-color: var(--accent-gold); }
+
+/* ---- 7. Boss health: one wide bar, one section per phase, big name ---- */
+#screen-battle .enemy-card.boss { min-width: min(420px, 94%); gap: 0.45rem; }
+.enemy-card.boss .enemy-name {
+  font-size: 1.1rem;
+  color: var(--accent-gold);
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.7);
+  position: relative;
+  z-index: 2;
+  margin-top: 0.7rem;
+  padding: 0.1rem 0.7rem;
+  background: rgba(6, 7, 15, 0.7);
+}
+.boss-phase-chip {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.05rem 0.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0;
+  color: var(--bg-void);
+  background: var(--accent-gold);
+  vertical-align: middle;
+}
+.hp-segment-row {
+  flex-direction: row-reverse;
+  align-items: stretch;
+  gap: 3px;
+}
+.hp-segment-row .hp-segment {
+  flex: 1 1 0;
+  width: auto;
+  height: 1.05rem;
+  border-color: rgba(232, 192, 80, 0.55);
+}
+.enemy-card.boss .break-track { height: 0.4rem; }
+
+/* ---- Phones ---- */
+.is-mobile .tower-header-right.tower-nav { gap: 0.35rem; }
+.is-mobile .tower-nav button { padding: 0.4rem 0.3rem; font-size: 0.78rem; }
+.is-mobile .settings-content { grid-template-columns: 1fr; }
+.is-mobile #screen-battle .enemy-card.boss { min-width: 250px; }
+.is-mobile .enemy-card.boss .enemy-name { font-size: 0.9rem; }
+.is-mobile .hp-segment-row .hp-segment { height: 0.8rem; }
+.is-mobile .diff-chart { padding: 0.6rem; }

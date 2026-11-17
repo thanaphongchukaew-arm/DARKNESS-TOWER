@@ -8,6 +8,7 @@
     return '<div class="npc-scene" style="--npc-color:' + event.arc.color + '"><span class="npc-scene-stars"></span><span class="npc-prop">' + I(event.chapter.prop) + '</span><span class="npc-portrait">' + I(event.chapter.icon) + '</span><span class="npc-scene-ground"></span><span class="npc-scene-name">' + L(event.arc, 'name') + '</span></div>';
   }
   function render(event, resolved) {
+    document.getElementById('event-body').classList.add('npc-story-body');
     lastView = { event: event, resolved: resolved || null };
     var run = G.State.current, state = Story.ensure(run).people[event.arc.id];
     document.getElementById('event-icon').classList.add('event-npc-icon');

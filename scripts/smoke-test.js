@@ -82,7 +82,7 @@ const IN_PAGE = async function (TARGET, BUDGET) {
     click('#btn-new'); click('#story-continue'); click('#difficulty-cards [data-id="normal"]');
     check(active() === 'screen-class' && G.State.pending.difficulty === 'normal', 'picking Normal leads to class select');
     check(document.querySelectorAll('#class-cards .select-card').length === 29, '29 classes are listed');
-    const imgs = Array.from(document.querySelectorAll('#class-cards image')).slice(0, 3);
+    const imgs = Array.from(document.querySelectorAll('#class-cards .class-character.pixel-sprite')).slice(0, 3);
     click('#class-cards [data-id="blade"]'); check(active() === 'screen-blessing-pick', 'class leads to blessing pick');
     click('#blessing-pick-skip'); check(active() === 'screen-tower' && G.State.current && G.State.current.difficulty === 'normal', 'run starts on the tower');
     check(imgs.length === 3, 'class portraits render');

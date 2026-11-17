@@ -446,6 +446,7 @@
     clearTimeout(toastTimer);
     var toast = document.getElementById('battle-toast'); if (toast) toast.classList.add('hidden');
     var prompt = document.getElementById('allout-modal'); if (prompt) { prompt.classList.add('hidden'); prompt.innerHTML = ''; }
+    var entrance = document.getElementById('battle-entrance'); if (entrance) entrance.remove();
     closeSubmenu();
     var caption = document.getElementById('battle-fx-caption');
     if (caption) caption.classList.remove('is-active');
@@ -517,7 +518,7 @@
       for (var i = 0; i < pts.length - 1; i++) {
         var hi = pts[i], lo = pts[i + 1];
         var pct = frac >= hi ? 100 : frac <= lo ? 0 : Math.round((frac - lo) / (hi - lo) * 100);
-        segs += '<div class="bar-track hp-segment"><div class="bar-fill hp' + (pct > 0 && pct <= 30 ? ' low' : '') + '" id="enemy-hp-' + e.uid + '-' + i + '" style="width:' + pct + '%"></div></div>';
+        segs += '<div class="bar-track hp-segment" style="flex:' + Math.max(0.05, hi - lo).toFixed(3) + ' 1 0"><div class="bar-fill hp' + (pct > 0 && pct <= 30 ? ' low' : '') + '" id="enemy-hp-' + e.uid + '-' + i + '" style="width:' + pct + '%"></div></div>';
       }
       hpBarHtml = '<div class="bar-row hp-segment-row" style="width:100%">' + segs + '</div>';
     } else {
@@ -529,7 +530,7 @@
       '<div class="enemy-portrait">' + I(e.icon) + '</div>' +
       (e.downed && e.alive ? '<span class="enemy-downed-tag">' + T('downedTag') + '</span>' : '') +
       (e.broken && e.alive ? '<span class="enemy-broken-tag">' + T('brokenTag') + '</span>' : '') +
-      '<div class="enemy-name">' + (e.elite ? 'ELITE · ' : '') + (e.champion ? T('championTag') + ' · ' : '') + e.name + (hasPhases ? T('phaseLabel') + e.phase : '') + '</div>' +
+      '<div class="enemy-name">' + (e.elite ? 'ELITE · ' : '') + (e.champion ? T('championTag') + ' · ' : '') + e.name + (hasPhases ? '<span class="boss-phase-chip">' + T('phaseChip', { n: e.phase, max: e.phasesData.length + 1 }) + '</span>' : '') + '</div>' +
       hpBarHtml +
       breakBarHtml + window.Game.Systems.affinities(window.Game.Data.getEnemyTemplate(e.templateId), false, e) + window.Game.SystemsUI.ailments(e.ailments) + window.Game.BattleFX.modifiers(e.debuffs) +
     '</div>';
@@ -744,7 +745,7 @@
     var root = document.getElementById('battle-submenu');
     var itemsHtml = usable.length ? usable.map(function (it) {
       return '<button class="submenu-option" data-id="' + it.id + '">' +
-        '<div class="submenu-option-icon">' + I(it.icon) + '</div>' +
+        '<div class="submenu-option-icon">' + window.Game.Icons.item(it) + '</div>' +
         '<div class="submenu-option-info"><div class="submenu-option-name">' + L(it, 'name') + '</div><div class="submenu-option-desc">' + L(it, 'desc') + '</div></div>' +
         '<div class="submenu-option-cost">x' + run.inventory[it.id] + '</div>' +
       '</button>';
@@ -1033,6 +1034,12 @@
   function applyBattleAmbience(floor, isBoss) {
     var screenEl = document.getElementById('screen-battle');
     screenEl.classList.remove.apply(screenEl.classList, AMBIENCE_TIER_CLASSES.concat('battle-boss-throne'));
+    var backdrop = screenEl.querySelector('.battle-backdrop');
+    var props = document.getElementById('battle-zone-props');
+    if (!props && backdrop) { props = document.createElement('div'); props.id = 'battle-zone-props'; backdrop.appendChild(props); }
+    var tierIndex = Math.min(15, Math.max(0, window.Game.Formulas.tierForFloor(floor) - 1));
+    var motifs = ['npcMiraLantern','gem','skull','ice','fire','weaponSlot','staffOrb','gem','dark','ice','fire','crownSkull','radiantOrb','dark','sparkles','crownSkull'];
+    if (props) { props.innerHTML = [0,1,2].map(function () { return '<span>' + I(isBoss ? 'crownSkull' : motifs[tierIndex]) + '</span>'; }).join(''); props.dataset.zone = tierIndex; }
     var silhouette = document.getElementById('battle-boss-silhouette');
     if (isBoss) {
       screenEl.classList.add('battle-boss-throne');
@@ -1070,22 +1077,33 @@
     } else {
       logLine(T('logBattleStartMulti'), 'log-new');
     }
-    if (currentBattle.pendingFirstStrike) {
-      logLine(T('logFirstStrike'), 'log-weak');
-      battleLater(function () {
-        var battle = currentBattle;
-        var resC = window.Game.BattleEngine.runCompanionPhase(battle);
-        playEvents(resC.events, function () {
-          renderPlayerPanel(battle);
-          renderEnemies(battle);
-          if (battle.over) { handleBattleEnd(battle); return; }
-          var res2 = window.Game.BattleEngine.runEnemyPhase(battle);
-          playEvents(res2.events, function () { afterEnemyPhase(); });
-        });
-      }, 500 / window.Game.SystemsUI.speed());
-    } else {
-      setActionsEnabled(true);
-    }
+    var boss = currentBattle.enemies.find(function (enemy) { return enemy.isBoss; });
+    var entrance = document.createElement('div');
+    entrance.id = 'battle-entrance'; entrance.className = boss ? 'battle-entrance boss-entrance' : 'battle-entrance';
+    entrance.setAttribute('role', 'status');
+    entrance.textContent = boss ? boss.name : document.getElementById('battle-floor-label').textContent;
+    resetScreen.appendChild(entrance);
+    if (boss) { SFX('boss_phase'); shakeScreen(true); }
+    else SFX('ui_confirm');
+    battleLater(function () { entrance.remove(); }, 1400 / window.Game.SystemsUI.speed());
+    battleLater(function () {
+      if (currentBattle.pendingFirstStrike) {
+        logLine(T('logFirstStrike'), 'log-weak');
+        battleLater(function () {
+          var battle = currentBattle;
+          var resC = window.Game.BattleEngine.runCompanionPhase(battle);
+          playEvents(resC.events, function () {
+            renderPlayerPanel(battle);
+            renderEnemies(battle);
+            if (battle.over) { handleBattleEnd(battle); return; }
+            var res2 = window.Game.BattleEngine.runEnemyPhase(battle);
+            playEvents(res2.events, function () { afterEnemyPhase(); });
+          });
+        }, 500 / window.Game.SystemsUI.speed());
+      } else {
+        setActionsEnabled(true);
+      }
+    }, 1400 / window.Game.SystemsUI.speed());
   }
 
   function startBattle(floor, isBoss, isReplay) {
@@ -1214,7 +1232,7 @@
     var matHtml = matIds.length ? matIds.map(function (id) {
       var it = D.getItem(id);
       if (!it) return '';
-      return '<div class="inv-item"><div class="inv-item-icon">' + I(it.icon) + '</div>' +
+      return '<div class="inv-item"><div class="inv-item-icon">' + window.Game.Icons.item(it) + '</div>' +
         '<div class="inv-item-info"><div class="inv-item-name">' + L(it, 'name') + '</div></div>' +
         '<div class="inv-item-actions"><span class="inv-item-count">x' + session.materials[id] + '</span></div></div>';
     }).join('') : '<p class="empty-note">' + T('survivalSummaryNoMaterials') + '</p>';

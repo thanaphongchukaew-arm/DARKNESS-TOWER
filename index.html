@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="css/components.css">
 <link rel="stylesheet" href="css/menu.css">
 <link rel="stylesheet" href="css/battle.css">
+<link rel="stylesheet" href="css/polish.css">
 <script>
 (function () {
   var W = 960, H = 640, root = document.documentElement;
@@ -108,6 +109,7 @@
     </header>
     <p class="reward-sub" id="difficulty-sub"></p>
     <div id="difficulty-cards" class="card-grid"></div>
+    <div id="difficulty-chart" class="diff-chart"></div>
   </section>
 
   <!-- SETTINGS -->
@@ -154,15 +156,15 @@
         <button class="btn-icon btn-icon-8bit" id="tower-home" aria-label="กลับสู่เมนูหลัก"></button>
         <div id="tower-hero-summary" class="hero-summary"></div>
       </div>
-      <div class="tower-header-right">
+      <nav class="tower-header-right tower-nav" aria-label="Tower menu">
         <button class="btn-secondary" id="tower-shop-btn">ร้านค้า</button>
         <button class="btn-secondary" id="tower-craft-btn">คราฟต์</button>
         <button class="btn-secondary" id="tower-status-btn">สถานะ &amp; อุปกรณ์</button>
+        <button class="btn-primary tower-quests-fab" id="tower-quests-btn"><span class="quest-btn-label">ภารกิจ</span><span id="tower-quests-badge" class="quest-badge hidden"></span></button>
+        <button class="btn-primary tower-codex-fab" id="tower-codex-btn"><span class="quest-btn-label">สมุดเวท</span><span id="tower-codex-badge" class="quest-badge hidden"></span></button>
         <button class="btn-primary tower-survival-fab" id="tower-survival-btn">สนามประลอง</button>
-      </div>
+      </nav>
     </header>
-    <button class="btn-primary tower-quests-fab" id="tower-quests-btn"><span class="quest-btn-label">ภารกิจ</span><span id="tower-quests-badge" class="quest-badge hidden"></span></button>
-    <button class="btn-primary tower-codex-fab" id="tower-codex-btn"><span class="quest-btn-label">สมุดเวท</span><span id="tower-codex-badge" class="quest-badge hidden"></span></button>
     <h2 class="tower-title" id="tower-title">หอคอยแห่งความมืด</h2>
     <div class="tower-jump-wrap">
       <button class="btn-primary tower-jump-btn" id="tower-jump-current"></button>
