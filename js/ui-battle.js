@@ -468,6 +468,7 @@
 
   function playEvents(events, onDone) {
     if(currentBattle)window.Game.Micro.noteEvents(currentBattle.run,events);
+    if (window.Game.Tips) window.Game.Tips.onBattleEvents(events);
     var battle = currentBattle, epoch = playbackEpoch, completed = false;
     function complete() { if (!completed && epoch === playbackEpoch && currentBattle === battle) { completed = true; onDone(); } }
     document.getElementById('battle-home').disabled = !!battle.over;
@@ -528,7 +529,7 @@
       '<div class="enemy-portrait">' + I(e.icon) + '</div>' +
       (e.downed && e.alive ? '<span class="enemy-downed-tag">' + T('downedTag') + '</span>' : '') +
       (e.broken && e.alive ? '<span class="enemy-broken-tag">' + T('brokenTag') + '</span>' : '') +
-      '<div class="enemy-name">' + (e.elite ? 'ELITE · ' : '') + e.name + (hasPhases ? T('phaseLabel') + e.phase : '') + '</div>' +
+      '<div class="enemy-name">' + (e.elite ? 'ELITE · ' : '') + (e.champion ? T('championTag') + ' · ' : '') + e.name + (hasPhases ? T('phaseLabel') + e.phase : '') + '</div>' +
       hpBarHtml +
       breakBarHtml + window.Game.Systems.affinities(window.Game.Data.getEnemyTemplate(e.templateId), false, e) + window.Game.SystemsUI.ailments(e.ailments) + window.Game.BattleFX.modifiers(e.debuffs) +
     '</div>';
@@ -904,6 +905,7 @@
 
   function handleVictory(battle) {
     var run = window.Game.State.current;
+    window.Game.State.clearBattleMark(run);
     window.Game.Workshop.recordClear(run,battle,currentIsReplay);
     // Replaying an already-cleared floor still pays out EXP/gold/materials,
     // just at 40% of a first clear's rate, and Nightmare's own rewardMult
@@ -986,11 +988,16 @@
     setActionsEnabled(false);
     closeSubmenu();
     if (window.Game.Audio) window.Game.Audio.stopMusic();
+    var wasTower = currentMode === 'tower';
     currentBattle = null;
     targetPickCallback = null;
+    // Walking away from a tower fight costs gold (see State.settleRetreat).
+    var run = window.Game.State.current;
+    var lost = wasTower && run && run.battleMark != null ? window.Game.State.settleRetreat(run) : -1;
     window.Game.State.saveNow();
     window.Game.TowerUI.renderTower();
     window.Game.UI.showScreen('screen-tower');
+    if (lost >= 0) window.Game.UI.notice(T('retreatNotice', { gold: lost }), 'warn');
   }
 
   function confirmLeaveBattle() {
@@ -998,7 +1005,7 @@
     SFX('ui_confirm');
     var root = document.getElementById('modal-root');
     root.innerHTML = '<div class="modal-box"><h3>' + T('leaveBattleTitle') + '</h3>' +
-      '<p class="note">' + T('leaveBattleMsg') + '</p>' +
+      '<p class="note">' + (currentMode === 'tower' ? T('leaveBattleMsg', { gold: window.Game.State.retreatCost(window.Game.State.current) }) : T('leaveArenaMsg')) + '</p>' +
       '<div class="modal-actions"><button class="btn-ghost" id="leave-cancel">' + T('keepFighting') + '</button><button class="btn-danger" id="leave-confirm">' + T('returnToTower') + '</button></div></div>';
     root.classList.remove('hidden');
     document.getElementById('leave-cancel').onclick = function () {
@@ -1089,6 +1096,7 @@
     currentIsBoss = !!isBoss;
     currentIsReplay = !!isReplay;
     targetPickCallback = null;
+    window.Game.State.markBattle(run, floor);
     applyBattleAmbience(floor, currentIsBoss);
     document.getElementById('battle-floor-label').textContent =
       (isBoss ? T('bossFloorTitle') : (T('floorLabel') + floor)) + (isReplay ? T('replaySuffix') : '');

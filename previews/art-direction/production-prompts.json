@@ -1,0 +1,152 @@
+{
+  "mode": "built-in image_gen",
+  "style_reference": "02-pixel-rpg.png",
+  "base": "Use case: stylized-concept. Asset type: production full-body playable character cutout for DARKNESS TOWER dark fantasy turn-based RPG. Input image is STYLE REFERENCE ONLY: match its premium detailed pixel-art RPG craftsmanship, not its lineup or multiple subjects. Draw exactly ONE class character described below (only Beastmaster may have its specified wolf, Puppeteer its specified dolls). STYLE: exquisite high-detail pixel art, crisp deliberate square pixel clusters, selective pixel outlines, rich limited color ramps and intricate pixel-shaded fabric/metal/leather, clear dimensional lighting, subtle cool rim and warm highlights. Adult believable heroic proportions and highly readable silhouette. Not flat SVG, not low-poly, not smooth painted art, not chibi. TRANSPARENT BACKGROUND with real alpha, no scene, no ground plane, no text, no labels, no frame, no watermark. Composition: centered full body in a square canvas, feet aligned near 90% canvas height, entire head, fingers, shoes, cape and every weapon tip visible with at least 6% empty margin; character fills most canvas height. Full anatomical coherence, two arms and two legs per human, exactly five fingers per hand, believable grip and functional equipment. Each character must be individually designed, never a recolored mannequin. Subject: ",
+  "specs": [
+    [
+      "blade",
+      "Blade Knight",
+      "Broad-shouldered adult knight in ornate battle-worn silver plate, crimson cloth cape and horsehair crest, closed visor, weighty grounded stance, right hand correctly gripping longsword pointing down, left forearm supporting a red heater shield. Rich engraved armor and chainmail."
+    ],
+    [
+      "staffOrb",
+      "Elementalist",
+      "Young adult female elemental archmage, elegant narrow silhouette, layered cobalt blue and copper robes, long windswept hair, asymmetric tall wizard hat, one hand gripping a crystal staff, other controlling a small flame. Separate tiny ice crystal and yellow lightning accent. Graceful casting stance."
+    ],
+    [
+      "radiantOrb",
+      "Cleric",
+      "Kind middle-aged female priest, ivory and antique-gold embroidered vestments with a modest bishop-like headpiece, serene face, tall brass sun-cross staff firmly in one hand, other cradling an open prayer book. Upright calm posture, soft warm holy light."
+    ],
+    [
+      "berserker",
+      "Berserker",
+      "Massive muscular adult barbarian with fierce bearded face, bare scarred torso, fur shoulder mantle, rugged leather war kilt, red braids, wide aggressive stance, BOTH hands gripping the long shaft of a massive single-headed iron battle axe diagonally across body. Visibly brutal physical fighter, no plate knight silhouette."
+    ],
+    [
+      "ranger",
+      "Ranger",
+      "Athletic adult female woodland archer in finely stitched moss green leather armor, asymmetric short green hooded cloak, mature focused face, visible quiver, one hand firmly holding longbow while other draws one nocked arrow to cheek, believable archery stance and bowstring geometry."
+    ],
+    [
+      "necromancer",
+      "Necromancer",
+      "Gaunt elderly male necromancer with deeply aged sunken face and long white wisps of hair, stooped thin silhouette, tattered layered violet-black robes, tiny bone charms, one hand properly gripping skull-topped wooden staff, other conjures small green ghostly soul. Sinister and scholarly, no armor."
+    ],
+    [
+      "monk",
+      "Monk",
+      "Bald adult martial artist with calm rugged face, strong lean body, saffron and burgundy asymmetric monastic wrap, prayer beads, white cloth-wrapped bare fists raised in a believable kung fu guard, bent knees and very wide horse stance, flowing sash. Completely unarmed, no staff or weapon."
+    ],
+    [
+      "paladin",
+      "Paladin",
+      "Tall adult holy champion, monumental ivory and gold plate armor with broad rounded pauldrons, face visible beneath wingless greathelm, white tabard, one hand gripping a gilded warhammer, other forearm bracing a large cathedral-shaped shield. Stately defensive posture, restrained golden sacred glow. Distinct from red sword knight."
+    ],
+    [
+      "gunslinger",
+      "Gunslinger",
+      "Lean adult female arcane gunslinger with confident mature face, low brown wide-brim hat, long split leather duster, bandoliers and two holsters, dynamic hip-twisted stance. Exactly two ornate flintlock revolver pistols, one in each hand, one extended and one lowered, tiny teal rune inlays. No rifle."
+    ],
+    [
+      "druid",
+      "Druid",
+      "Elderly woodland sage with long grey beard, natural antler headdress and intricate bark-and-leaf mantle, moss and earthy layered fabrics, gnarled living-wood staff with tiny leaves held in hand, other hand curling a small vine. Slightly stooped rounded silhouette, bare root-like sandals. Forest magic, no wizard hat."
+    ],
+    [
+      "alchemist",
+      "Alchemist",
+      "Stocky adult woman apothecary with practical tied hair and brass goggles on forehead, tan leather laboratory apron over plum coat, belt of small sealed vials, one gloved hand lifting a glowing emerald round flask by its neck, other holding a small amber flask. Sturdy boots, bulging satchel, curious experimental stance."
+    ],
+    [
+      "samurai",
+      "Samurai",
+      "Adult Japanese-inspired sword duelist, intimidating red-and-black lacquered lamellar armor, distinctive crescent kabuto, skirt plates and wide hakama trousers, poised low iaido stance, BOTH hands properly gripping a curved katana, visible scabbard at hip. Beautiful cord lacing and restrained gold trim."
+    ],
+    [
+      "warlock",
+      "Warlock",
+      "Adult female demonic pact scholar, severe mature face, horn-shaped dark metal diadem, angular black and crimson ritual vestments with high collar, open chained grimoire held in one hand and small orange hellfire floating over other. Slender commanding stance. Living sorceress, no skull staff, no necromancer bone ornaments."
+    ],
+    [
+      "battlemage",
+      "Battlemage",
+      "Athletic adult male armored combat mage, storm-blue half plate over practical split mage coat, face visible with short swept hair, forward advancing stance. One hand gripping a steel arming sword with small electric blue runes, other hand casting compact blue lightning around palm. Balanced warrior and mage, no full wizard robe."
+    ],
+    [
+      "frostOracle",
+      "Frost Oracle",
+      "Adult female oracle, long white hair, translucent ice-crystal circlet over calm mature face, layered pale blue and white silk robes with fur collar, slender crystal staff in one hand and floating faceted snowflake over other. Slight levitation, pointed icy robe silhouette, delicate snow ornaments."
+    ],
+    [
+      "stormCaller",
+      "Storm Caller",
+      "Weathered middle-aged male storm shaman with windswept grey hair, dark indigo torn travel robes, short storm mantle, bare muscular forearm raised high summoning one small branching yellow lightning arc, other hand firmly holding weathered conductor staff. Wind-swept asymmetrical stance, no pointed wizard hat, no sea or ice."
+    ],
+    [
+      "shadowDancer",
+      "Shadow Dancer",
+      "Lean adult female shadow assassin with narrow masked face, dark teal fitted leather and lightweight wraps, trailing narrow silk scarves, deeply crouched lunging dancer pose. Exactly two small curved steel daggers correctly gripped one in each hand, one reversed grip. Agile low silhouette, no bulky armor or staff."
+    ],
+    [
+      "bard",
+      "Bard",
+      "Charismatic adult male wandering minstrel, feathered burgundy cap, expressive mature face, embroidered maroon doublet, short asymmetric cape, soft leather boots. Holding a recognizable wooden lute against chest, left hand on fretted neck and right hand plucking strings. Relaxed one-leg-forward performance stance. No combat weapon."
+    ],
+    [
+      "beastmaster",
+      "Beastmaster",
+      "Rugged adult female wilderness beast tamer, wolf-pelt shoulder mantle with realistic pelt head at shoulder, leather and fur harness, tawny and olive clothing, muscular bare forearm with falconer's glove, short hunting spear in other hand. A SINGLE complete living grey wolf companion standing beside her with visible torso, tail and four legs. Both full bodies included, distinct two-figure silhouette."
+    ],
+    [
+      "runeblade",
+      "Runeblade",
+      "Broad adult dark rune knight, heavy asymmetrical charcoal and purple steel plate, low closed angular helmet, ragged short cloak, imposing planted stance. One hand gripping an enormous broad straight greatsword upright at side, engraved purple glowing runes along flat blade, other armored hand resting on pommel guard. A dark armored knight, no wizard staff."
+    ],
+    [
+      "sharpshooter",
+      "Sharpshooter",
+      "Lean mature male precision marksman, swept travel hat with small feather, steel-blue long hunting coat, cartridge belt, kneeling low with one knee near ground, aiming ONE long detailed fantasy flintlock rifle with wooden stock and brass scope. Trigger hand and supporting hand correctly placed, cheek to rifle stock. No pistols, no bow."
+    ],
+    [
+      "puppeteer",
+      "Puppeteer",
+      "Mysterious adult puppet master with pale face and theatrical half-mask, elaborate plum-and-black tailcoat with lace cuffs, slim upright silhouette. BOTH hands raised holding separate wooden marionette control crosses, clearly visible thin strings descending to TWO small complete wooden marionette dolls beside their legs. Hands, strings and puppet joints mechanically coherent."
+    ],
+    [
+      "tempestWitch",
+      "Tempest Witch",
+      "Adult sea witch with mature expressive face, long flowing seafoam-white hair, dramatically crooked broad-brim teal witch hat, layered sea-blue torn skirts and wave-embroidered bodice, one hand holding a short coral staff, other conjuring compact turquoise water spiral with tiny yellow lightning and ice fragments. Hovering above small curling water ribbon. Clearly nautical witch."
+    ],
+    [
+      "chronomancer",
+      "Chronomancer",
+      "Older adult female time scholar with silver braided hair, antique brass gear halo behind head, intricate purple and brass asymmetrical robes, one hand holding an ornate glass hourglass and other supporting a small floating clock face with visible hands. Elegant slightly turned stance, brass pendulum belt ornaments. Time motifs, no elemental staff."
+    ],
+    [
+      "warlord",
+      "Valiant Warlord",
+      "Veteran adult male battlefield general with stern scarred face, crown-like open helmet, enormous ornate gold and oxblood plate pauldrons, luxurious heavy crimson command cape. One hand gripping tall red military banner pole, other hand on sheathed sword at waist. Broad authoritative towering stance, noble eagle heraldry, visibly elite commander."
+    ],
+    [
+      "shadowhunter",
+      "Valiant Shadowhunter",
+      "Adult male elite night hunter with hood and narrow half mask, fitted navy and black hunter leather, layered shoulder cowl, bandolier of bolts, crouched stalking stance holding ONE elaborate compact recurved crossbow across chest using both hands correctly. Clearly visible crossbow bow limbs perpendicular to stock. No longbow, no rifle."
+    ],
+    [
+      "executioner",
+      "Valiant Executioner",
+      "Huge adult hooded executioner, face hidden by black cloth execution hood with two eye holes, massive scarred bare arms, chain harness over dark leather armored apron, heavy boots and iron bracers. Wide menacing stance, BOTH hands gripping a massive double-headed execution axe planted diagonally with broad steel blades. No knight helmet, no red cape."
+    ],
+    [
+      "deathbringer",
+      "Valiant Deathbringer",
+      "Tall imposing adult blood sorcerer with pale mature face, swept-back black hair and red horn-like crown, extravagant high split collar, layered dark wine and black ritual coat, crimson engraved bone-like breast ornament. One hand holding a black ritual tome, other manipulating a floating red blood crystal with narrow scarlet energy ribbons. A living blood mage, no scythe, no green necromancy."
+    ],
+    [
+      "vanguard",
+      "Valiant Vanguard",
+      "Athletic adult female elite frontline lancer, bright silver and teal streamlined armor, open winged helmet showing determined mature face, short wind-blown blue cape. Dynamic forward lunge with long sharp spear correctly gripped in one hand and a compact round buckler on opposite forearm. Slender fast armored silhouette, no huge tower shield or heavy general cape."
+    ]
+  ]
+}

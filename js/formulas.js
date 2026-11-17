@@ -7,10 +7,10 @@
   // because tests and other formulas (enemyStatScale, etc.) still reference
   // them, and each step keeps the same ~1.3x jump in statMult/rewardMult.
   var DIFFICULTY = {
-    easy: { id: 'easy', name: 'ง่าย', nameEn: 'Easy', statMult: 0.72, rewardMult: 1.15, startPotions: 3 },
-    normal: { id: 'normal', name: 'ปกติ', nameEn: 'Normal', statMult: 0.88, rewardMult: 1.0, startPotions: 2 },
-    hard: { id: 'hard', name: 'ยาก', nameEn: 'Hard', statMult: 1.14, rewardMult: 1.35, startPotions: 1 },
-    nightmare: { id: 'nightmare', name: 'ฝันร้าย', nameEn: 'Nightmare', statMult: 1.5, rewardMult: 1.0, startPotions: 0 }
+    easy: { id: 'easy', name: 'ง่าย', nameEn: 'Easy', statMult: 0.8, rewardMult: 1.1, startPotions: 3 },
+    normal: { id: 'normal', name: 'ปกติ', nameEn: 'Normal', statMult: 1.0, rewardMult: 1.0, startPotions: 2 },
+    hard: { id: 'hard', name: 'ยาก', nameEn: 'Hard', statMult: 1.14, rewardMult: 1.1, startPotions: 1 },
+    nightmare: { id: 'nightmare', name: 'ฝันร้าย', nameEn: 'Nightmare', statMult: 1.22, rewardMult: 1.0, startPotions: 1 }
   };
 
   function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
@@ -81,14 +81,69 @@
     return 7;
   }
 
-  function enemyStatScale(floor, difficultyId) {
-    var diff = DIFFICULTY[difficultyId] || DIFFICULTY.normal;
-    return (1 + 0.05 * (floor - 1)) * diff.statMult;
+  // Per-floor multiplier applied on top of each tier's hand-authored baseStats.
+  // Enemy templates already grow tier over tier, so this curve only has to make
+  // up the difference to the player's own level/gear growth: it climbs through
+  // the lower tower, then eases back as the upper-tower tiers' base stats take
+  // over. Tuned against scripts/balance-sim.js -- change the anchors there, not
+  // by feel. Linear between anchors.
+  var FLOOR_SCALE_ANCHORS = [[1, 0.8], [10, 1.2], [20, 1.6], [30, 1.96], [44, 2.32], [45, 2.32], [60, 2.05], [75, 1.6], [90, 1.22], [100, 1.1]];
+  function floorScale(floor) {
+    var a = FLOOR_SCALE_ANCHORS;
+    if (floor <= a[0][0]) return a[0][1];
+    for (var i = 1; i < a.length; i++) {
+      if (floor <= a[i][0]) {
+        var span = a[i][0] - a[i - 1][0];
+        var t = span ? (floor - a[i - 1][0]) / span : 1;
+        return a[i - 1][1] + (a[i][1] - a[i - 1][1]) * t;
+      }
+    }
+    return a[a.length - 1][1];
   }
 
+  function enemyStatScale(floor, difficultyId) {
+    var diff = DIFFICULTY[difficultyId] || DIFFICULTY.normal;
+    return floorScale(floor) * diff.statMult;
+  }
+
+  // Mini-bosses and the final boss fight alone, so their authored stats get
+  // their own offence/health tuning on top of the floor curve (see
+  // battle-engine.js's buildMiniBossActor/buildBossActor).
+  var REGULAR_TUNING = { hp: 1.9, offense: 1.7, defense: 1.0, groupOffensePow: 0.6 };
+  var MINIBOSS_TUNING = { hp: 2.2, offense: 1.25, defense: 1.0 };
+  var FINAL_BOSS_TUNING = { hp: 0.72, offense: 0.74, defense: 1.0 };
+  function tuneBossStats(stats, tuning) {
+    stats.hp = Math.max(1, round(stats.hp * tuning.hp));
+    stats.atk = Math.max(1, round(stats.atk * tuning.offense));
+    stats.mag = Math.max(1, round(stats.mag * tuning.offense));
+    stats.def = Math.max(1, round(stats.def * tuning.defense));
+    stats.res = Math.max(1, round(stats.res * tuning.defense));
+    return stats;
+  }
+
+  // The final boss's baseStats are authored at full strength (unlike the tiered
+  // templates), so it only takes the difficulty multiplier.
   function bossStatScale(difficultyId) {
     var diff = DIFFICULTY[difficultyId] || DIFFICULTY.normal;
-    return 1.22 * diff.statMult;
+    return diff.statMult;
+  }
+
+  // "Champion" floors: the middle of each 5-floor stretch fields one tougher
+  // pack leader, so the climb between mini-bosses is not a flat run of easy
+  // fights. Never a mini-boss/boss floor.
+  var CHAMPION_STAT_MULT = 1.45;
+  var CHAMPION_REWARD_MULT = 1.6;
+  function isChampionFloor(floor) {
+    return floor > 5 && floor < 100 && floor % 5 === 3;
+  }
+
+  // Tempo: how much of a bonus action the faster side banks each round. A 30%
+  // speed lead (TEMPO_FULL_LEAD) is a bonus action every round; a smaller lead
+  // still pays off every few rounds instead of being worth nothing.
+  var TEMPO_FULL_LEAD = 0.3;
+  function tempoGain(fastSpd, slowSpd) {
+    if (!(slowSpd > 0) || !(fastSpd > slowSpd)) return 0;
+    return clamp((fastSpd / slowSpd - 1) / TEMPO_FULL_LEAD, 0, 1);
   }
 
   // Ascension: an opt-in, Nightmare-only prestige multiplier chosen at run creation
@@ -98,11 +153,9 @@
   // never affected), and into the reward `rate` alongside difficulty/blessings.
   //
   // The two rates are deliberately close (0.09 vs 0.11, not e.g. 0.08 vs 0.12):
-  // reward/enemy stays a roughly flat ~1.0-1.1 ratio across all 10 levels,
-  // matching how the existing difficulty ladder's own reward/statMult ratio stays
-  // in a tight band (Normal 1.14, Hard 1.18, Nightmare 1.20) rather than climbing.
-  // A wider gap here would make level 10 a strictly better reward-per-difficulty
-  // deal than level 1, turning "pick your Ascension level" into "always max it".
+  // reward/enemy stays a roughly flat ~1.0-1.1 ratio across all 10 levels. A
+  // wider gap would make level 10 a strictly better reward-per-difficulty deal
+  // than level 1, turning "pick your Ascension level" into "always max it".
   var ASCENSION_MAX = 10;
   function ascensionEnemyMult(level) {
     return 1 + 0.09 * clamp(level || 0, 0, ASCENSION_MAX);
@@ -141,7 +194,12 @@
       // of its authored per-tier luk. Each tier's baseStats.luk already encodes the
       // intended crit-rate progression on its own, so leave it unscaled here.
       if (k === 'luk') { out[k] = Math.max(1, round(baseStats[k])); return; }
-      out[k] = Math.max(1, round(baseStats[k] * scale * (groupScale || 1)));
+      // Offence shrinks less than health/defence when a pack splits its strength:
+      // under ratio mitigation several weak hits are worth far less than one
+      // strong hit, so an even split would leave packs nearly harmless.
+      var share = groupScale || 1;
+      if (k === 'atk' || k === 'mag') share = Math.pow(share, REGULAR_TUNING.groupOffensePow);
+      out[k] = Math.max(1, round(baseStats[k] * scale * share));
     });
     return out;
   }
@@ -149,6 +207,7 @@
   // Global damage scale-down so fights last ~2x as many turns without touching
   // relative balance (crit multiplier, etc).
   var GLOBAL_DAMAGE_MULT = 0.5;
+  var ALMIGHTY_FACTOR = 0.7;
 
   function critChance(luk) {
     return clamp(0.05 + luk * 0.012, 0.05, 0.4);
@@ -176,13 +235,20 @@
 
   function computeDamage(opts) {
     // opts: { element, power, atkStat, magStat, defStat, resStat, isCrit }
-    var raw;
+    // Ratio mitigation: damage = offence x power x offence / (offence + defence).
+    // Unlike a flat "offence - defence" subtraction, this never collapses to 1
+    // damage when defence pulls ahead nor explodes when it falls behind -- equal
+    // stats always mean half damage, at every point of the tower. Almighty
+    // ignores defences entirely and takes a fixed factor instead.
+    // `scaleStat: 'atk'` lets an elemental technique run off ATK (martial classes).
+    var raw, offense, defense;
     if (opts.element === 'almighty') {
-      raw = Math.max(opts.atkStat, opts.magStat) * opts.power;
-    } else if (opts.element === 'phys') {
-      raw = opts.atkStat * opts.power - opts.defStat * 0.75;
+      raw = Math.max(opts.atkStat, opts.magStat) * opts.power * ALMIGHTY_FACTOR;
     } else {
-      raw = opts.magStat * opts.power - opts.resStat * 0.75;
+      var physical = opts.element === 'phys';
+      offense = Math.max(0, (physical || opts.scaleStat === 'atk') ? opts.atkStat : opts.magStat);
+      defense = Math.max(0, physical ? opts.defStat : opts.resStat);
+      raw = offense > 0 ? offense * opts.power * offense / (offense + defense) : 0;
     }
     raw = Math.max(1, raw);
     var variance = rnd(0.9, 1.1);
@@ -245,6 +311,17 @@
     tierForFloor: tierForFloor,
     itemTierForFloor: itemTierForFloor,
     enemyStatScale: enemyStatScale,
+    floorScale: floorScale,
+    FLOOR_SCALE_ANCHORS: FLOOR_SCALE_ANCHORS,
+    REGULAR_TUNING: REGULAR_TUNING,
+    MINIBOSS_TUNING: MINIBOSS_TUNING,
+    FINAL_BOSS_TUNING: FINAL_BOSS_TUNING,
+    tuneBossStats: tuneBossStats,
+    isChampionFloor: isChampionFloor,
+    CHAMPION_STAT_MULT: CHAMPION_STAT_MULT,
+    CHAMPION_REWARD_MULT: CHAMPION_REWARD_MULT,
+    tempoGain: tempoGain,
+    ALMIGHTY_FACTOR: ALMIGHTY_FACTOR,
     bossStatScale: bossStatScale,
     ASCENSION_MAX: ASCENSION_MAX,
     ascensionEnemyMult: ascensionEnemyMult,

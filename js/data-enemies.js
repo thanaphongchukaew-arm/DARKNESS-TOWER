@@ -721,7 +721,7 @@
     },
     10: {
       id: 'bat_queen', name: 'ราชินีค้างคาวเลือด', nameEn: 'Blood Bat Queen', icon: 'bat_blood', isBoss: true,
-      baseStats: { hp: 100, atk: 14, mag: 14, def: 8, res: 9, spd: 19, luk: 9, exp: 95 },
+      baseStats: { hp: 100, atk: 14, mag: 14, def: 8, res: 9, spd: 13, luk: 8, exp: 95 },
       attacks: [
         { name: 'กัดดูดเลือดราชินี', nameEn: "Queen's Blood Drain", element: 'dark', power: 1.3, target: 'single', weight: 3, drainSelf: true },
         { name: 'โฉบทิ้งตัวไว', nameEn: 'Swift Dive', element: 'phys', power: 1.1, target: 'single', weight: 3 },

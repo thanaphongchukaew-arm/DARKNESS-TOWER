@@ -20,7 +20,7 @@
       table[id] = family;
     });
   }
-  bind(skillFamilies, 'slash', 'attack|holy_strike|sword_absolution|rune_slash|spellsword_finale|lightning_blade_strike|shadow_step|midnight_execution|runic_edge|blood_rune_slash|oathbreakers_judgment|shadow_verdict_blade|warlord_cleave|crippling_strike|reaping_slash|bloodlust_edge|flowing_strike|sunder_strike');
+  bind(skillFamilies, 'slash', 'attack|edge_fire|edge_ice|edge_elec|edge_wind|edge_light|edge_dark|holy_strike|sword_absolution|rune_slash|spellsword_finale|lightning_blade_strike|shadow_step|midnight_execution|runic_edge|blood_rune_slash|oathbreakers_judgment|shadow_verdict_blade|warlord_cleave|crippling_strike|reaping_slash|bloodlust_edge|flowing_strike|sunder_strike');
   bind(skillFamilies, 'cross', 'cross_slash|blademasters_flourish|twin_lightning_cut|twin_fang_dance|nightblade_waltz|twin_shadow_fangs|thousand_cuts');
   bind(skillFamilies, 'cleave', 'blade_dance|end_bringer|reckless_strike|lifesteal_cleave|raging_whirl|berserks_end|bloodletting_axe|wind_wheel_slash|blade_of_a_thousand_shadows|final_march|coup_de_grace');
   bind(skillFamilies, 'thrust', 'armor_piercer|iai_strike|tempest_lance|last_hunt|endless_assault');

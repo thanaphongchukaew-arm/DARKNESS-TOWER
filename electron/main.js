@@ -3,8 +3,50 @@
 // Electron entry point: wraps the web game (index.html) in a native desktop
 // window so it can ship as a standalone Windows .exe. Saves still live in
 // localStorage, which Electron persists under the user's AppData folder.
-const { app, BrowserWindow, Menu, shell } = require('electron');
+const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron');
 const path = require('path');
+const fs = require('fs');
+
+// Save files live next to Electron's own profile data, one JSON file per slot.
+// Slot names come from the page, so only a strict character set is accepted.
+function saveFile(key) {
+  if (!/^[A-Za-z0-9_]{1,64}$/.test(key)) return null;
+  return path.join(app.getPath('userData'), 'saves', key + '.json');
+}
+
+ipcMain.on('save:read', function (event, key) {
+  const file = saveFile(key);
+  try { event.returnValue = file && fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null; }
+  catch { event.returnValue = null; }
+});
+
+// Write to a temp file then rename, so a crash mid-write never truncates a save.
+ipcMain.on('save:write', function (event, key, text) {
+  const file = saveFile(key);
+  if (!file || typeof text !== 'string') { event.returnValue = false; return; }
+  try {
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file + '.tmp', text, 'utf8');
+    fs.renameSync(file + '.tmp', file);
+    event.returnValue = true;
+  } catch { event.returnValue = false; }
+});
+
+ipcMain.on('save:remove', function (event, key) {
+  const file = saveFile(key);
+  try { if (file && fs.existsSync(file)) fs.unlinkSync(file); event.returnValue = true; }
+  catch { event.returnValue = false; }
+});
+
+ipcMain.on('window:isFullscreen', function (event) {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  event.returnValue = !!(win && win.isFullScreen());
+});
+ipcMain.on('window:setFullscreen', function (event, on) {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  if (win) win.setFullScreen(!!on);
+});
+ipcMain.on('app:quit', function () { app.quit(); });
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -18,6 +60,7 @@ function createWindow() {
     autoHideMenuBar: true,
     show: false,
     webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: true

@@ -273,6 +273,7 @@
         var dmg = Math.max(1, Math.round(run.hp * evDef.hpCostPct));
         run.hp = Math.max(1, run.hp - dmg);
         run.currentFloor += 1;
+        if (window.Game.State.maybeCheckpoint(run)) checkpointNotice = run.currentFloor;
         window.Game.State.recordFloorReached(run.currentFloor);
         run.eventsSeen = run.eventsSeen || {};
         run.eventsSeen[floor] = true;
@@ -589,11 +590,59 @@
     });
   }
 
+  // Data-driven events (see data-events.js's choiceEvents): one card per choice,
+  // then a result box. Nothing is rolled until a card is chosen, so a language
+  // switch can safely redraw the screen.
+  function renderChoiceEvent(evDef, floor) {
+    var run = window.Game.State.current;
+    var en = window.Game.I18n.getLang() === 'en';
+    var iconEl = document.getElementById('event-icon');
+    iconEl.innerHTML = I(evDef.icon);
+    iconEl.classList.toggle('event-npc-icon', !!evDef.npc);
+    document.getElementById('event-title').textContent = L(evDef, 'name');
+    document.getElementById('event-desc').textContent = L(evDef, 'desc');
+    document.getElementById('event-actions').innerHTML = '';
+    var body = document.getElementById('event-body');
+    body.innerHTML = '<div class="card-grid">' + evDef.choices.map(function (c) {
+      var cost = c.cost ? c.cost(run, floor) : 0;
+      var cannotPay = cost > (run.gold || 0);
+      return '<button class="select-card' + (cannotPay ? ' locked' : '') + '" data-choice="' + c.id + '"' + (cannotPay ? ' disabled' : '') + '>' +
+        '<div class="select-card-icon">' + I(c.icon) + '</div>' +
+        '<div class="select-card-title">' + L(c, 'name') + '</div>' +
+        '<div class="select-card-desc">' + L(c, 'desc') + '</div>' +
+        (cost ? '<div class="select-card-stats"><span class="stat-chip' + (cannotPay ? ' chip-danger' : '') + '">' + I('coin') + cost + '</span></div>' : '') +
+      '</button>';
+    }).join('') + '</div>';
+    Array.prototype.forEach.call(body.querySelectorAll('.select-card:not([disabled])'), function (card) {
+      card.onclick = function () {
+        var choice = evDef.choices.filter(function (c) { return c.id === card.getAttribute('data-choice'); })[0];
+        if (!choice) return;
+        if (choice.leave) { SFX('ui_cancel'); finishEvent(floor); return; }
+        var cost = choice.cost ? choice.cost(run, floor) : 0;
+        if (cost > (run.gold || 0)) { SFX('ui_error'); return; }
+        if (cost) window.Game.State.spendGold(run, cost);
+        var result = choice.effect(run, floor) || {};
+        window.Game.State.clampVitals(run);
+        // Mark the event used before the result box, so closing the game on it cannot re-offer the reward.
+        run.eventsSeen = run.eventsSeen || {};
+        run.eventsSeen[floor] = true;
+        window.Game.State.saveNow();
+        SFX(result.danger ? 'ui_error' : 'item_get');
+        Array.prototype.forEach.call(body.querySelectorAll('.select-card'), function (b) { b.disabled = true; });
+        window.Game.UI.confirmModal({
+          title: L(evDef, 'name'), message: en ? (result.en || '') : (result.th || ''), confirmLabel: T('closeBtn'),
+          danger: !!result.danger, onConfirm: function () { finishEvent(floor); }
+        });
+      };
+    });
+  }
+
   function renderEvent(eventId, floor) {
     if (eventState.id !== eventId || eventState.floor !== floor) eventState = { id: null, floor: null };
     lastEvent = { id: eventId, floor: floor };
-    var meta = EVENT_META[eventId];
     var evDef = window.Game.Data.getEvent(eventId);
+    if (evDef && evDef.choiceEvent) { renderChoiceEvent(evDef, floor); return; }
+    var meta = EVENT_META[eventId];
     var npcIcon = { merchant: 'npcMerchant', sage: 'npcSage', gambler: 'npcGambler' }[eventId];
     document.getElementById('event-icon').innerHTML = I(npcIcon || evDef.icon);
     document.getElementById('event-icon').classList.toggle('event-npc-icon', !!npcIcon);
@@ -623,8 +672,16 @@
     window.Game.State.saveNow();
   }
 
+  // Floor a checkpoint was just taken on; announced by the next renderTower.
+  var checkpointNotice = null;
+
   function renderTower() {
     var run = window.Game.State.current;
+    if (checkpointNotice != null) {
+      window.Game.UI.notice(T('checkpointSaved', { floor: checkpointNotice }));
+      if (window.Game.Tips) window.Game.Tips.show('tipCheckpoint');
+      checkpointNotice = null;
+    }
     var S = window.Game.State, D = window.Game.Data;
     window.Game.Systems.ensure(run);
     if (window.Game.Systems.pending(run)) window.Game.SystemsUI.talentPrompt();
@@ -639,6 +696,7 @@
       '<div class="hero-summary-icon">' + window.Game.HeroArt.render(run) + '</div>' +
       '<div class="hero-summary-info">' +
         '<div class="hero-summary-name">' + L(cls, 'name') + (activeRoute ? '<span class="lvl">' + I(activeRoute.icon) + L(activeRoute, 'name') + '</span>' : '') + '<span class="lvl">Lv.' + run.level + '</span>' +
+          '<span class="lvl" title="' + T('difficultyChipLabel') + '">' + L(window.Game.Formulas.DIFFICULTY[run.difficulty] || window.Game.Formulas.DIFFICULTY.normal, 'name') + '</span>' +
           (run.ascension ? '<span class="lvl" title="' + T('ascensionChipLabel') + '">' + I('ascension') + run.ascension + '</span>' : '') +
           '<span class="gold-chip">' + I('coin') + (run.gold || 0) + '</span></div>' +
         '<div class="bar-row">' + I('heart') + '<div class="bar-track"><div class="bar-fill hp" style="width:' + hpPct + '%"></div></div><span>' + run.hp + '/' + maxHp + '</span></div>' +
@@ -905,6 +963,7 @@
         // let renderShop lazily regenerate against the new (post-clear) floor tier.
         if (window.Game.Data.getMiniBoss(lastRewardFloor)) run.shopStock = null;
         run.currentFloor += 1;
+        if (window.Game.State.maybeCheckpoint(run)) checkpointNotice = run.currentFloor;
         clearPendingReward(run);
         window.Game.State.recordFloorReached(run.currentFloor);
         window.Game.State.saveNow();

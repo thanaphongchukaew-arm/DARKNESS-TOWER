@@ -54,6 +54,8 @@ const FILES = [
   'js/workshop-battle.js',
   'js/vfx-renderer.js',
   'js/battle-vfx.js',
+  'js/input.js',
+  'js/tips.js',
   'js/ui-menu.js',
   'js/ui-tower.js',
   'js/ui-codex.js',
@@ -63,6 +65,7 @@ const FILES = [
   'js/ui-stories.js',
   'js/ui-bond.js',
   'js/ui-workshop.js',
+  'js/ui-settings.js',
   'js/main.js'
 ];
 

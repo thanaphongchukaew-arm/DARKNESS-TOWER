@@ -36,7 +36,7 @@
   function render(id) {
     if (!has(id)) return '';
     return '<svg xmlns="http://www.w3.org/2000/svg" class="class-character hero-art" viewBox="0 0 160 152" role="img" aria-label="' + names[id] + '">' +
-      '<image class="hero-body" href="assets/classes/' + id + '.png" x="0" y="0" width="160" height="152" preserveAspectRatio="xMidYMid meet"/>' +
+      '<image class="hero-body" href="assets/classes/' + id + '.webp" x="0" y="0" width="160" height="152" preserveAspectRatio="xMidYMid meet"/>' +
       '</svg>';
   }
   window.Game.ClassArt = { has: has, render: render };

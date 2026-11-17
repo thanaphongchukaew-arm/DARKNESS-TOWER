@@ -1,64 +1,155 @@
 // ลิขสิทธิ์และจัดทำโดย ธนพงศ์ ชูแก้ว (Copyright © Thanaphong Chukaew. All rights reserved.)
 
-// localStorage persistence for the current tower run, plus a small separate
-// meta-progress store (achievements that must outlive any single run, like
-// unlocking Nightmare difficulty) that clear()/a fresh run never touches.
+// Persistence for the current tower run, the meta-progress store (unlocks and
+// records that must outlive any single run) and the difficulty checkpoint.
+//
+// Every slot is written to localStorage and, in the desktop build, mirrored to a
+// real file through window.DesktopBridge (see electron/preload.js). Each slot
+// also keeps the previous good copy under "<key>_bak": a save that fails to
+// parse is never deleted -- it is set aside under "<key>_corrupt" and the
+// backup is restored instead, so a single bad write cannot wipe a long run.
 (function () {
   var KEY = 'towerRPG_save_v1';
   var META_KEY = 'towerRPG_meta_v1';
+  var CHECKPOINT_KEY = 'towerRPG_checkpoint_v1';
+  var SAVE_VERSION = 2;
+  var EXPORT_TAG = 'darkness-tower-save';
+  var lastError = null;
 
-  function writeMeta(data) {
-    try {
-      localStorage.setItem(META_KEY, JSON.stringify(data));
-      return true;
-    } catch (e) {
-      console.warn('[Save] failed to write meta:', e);
-      return false;
-    }
+  function bridge() {
+    var b = typeof window !== 'undefined' && window.DesktopBridge;
+    return b && b.isDesktop ? b : null;
   }
 
-  function readMeta() {
-    try {
-      var raw = localStorage.getItem(META_KEY);
-      if (!raw) return {};
-      return JSON.parse(raw);
-    } catch (e) {
-      console.warn('[Save] failed to read meta, discarding corrupt data:', e);
-      localStorage.removeItem(META_KEY);
-      return {};
+  function rawGet(key) {
+    var value = null;
+    try { value = localStorage.getItem(key); } catch (e) { /* storage blocked */ }
+    if (value == null && bridge()) {
+      try { value = bridge().readSave(key); } catch (e2) { value = null; }
     }
+    return value == null ? null : value;
   }
 
-  function write(data) {
-    try {
-      localStorage.setItem(KEY, JSON.stringify(data));
-      return true;
-    } catch (e) {
-      console.warn('[Save] failed to write save:', e);
-      return false;
+  function rawSet(key, value) {
+    var ok = false;
+    try { localStorage.setItem(key, value); ok = true; } catch (e) { lastError = e; }
+    if (bridge()) {
+      try { if (bridge().writeSave(key, value)) ok = true; } catch (e2) { lastError = e2; }
     }
+    if (ok) lastError = null;
+    return ok;
   }
 
-  function read() {
+  function rawRemove(key) {
+    try { localStorage.removeItem(key); } catch (e) { /* ignore */ }
+    if (bridge()) { try { bridge().removeSave(key); } catch (e2) { /* ignore */ } }
+  }
+
+  function parse(raw) {
+    if (raw == null) return null;
     try {
-      var raw = localStorage.getItem(KEY);
-      if (!raw) return null;
-      return JSON.parse(raw);
+      var data = JSON.parse(raw);
+      return data && typeof data === 'object' ? data : null;
     } catch (e) {
-      console.warn('[Save] failed to read save, discarding corrupt data:', e);
-      localStorage.removeItem(KEY);
       return null;
     }
   }
 
+  // Reads a slot, falling back to its backup when the main copy is unreadable.
+  function readSlot(key) {
+    var raw = rawGet(key);
+    var data = parse(raw);
+    if (data) return data;
+    var backup = parse(rawGet(key + '_bak'));
+    if (raw != null) {
+      console.warn('[Save] ' + key + ' is unreadable; ' + (backup ? 'restoring the backup copy.' : 'no backup available.'));
+      rawSet(key + '_corrupt', raw);
+      if (backup) rawSet(key, JSON.stringify(backup)); else rawRemove(key);
+    } else if (backup) {
+      rawSet(key, JSON.stringify(backup));
+    }
+    return backup;
+  }
+
+  // Writes a slot, first rotating the current good copy into the backup.
+  function writeSlot(key, data) {
+    var next;
+    try { next = JSON.stringify(data); } catch (e) { lastError = e; console.warn('[Save] cannot serialise ' + key + ':', e); return false; }
+    var current = rawGet(key);
+    if (current != null && current !== next && parse(current)) rawSet(key + '_bak', current);
+    var ok = rawSet(key, next);
+    if (!ok) console.warn('[Save] failed to write ' + key + ':', lastError);
+    return ok;
+  }
+
+  function removeSlot(key) {
+    rawRemove(key);
+    rawRemove(key + '_bak');
+  }
+
+  function write(data) {
+    if (data && typeof data === 'object') data.saveVersion = SAVE_VERSION;
+    return writeSlot(KEY, data);
+  }
+
+  function read() {
+    var data = readSlot(KEY);
+    if (data && !data.saveVersion) data.saveVersion = 1;
+    return data;
+  }
+
   function clear() {
-    try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ }
+    removeSlot(KEY);
+    removeSlot(CHECKPOINT_KEY);
   }
 
   function exists() {
-    try { return !!localStorage.getItem(KEY); } catch (e) { return false; }
+    return rawGet(KEY) != null || rawGet(KEY + '_bak') != null;
+  }
+
+  function writeMeta(data) { return writeSlot(META_KEY, data); }
+  function readMeta() { return readSlot(META_KEY) || {}; }
+
+  // Checkpoint: a snapshot of the run taken every 10 floors on the difficulties
+  // that allow a retry (see State.saveCheckpoint / restoreCheckpoint).
+  function writeCheckpoint(data) { return writeSlot(CHECKPOINT_KEY, data); }
+  function readCheckpoint() { return readSlot(CHECKPOINT_KEY); }
+  function clearCheckpoint() { removeSlot(CHECKPOINT_KEY); }
+
+  // Everything a player needs to move to another browser or machine, as text.
+  function exportAll() {
+    return JSON.stringify({
+      tag: EXPORT_TAG,
+      saveVersion: SAVE_VERSION,
+      exportedAt: new Date().toISOString(),
+      run: readSlot(KEY),
+      meta: readSlot(META_KEY) || {},
+      checkpoint: readSlot(CHECKPOINT_KEY)
+    });
+  }
+
+  // Returns { ok: true } or { ok: false, reason: 'format' | 'write' }. Nothing is
+  // changed unless the whole payload validates first.
+  function importAll(text) {
+    var data = parse(typeof text === 'string' ? text.trim() : null);
+    if (!data || data.tag !== EXPORT_TAG) return { ok: false, reason: 'format' };
+    var run = data.run, meta = data.meta, checkpoint = data.checkpoint;
+    if (meta != null && (typeof meta !== 'object' || Array.isArray(meta))) return { ok: false, reason: 'format' };
+    if (run != null && (typeof run !== 'object' || !run.classId || !run.equipment || !run.inventory || !(run.currentFloor >= 1))) return { ok: false, reason: 'format' };
+    if (checkpoint != null && (typeof checkpoint !== 'object' || !checkpoint.classId)) checkpoint = null;
+    if (!writeSlot(META_KEY, meta || {})) return { ok: false, reason: 'write' };
+    if (run) { if (!write(run)) return { ok: false, reason: 'write' }; } else removeSlot(KEY);
+    if (checkpoint) writeSlot(CHECKPOINT_KEY, checkpoint); else removeSlot(CHECKPOINT_KEY);
+    return { ok: true, hasRun: !!run };
   }
 
   window.Game = window.Game || {};
-  window.Game.Save = { write: write, read: read, clear: clear, exists: exists, writeMeta: writeMeta, readMeta: readMeta };
+  window.Game.Save = {
+    SAVE_VERSION: SAVE_VERSION,
+    write: write, read: read, clear: clear, exists: exists,
+    writeMeta: writeMeta, readMeta: readMeta,
+    writeCheckpoint: writeCheckpoint, readCheckpoint: readCheckpoint, clearCheckpoint: clearCheckpoint,
+    exportAll: exportAll, importAll: importAll,
+    lastError: function () { return lastError; }
+  };
 })();

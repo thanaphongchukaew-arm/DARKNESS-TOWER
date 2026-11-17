@@ -12,7 +12,7 @@ function loadArt() {
   return context.window.Game;
 }
 
-test('all 29 playable classes resolve to separate shipped PNG portraits and offline assets', () => {
+test('all 29 playable classes resolve to separate shipped WebP portraits and offline assets', () => {
   const game = loadArt();
   const hashes = new Set();
   const serviceWorker = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
@@ -22,12 +22,12 @@ test('all 29 playable classes resolve to separate shipped PNG portraits and offl
   for (const cls of game.Data.classes) {
     assert.ok(game.ClassArt.has(cls.icon), cls.id);
     const svg = game.ClassArt.render(cls.icon);
-    const relative = 'assets/classes/' + cls.icon + '.png';
+    const relative = 'assets/classes/' + cls.icon + '.webp';
     assert.ok(svg.includes('href="' + relative + '"'), cls.id);
     const png = fs.readFileSync(path.join(root, relative));
-    assert.equal(png.subarray(0, 8).toString('hex'), '89504e470d0a1a0a', cls.id);
-    assert.ok(png.readUInt32BE(16) >= 512, cls.id + ' width');
-    assert.ok(png.readUInt32BE(20) >= 512, cls.id + ' height');
+    assert.equal(png.subarray(0, 4).toString('latin1'), 'RIFF', cls.id);
+    assert.equal(png.subarray(8, 12).toString('latin1'), 'WEBP', cls.id);
+    assert.ok(png.length < 300 * 1024, cls.id + ' stays small enough to precache');
     const hash = crypto.createHash('sha256').update(png).digest('hex');
     assert.ok(!hashes.has(hash), cls.id + ' duplicates another portrait');
     hashes.add(hash);
@@ -41,7 +41,7 @@ test('battle uses the same class asset and retains animation and talent layers',
   const game = loadArt();
   for (const cls of game.Data.classes) {
     const html = game.HeroArt.render({ classId: cls.id, talents: { 5: 'riposte', 10: 'affliction', 15: 'focus_guard' } }, 'hero-guard');
-    for (const marker of ['assets/classes/' + cls.icon + '.png', 'hero-body', 'hero-guard', 'hero-halo', 'hero-runes', 'hero-armament', 'hero-slash', 'hero-ward']) {
+    for (const marker of ['assets/classes/' + cls.icon + '.webp', 'hero-body', 'hero-guard', 'hero-halo', 'hero-runes', 'hero-armament', 'hero-slash', 'hero-ward']) {
       assert.ok(html.includes(marker), cls.id + ': ' + marker);
     }
   }

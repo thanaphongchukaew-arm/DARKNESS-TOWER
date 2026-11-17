@@ -1044,3 +1044,93 @@ button:disabled {
 .micro-new .pixel-icon{display:inline-block;width:.8rem;height:.8rem;vertical-align:-.12rem;margin-right:.15rem}
 .micro-run-stats .pixel-icon,.tactical-modal .note .pixel-icon{width:1.1rem;height:1.1rem;vertical-align:-.25rem;margin-right:.2rem}
 .micro-run-stats h4 .pixel-icon{width:1.4rem;height:1.4rem}
+
+/* ---- Release systems: notices, hints, settings, keyboard focus ---- */
+.app-notice {
+  position: fixed;
+  left: 50%;
+  top: 0.9rem;
+  transform: translate(-50%, -160%);
+  max-width: min(92vw, 34rem);
+  padding: 0.6rem 1rem;
+  background: var(--bg-panel-raised);
+  border: 2px solid var(--accent-gold);
+  color: var(--text-primary);
+  font-family: "Chakra Petch", var(--font-main);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-align: center;
+  z-index: 1200;
+  pointer-events: none;
+  opacity: 0;
+  transition: transform 0.18s steps(4, end), opacity 0.18s steps(4, end);
+}
+.app-notice.show { transform: translate(-50%, 0); opacity: 1; }
+.app-notice.warn { border-color: var(--danger); }
+
+.tip-card {
+  position: fixed;
+  left: 50%;
+  top: 3.6rem; /* below the screen header; the bottom edge belongs to battle commands */
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: min(94vw, 40rem);
+  padding: 0.65rem 0.8rem;
+  background: var(--bg-panel-raised);
+  border: 2px double var(--accent-gold);
+  box-shadow: var(--shadow-card);
+  color: var(--text-primary);
+  font-family: "Chakra Petch", var(--font-main);
+  font-size: 0.85rem;
+  line-height: 1.45;
+  z-index: 900;
+}
+.tip-card.hidden { display: none; }
+.tip-card-icon { flex: 0 0 auto; color: var(--accent-gold); }
+.tip-card-icon svg { width: 1.4rem; height: 1.4rem; }
+.tip-card-text { flex: 1 1 auto; }
+.tip-card-ok { flex: 0 0 auto; padding: 0.4rem 0.7rem; font-size: 0.7rem; white-space: nowrap; }
+
+.settings-content {
+  width: 100%;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+  overflow-y: auto;
+  font-family: "Chakra Petch", var(--font-main);
+}
+.settings-content .guide-section { margin-bottom: 1rem; }
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.settings-row:last-child { border-bottom: 0; }
+.settings-label { flex: 1 1 auto; font-size: 0.9rem; }
+.settings-control { display: inline-flex; align-items: center; gap: 0.6rem; flex: 0 0 auto; }
+.settings-control .btn-secondary, .settings-control .btn-ghost { padding: 0.5rem 0.9rem; font-size: 0.72rem; min-width: 5.5rem; }
+.settings-slider { width: 9rem; }
+.settings-value { min-width: 2.2rem; text-align: right; font-size: 0.8rem; color: var(--text-secondary, var(--text-primary)); }
+.settings-toggle.on { border-color: var(--accent-gold); color: var(--accent-gold); }
+.settings-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.6rem; }
+.settings-actions .btn-secondary { font-size: 0.72rem; }
+.credits-head p { margin-bottom: 0.3rem; }
+
+.stat-chip.chip-safe { border-color: #58b878; color: #8fe0a8; }
+.stat-chip.chip-danger { border-color: var(--danger); color: #ff9c9c; }
+
+/* Keyboard / gamepad focus: only shown after a key or pad press (see js/input.js). */
+.kbd-nav :focus { outline: 3px solid var(--accent-gold); outline-offset: 2px; }
+.kbd-nav .enemy-card:focus, .kbd-nav .floor-row:focus, .kbd-nav .select-card:focus { box-shadow: var(--shadow-glow-gold); }
+html:not(.kbd-nav) .enemy-card:focus, html:not(.kbd-nav) .floor-row:focus, html:not(.kbd-nav) .inv-tile:focus, html:not(.kbd-nav) .equip-slot:focus { outline: none; }
+
+@media (max-width: 600px) {
+  .settings-row { flex-wrap: wrap; }
+  .settings-slider { width: 7rem; }
+  .tip-card { font-size: 0.8rem; }
+}

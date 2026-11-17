@@ -302,6 +302,27 @@
     { id: 'infinite_horizon', name: 'ขอบฟ้าไร้สิ้นสุด', nameEn: 'Infinite Horizon', element: 'wind', kind: 'attack', power: 1.35, cost: 18, target: 'allEnemies', minLevel: 18, classOnly: 'vanguard', icon: 'wind', desc: 'สายลมไร้สิ้นสุดกวาดล้างศัตรูทั้งหมด', descEn: 'A boundless gale sweeps across all enemies.' }
   ];
 
+  // Elemental weapon techniques for the purely physical classes (see
+  // PHYSICAL_CLASSES below): they deal elemental damage but scale off ATK
+  // (`scaleStat`), so a weapon fighter can strike elemental weaknesses and
+  // knock enemies down without a MAG stat. Resisted by RES like any element.
+  [
+    { id: 'edge_fire', name: 'คมเพลิง', nameEn: 'Flame Edge', element: 'fire', minLevel: 3, cost: 5, icon: 'fire' },
+    { id: 'edge_ice', name: 'คมน้ำแข็ง', nameEn: 'Frost Edge', element: 'ice', minLevel: 3, cost: 5, icon: 'ice' },
+    { id: 'edge_elec', name: 'คมอัสนี', nameEn: 'Thunder Edge', element: 'elec', minLevel: 7, cost: 6, icon: 'elec' },
+    { id: 'edge_wind', name: 'คมวายุ', nameEn: 'Gale Edge', element: 'wind', minLevel: 7, cost: 6, icon: 'wind' },
+    { id: 'edge_light', name: 'คมรัศมี', nameEn: 'Radiant Edge', element: 'light', minLevel: 11, cost: 7, icon: 'light' },
+    { id: 'edge_dark', name: 'คมรัตติกาล', nameEn: 'Umbral Edge', element: 'dark', minLevel: 11, cost: 7, icon: 'dark' }
+  ].forEach(function (e) {
+    var el = { fire: ['ไฟ', 'fire'], ice: ['น้ำแข็ง', 'ice'], elec: ['สายฟ้า', 'lightning'], wind: ['ลม', 'wind'], light: ['แสง', 'light'], dark: ['ความมืด', 'dark'] }[e.element];
+    skills.push({
+      id: e.id, name: e.name, nameEn: e.nameEn, element: e.element, kind: 'attack', power: 1.3, cost: e.cost,
+      target: 'singleEnemy', minLevel: e.minLevel, classOnly: null, martialOnly: true, scaleStat: 'atk', icon: e.icon,
+      desc: 'ฟันอาวุธเคลือบธาตุ' + el[0] + 'ใส่ศัตรูเดี่ยว คิดดาเมจจาก ATK',
+      descEn: 'A weapon strike charged with ' + el[1] + '. Single enemy; scales with ATK.'
+    });
+  });
+
   // Purely physical classes: their kit is built around weapon damage, not
   // spellcasting, so they're barred from the shared elemental attack/heal
   // skills (fire_bolt, heal, etc.) that every other class can pick up.
@@ -324,6 +345,7 @@
 
   function isSkillAllowedForClass(skill, classId) {
     if (skill.classOnly !== null && skill.classOnly !== classId) return false;
+    if (skill.martialOnly) return !!PHYSICAL_CLASSES[classId];
     if (PHYSICAL_CLASSES[classId] && isSharedMagicSkill(skill)) return false;
     return true;
   }
@@ -336,6 +358,7 @@
     return null;
   };
   window.Game.Data.isSkillAllowedForClass = isSkillAllowedForClass;
+  window.Game.Data.isMartialClass = function (classId) { return !!PHYSICAL_CLASSES[classId]; };
   window.Game.Data.getLearnedSkills = function (classId, level) {
     return skills.filter(function (s) {
       return isSkillAllowedForClass(s, classId) && s.minLevel <= level;

@@ -325,6 +325,9 @@
     var bonus = getEquipmentBonus(run);
     var total = {};
     Object.keys(base).forEach(function (k) { total[k] = base[k] + (bonus[k] || 0); });
+    // Flat, run-long training bonuses granted by tower events (see addStatBoost).
+    var boosts = run.statBoosts || {};
+    Object.keys(boosts).forEach(function (k) { total[k] = (total[k] || 0) + boosts[k]; });
     STAT_KEYS.forEach(function (k) {
       if (total[k] == null) total[k] = bonus[k] || 0;
       total[k] = F.round(total[k] * blessingStatMult(run, k));
@@ -467,6 +470,14 @@
   // de-duped by id exactly like addBlessing/addCurse above. Also records into
   // meta.relicsEverHeld (account-wide, survives permadeath) for the relicsAll
   // achievement, mirroring blessingsEverHeld/cursesEverHeld.
+  // Permanent-for-this-run flat stat gain (event rewards). Keeps HP/MP in range.
+  function addStatBoost(run, stat, amount) {
+    if (!amount) return;
+    run.statBoosts = run.statBoosts || {};
+    run.statBoosts[stat] = (run.statBoosts[stat] || 0) + amount;
+    clampVitals(run);
+  }
+
   function addRelic(run, id) {
     run.relics = run.relics || [];
     if (run.relics.indexOf(id) !== -1) return false;
@@ -856,6 +867,87 @@
     window.Game.Save.clear();
   }
 
+  // ---- Checkpoints -------------------------------------------------------
+  // Every difficulty except Nightmare keeps a snapshot of the run each time a
+  // new 10-floor stretch begins (floors 11, 21, ... 91). A defeat sends the
+  // player back to that snapshot instead of ending the run; Nightmare stays
+  // true permadeath, which is what its class unlocks and Ascension reward.
+  var CHECKPOINT_INTERVAL = 10;
+
+  function checkpointsEnabled(run) {
+    return !!run && run.difficulty !== 'nightmare';
+  }
+
+  function isCheckpointFloor(floor) {
+    return floor > 1 && floor <= 100 && (floor - 1) % CHECKPOINT_INTERVAL === 0;
+  }
+
+  // Call right after run.currentFloor advances. Returns true when a snapshot was taken.
+  function maybeCheckpoint(run) {
+    if (!checkpointsEnabled(run) || !isCheckpointFloor(run.currentFloor)) return false;
+    var existing = window.Game.Save.readCheckpoint();
+    if (existing && existing.currentFloor >= run.currentFloor) return false;
+    var snapshot = JSON.parse(JSON.stringify(run));
+    delete snapshot.battleMark;
+    snapshot.pendingReward = null;
+    return window.Game.Save.writeCheckpoint(snapshot);
+  }
+
+  function getCheckpoint(run) {
+    if (!checkpointsEnabled(run)) return null;
+    var cp = window.Game.Save.readCheckpoint();
+    if (!cp || cp.classId !== run.classId || cp.difficulty !== run.difficulty) return null;
+    return cp;
+  }
+
+  // Replaces the active run with its checkpoint (fully healed) and saves it.
+  // Returns the restored run, or null when there is nothing to go back to.
+  function restoreCheckpoint() {
+    var run = window.Game.State.current;
+    var cp = getCheckpoint(run);
+    if (!cp) return null;
+    var restored = JSON.parse(JSON.stringify(cp));
+    restored.checkpointUses = (run.checkpointUses || 0) + 1;
+    restored.ailments = [];
+    delete restored.battleMark;
+    window.Game.State.current = restored;
+    normalizeEquipment(restored);
+    normalizeRunExtras(restored);
+    fullRestore(restored);
+    saveNow();
+    return restored;
+  }
+
+  // ---- Retreat -----------------------------------------------------------
+  // A tower battle is marked on the run while it is in progress, so walking
+  // away from a losing fight -- through the door button or by closing the game
+  // -- always costs the same share of carried gold.
+  var RETREAT_GOLD_PCT = 0.15;
+
+  function markBattle(run, floor) {
+    run.battleMark = floor;
+    saveNow();
+  }
+
+  function clearBattleMark(run) {
+    if (run && run.battleMark != null) delete run.battleMark;
+  }
+
+  function retreatCost(run) {
+    return Math.floor(Math.max(0, run.gold || 0) * RETREAT_GOLD_PCT);
+  }
+
+  // Applies the retreat cost if a battle was in progress. Returns the gold lost (0 if none).
+  function settleRetreat(run) {
+    if (!run || run.battleMark == null) return 0;
+    var cost = retreatCost(run);
+    run.gold = Math.max(0, (run.gold || 0) - cost);
+    delete run.battleMark;
+    run.ailments = [];
+    if (run.hp < 1) run.hp = 1;
+    return cost;
+  }
+
   window.Game = window.Game || {};
   window.Game.State = {
     current: null,
@@ -897,6 +989,7 @@
     addCurse: addCurse,
     hasReviveBlessing: hasReviveBlessing,
     addRelic: addRelic,
+    addStatBoost: addStatBoost,
     hasRelic: hasRelic,
     relicDamageMult: relicDamageMult,
     getRewardMult: getRewardMult,
@@ -912,6 +1005,17 @@
     equipTitle: equipTitle,
     getEquippedTitle: getEquippedTitle,
     saveNow: saveNow,
-    clearRun: clearRun
+    clearRun: clearRun,
+    CHECKPOINT_INTERVAL: CHECKPOINT_INTERVAL,
+    checkpointsEnabled: checkpointsEnabled,
+    isCheckpointFloor: isCheckpointFloor,
+    maybeCheckpoint: maybeCheckpoint,
+    getCheckpoint: getCheckpoint,
+    restoreCheckpoint: restoreCheckpoint,
+    RETREAT_GOLD_PCT: RETREAT_GOLD_PCT,
+    markBattle: markBattle,
+    clearBattleMark: clearBattleMark,
+    retreatCost: retreatCost,
+    settleRetreat: settleRetreat
   };
 })();

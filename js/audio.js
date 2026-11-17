@@ -18,6 +18,14 @@
     if (storedVol != null) musicVolume = Math.max(0, Math.min(100, parseInt(storedVol, 10)));
   } catch (e) { /* ignore */ }
 
+  var SFX_VOL_KEY = 'towerRPG_sfxVol_v1';
+  var SFX_MAX_GAIN = 0.9;
+  var sfxVolume = 100; // percent, 0-100
+  try {
+    var storedSfx = localStorage.getItem(SFX_VOL_KEY);
+    if (storedSfx != null && !isNaN(parseInt(storedSfx, 10))) sfxVolume = Math.max(0, Math.min(100, parseInt(storedSfx, 10)));
+  } catch (e) { /* ignore */ }
+
   var NOTES = {
     C3: 130.81, D3: 146.83, E3: 164.81, F3: 174.61, G3: 196.00, A3: 220.00, B3: 246.94,
     C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.00, A4: 440.00, B4: 493.88,
@@ -34,7 +42,7 @@
       masterGain.gain.value = 0.5;
       masterGain.connect(ctx.destination);
       sfxGain = ctx.createGain();
-      sfxGain.gain.value = 0.9;
+      sfxGain.gain.value = (sfxVolume / 100) * SFX_MAX_GAIN;
       sfxGain.connect(masterGain);
       musicGain = ctx.createGain();
       musicGain.gain.value = (musicVolume / 100) * MUSIC_MAX_GAIN;
@@ -411,6 +419,13 @@
     }
   }
 
+  function setSfxVolume(percent) {
+    if (isNaN(percent)) return;
+    sfxVolume = Math.max(0, Math.min(100, percent));
+    try { localStorage.setItem(SFX_VOL_KEY, String(sfxVolume)); } catch (e) { /* ignore */ }
+    if (sfxGain) sfxGain.gain.value = (sfxVolume / 100) * SFX_MAX_GAIN;
+  }
+
   function sfx(name) {
     if (muted) return;
     var fn = SFX[name];
@@ -451,6 +466,8 @@
     getActiveTrack: function () { return activeTrackName; },
     setMusicVolume: setMusicVolume,
     getMusicVolume: function () { return musicVolume; },
+    setSfxVolume: setSfxVolume,
+    getSfxVolume: function () { return sfxVolume; },
     unlock: ensureCtx
   };
 })();

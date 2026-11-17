@@ -24,13 +24,46 @@
     { id: 'affliction', level: 10, icon: 'statusPoison', name: 'พิษแทรกคม', nameEn: 'Venom Edge', desc: 'โจมตีปกติติดพิษ 3 รอบ (บอสรับผลเบาลง)', descEn: 'Basic attacks inflict poison for 3 rounds (reduced on bosses).' },
     { id: 'overdrive_echo', level: 15, icon: 'relicEcho', name: 'เสียงสะท้อนสหาย', nameEn: 'Companion Echo', desc: 'Overdrive ให้สหายทำงานเพิ่มทันที 1 ครั้ง', descEn: 'Overdrive triggers one immediate extra companion action.' },
     { id: 'burning_wind', level: 15, icon: 'statusBurn', name: 'ลมโหมเพลิง', nameEn: 'Fanning Flames', desc: 'โจมตีลมใส่ศัตรูที่ไหม้เพิ่มดาเมจอีก 30% และโจมตีไฟติดไหม้แน่นอน', descEn: 'Wind deals 30% extra to burning foes; fire always inflicts burn.' },
-    { id: 'focus_guard', level: 15, icon: 'relicGuard', name: 'สมาธิผู้พิทักษ์', nameEn: 'Guardian Focus', desc: 'Guard เพิ่ม Focus 20 แต้ม', descEn: 'Guard grants 20 Focus.' }
+    { id: 'focus_guard', level: 15, icon: 'relicGuard', name: 'สมาธิผู้พิทักษ์', nameEn: 'Guardian Focus', desc: 'Guard เพิ่ม Focus 20 แต้ม', descEn: 'Guard grants 20 Focus.' },
+    // Level 20: one set per class archetype (see archetype() below), so the
+    // mid-run build choice differs between weapon fighters, casters and hybrids.
+    { id: 'executioner_edge', level: 20, archetype: 'martial', icon: 'relicOpportunist', name: 'คมเพชฌฆาต', nameEn: "Executioner's Edge", desc: 'ดาเมจต่อศัตรูที่ HP ต่ำกว่า 35% เพิ่มขึ้น 25%', descEn: 'Deal 25% more damage to enemies below 35% HP.' },
+    { id: 'weapon_mastery', level: 20, archetype: 'martial', icon: 'swordAttack', name: 'เชี่ยวชาญศาสตรา', nameEn: 'Weapon Mastery', desc: 'โจมตีปกติและท่าคมธาตุแรงขึ้น 25%', descEn: 'Basic attacks and elemental Edge techniques deal 25% more damage.' },
+    { id: 'iron_will', level: 20, archetype: 'martial', icon: 'shieldGuard', name: 'เจตจำนงเหล็ก', nameEn: 'Iron Will', desc: 'DEF +15% และ RES +10% ระหว่างการต่อสู้', descEn: '+15% DEF and +10% RES in battle.' },
+    { id: 'spell_surge', level: 20, archetype: 'caster', icon: 'magicBurst', name: 'คลื่นเวทพลุ่งพล่าน', nameEn: 'Spell Surge', desc: 'ทักษะธาตุเวทแรงขึ้น 15%', descEn: 'Elemental spells deal 15% more damage.' },
+    { id: 'mana_font', level: 20, archetype: 'caster', icon: 'drop', name: 'น้ำพุมานา', nameEn: 'Mana Font', desc: 'ฟื้นฟู MP 4% ของค่าสูงสุดเมื่อเริ่มแต่ละรอบ', descEn: 'Restore 4% of max MP at the start of each round.' },
+    { id: 'arcane_ward', level: 20, archetype: 'caster', icon: 'sparkles', name: 'ม่านอาคม', nameEn: 'Arcane Ward', desc: 'RES +20% ระหว่างการต่อสู้ และ Guard คืน 6 MP', descEn: '+20% RES in battle, and Guard restores 6 MP.' },
+    { id: 'versatile', level: 20, archetype: 'hybrid', icon: 'buffUp', name: 'ศาสตร์คู่ขนาน', nameEn: 'Twin Disciplines', desc: 'ATK และ MAG +8% ระหว่างการต่อสู้', descEn: '+8% ATK and MAG in battle.' },
+    { id: 'tactician', level: 20, archetype: 'hybrid', icon: 'star', name: 'นักวางกลยุทธ์', nameEn: 'Tactician', desc: 'โจมตีโดนจุดอ่อนคูณดาเมจ 1.75 แทน 1.5', descEn: 'Weakness hits deal ×1.75 damage instead of ×1.5.' },
+    { id: 'second_wind', level: 20, archetype: 'hybrid', icon: 'heart', name: 'ลมหายใจที่สอง', nameEn: 'Second Wind', desc: 'ครั้งแรกในแต่ละการต่อสู้ที่ HP ต่ำกว่า 30% ฟื้นฟู HP 25%', descEn: 'The first time each battle your HP drops below 30%, restore 25% HP.' },
+    { id: 'opportune', level: 30, icon: 'downedMark', name: 'ซ้ำเติมผู้ล้ม', nameEn: 'Opportune Strike', desc: 'ดาเมจต่อศัตรูที่ล้มอยู่เพิ่มขึ้น 30%', descEn: 'Deal 30% more damage to knocked-down enemies.' },
+    { id: 'bulwark', level: 30, icon: 'relicStoneWard', name: 'ปราการมั่น', nameEn: 'Bulwark', desc: 'Guard ลดดาเมจ 70% แทน 50%', descEn: 'Guard reduces damage by 70% instead of 50%.' },
+    { id: 'quickstep', level: 30, icon: 'wind', name: 'ก้าวฉับไว', nameEn: 'Quickstep', desc: 'สะสมจังหวะเพิ่ม 25% ทุกรอบ ได้แต้ม AP พิเศษบ่อยขึ้นแม้ไม่เร็วกว่าศัตรู', descEn: 'Bank 25% extra tempo every round: bonus AP comes more often, even when you are not faster.' },
+    { id: 'overdrive_mastery', level: 40, icon: 'almighty', name: 'ปรมาจารย์ Overdrive', nameEn: 'Overdrive Mastery', desc: 'Overdrive แรงขึ้น 40% และเหลือ Focus 30 แต้มหลังใช้', descEn: 'Overdrive deals 40% more damage and leaves 30 Focus behind.' },
+    { id: 'lifebloom', level: 40, icon: 'blessVitality', name: 'ชีวิตผลิบาน', nameEn: 'Lifebloom', desc: 'ฟื้นฟู HP 4% ของค่าสูงสุดเมื่อเริ่มแต่ละรอบ', descEn: 'Restore 4% of max HP at the start of each round.' },
+    { id: 'relentless', level: 40, icon: 'relicMomentumCharm', name: 'ไม่หยุดยั้ง', nameEn: 'Relentless', desc: 'กำจัดศัตรูได้รับ AP เพิ่ม 1 แต้ม (ครั้งเดียวต่อรอบ)', descEn: 'Defeating an enemy grants 1 AP (once per round).' },
+    { id: 'giant_slayer', level: 50, icon: 'crownSkull', name: 'ผู้ล้มยักษ์', nameEn: 'Giant Slayer', desc: 'ดาเมจต่อบอส มินิบอส และหัวหน้าฝูงเพิ่มขึ้น 20%', descEn: 'Deal 20% more damage to bosses, mini-bosses and champions.' },
+    { id: 'unbreakable', level: 50, icon: 'blessGuardian', name: 'ไม่ยอมล้ม', nameEn: 'Unbreakable', desc: 'ครั้งแรกในแต่ละการต่อสู้ที่จะพ่ายแพ้ ยืนหยัดไว้ที่ 1 HP', descEn: 'The first time each battle you would fall, survive at 1 HP instead.' },
+    { id: 'rally_master', level: 50, icon: 'sparkles', name: 'จอมทัพรวมพลัง', nameEn: 'Rally Master', desc: 'โจมตีรวมพลังแรงขึ้น 50%', descEn: 'Rally Strike deals 50% more damage.' }
   ];
+  var TALENT_LEVELS = [5, 10, 15, 20, 30, 40, 50];
+  // Weapon fighters (the classes barred from shared spells), dedicated casters
+  // (MAG well above ATK) and everyone in between.
+  function archetype(run) {
+    var cls = D.getClass(run.classId) || D.classes[0];
+    if (D.isMartialClass(cls.id)) return 'martial';
+    return cls.baseStats.mag >= cls.baseStats.atk * 1.4 ? 'caster' : 'hybrid';
+  }
+  // The choices offered at one talent level for this run's class.
+  function options(run, level) {
+    var kind = archetype(run);
+    return talents.filter(function (t) { return t.level === level && (!t.archetype || t.archetype === kind); });
+  }
   function has(run, id) { ensure(run); return Object.keys(run.talents).some(function (k) { return run.talents[k] === id; }); }
-  function pending(run) { ensure(run); return [5, 10, 15].find(function (level) { return run.level >= level && !run.talents[level]; }) || null; }
+  function pending(run) { ensure(run); return TALENT_LEVELS.find(function (level) { return run.level >= level && !run.talents[level]; }) || null; }
   function chooseTalent(run, id) {
     var talent = talents.find(function (t) { return t.id === id; });
-    if (!talent || pending(run) !== talent.level) return false;
+    if (!talent || pending(run) !== talent.level || options(run, talent.level).indexOf(talent) === -1) return false;
     run.talents[talent.level] = id; S.saveNow(); return true;
   }
   var routes = [
@@ -87,5 +120,5 @@
     iron_golem_cub: ['เพิ่ม DEF/RES 22% และเพิ่ม Focus 5 แต้มทุกรอบ', 'Grants 22% DEF/RES and 5 Focus each round.']
   };
   Object.keys(companionNotes).forEach(function (id) { var c = D.getCompanion(id); c.desc = companionNotes[id][0]; c.descEn = companionNotes[id][1]; });
-  G.Systems = { text: text, ensure: ensure, talents: talents, has: has, pending: pending, chooseTalent: chooseTalent, routes: routes, route: route, chooseRoute: chooseRoute, discover: discover, affinities: affinities, effect: effect };
+  G.Systems = { text: text, ensure: ensure, talents: talents, TALENT_LEVELS: TALENT_LEVELS, archetype: archetype, options: options, has: has, pending: pending, chooseTalent: chooseTalent, routes: routes, route: route, chooseRoute: chooseRoute, discover: discover, affinities: affinities, effect: effect };
 })();

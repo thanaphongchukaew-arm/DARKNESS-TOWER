@@ -11,25 +11,50 @@
     if (id !== 'screen-battle' && window.Game.BattleUI && window.Game.BattleUI.cancelPlayback) window.Game.BattleUI.cancelPlayback();
     document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('active'); });
     document.getElementById(id).classList.add('active');
+    if (window.Game.Tips) window.Game.Tips.onScreen(id);
+    if (window.Game.Input) window.Game.Input.onScreen(id);
     if (window.Game.Audio) window.Game.Audio.playMusic(id === 'screen-battle' ? 'battle' : 'menu');
   }
 
+  // Short, self-dismissing status line (checkpoint saved, retreat cost, import result).
+  var noticeTimer = null;
+  function notice(text, tone) {
+    var el = document.getElementById('app-notice');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'app-notice';
+      el.setAttribute('role', 'status');
+      document.getElementById('app-root').appendChild(el);
+    }
+    el.textContent = text;
+    el.className = 'app-notice show' + (tone ? ' ' + tone : '');
+    clearTimeout(noticeTimer);
+    noticeTimer = setTimeout(function () { el.classList.remove('show'); }, 3800);
+  }
+
+  // Confirmation box. When the only sensible answer is "Close" (a result
+  // message: confirmLabel is the shared Close label, or opts.info), it shows a
+  // single button -- a second "Cancel" there would dismiss the box without
+  // running onConfirm and leave the screen behind it half-finished.
   function confirmModal(opts) {
     var root = document.getElementById('modal-root');
+    var info = !!opts.info || (opts.confirmLabel === T('closeBtn') && !opts.cancelLabel);
     root.innerHTML =
       '<div class="modal-box">' +
         '<h3>' + opts.title + '</h3>' +
         '<p class="note">' + opts.message + '</p>' +
         '<div class="modal-actions">' +
-          '<button class="btn-ghost" id="modal-cancel">' + (opts.cancelLabel || T('cancel')) + '</button>' +
+          (info ? '' : '<button class="btn-ghost" id="modal-cancel">' + (opts.cancelLabel || T('cancel')) + '</button>') +
           '<button class="' + (opts.danger ? 'btn-danger' : 'btn-primary') + '" id="modal-confirm">' + opts.confirmLabel + '</button>' +
         '</div>' +
       '</div>';
     root.classList.remove('hidden');
-    document.getElementById('modal-cancel').onclick = function () { SFX('ui_cancel'); root.classList.add('hidden'); root.innerHTML = ''; };
+    function close() { root.classList.add('hidden'); root.innerHTML = ''; }
+    var cancel = document.getElementById('modal-cancel');
+    if (cancel) cancel.onclick = function () { SFX('ui_cancel'); close(); opts.onCancel && opts.onCancel(); };
     document.getElementById('modal-confirm').onclick = function () {
-      SFX(opts.danger ? 'ui_error' : 'ui_confirm');
-      root.classList.add('hidden'); root.innerHTML = '';
+      SFX(opts.danger && !info ? 'ui_error' : 'ui_confirm');
+      close();
       opts.onConfirm && opts.onConfirm();
     };
   }
@@ -45,10 +70,31 @@
     }
     html += '<button class="' + (hasSave ? 'btn-secondary' : 'btn-primary') + '" id="btn-new">' + I('towerSpire') + '<span>' + T('newGame') + '</span></button>';
     html += '<button class="btn-secondary" id="btn-guide">' + I('scroll') + '<span>' + T('guideBtn') + '</span></button>';
+    html += '<button class="btn-secondary" id="btn-settings">' + I('gem') + '<span>' + T('settingsBtn') + '</span></button>';
+    html += '<button class="btn-secondary" id="btn-credits">' + I('star') + '<span>' + T('creditsBtn') + '</span></button>';
     if (hasSave) {
       html += '<button class="btn-danger" id="btn-clear">' + I('trash') + '<span>' + T('clearSave') + '</span></button>';
     }
+    var desktop = window.DesktopBridge && window.DesktopBridge.isDesktop;
+    if (desktop) html += '<button class="btn-ghost" id="btn-quit">' + I('doorway') + '<span>' + T('quitBtn') + '</span></button>';
     el.innerHTML = html;
+
+    document.getElementById('btn-settings').onclick = function () {
+      SFX('ui_confirm');
+      window.Game.SettingsUI.renderSettings();
+      showScreen('screen-settings');
+    };
+    document.getElementById('btn-credits').onclick = function () {
+      SFX('ui_confirm');
+      window.Game.SettingsUI.renderCredits();
+      showScreen('screen-credits');
+    };
+    if (desktop) {
+      document.getElementById('btn-quit').onclick = function () {
+        SFX('ui_back');
+        confirmModal({ title: T('quitConfirmTitle'), message: T('quitConfirmMsg'), confirmLabel: T('quitBtn'), danger: true, onConfirm: function () { window.DesktopBridge.quit(); } });
+      };
+    }
 
     document.getElementById('btn-guide').onclick = function () {
       SFX('ui_confirm');
@@ -65,13 +111,16 @@
         window.Game.State.normalizeEquipment(run);
         window.Game.State.normalizeRunExtras(run);
         window.Game.State.clampVitals(run);
+        // The game was closed mid-battle: that counts as a retreat.
+        var retreatLoss = run.battleMark != null ? window.Game.State.settleRetreat(run) : -1;
+        if (retreatLoss >= 0) { window.Game.State.saveNow(); notice(T('retreatNotice', { gold: retreatLoss }), 'warn'); }
         if (window.Game.TowerUI.resumePendingReward()) return;
         window.Game.TowerUI.renderTower();
         showScreen('screen-tower');
       };
     }
     function startIntroStory() {
-      renderStory('intro', startNightmareRun);
+      renderStory('intro', startNewRun);
       showScreen('screen-story');
     }
     document.getElementById('btn-new').onclick = function () {
@@ -226,20 +275,58 @@
     btn.onclick = function () { SFX('ui_confirm'); onContinue(); };
   }
 
-  // Nightmare is the only difficulty in the game, so there's no picker screen
-  // for it -- a new run goes straight from the intro story into the ascension
-  // picker (once unlocked) or class select. See data-classes.js's elite-class
-  // unlock note for how clearing Nightmare still gates the 5 Valiant classes.
-  function startNightmareRun() {
-    window.Game.State.pending.difficulty = 'nightmare';
-    if (window.Game.State.getAscensionUnlocked() > 0) {
+  // New run flow: intro story -> difficulty -> (Nightmare with Ascension unlocked:
+  // ascension level) -> class -> blessing. See data-classes.js's elite-class unlock
+  // note for how clearing Nightmare gates the 5 Valiant classes.
+  var DIFFICULTY_ORDER = ['easy', 'normal', 'hard', 'nightmare'];
+  var DIFFICULTY_ICON = { easy: 'heart', normal: 'swordAttack', hard: 'skull', nightmare: 'skullFire' };
+  var DIFFICULTY_DESC = { easy: 'diffEasyDesc', normal: 'diffNormalDesc', hard: 'diffHardDesc', nightmare: 'diffNightmareDesc' };
+
+  function startNewRun() {
+    renderDifficultyPick();
+    showScreen('screen-difficulty');
+  }
+
+  function afterDifficultyPicked() {
+    var pending = window.Game.State.pending;
+    if (pending.difficulty === 'nightmare' && window.Game.State.getAscensionUnlocked() > 0) {
       renderAscensionPick();
       showScreen('screen-ascension');
     } else {
-      window.Game.State.pending.ascension = 0;
+      pending.ascension = 0;
       renderClassSelect();
       showScreen('screen-class');
     }
+  }
+
+  function renderDifficultyPick() {
+    var F = window.Game.Formulas;
+    var el = document.getElementById('difficulty-cards');
+    el.innerHTML = DIFFICULTY_ORDER.map(function (id) {
+      var d = F.DIFFICULTY[id];
+      var permadeath = id === 'nightmare';
+      return '<button class="select-card difficulty-card diff-' + id + '" data-id="' + id + '">' +
+        '<div class="select-card-icon">' + I(DIFFICULTY_ICON[id]) + '</div>' +
+        '<div class="select-card-title">' + L(d, 'name') + (id === 'normal' ? '<span class="stat-chip" style="margin-left:0.4rem">' + T('diffRecommended') + '</span>' : '') + '</div>' +
+        '<div class="select-card-desc">' + T(DIFFICULTY_DESC[id]) + '</div>' +
+        '<div class="select-card-stats">' +
+          '<span class="stat-chip">' + T('enemyPowerLabel') + d.statMult.toFixed(2) + '</span>' +
+          '<span class="stat-chip">' + T('rewardLabel') + d.rewardMult.toFixed(2) + '</span>' +
+          '<span class="stat-chip">' + T('diffPotionsChip', { n: d.startPotions }) + '</span>' +
+          '<span class="stat-chip ' + (permadeath ? 'chip-danger' : 'chip-safe') + '">' + T(permadeath ? 'diffPermadeathChip' : 'diffCheckpointChip') + '</span>' +
+        '</div>' +
+      '</button>';
+    }).join('');
+    Array.prototype.forEach.call(el.querySelectorAll('.select-card'), function (card) {
+      card.onclick = function () {
+        SFX('ui_confirm');
+        window.Game.State.pending.difficulty = card.getAttribute('data-id');
+        afterDifficultyPicked();
+      };
+    });
+    document.getElementById('difficulty-sub').textContent = T('difficultySub');
+    document.getElementById('difficulty-back').innerHTML = I('back');
+    document.getElementById('difficulty-back').onclick = function () { SFX('ui_back'); renderMainMenu(); showScreen('screen-menu'); };
   }
 
   // Ascension level picker (Nightmare-only, see startNightmareRun above).
@@ -274,7 +361,7 @@
     });
     document.getElementById('ascension-sub').textContent = T('ascensionSub');
     document.getElementById('ascension-back').innerHTML = I('back');
-    document.getElementById('ascension-back').onclick = function () { SFX('ui_back'); renderMainMenu(); showScreen('screen-menu'); };
+    document.getElementById('ascension-back').onclick = function () { SFX('ui_back'); renderDifficultyPick(); showScreen('screen-difficulty'); };
   }
 
   // Locked-class reason text: the class's `unlock` field (data-classes.js)
@@ -327,12 +414,12 @@
     document.getElementById('class-back').innerHTML = I('back');
     document.getElementById('class-back').onclick = function () {
       SFX('ui_back');
-      if (window.Game.State.getAscensionUnlocked() > 0) {
+      if (window.Game.State.pending.difficulty === 'nightmare' && window.Game.State.getAscensionUnlocked() > 0) {
         renderAscensionPick();
         showScreen('screen-ascension');
       } else {
-        renderMainMenu();
-        showScreen('screen-menu');
+        renderDifficultyPick();
+        showScreen('screen-difficulty');
       }
     };
   }
@@ -426,6 +513,9 @@
     if (!active) return;
     if (active.id === 'screen-menu') renderMainMenu();
     else if (active.id === 'screen-guide') renderGuide();
+    else if (active.id === 'screen-difficulty') renderDifficultyPick();
+    else if (active.id === 'screen-settings') window.Game.SettingsUI.renderSettings();
+    else if (active.id === 'screen-credits') window.Game.SettingsUI.renderCredits();
     else if (active.id === 'screen-ascension') renderAscensionPick();
     else if (active.id === 'screen-class') renderClassSelect();
     else if (active.id === 'screen-blessing-pick') renderBlessingPick();
@@ -436,9 +526,11 @@
   window.Game.UI = window.Game.UI || {};
   window.Game.UI.showScreen = showScreen;
   window.Game.UI.confirmModal = confirmModal;
+  window.Game.UI.notice = notice;
   window.Game.MenuUI = {
     renderMainMenu: renderMainMenu,
     renderGuide: renderGuide,
+    renderDifficultyPick: renderDifficultyPick,
     renderAscensionPick: renderAscensionPick,
     renderClassSelect: renderClassSelect,
     renderBlessingPick: renderBlessingPick,
