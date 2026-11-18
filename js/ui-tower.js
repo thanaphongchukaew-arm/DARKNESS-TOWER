@@ -895,11 +895,14 @@
       '</button>';
     }
     var qtyLabel = c.qty > 1 ? ' x' + c.qty : '';
-    var need = window.Game.Micro.rewardNeed(window.Game.State.current, c.item.id);
+    var run = window.Game.State.current;
+    var need = window.Game.Micro.rewardNeed(run, c.item.id);
+    var slots = SLOTS_FOR_KIND[c.item.kind];
+    var comparisons = slots ? slots.map(function (slot) { return window.Game.SystemsUI.comparison(run, c.item, slot); }).join('') : '';
     return '<button class="select-card" data-idx="' + idx + '">' +
       '<div class="select-card-icon">' + window.Game.Icons.item(c.item) + '</div>' +
       '<div class="select-card-title">' + L(c.item, 'name') + qtyLabel + '</div>' +
-      '<div class="select-card-desc">' + L(c.item, 'desc') + '</div>' + need +
+      '<div class="select-card-desc">' + L(c.item, 'desc') + '</div>' + comparisons + need +
     '</button>';
   }
 
@@ -1602,7 +1605,7 @@
       var id = run.equipment[slot];
       var item = id ? D.getItem(id) : null;
       return '<div class="equip-slot" data-slot="' + slot + '">' +
-        '<div class="equip-slot-icon">' + I(item ? item.icon : SLOT_DEFAULT_ICON[slot]) + '</div>' +
+        '<div class="equip-slot-icon">' + (item ? window.Game.Icons.item(item) : I(SLOT_DEFAULT_ICON[slot])) + '</div>' +
         '<div class="equip-slot-info">' +
           '<div class="equip-slot-name">' + label + (item ? ': ' + L(item, 'name') : '') + '</div>' +
           '<div class="equip-slot-desc">' + (item ? L(item, 'desc') : T('emptySlot')) + '</div>' +

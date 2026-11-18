@@ -1056,7 +1056,7 @@ button:disabled {
   background: var(--bg-panel-raised);
   border: 2px solid var(--accent-gold);
   color: var(--text-primary);
-  font-family: "Chakra Petch", var(--font-main);
+  font-family: var(--font-text);
   font-size: 0.85rem;
   line-height: 1.4;
   text-align: center;
@@ -1082,7 +1082,7 @@ button:disabled {
   border: 2px double var(--accent-gold);
   box-shadow: var(--shadow-card);
   color: var(--text-primary);
-  font-family: "Chakra Petch", var(--font-main);
+  font-family: var(--font-text);
   font-size: 0.85rem;
   line-height: 1.45;
   z-index: 900;
@@ -1099,7 +1099,7 @@ button:disabled {
   margin: 0 auto;
   padding: 0 1rem 2rem;
   overflow-y: auto;
-  font-family: "Chakra Petch", var(--font-main);
+  font-family: var(--font-text);
 }
 .settings-content .guide-section { margin-bottom: 1rem; }
 .settings-row {

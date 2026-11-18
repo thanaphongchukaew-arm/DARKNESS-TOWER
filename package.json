@@ -1,7 +1,7 @@
 {
   "name": "darkness-tower",
   "private": true,
-  "version": "0.21.0",
+  "version": "0.21.1",
   "scripts": {
     "build": "node scripts/build.js",
     "test": "node --test \"test/**/*.test.js\"",
@@ -11,7 +11,8 @@
     "smoke": "npm run build && electron scripts/smoke-test.js",
     "balance": "node scripts/balance-sim.js",
     "build:mac": "npm run build && electron-builder --mac",
-    "build:linux": "npm run build && electron-builder --linux"
+    "build:linux": "npm run build && electron-builder --linux",
+    "test:ui": "npm run build && electron scripts/ui-polish-test.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

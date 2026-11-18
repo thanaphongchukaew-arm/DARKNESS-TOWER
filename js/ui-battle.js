@@ -698,9 +698,12 @@
     var root = document.getElementById('battle-submenu');
     root.classList.add('hidden');
     root.innerHTML = '';
+    document.querySelectorAll('#battle-actions button').forEach(function (button) { button.classList.remove('is-selected'); button.setAttribute('aria-expanded', 'false'); });
   }
 
   function openSkillMenu() {
+    closeSubmenu();
+    var command = document.getElementById('act-skill'); command.classList.add('is-selected'); command.setAttribute('aria-expanded', 'true');
     var battle = currentBattle;
     window.Game.Micro.ensure(battle.run);
     var favorites = window.Game.Systems.ensure(battle.run).favoriteSkills;
@@ -708,11 +711,13 @@
     var root = document.getElementById('battle-submenu');
     var itemsHtml = skills.length ? skills.map(function (s) {
       var hpCostAmt = s.hpCost ? Math.round(battle.player.maxHp * s.hpCost) : 0;
-      var disabled = (s.element !== 'phys' && battle.run.ailments.some(function (a) { return a.id === 'silence'; })) || battle.run.mp < s.cost || (hpCostAmt > 0 && battle.run.hp <= hpCostAmt);
+      var silenced = s.element !== 'phys' && battle.run.ailments.some(function (a) { return a.id === 'silence'; });
+      var reason = silenced ? window.Game.Systems.text('ติดสถานะใบ้', 'Silenced') : battle.run.mp < s.cost ? window.Game.Systems.text('MP ไม่พอ', 'Not enough MP') : hpCostAmt > 0 && battle.run.hp <= hpCostAmt ? window.Game.Systems.text('HP ไม่พอ', 'Not enough HP') : s.kind === 'heal' && battle.run.hp >= battle.player.maxHp ? window.Game.Systems.text('HP เต็มแล้ว', 'HP is full') : '';
+      var disabled = !!reason;
       return '<div class="skill-row"><button type="button" class="skill-favorite" data-favorite="' + s.id + '" aria-pressed="' + (favorites.indexOf(s.id) !== -1) + '" aria-label="' + window.Game.Systems.text('ปักหมุดทักษะ', 'Pin skill') + '">' + (favorites.indexOf(s.id) !== -1 ? '★' : '☆') + '</button><button class="submenu-option" ' + (disabled ? 'disabled' : '') + ' data-id="' + s.id + '">' +
         '<div class="submenu-option-icon">' + I(s.icon) + '</div>' +
-        '<div class="submenu-option-info"><div class="submenu-option-name">' + L(s, 'name') + (window.Game.Micro.seen(battle.run,'skills',s.id)?'':window.Game.Micro.badge()) + ' <span class="el-tag el-' + s.element + '">' + EN(s.element) + '</span></div><div class="submenu-option-desc">' + L(s, 'desc') + '</div></div>' +
-        '<div class="submenu-option-cost">' + (s.cost > 0 ? s.cost + ' MP' : T('freeLabel')) + '</div>' +
+        '<div class="submenu-option-info"><div class="submenu-option-name">' + L(s, 'name') + (window.Game.Micro.seen(battle.run,'skills',s.id)?'':window.Game.Micro.badge()) + ' <span class="el-tag el-' + s.element + '">' + EN(s.element) + '</span></div><div class="submenu-option-desc">' + L(s, 'desc') + '</div>' + (reason ? '<small class="action-unavailable">' + reason + '</small>' : '') + '</div>' +
+        '<div class="submenu-option-cost">' + (s.cost > 0 ? s.cost + ' MP' : hpCostAmt > 0 ? '' : T('freeLabel')) + (hpCostAmt > 0 ? (s.cost > 0 ? '<br>' : '') + hpCostAmt + ' HP' : '') + '</div>' +
       '</button></div>';
     }).join('') : '<p class="empty-note">' + T('noMoreSkills') + '</p>';
     root.innerHTML = '<div class="submenu-header"><h3>' + T('selectSkillTitle') + '</h3><button class="btn-icon" id="submenu-close">' + I('close') + '</button></div>' +
@@ -740,6 +745,8 @@
   }
 
   function openItemMenu() {
+    closeSubmenu();
+    var command = document.getElementById('act-item'); command.classList.add('is-selected'); command.setAttribute('aria-expanded', 'true');
     var battle = currentBattle, run = battle.run, D = window.Game.Data;
     var usable = Object.keys(run.inventory).map(function (id) { return D.getItem(id); }).filter(function (it) { return it && it.battleUsable; });
     var root = document.getElementById('battle-submenu');
@@ -768,6 +775,7 @@
   // runs through, so correcting its disabled state here (after the blanket
   // enable/disable above) can't be forgotten at some call site.
   function setActionsEnabled(enabled) {
+    enabled = !!enabled && !document.getElementById('battle-entrance');
     document.getElementById('battle-home').disabled = !!(currentBattle && currentBattle.over);
     var battleScreen = document.getElementById('screen-battle');
     if (battleScreen) {
@@ -775,8 +783,11 @@
       battleScreen.classList.toggle('player-waiting', !enabled && !!(currentBattle && !currentBattle.over));
     }
     Array.prototype.forEach.call(document.querySelectorAll('#battle-actions button'), function (b) { b.disabled = !enabled; });
+    var mpLabel = document.getElementById('skill-mp');
+    if (mpLabel && currentBattle) mpLabel.textContent = currentBattle.run.mp + ' MP';
     var od = document.getElementById('act-overdrive');
     if (od && enabled) od.disabled = !currentBattle || currentBattle.player.focus < window.Game.Formulas.FOCUS_MAX;
+    if (od) od.title = od.disabled ? window.Game.Systems.text('ต้องมี Focus เต็ม', 'Requires full Focus') : T('overdriveLabel');
     if (enabled) refreshDuoButton(); else { var db = document.getElementById('act-duo'); if (db) db.disabled = true; }
   }
 
@@ -800,7 +811,7 @@
     var el = document.getElementById('battle-actions');
     el.innerHTML =
       '<button class="btn-primary" id="act-attack">' + I('swordAttack') + '<span>' + T('attackLabel') + '</span></button>' +
-      '<button class="btn-secondary" id="act-skill">' + I('magicBurst') + '<span>' + T('skillsLabel') + '</span></button>' +
+      '<button class="btn-secondary" id="act-skill">' + I('magicBurst') + '<span>' + T('skillsLabel') + '</span><small id="skill-mp" class="command-meta"></small></button>' +
       '<button class="btn-secondary" id="act-guard">' + I('shieldGuard') + '<span>' + T('guardLabel') + '</span></button>' +
       '<button class="btn-secondary" id="act-item">' + I('bagItem') + '<span>' + T('itemsLabel') + '</span></button>' +
       '<button class="btn-secondary btn-overdrive" id="act-overdrive" disabled>' + I('sparkles') + '<span>' + T('overdriveLabel') + '</span></button>' +
@@ -828,7 +839,7 @@
 
   function doAction(action) {
     var battle = currentBattle;
-    if (!battle || battle.over || battle.playerAP <= 0 || battle.awaitingAllOut) return;
+    if (document.getElementById('battle-entrance') || !battle || battle.over || battle.playerAP <= 0 || battle.awaitingAllOut) return;
     closeSubmenu();
     setActionsEnabled(false);
     var result = window.Game.BattleEngine.playerAction(battle, action);
@@ -1283,5 +1294,5 @@
   }
 
   window.Game = window.Game || {};
-  window.Game.BattleUI = { cancelPlayback: cancelPlayback, isPlayingEffects: function () { return playbackBusy; }, startBattle: startBattle, startSurvivalSession: startSurvivalSession, refreshActiveScreen: refreshActiveScreen };
+  window.Game.BattleUI = { cancelPlayback: cancelPlayback, isPlayingEffects: function () { return playbackBusy || !!document.getElementById('battle-entrance'); }, startBattle: startBattle, startSurvivalSession: startSurvivalSession, refreshActiveScreen: refreshActiveScreen };
 })();

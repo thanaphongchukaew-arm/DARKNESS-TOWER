@@ -15,6 +15,7 @@ const ROOT = path.join(__dirname, '..');
 const OUT = path.resolve(process.argv[2] || path.join(os.tmpdir(), 'darkness-tower-shots'));
 const PROFILE = fs.mkdtempSync(path.join(os.tmpdir(), 'darkness-tower-shots-profile-'));
 app.setPath('userData', PROFILE);
+app.on('window-all-closed', () => {});
 fs.mkdirSync(OUT, { recursive: true });
 
 ipcMain.on('save:read', (e) => { e.returnValue = null; });
@@ -27,7 +28,7 @@ ipcMain.on('app:quit', () => {});
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function shoot(win, name) {
-  await sleep(450);
+  await sleep(900);
   const image = await win.webContents.capturePage();
   fs.writeFileSync(path.join(OUT, name + '.png'), image.toPNG());
   console.log('saved ' + name);
@@ -83,6 +84,13 @@ async function tour(win, tag) {
   await run(win, "document.getElementById('tower-quests-btn').click();");
   await shoot(win, tag + '-12-quests');
   await run(win, "document.getElementById('quests-back').click();");
+
+  await run(win, `
+    const G = window.Game, r = G.State.current;
+    r.currentFloor = 3; G.StoryUI.maybe(3);
+  `);
+  await shoot(win, tag + '-12a-mira');
+  await run(win, "window.Game.UI.showScreen('screen-tower'); window.Game.State.current.currentFloor = 13; window.Game.TowerUI.renderTower();");
 
   // Normal battle, then the player's skill menu.
   await run(win, "window.Game.BattleUI.startBattle(12, false, false);");

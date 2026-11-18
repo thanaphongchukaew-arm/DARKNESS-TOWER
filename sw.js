@@ -1,4 +1,4 @@
-const CACHE_NAME = 'darkness-tower-v35';
+const CACHE_NAME = 'darkness-tower-v38';
 
 const PRECACHE_URLS = [
   './',
@@ -42,6 +42,8 @@ const PRECACHE_URLS = [
   './assets/classes/deathbringer.webp',
   './assets/classes/vanguard.webp',
 
+  './fonts/PixelifySans-400.ttf',
+  './fonts/PixelifySans-700.ttf',
   './fonts/ChakraPetch-300-latin-ext.woff2',
   './fonts/ChakraPetch-300-latin.woff2',
   './fonts/ChakraPetch-300-thai.woff2',

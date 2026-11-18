@@ -154,3 +154,97 @@ button.floor-fold:hover { background: rgba(72, 160, 88, 0.2); }
 .is-mobile .enemy-card.boss .enemy-name { font-size: 0.9rem; }
 .is-mobile .hp-segment-row .hp-segment { height: 0.8rem; }
 .is-mobile .diff-chart { padding: 0.6rem; }
+
+/* ---- Pixelify Sans runs small and its "fi" ligature breaks: disable ligatures, scale text up ---- */
+body, button, input, select { font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0; }
+.settings-content { font-size: 1.15rem; }
+.settings-content .guide-section p { font-size: 1.05rem; line-height: 1.6; }
+.settings-label { font-size: 1.15rem; }
+.settings-value { font-size: 1.05rem; }
+.settings-control .btn-secondary, .settings-control .btn-ghost,
+.settings-actions .btn-secondary { font-size: 0.9rem; }
+.select-card-desc, .class-tradeoffs, .guide-section p, .guide-stat-card-desc, .guide-tip-card span,
+.reward-sub, .modal-box .note, .tactical-choice span, .equip-compare, .floor-info-sub, .story-body,
+.tip-card, #end-message, .empty-note, .submenu-option-info, .affinity-row { font-size: 1.05em; }
+.battle-log { font-size: 0.95rem; }
+
+/* Reading hierarchy: retain pixel headings, give Thai body copy room to breathe. */
+.npc-dialogue, .story-choice, .story-result, .story-resources, .submenu-option-info,
+.submenu-option-cost, .equip-compare, .micro-history, .battle-log, .enemy-name,
+.inv-item-info, .inv-item-count, #reward-cards .select-card-desc {
+  font-family: 'Chakra Petch', sans-serif;
+  letter-spacing: 0;
+  line-height: 1.65;
+}
+.battle-log { font-size: .9rem; }
+.submenu-option-desc, .equip-compare { font-size: .82rem; }
+
+/* Quiet the brickwork and floor while retaining each zone's palette. */
+.battle-backdrop::before { content: ''; position: absolute; inset: 0; z-index: 2; background: linear-gradient(180deg,#0a091e66,#0a091e99 48%,#0a091ec4); pointer-events: none; }
+.battle-backdrop .tower-wall { background-size: 96px 48px; }
+.battle-backdrop .tower-floor { opacity: .65; }
+.battle-boss-throne .battle-boss-silhouette { opacity: .12; }
+#screen-battle .enemy-card.boss { gap: .55rem; }
+#screen-battle .enemy-card.boss .enemy-portrait { width: 196px; height: 200px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+#screen-battle .enemy-card.boss .enemy-portrait .icon { width: 168px; height: 180px; flex-shrink: 0; }
+#screen-battle .enemy-card.boss .enemy-name { margin-top: .3rem; line-height: 1.6; max-width: 100%; overflow-wrap: anywhere; }
+
+/* Commands: focus, choice, availability and costs remain visibly distinct. */
+#battle-actions button { min-height: 64px; border-width: 2px; transition: background .15s, border-color .15s; }
+#battle-actions button:enabled:hover, #battle-actions button:focus-visible { border-color: #f4daa2; outline: 2px solid #f4daa2; outline-offset: 3px; }
+#battle-actions button.is-selected { border-color: #a9dcff; background: #284566; box-shadow: inset 0 -4px #9bd4ff; }
+#battle-actions button:disabled { opacity: .55; filter: saturate(.35); cursor: not-allowed; }
+#battle-actions button.is-selected:disabled { opacity: .85; }
+.submenu-option:disabled { opacity: .72; background: #211d2a; border-color: #645665; }
+.action-unavailable { display: block; color: #ffbbbc; font-size: .78rem; font-family: 'Chakra Petch', sans-serif; }
+.submenu-option-cost { white-space: nowrap; color: #b7ddff; }
+.submenu-option:disabled .submenu-option-cost { color: #ffd0d0; }
+.skill-row { align-items: stretch; }
+.skill-row .submenu-option { min-width: 0; }
+.skill-row .submenu-option-info { min-width: 0; overflow-wrap: anywhere; }
+
+/* Equipment frames reserve room for labels instead of spilling into text. */
+.item-art { box-sizing: border-box; flex: 0 0 auto; padding: .16em .16em .38em; }
+.item-art small { right: 1px; bottom: 0; border: 0; padding: 0 2px; font-size: 9px; }
+.item-art .item-silhouette { display: block; width: 100%; height: 100%; }
+.equip-slot-icon > .item-art { width: 42px; height: 42px; }
+#reward-cards { align-items: stretch; }
+#reward-cards .select-card { display: flex; flex-direction: column; align-items: stretch; gap: .8rem; padding: 1.1rem; overflow: visible; text-align: left; min-width: 0; }
+#reward-cards .select-card-icon { width: 72px; height: 72px; flex: 0 0 72px; margin: 0; align-self: center; }
+#reward-cards .select-card-icon > .item-art { max-width: none; max-height: none; width: 72px; height: 72px; }
+#reward-cards .select-card-title { line-height: 1.65; overflow-wrap: anywhere; }
+#reward-cards .equip-compare { display: flex; flex-direction: column; gap: .2rem; padding-top: .6rem; border-top: 1px solid #74624b; }
+#reward-cards .equip-compare small { display: block; color: #d5c7b5; }
+#reward-cards .stat-up { color: #a8e8b7; }
+#reward-cards .stat-down { color: #ffb0b6; }
+@media(max-width: 680px) {
+  #screen-battle .enemy-card.boss .enemy-portrait { width: 132px; height: 142px; }
+  #screen-battle .enemy-card.boss .enemy-portrait .icon { width: 122px; height: 134px; }
+  #reward-cards { grid-template-columns: 1fr; }
+  #reward-cards .select-card { display: grid; grid-template-columns: 64px minmax(0,1fr); gap: .55rem 1rem; padding: 1rem; }
+  #reward-cards .select-card-icon { grid-column: 1; grid-row: 1 / 3; width: 64px; height: 64px; align-self: start; }
+  #reward-cards .select-card-icon > .item-art { width: 64px; height: 64px; }
+  #reward-cards .select-card-title, #reward-cards .select-card-desc { grid-column: 2; margin: 0; }
+  #reward-cards .equip-compare, #reward-cards .micro-needed { grid-column: 1 / -1; }
+  .battle-log { font-size: .84rem; }
+}
+.is-mobile #reward-cards { grid-template-columns: 1fr; }
+.is-mobile #reward-cards .select-card { min-height: 100px; }
+.is-mobile #screen-battle .enemy-card.boss .enemy-portrait { width: 120px; height: 128px; }
+.is-mobile #screen-battle .enemy-card.boss .enemy-portrait .icon { width: 108px; height: 118px; }
+@media(prefers-reduced-motion: reduce) { #battle-actions button { transition: none; } }
+#battle-actions .command-meta { font: 600 .7rem/1.3 'Chakra Petch',sans-serif; color: #c1e2ff; display: block; }
+.is-mobile #reward-cards .select-card { display: grid; grid-template-areas: none; grid-template-columns: 64px minmax(0,1fr); grid-template-rows: auto; gap: .55rem 1rem; }
+.is-mobile #reward-cards .select-card-icon { grid-area: auto; grid-column: 1; grid-row: 1 / 3; width: 64px; height: 64px; align-self: start; }
+.is-mobile #reward-cards .select-card-icon > .item-art { width: 64px; height: 64px; }
+.is-mobile #reward-cards .select-card-title,.is-mobile #reward-cards .select-card-desc { grid-area: auto; grid-column: 2; margin: 0; overflow: visible; display: block; -webkit-line-clamp: unset; }
+.is-mobile #reward-cards .equip-compare,.is-mobile #reward-cards .micro-needed { grid-column: 1 / -1; }
+.submenu-option-desc { color: #ded5e5; }
+@media(max-height: 500px) and (orientation: landscape) {
+  .is-mobile #reward-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .65rem; }
+  .is-mobile #reward-cards .select-card { display: flex; flex-direction: column; gap: .4rem; padding: .7rem; }
+  .is-mobile #reward-cards .select-card-icon { width: 48px; height: 48px; flex: 0 0 48px; align-self: center; }
+  .is-mobile #reward-cards .select-card-icon > .item-art { width: 48px; height: 48px; }
+  .is-mobile #reward-cards .select-card-title { font-size: .85rem; }
+  .is-mobile #reward-cards .select-card-desc,.is-mobile #reward-cards .equip-compare { font-size: .75rem; line-height: 1.45; }
+}

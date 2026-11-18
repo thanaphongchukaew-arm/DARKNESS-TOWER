@@ -53,7 +53,7 @@
   --font-display: "Press Start 2P", "Chakra Petch", "Courier New", monospace;
   /* Running text (Thai + Latin + digits in one sentence) uses Chakra Petch only, so ATK/35%/Guard
      match the Thai around them; the pixel face stays on headings, buttons and stat readouts. */
-  --font-text: "Chakra Petch", "Courier New", monospace;
+  --font-text: "Pixelify Sans", "Chakra Petch", "Courier New", monospace;
 
   --glass-panel: linear-gradient(180deg, rgba(30,24,40,0.94), rgba(20,16,28,0.94));
 
