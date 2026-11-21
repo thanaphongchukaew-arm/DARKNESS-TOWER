@@ -23,13 +23,13 @@
     { id: 'stoneheart_bear', name: 'หมีหัวใจศิลา', nameEn: 'Stoneheart Bear', icon: 'stoneheartBear', unlockFloor: 30,
       role: 'guardian', buffStats: ['def', 'res'], buffAmount: 0.18,
       desc: 'หมีผู้พิทักษ์ มอบเกราะป้องกันให้ทุกรอบ', descEn: 'A guardian bear that shields you with extra DEF/RES every round' },
-    { id: 'storm_sprite', name: 'เอลฟ์สายฟ้าน้อย', nameEn: 'Storm Sprite', icon: 'stormSprite', unlockFloor: 45,
+    { id: 'storm_sprite', name: 'ภูตอัสนีน้อย', nameEn: 'Storm Sprite', icon: 'stormSprite', unlockFloor: 45,
       role: 'buffer', buffStats: ['atk', 'mag'], buffAmount: 0.15,
       desc: 'เอลฟ์สายฟ้า เสริมพลังโจมตีและเวทให้ทุกรอบ', descEn: 'A storm sprite that empowers your ATK/MAG every round' },
     // ---- 2nd wave: unlocked deeper into the hidden upper tower, each a
     // stronger/alternate build of an existing role (same 4 roles battle-engine's
     // runCompanionPhase already knows how to run -- no engine changes needed). ----
-    { id: 'sand_scarab', name: 'แมลงปีกแข็งทะเลทราย', nameEn: 'Sand Scarab', icon: 'sandScarab', unlockFloor: 60,
+    { id: 'sand_scarab', name: 'ด้วงสุริยาทราย', nameEn: 'Sand Scarab', icon: 'sandScarab', unlockFloor: 60,
       role: 'attacker', power: 0.24, critChance: 0.16, critMult: 1.6,
       desc: 'สหายแมลงปีกแข็ง เน้นโจมตีคริติคอลสูงกว่าจิ้งจอกเปลวไฟ', descEn: 'A scarab companion built for a higher crit chance than Ember Fox, at slightly lower base power' },
     { id: 'frost_hare', name: 'กระต่ายน้ำแข็ง', nameEn: 'Frost Hare', icon: 'frostHare', unlockFloor: 70,

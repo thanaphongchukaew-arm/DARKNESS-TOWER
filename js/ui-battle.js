@@ -231,7 +231,7 @@
     }
     if (opts.dead) {
       card.classList.add('dead');
-      card.classList.remove('downed', 'broken', 'targetable');
+      card.classList.remove('downed', 'broken', 'targetable', 'is-acting');
       var deadTag = card.querySelector('.enemy-downed-tag');
       if (deadTag) deadTag.remove();
       var deadBrokenTag = card.querySelector('.enemy-broken-tag');
@@ -282,7 +282,15 @@
         if (ev.targetSide === 'enemy') { updateEnemyBarByUid(ev.targetUid, ev.hpAfter, ev.maxHp); spawnFloatNumber(getEnemyPortraitEl(ev.targetUid), ev.amount, 'dmg-hp'); }
         else { updatePlayerBarsDirect(ev.hpAfter, ev.maxHp, currentBattle.run.mp, currentBattle.player.maxMp); spawnFloatNumber(getPlayerPortraitEl(), ev.amount, 'dmg-hp'); }
         break;
+      case 'enemyAction': {
+        var acting = findEnemyByUid(ev.attackerUid);
+        setBattleCue(window.Game.Systems.text('ตาศัตรู · ', 'Enemy turn · ') + (acting ? acting.name : ev.skillName), ev.attackerUid);
+        var actor = getEnemyPortraitEl(ev.attackerUid);
+        if (actor) { actor.classList.remove('enemy-strike'); void actor.offsetWidth; actor.classList.add('enemy-strike'); battleLater(function () { actor.classList.remove('enemy-strike'); }, 700 / window.Game.SystemsUI.speed()); }
+        break;
+      }
       case 'skillUsed':
+        setBattleCue(window.Game.Systems.text('กำลังใช้ · ', 'Using · ') + ev.name, 'player');
         aimHeroDash();
         var family = window.Game.VFXData.skill(ev.skillId, currentBattle.run.classId).family;
         window.Game.HeroArt.animate(ev.kind === 'attack' && ['slash','cross','cleave','thrust','claw','bite','punch','arrow','bullet'].indexOf(family) !== -1 ? 'attack' : 'cast');
@@ -401,11 +409,17 @@
         showToast(ev.message, 'miss');
         if (ev.mpAfter != null) updatePlayerBarsDirect(null, null, ev.mpAfter, currentBattle.player.maxMp);
         break;
-      case 'bossPhaseChange':
+      case 'bossPhaseChange': {
+        var changing = findEnemyByUid(ev.targetUid);
+        var portrait = changing && getEnemyPortraitEl(changing.uid);
+        if (portrait) { var ring = '<span class="enemy-ground-ring"></span>'; portrait.innerHTML = ring + window.Game.BattleArt.enemy(Object.assign({}, changing, { phase: ev.phase })); }
+        var phaseChip = changing && document.querySelector('#enemy-card-' + changing.uid + ' .boss-phase-chip');
+        if (phaseChip) phaseChip.textContent = T('phaseChip', { n: ev.phase, max: changing.phasesData.length + 1 });
         SFX('boss_phase');
         showToast(ev.shift ? T('toastPhaseShift') : T('toastPhase2'), 'weak');
         shakeScreen(true);
         break;
+      }
       case 'invalid':
         SFX('hit_null');
         showToast(T('toastInvalidAction'), 'miss');
@@ -506,6 +520,7 @@
     if (e.downed) classes.push('downed');
     if (e.broken) classes.push('broken');
     if (e.isBoss) classes.push('boss');
+    if (e.champion || e.elite) classes.push('is-champion');
     (e.ailments || []).forEach(function (a) { classes.push('fx-afflicted-' + a.id); });
     if (targetPickCallback && e.alive) classes.push('targetable');
     var hpPct = Math.max(0, Math.round(e.hp / e.maxHp * 100));
@@ -527,7 +542,7 @@
     var breakPct = e.broken ? 100 : Math.min(100, Math.round(e.breakMeter / window.Game.Formulas.BREAK_THRESHOLD * 100));
     var breakBarHtml = e.alive ? '<div class="bar-row break-row"><div class="bar-track break-track"><div class="bar-fill break' + (e.broken ? ' full' : '') + '" id="enemy-break-' + e.uid + '" style="width:' + breakPct + '%"></div></div></div>' : '';
     return '<div class="' + classes.join(' ') + '" id="enemy-card-' + e.uid + '" data-uid="' + e.uid + '">' +
-      '<div class="enemy-portrait">' + I(e.icon) + '</div>' +
+      '<div class="enemy-portrait"><span class="enemy-ground-ring"></span>' + window.Game.BattleArt.enemy(e) + '</div><span class="enemy-role-label">' + window.Game.Systems.text({tank:'เกราะหนัก',caster:'เวทมนตร์',swift:'ว่องไว',striker:'โจมตี'}[window.Game.BattleArt.profile(e).role], {tank:'ARMORED',caster:'CASTER',swift:'SWIFT',striker:'STRIKER'}[window.Game.BattleArt.profile(e).role]) + '</span>' +
       (e.downed && e.alive ? '<span class="enemy-downed-tag">' + T('downedTag') + '</span>' : '') +
       (e.broken && e.alive ? '<span class="enemy-broken-tag">' + T('brokenTag') + '</span>' : '') +
       '<div class="enemy-name">' + (e.elite ? 'ELITE · ' : '') + (e.champion ? T('championTag') + ' · ' : '') + e.name + (hasPhases ? '<span class="boss-phase-chip">' + T('phaseChip', { n: e.phase, max: e.phasesData.length + 1 }) + '</span>' : '') + '</div>' +
@@ -541,7 +556,10 @@
     el.innerHTML = battle.enemies.map(enemyCardHtml).join('');
     if (targetPickCallback) {
       Array.prototype.forEach.call(el.querySelectorAll('.enemy-card.targetable'), function (card) {
-        card.onclick = function () {
+        card.setAttribute('role', 'button'); card.tabIndex = 0; card.setAttribute('aria-label', window.Game.Systems.text('เลือกเป้าหมาย ', 'Target ') + card.querySelector('.enemy-name').textContent);
+        card.onkeydown = function (event) { if (event.target !== card) return; if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); event.stopPropagation(); card.click(); } };
+        card.onclick = function (event) {
+          if (event && event.target.closest('.status-chip')) return;
           SFX('ui_confirm');
           var uid = card.getAttribute('data-uid');
           var idx = -1;
@@ -569,11 +587,14 @@
     }
     targetPickCallback = cb;
     setActionsEnabled(false);
+    setBattleCue(window.Game.Systems.text('เลือกเป้าหมาย · แตะศัตรู', 'Choose a target · tap an enemy'), null);
     renderEnemies(currentBattle);
     var root = document.getElementById('battle-submenu');
     root.innerHTML = '<div class="submenu-header"><h3>' + T('selectTargetTitle') + '</h3><button class="btn-icon" id="target-cancel">' + I('close') + '</button></div>' +
       '<p class="empty-note">' + T('tapEnemyHint') + '</p>';
     root.classList.remove('hidden');
+    var firstTarget = document.querySelector('.enemy-card.targetable');
+    if (firstTarget && document.documentElement.classList.contains('kbd-nav')) firstTarget.focus();
     document.getElementById('target-cancel').onclick = function () {
       SFX('ui_cancel');
       exitTargetSelect();
@@ -685,13 +706,24 @@
       '<div class="companion-role">' + T('companionRole' + comp.def.role.charAt(0).toUpperCase() + comp.def.role.slice(1)) + '</div></div>';
   }
 
+  var cueActor = 'player';
   function renderTurnOrder(battle) {
-    var chips = '<div class="turn-chip is-player active" title="' + battle.player.name + '">' + I('phys') + '</div>';
+    // Re-apply whoever the cue last named, so redrawing the chips never loses the highlight.
+    var chips = '<div class="turn-chip is-player' + (cueActor === 'player' ? ' active' : '') + '" data-actor="player" title="' + battle.player.name + '">' + I('phys') + '</div>';
     battle.enemies.forEach(function (e) {
       if (!e.alive) return;
-      chips += '<div class="turn-chip is-enemy" title="' + e.name + '">' + I(e.isBoss ? 'crownSkull' : 'skull') + '</div>';
+      chips += '<div class="turn-chip is-enemy' + (cueActor === e.uid ? ' active' : '') + '" data-actor="' + e.uid + '" title="' + e.name + '">' + I(e.isBoss ? 'crownSkull' : 'skull') + '</div>';
     });
     document.getElementById('battle-turn-order').innerHTML = chips;
+  }
+
+  function setBattleCue(text, actor) {
+    var cue = document.getElementById('battle-state-cue');
+    if (!cue) { cue = document.createElement('div'); cue.id = 'battle-state-cue'; cue.setAttribute('role', 'status'); cue.setAttribute('aria-live', 'polite'); document.getElementById('battle-turn-order').after(cue); }
+    cue.textContent = text;
+    cueActor = actor;
+    document.querySelectorAll('.enemy-card').forEach(function (card) { card.classList.toggle('is-acting', card.dataset.uid === actor); });
+    document.querySelectorAll('.turn-chip').forEach(function (chip) { chip.classList.toggle('active', chip.dataset.actor === actor); });
   }
 
   function closeSubmenu() {
@@ -776,6 +808,7 @@
   // enable/disable above) can't be forgotten at some call site.
   function setActionsEnabled(enabled) {
     enabled = !!enabled && !document.getElementById('battle-entrance');
+    setBattleCue(window.Game.Systems.text(enabled ? 'ตาของคุณ · เลือกคำสั่ง' : currentBattle && currentBattle.over ? 'การต่อสู้สิ้นสุด' : 'กำลังดำเนินการ…', enabled ? 'Your turn · choose a command' : currentBattle && currentBattle.over ? 'Battle finished' : 'Resolving…'), enabled ? 'player' : null);
     document.getElementById('battle-home').disabled = !!(currentBattle && currentBattle.over);
     var battleScreen = document.getElementById('screen-battle');
     if (battleScreen) {
@@ -1049,12 +1082,11 @@
     var props = document.getElementById('battle-zone-props');
     if (!props && backdrop) { props = document.createElement('div'); props.id = 'battle-zone-props'; backdrop.appendChild(props); }
     var tierIndex = Math.min(15, Math.max(0, window.Game.Formulas.tierForFloor(floor) - 1));
-    var motifs = ['npcMiraLantern','gem','skull','ice','fire','weaponSlot','staffOrb','gem','dark','ice','fire','crownSkull','radiantOrb','dark','sparkles','crownSkull'];
-    if (props) { props.innerHTML = [0,1,2].map(function () { return '<span>' + I(isBoss ? 'crownSkull' : motifs[tierIndex]) + '</span>'; }).join(''); props.dataset.zone = tierIndex; }
+    if (props) { props.innerHTML = window.Game.BattleArt.zone(tierIndex + 1, isBoss); props.dataset.zone = tierIndex; }
     var silhouette = document.getElementById('battle-boss-silhouette');
     if (isBoss) {
       screenEl.classList.add('battle-boss-throne');
-      if (silhouette) silhouette.innerHTML = window.Game.PixelArt.render('timelessSovereign');
+      if (silhouette) silhouette.innerHTML = window.Game.BattleArt.enemy(window.Game.Data.boss);
     } else {
       if (silhouette) silhouette.innerHTML = '';
       var tier = window.Game.Formulas.tierForFloor(floor);
@@ -1129,7 +1161,7 @@
     applyBattleAmbience(floor, currentIsBoss);
     document.getElementById('battle-floor-label').textContent =
       (isBoss ? T('bossFloorTitle') : (T('floorLabel') + floor)) + (isReplay ? T('replaySuffix') : '');
-    document.getElementById('battle-home').innerHTML = I('doorway');
+    document.getElementById('battle-home').innerHTML = I('home');
     document.getElementById('battle-home').onclick = confirmLeaveBattle;
     beginBattleScreen();
   }
@@ -1152,7 +1184,7 @@
     targetPickCallback = null;
     applyBattleAmbience(run.currentFloor, false);
     updateSurvivalLabel();
-    document.getElementById('battle-home').innerHTML = I('doorway');
+    document.getElementById('battle-home').innerHTML = I('home');
     document.getElementById('battle-home').onclick = confirmStopSurvival;
     beginBattleScreen();
   }
@@ -1232,11 +1264,11 @@
   }
 
   function renderSurvivalSummary(session, defeated) {
-    document.getElementById('survival-summary-icon').innerHTML = I(defeated ? 'skull' : 'crownSkull');
+    document.getElementById('survival-summary-icon').innerHTML = I(defeated ? 'skull' : 'trophy');
     document.getElementById('survival-summary-title').textContent = T(defeated ? 'survivalSummaryDefeatedTitle' : 'survivalSummaryStoppedTitle');
     document.getElementById('survival-summary-desc').textContent = T('survivalSummaryDesc', { waves: session.wavesCleared });
     var statsHtml =
-      '<div class="stat-row"><div class="stat-row-label">' + I('gem') + '<span>' + T('survivalSummaryWavesLabel') + '</span></div><div class="stat-row-value">' + session.wavesCleared + '</div></div>' +
+      '<div class="stat-row"><div class="stat-row-label">' + I('towerSpire') + '<span>' + T('survivalSummaryWavesLabel') + '</span></div><div class="stat-row-value">' + session.wavesCleared + '</div></div>' +
       '<div class="stat-row"><div class="stat-row-label">' + I('sparkles') + '<span>EXP</span></div><div class="stat-row-value">' + session.totalExp + '</div></div>';
     var D = window.Game.Data;
     var matIds = Object.keys(session.materials);

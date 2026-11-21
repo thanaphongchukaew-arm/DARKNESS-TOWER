@@ -169,8 +169,33 @@
     document.getElementById('settings-back').onclick = backToMenu;
   }
 
+  // Gear button (every screen): open Settings on top, and Back returns to where we were.
+  var returnScreen = null;
+  function openFromGear() {
+    var active = document.querySelector('.screen.active');
+    if (!active || active.id === 'screen-settings') return;
+    returnScreen = active.id;
+    SFX('ui_confirm');
+    renderSettings();
+    active.classList.remove('active');
+    document.getElementById('screen-settings').classList.add('active');
+  }
+
   function backToMenu() {
     SFX('ui_back');
+    if (returnScreen && document.getElementById(returnScreen)) {
+      var target = returnScreen;
+      returnScreen = null;
+      document.getElementById('screen-settings').classList.remove('active');
+      document.getElementById(target).classList.add('active');
+      // The language may have changed while Settings was on top: re-render the screen we return to.
+      var G = window.Game;
+      if (G.MenuUI) G.MenuUI.refreshActiveScreen();
+      if (G.TowerUI) G.TowerUI.refreshActiveScreen();
+      if (G.BattleUI) G.BattleUI.refreshActiveScreen();
+      if (G.Main && G.Main.refreshEndScreen) G.Main.refreshEndScreen();
+      return;
+    }
     window.Game.MenuUI.renderMainMenu();
     window.Game.UI.showScreen('screen-menu');
   }
@@ -194,6 +219,13 @@
     document.getElementById('credits-back').onclick = backToMenu;
   }
 
+  document.addEventListener('DOMContentLoaded', function () {
+    var g = document.getElementById('open-settings');
+    if (!g) return;
+    g.innerHTML = I('settingsGear');
+    g.onclick = openFromGear;
+  });
+
   window.Game = window.Game || {};
-  window.Game.SettingsUI = { renderSettings: renderSettings, renderCredits: renderCredits };
+  window.Game.SettingsUI = { openFromGear: openFromGear, renderSettings: renderSettings, renderCredits: renderCredits };
 })();

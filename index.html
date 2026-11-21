@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="css/menu.css">
 <link rel="stylesheet" href="css/battle.css">
 <link rel="stylesheet" href="css/polish.css">
+<link rel="stylesheet" href="css/battle-identity.css">
 <script>
 (function () {
   var W = 960, H = 640, root = document.documentElement;
@@ -69,7 +70,7 @@
       <p class="menu-footer" id="menu-footer">ไต่หอคอย เอาชนะเงามืด ค้นหาจุดอ่อน สร้างสายฟ้าแห่งชัยชนะ</p>
       <p class="push-start" id="push-start">PUSH START</p>
     </div>
-    <span class="version-tag" id="version-tag">v0.21.1</span>
+    <span class="version-tag" id="version-tag">v0.22.0</span>
   </section>
 
   <!-- HOW TO PLAY / GUIDE -->
@@ -318,8 +319,9 @@
 
   <div id="modal-root" class="modal-overlay hidden"></div>
   <div class="top-right-controls">
-    <button id="lang-toggle" class="lang-toggle" aria-label="เปลี่ยนภาษา">TH</button>
-    <div class="audio-panel">
+    <button id="open-settings" class="lang-toggle gear-btn" aria-label="ตั้งค่า"></button>
+    <button id="lang-toggle" class="lang-toggle" aria-label="เปลี่ยนภาษา" hidden>TH</button>
+    <div class="audio-panel" hidden>
       <button id="audio-toggle" class="audio-toggle" aria-label="เปิด/ปิดเสียง"></button>
       <input type="range" id="music-volume" class="music-volume" min="0" max="100" step="1" aria-label="ระดับเสียงเพลง">
     </div>

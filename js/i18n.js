@@ -87,7 +87,7 @@
       en: "Every 5 floors has a waypoint: choose one camp activity, visit a wandering shop, or claim treasure. Camp activities are also available from the workshop once per 5-floor stretch."
     },
     guideTowerBossLabel: { th: 'บอสใหญ่', en: 'Final Boss' },
-    guideTowerBossDesc: { th: 'ชั้น 100 คือห้องบัลลังก์ของราชันไร้กาลเวลา เตรียมตัวให้พร้อมก่อนขึ้นเผชิญหน้า', en: "Floor 100 is the throne room of the Timeless Sovereign. Come prepared before you face it." },
+    guideTowerBossDesc: { th: 'ชั้น 100 คือห้องบัลลังก์ของอธิราชไร้กาล เตรียมตัวให้พร้อมก่อนขึ้นเผชิญหน้า', en: "Floor 100 is the throne room of the Timeless Sovereign. Come prepared before you face it." },
     guideTowerDifficultyLabel: { th: 'ความยาก', en: 'Difficulty' },
     guideTowerDifficultyDesc: { th: 'เลือกได้ 4 ระดับตอนเริ่มเกม ง่าย/ปกติ/ยาก มีจุดเซฟทุก 10 ชั้น แพ้แล้วกลับไปเริ่มจากจุดนั้น ส่วนฝันร้ายตายแล้วเริ่มใหม่ทั้งหมด และเป็นทางเดียวที่ปลดล็อกคลาส Valiant กับ Ascension', en: 'Pick one of four levels when you start. Easy, Normal and Hard keep a checkpoint every 10 floors, so a defeat sends you back there. Nightmare is true permadeath and the only way to unlock the Valiant classes and Ascension.' },
     guideFeaturesTitle: { th: 'ระบบพิเศษ', en: 'Special Systems' },
@@ -125,7 +125,7 @@
     },
     guideStartTitle: { th: 'เริ่มเล่นใน 30 วินาที', en: 'Quick Start' },
     guideStartGoalLabel: { th: 'เป้าหมาย', en: 'Your Goal' },
-    guideStartGoalDesc: { th: 'ไต่หอคอย 100 ชั้นแล้วโค่นราชันไร้กาลเวลา ถ้าแพ้จะกลับไปที่จุดเซฟล่าสุด (ยกเว้นโหมดฝันร้ายที่ต้องเริ่มใหม่) ความก้าวหน้าถาวรยังอยู่เสมอ', en: 'Climb 100 floors and topple the Timeless Sovereign. A defeat returns you to your last checkpoint (Nightmare restarts the run). Permanent progress always stays.' },
+    guideStartGoalDesc: { th: 'ไต่หอคอย 100 ชั้นแล้วโค่นอธิราชไร้กาล ถ้าแพ้จะกลับไปที่จุดเซฟล่าสุด (ยกเว้นโหมดฝันร้ายที่ต้องเริ่มใหม่) ความก้าวหน้าถาวรยังอยู่เสมอ', en: 'Climb 100 floors and topple the Timeless Sovereign. A defeat returns you to your last checkpoint (Nightmare restarts the run). Permanent progress always stays.' },
     guideStartLoopLabel: { th: 'วนลูปนี้ไปเรื่อย ๆ', en: 'The Loop' },
     guideStartLoopDesc: { th: 'สู้ → เลือกของรางวัล → เสริมของที่ร้าน/โรงช่าง → ขึ้นชั้นถัดไป ทุก 5 ชั้นมีจุดพักให้หายใจ', en: 'Fight → pick a reward → gear up at shops/workshop → climb. Every 5 floors is a waypoint to catch your breath.' },
     guideStartTurnLabel: { th: 'เทิร์นหนึ่งทำอะไรได้', en: 'Your Turn' },
@@ -153,19 +153,7 @@
     guideTip1: { th: 'ป้องกัน (Guard) เมื่อ HP ต่ำเพื่อลดดาเมจลงครึ่งหนึ่ง และพกไอเทมฟื้นฟูติดตัวเสมอ', en: 'Guard when your HP is low to halve incoming damage, and always keep a healing item on hand.' },
     guideTip2: { th: 'แวะร้านค้าเร่ร่อนที่จุดพักเพื่ออัปเกรดอาวุธ เกราะ และเครื่องประดับก่อนเจอมินิบอส', en: 'Stop by the Wandering Shop at waypoints to upgrade your weapon, armor, and accessory before facing the mini-boss.' },
 
-    // story screen (intro / ending)
-    storyIntroTitle: { th: 'หอคอยแห่งความมืด', en: 'The Darkness Tower' },
-    storyIntroBody: {
-      th: 'เงามืดปกคลุมแผ่นดินมานานนับทศวรรษ นับตั้งแต่หอคอยแห่งความมืดผุดขึ้นกลางราตรี ดูดกลืนแสงจันทร์และความหวังของผู้คนไปทีละน้อย\n\nหมู่บ้านรอบหอคอยล่มสลาย พืชผลเหี่ยวเฉา เสียงหอนของสัตว์ร้ายดังก้องอยู่ในความมืด ไม่มีใครที่เดินเข้าไปในหอคอยแล้วกลับออกมาอีกเลย\n\nแต่เจ้าไม่ใช่คนธรรมดา เจ้าคือนักผจญภัยผู้กล้าคนสุดท้ายที่ยังศรัทธาว่าแสงสว่างจะหวนคืน เจ้าตัดสินใจก้าวเข้าสู่ประตูหอคอย เพื่อไต่ขึ้นไปเผชิญหน้ากับสิ่งที่ซ่อนอยู่เบื้องบน... และนำแสงสว่างกลับคืนสู่โลกอีกครั้ง',
-      en: "Darkness has choked the land for a decade, ever since the Darkness Tower rose in the dead of night, devouring moonlight and hope alike, piece by piece.\n\nThe villages around it withered. Crops rotted in the fields. The howls of monsters echo through the dark, and no one who has entered the tower has ever returned.\n\nBut you are no ordinary soul. You are the last adventurer who still believes the light can return. You step through the tower's gate, ready to climb toward whatever waits above... and reclaim the light for the world."
-    },
-    storyIntroBtn: { th: 'เริ่มการเดินทาง', en: 'Begin the Journey' },
-    storyEndTitle: { th: 'รุ่งอรุณแห่งสันติภาพ', en: 'Dawn of Peace' },
-    storyEndBody: {
-      th: 'เจ้าเคยเชื่อว่าจอมมารราชันเงาที่ชั้น 50 คือปลายทางของหอคอย แต่เมื่อมันล้มลง ประตูเบื้องบนกลับเปิดออกสู่หอคอยอีกครึ่งหนึ่งที่ถูกผนึกไว้ตั้งแต่ก่อนกาลของจอมมารเสียอีก เจ้าไต่ขึ้นไปเผชิญกับสิ่งมีชีวิตประหลาดที่ไม่มีใครเคยพบเห็น จนมาถึงบัลลังก์สูงสุดที่ชั้น 100 — ที่ซึ่ง "ราชันไร้กาลเวลา" ผู้บงการทุกสิ่งอยู่เบื้องหลังรอคอยอยู่\n\nราชันไร้กาลเวลาล้มลงต่อหน้าเจ้า เสียงกรีดร้องข้ามกาลเวลาของมันสลายหายไปพร้อมกับความมืดที่เคยปกคลุมหอคอยทั้งหลัง\n\nหินทุกก้อนของหอคอยแห่งความมืดเริ่มแตกร้าวเป็นแสง สลายกลายเป็นละอองดาวลอยขึ้นสู่ท้องฟ้า ราวกับหอคอยเองก็โล่งใจที่ได้เป็นอิสระจากคำสาปนิรันดร์\n\nรุ่งเช้าวันใหม่ แสงอาทิตย์ส่องทะลุเมฆหมอกที่ปกคลุมแผ่นดินมานานนับทศวรรษ หมู่บ้านรอบข้างเริ่มได้ยินเสียงนกร้องอีกครั้ง พืชผลผลิใบเขียวขจี และผู้คนต่างพากันมองขึ้นไปยังจุดที่หอคอยเคยตั้งตระหง่าน ด้วยรอยยิ้มแห่งความหวัง\n\nเจ้าได้กลายเป็นตำนาน... วีรบุรุษผู้ไต่หอคอยทั้ง 100 ชั้น และนำแสงสว่างกับสันติภาพกลับคืนสู่โลกอีกครั้ง',
-      en: "You once believed the Shadow Demon Lord at floor 50 was the tower's final secret. But when it fell, a gate above swung open onto a second half of the tower — sealed away since long before the Demon Lord's time. You climbed on, past creatures no one had ever seen, all the way to the highest throne at floor 100, where the Timeless Sovereign, the true power behind it all, awaited.\n\nThe Timeless Sovereign collapses before you. Its scream, echoing across time itself, dissolves along with the darkness that once smothered the entire tower.\n\nEvery stone of the Darkness Tower begins to crack with light, crumbling into a shower of stardust drifting up into the sky, as if the tower itself sighs in relief, freed at last from its endless curse.\n\nAt dawn, sunlight breaks through clouds that have loomed over the land for a decade. Birdsong returns to the villages nearby, crops bloom green once more, and the people look up to where the tower once stood, smiling with hope.\n\nYou have become legend... the hero who climbed all 100 floors and brought light and peace back to the world."
-    },
-    storyEndBtn: { th: 'ดำเนินการต่อ', en: 'Continue' },
+    // intro / ending story text moved to data-story.js
     pageTitle: { th: 'DARKNESS TOWER — หอคอยแห่งความมืด', en: 'DARKNESS TOWER — Tower of Darkness' },
     gameSubtitle: { th: 'หอคอยแห่งความมืด 100 ชั้น', en: '100 Floors of the Darkness Tower' },
     menuFooter: { th: 'ไต่หอคอย เอาชนะเงามืด สร้างสายฟ้าแห่งชัยชนะ', en: 'Climb the spire, defeat the shadows, forge your path to victory' },
@@ -184,7 +172,7 @@
 
     // class lock reasons
     classLockedDifficultyDesc: { th: 'ล็อกอยู่ — พิชิตหอคอยด้วยโหมด {difficulty} ให้จบก่อนจึงจะปลดล็อกคลาสนี้', en: 'Locked — clear the tower on {difficulty} difficulty to unlock this class.' },
-    classLockedSurvivalDesc: { th: 'ล็อกอยู่ — ผ่านคลื่นในสนามประลองไร้สิ้นสุดให้ครบ {waves} คลื่นในเซสชันเดียวจึงจะปลดล็อกคลาสนี้', en: 'Locked — clear {waves} waves in a single Survival Arena session to unlock this class.' },
+    classLockedSurvivalDesc: { th: 'ล็อกอยู่ — ผ่านระลอกในสนามประลองไร้สิ้นสุดให้ครบ {waves} ระลอกในเซสชันเดียวจึงจะปลดล็อกคลาสนี้', en: 'Locked — clear {waves} waves in a single Survival Arena session to unlock this class.' },
     enemyPowerLabel: { th: 'พลังศัตรู x', en: 'Enemy power x' },
     rewardLabel: { th: 'รางวัล x', en: 'Reward x' },
 
@@ -200,24 +188,24 @@
     survivalBtn: { th: 'สนามประลอง', en: 'Endless Arena' },
     survivalIntroTitle: { th: 'สนามประลองไม่สิ้นสุด', en: 'The Endless Arena' },
     survivalIntroMsg: {
-      th: 'ต่อสู้กับศัตรูสุ่มไปเรื่อย ๆ ไม่จำกัดจำนวนคลื่น ความยากจะเพิ่มขึ้นทุก ๆ 5 คลื่น รางวัลมีแค่ EXP และวัตถุดิบคราฟต์เท่านั้น (ไม่มีทองหรืออุปกรณ์) HP/MP จะไม่ฟื้นฟูระหว่างคลื่น กดหยุดเมื่อไรก็ได้เพื่อเก็บของรางวัลและดูสรุปผล ไม่กระทบความคืบหน้าของหอคอย',
+      th: 'ต่อสู้กับศัตรูสุ่มไปเรื่อย ๆ ไม่จำกัดจำนวนระลอก ความยากจะเพิ่มขึ้นทุก ๆ 5 ระลอก รางวัลมีแค่ EXP และวัตถุดิบคราฟต์เท่านั้น (ไม่มีทองหรืออุปกรณ์) HP/MP จะไม่ฟื้นฟูระหว่างระลอก กดหยุดเมื่อไรก็ได้เพื่อเก็บของรางวัลและดูสรุปผล ไม่กระทบความคืบหน้าของหอคอย',
       en: "Fight endless waves of random enemies. Difficulty climbs every 5 waves. Rewards are EXP and crafting materials only (no gold or gear). HP/MP don't recover between waves. Stop anytime to bank your rewards and see a summary -- your tower progress is never affected."
     },
     survivalIntroConfirmBtn: { th: 'เข้าสู่สนามประลอง', en: 'Enter the Arena' },
-    survivalWaveLabel: { th: 'คลื่นที่ {wave}', en: 'Wave {wave}' },
+    survivalWaveLabel: { th: 'ระลอกที่ {wave}', en: 'Wave {wave}' },
     survivalTallySuffix: { th: ' · EXP รวม {exp}', en: ' · Total EXP {exp}' },
     survivalStopTitle: { th: 'หยุดและสรุปผล?', en: 'Stop and see the summary?' },
     survivalStopMsg: {
-      th: 'ความคืบหน้าในคลื่นปัจจุบันที่ยังไม่จบจะไม่ถูกนับ แต่ EXP และวัตถุดิบจากทุกคลื่นที่ผ่านมาแล้วจะถูกเก็บไว้ทั้งหมด',
+      th: 'ความคืบหน้าในระลอกปัจจุบันที่ยังไม่จบจะไม่ถูกนับ แต่ EXP และวัตถุดิบจากทุกระลอกที่ผ่านมาแล้วจะถูกเก็บไว้ทั้งหมด',
       en: "Progress in the current, unfinished wave won't count, but every EXP and material reward from waves you've already cleared is kept."
     },
     survivalStopConfirmBtn: { th: 'หยุด & ดูสรุป', en: 'Stop & Summarize' },
     survivalKnockedOutLog: { th: 'คุณถูกปราบ! ล่าถอยออกจากสนามประลอง...', en: "You've been knocked out! Retreating from the arena..." },
     survivalSummaryStoppedTitle: { th: 'จบการประลอง', en: 'Session Complete' },
     survivalSummaryDefeatedTitle: { th: 'ถูกปราบกลางสนาม', en: 'Knocked Out' },
-    survivalSummaryDesc: { th: 'ผ่านมาแล้ว {waves} คลื่น นี่คือของรางวัลที่คุณได้รับ', en: 'You cleared {waves} waves. Here is what you earned.' },
+    survivalSummaryDesc: { th: 'ผ่านมาแล้ว {waves} ระลอก นี่คือของรางวัลที่คุณได้รับ', en: 'You cleared {waves} waves. Here is what you earned.' },
     survivalSummaryStatsTitle: { th: 'สรุปผล', en: 'Summary' },
-    survivalSummaryWavesLabel: { th: 'คลื่นที่ผ่าน', en: 'Waves Cleared' },
+    survivalSummaryWavesLabel: { th: 'ระลอกที่ผ่าน', en: 'Waves Cleared' },
     survivalSummaryMaterialsTitle: { th: 'วัตถุดิบที่ได้รับ', en: 'Materials Gained' },
     survivalSummaryNoMaterials: { th: 'ไม่ได้วัตถุดิบในรอบนี้', en: 'No materials dropped this session' },
     survivalSummaryAgainBtn: { th: 'เข้าประลองอีกครั้ง', en: 'Enter Again' },
@@ -238,7 +226,7 @@
     questInProgressTag: { th: 'กำลังดำเนินการ', en: 'In Progress' },
     questsClaimSummaryTitle: { th: 'สรุปรางวัลที่ได้รับ', en: 'Rewards Claimed' },
 
-    bossFloorTitle: { th: 'ชั้นบัลลังก์ · ราชันไร้กาลเวลา', en: 'Throne Floor · The Timeless Sovereign' },
+    bossFloorTitle: { th: 'ชั้นบัลลังก์ · อธิราชไร้กาล', en: 'Throne Floor · The Timeless Sovereign' },
     bossFloorSub: { th: 'บอสประจำหอคอย', en: 'The tower\'s guardian boss' },
     floorLabel: { th: 'ชั้นที่ ', en: 'Floor ' },
     floorSub: { th: 'ที่พักพิงของเงามืด · ชั้น ', en: 'A lair of shadows · Floor ' },
@@ -303,7 +291,7 @@
 
     // end screen
     victoryTitle: { th: 'พิชิตหอคอยสำเร็จ!', en: 'Tower Conquered!' },
-    victoryMsg: { th: 'คุณเอาชนะราชันไร้กาลเวลาและพิชิตหอคอยแห่งความมืดทั้ง 100 ชั้นได้สำเร็จ!', en: 'You defeated the Timeless Sovereign and conquered all 100 floors of the Darkness Tower!' },
+    victoryMsg: { th: 'คุณเอาชนะอธิราชไร้กาลและพิชิตหอคอยแห่งความมืดทั้ง 100 ชั้นได้สำเร็จ!', en: 'You defeated the Timeless Sovereign and conquered all 100 floors of the Darkness Tower!' },
     defeatTitle: { th: 'พ่ายแพ้...', en: 'Defeated...' },
     defeatMsg: { th: 'การไต่หอคอยของคุณจบลงเพียงเท่านี้ ลองอีกครั้งเพื่อพิชิตหอคอยให้ได้!', en: 'Your climb ends here. Try again to conquer the tower!' },
     backToMenu: { th: 'กลับสู่เมนูหลัก', en: 'Back to Main Menu' },
@@ -625,6 +613,7 @@
     diffChartHint: { th: 'เส้นยิ่งสูงยิ่งโดนหนัก ชี้ที่การ์ดความยากเพื่อไฮไลต์เส้นของระดับนั้น', en: 'Higher means harder hits. Point at a difficulty card to highlight its line.' },
     diffChartFloor: { th: 'ชั้น', en: 'Floor' },
     diffChartCp: { th: 'จุดเซฟ (ยกเว้นฝันร้าย)', en: 'Checkpoint (not on Nightmare)' },
+    ariaOpenSettings: { th: 'ตั้งค่า', en: 'Settings' },
     ariaLangToggle: { th: 'เปลี่ยนภาษา', en: 'Change language' }
   };
 
@@ -670,6 +659,7 @@
     { id: 'settings-back', key: 'ariaBack', attr: 'aria-label' },
     { id: 'credits-title', key: 'creditsTitle' },
     { id: 'credits-back', key: 'ariaBack', attr: 'aria-label' },
+    { id: 'open-settings', key: 'ariaOpenSettings', attr: 'aria-label' },
     { id: 'lang-toggle', key: 'ariaLangToggle', attr: 'aria-label' }
   ];
 

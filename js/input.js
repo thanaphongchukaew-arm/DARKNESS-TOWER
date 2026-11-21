@@ -27,8 +27,12 @@
 
   // The top-most layer that should own input right now.
   function context() {
-    return shown('error-overlay') || shown('modal-root') || shown('allout-modal') || shown('battle-submenu') ||
-      document.querySelector('.screen.active') || document.body;
+    var overlay = shown('error-overlay') || shown('modal-root') || shown('allout-modal');
+    if (overlay) return overlay;
+    var submenu = shown('battle-submenu');
+    // Target cards live outside the hint submenu; keep them in keyboard scope.
+    if (submenu && !document.getElementById('target-cancel')) return submenu;
+    return document.querySelector('.screen.active') || document.body;
   }
 
   function controls(ctx) {
@@ -107,7 +111,7 @@
     else if (ctx.id === 'modal-root') target = ctx.querySelector('#modal-cancel, #leave-cancel, .btn-ghost') || (ctx.querySelectorAll('button').length === 1 ? ctx.querySelector('button') : null);
     else if (ctx.id === 'allout-modal') target = ctx.querySelector('#allout-decline');
     else if (ctx.id === 'battle-submenu') target = ctx.querySelector('#submenu-close');
-    else target = ctx.querySelector('.screen-header .btn-icon, #battle-home');
+    else target = ctx.querySelector('#target-cancel') || ctx.querySelector('.screen-header .btn-icon, #battle-home');
     if (target && visible(target)) target.click();
   }
 

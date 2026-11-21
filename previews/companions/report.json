@@ -1,0 +1,114 @@
+[
+  {
+    "tag": "desktop",
+    "id": "ember_fox",
+    "art": "emberFox",
+    "name": "จิ้งจอกเปลวไฟผู้โจมตี",
+    "artWidth": 51.515625,
+    "overflow": false
+  },
+  {
+    "tag": "desktop",
+    "id": "dawn_owl",
+    "art": "dawnOwl",
+    "name": "นกฮูกอรุณผู้เยียวยา",
+    "artWidth": 51.515625,
+    "overflow": false
+  },
+  {
+    "tag": "desktop",
+    "id": "stoneheart_bear",
+    "art": "stoneheartBear",
+    "name": "หมีหัวใจศิลาผู้พิทักษ์",
+    "artWidth": 51.515625,
+    "overflow": false
+  },
+  {
+    "tag": "desktop",
+    "id": "storm_sprite",
+    "art": "stormSprite",
+    "name": "ภูตอัสนีน้อยผู้เสริมพลัง",
+    "artWidth": 51.515625,
+    "overflow": false
+  },
+  {
+    "tag": "desktop",
+    "id": "sand_scarab",
+    "art": "sandScarab",
+    "name": "ด้วงสุริยาทรายผู้โจมตี",
+    "artWidth": 51.515625,
+    "overflow": false
+  },
+  {
+    "tag": "desktop",
+    "id": "frost_hare",
+    "art": "frostHare",
+    "name": "กระต่ายน้ำแข็งผู้เยียวยา",
+    "artWidth": 51.515625,
+    "overflow": false
+  },
+  {
+    "tag": "desktop",
+    "id": "iron_golem_cub",
+    "art": "ironGolemCub",
+    "name": "ลูกโกเลมเหล็กผู้พิทักษ์",
+    "artWidth": 51.515625,
+    "overflow": false
+  },
+  {
+    "tag": "mobile",
+    "id": "ember_fox",
+    "art": "emberFox",
+    "name": "จิ้งจอกเปลวไฟผู้โจมตี",
+    "artWidth": 52,
+    "overflow": false
+  },
+  {
+    "tag": "mobile",
+    "id": "dawn_owl",
+    "art": "dawnOwl",
+    "name": "นกฮูกอรุณผู้เยียวยา",
+    "artWidth": 52,
+    "overflow": false
+  },
+  {
+    "tag": "mobile",
+    "id": "stoneheart_bear",
+    "art": "stoneheartBear",
+    "name": "หมีหัวใจศิลาผู้พิทักษ์",
+    "artWidth": 52,
+    "overflow": false
+  },
+  {
+    "tag": "mobile",
+    "id": "storm_sprite",
+    "art": "stormSprite",
+    "name": "ภูตอัสนีน้อยผู้เสริมพลัง",
+    "artWidth": 52,
+    "overflow": false
+  },
+  {
+    "tag": "mobile",
+    "id": "sand_scarab",
+    "art": "sandScarab",
+    "name": "ด้วงสุริยาทรายผู้โจมตี",
+    "artWidth": 52,
+    "overflow": false
+  },
+  {
+    "tag": "mobile",
+    "id": "frost_hare",
+    "art": "frostHare",
+    "name": "กระต่ายน้ำแข็งผู้เยียวยา",
+    "artWidth": 52,
+    "overflow": false
+  },
+  {
+    "tag": "mobile",
+    "id": "iron_golem_cub",
+    "art": "ironGolemCub",
+    "name": "ลูกโกเลมเหล็กผู้พิทักษ์",
+    "artWidth": 52,
+    "overflow": false
+  }
+]

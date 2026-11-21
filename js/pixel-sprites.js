@@ -1071,7 +1071,7 @@
     '...DxxDDD........DxxDDD...'
   ];
   P.define('golem', GOLEM_GRID, { R: '#8d7a54', K: '#f9ca46', D: '#423621', Y: '#fb4f29', z: '#b6aa90', y: '#fbdd8b', x: '#867c6b', w: '#fc8f77' });
-  // Crystal Golem and Steel-Forged Golem get palettes that actually look like
+  // Crystal Golem and Steelheart Golem get palettes that actually look like
   // crystal / forged steel instead of Stone Golem's tan rock unchanged.
   P.define('golem_crystal', GOLEM_GRID, { R: '#4a7ab8', K: '#e8f8ff', D: '#1a2c40', Y: '#60d0f0', z: '#8ab8e0', y: '#c8ecff', x: '#3a5878', w: '#a0d8ff' });
   P.define('golem_steel', GOLEM_GRID, { R: '#9098a8', K: '#fff4c0', D: '#2a2e38', Y: '#e85028', z: '#c8ced8', y: '#fff0d0', x: '#5a6270', w: '#f0a888' });

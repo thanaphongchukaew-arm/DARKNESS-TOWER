@@ -1,4 +1,4 @@
-// Class portraits share the palette-grid art direction used by enemies and NPCs.
+// Approved illustrated class portraits; keep the same asset in menus and battles.
 // SVG coordinates preserve talent overlays and battle animation hooks.
 (function () {
   var names = {
@@ -35,7 +35,9 @@
   function has(id) { return Object.prototype.hasOwnProperty.call(names, id); }
   function render(id) {
     if (!has(id)) return '';
-    return window.Game.PixelArt.render(id, 'class-character hero-art');
+    return '<svg xmlns="http://www.w3.org/2000/svg" class="class-character hero-art" viewBox="0 0 160 152" role="img" aria-label="' + names[id] + '">' +
+      '<image class="hero-body" href="assets/pixel16/classes/' + id + '.png" x="0" y="0" width="160" height="152" preserveAspectRatio="xMidYMid meet"/>' +
+      '</svg>';
   }
   window.Game.ClassArt = { has: has, render: render };
 })();

@@ -39,15 +39,33 @@
 .floor-info-sub { color: var(--text-secondary); }
 .status-panel-title, .reward-sub { color: var(--text-secondary); }
 
-/* ---- 5. Tower menu: every entry point in one row under the hero summary ---- */
-#screen-tower .tower-header { align-items: flex-start; }
+/* ---- 5. Tower menu: hero summary, then two even rows (4 + 3) ---- */
+#screen-tower .tower-header { align-items: flex-start; max-width: 1100px; margin-left: auto; margin-right: auto; width: 100%; }
 .tower-header-right.tower-nav {
   flex: 1 1 100%;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 0.5rem;
 }
-.tower-nav button { position: relative; flex: 1 1 auto; width: auto; justify-content: center; white-space: nowrap; padding-left: 0.5rem; padding-right: 0.5rem; font-size: 0.82rem; }
+/* row 1: four town services; row 2: quests / codex / arena */
+.tower-nav > button { grid-column: span 3; }
+.tower-nav > button:nth-child(n+5) { grid-column: span 4; }
+.tower-nav > button {
+  min-width: 0;
+  min-height: 3rem;
+  padding: 0.4rem 0.5rem;
+  display: flex; align-items: center; justify-content: center; gap: 0.35rem;
+  text-align: center; line-height: 1.15; white-space: normal; overflow-wrap: anywhere;
+  font-size: 0.82rem; letter-spacing: 0;
+  position: relative; width: auto; flex: none;
+}
+.tower-nav > button .icon { flex: 0 0 auto; width: 1.1rem; height: 1.1rem; }
+/* every label shares one font and size so Thai/English and the coloured buttons match */
+.tower-nav .quest-btn-label { font-family: inherit; font-size: inherit; }
+@media (max-width: 560px) {
+  .tower-nav > button, .tower-nav > button:nth-child(n+5) { grid-column: span 6; }
+  .tower-nav > button:last-child { grid-column: span 12; }
+}
 #tower-survival-btn.tower-survival-fab, #tower-quests-btn.tower-quests-fab, #tower-codex-btn.tower-codex-fab {
   position: relative; left: auto; right: auto; bottom: auto; z-index: auto; box-shadow: none;
 }
@@ -248,3 +266,199 @@ body, button, input, select { font-variant-ligatures: none; font-feature-setting
   .is-mobile #reward-cards .select-card-title { font-size: .85rem; }
   .is-mobile #reward-cards .select-card-desc,.is-mobile #reward-cards .equip-compare { font-size: .75rem; line-height: 1.45; }
 }
+
+/* Tower page: title and floor column share one comfortable reading width */
+#screen-tower .tower-title { font-size: 1.25rem; margin: 0.9rem 0 1rem; }
+#screen-tower .tower-floors, #screen-tower .tower-jump-wrap { max-width: 720px; }
+
+/* Shared shop/craft item artwork: readable even when purchasing is unavailable. */
+#screen-shop { overflow-y: auto; }
+#screen-shop #shop-content { flex: 0 0 auto; width: 100%; max-width: 1440px; margin: 0 auto; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); align-items: start; gap: 16px; }
+#screen-shop #shop-content > .guide-section { overflow: visible; padding: 14px; gap: 12px; }
+#screen-shop #shop-content .guide-section h3 { font-size: 1rem; }
+#screen-shop #shop-content .card-grid { gap: 10px; }
+#screen-shop .select-card { grid-template-columns: 56px minmax(0,1fr); gap: 8px 12px; padding: 12px; min-width: 0; text-align: left; }
+#screen-shop .select-card-icon { grid-column: 1; grid-row: 1 / 4; width: 56px; height: 56px; margin: 0; align-self: start; }
+#screen-shop .select-card-icon > .item-art { width: 56px; height: 56px; }
+#screen-shop .select-card-icon .icon,#screen-shop .select-card-icon svg { width: 100%; height: 100%; }
+#screen-shop .select-card-title { grid-column: 2; font-size: .95rem; line-height: 1.6; overflow-wrap: anywhere; }
+#screen-shop .select-card-desc { display: block; grid-column: 2; font-size: .85rem; line-height: 1.6; color: #d1c4b2; }
+#screen-shop .select-card-stats { grid-column: 2; gap: 6px; }
+#screen-shop .stat-chip { font-size: .75rem; padding: 3px 6px; }
+#screen-shop .select-card.locked,#screen-shop .select-card:disabled { opacity: 1; filter: none; border-color: #5e4f47; }
+#screen-shop .select-card:disabled .stat-chip:first-child { color: #ffb5ad; }
+#craft-content { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,340px),1fr)); gap: 16px; width: 100%; max-width: 1200px; margin: 0 auto; align-items: start; }
+#craft-content .craft-card { min-width: 0; }
+#craft-content .select-card-icon { width: 72px; height: 72px; margin: 0 0 8px; }
+#craft-content .select-card-icon > .item-art { width: 72px; height: 72px; max-width: none; max-height: none; }
+.craft-mat-row { gap: 10px; min-height: 38px; }
+.craft-mat-row > .item-art { width: 34px; height: 34px; }
+.craft-mat-name { min-width: 0; overflow-wrap: anywhere; }
+.craft-mat-count { margin-left: auto; flex: 0 0 auto; }
+.floor-num > .enemy-art { display: block; width: 100%; height: 100%; }
+.floor-num > .enemy-art > svg { display: block; width: 100%; height: 100%; }
+.ws-art > .item-art { width: 72px; height: 72px; font-size: 32px; }
+.ws-socket-art > .item-art { width: 48px; height: 48px; }
+.ws-track > .item-art { width: 56px; height: 56px; }
+.ws-requirements .item-art { width: 30px; height: 30px; }
+.ui-emblem { image-rendering: pixelated; }
+@media(max-width:680px) {
+  #screen-shop #shop-content,.is-mobile #screen-shop #shop-content { display: grid; grid-template-columns: minmax(0,1fr); flex: 0 0 auto; }
+  #screen-shop .select-card-icon { grid-area: auto; grid-column: 1; grid-row: 1 / 4; }
+  #screen-shop .select-card-title,#screen-shop .select-card-desc,#screen-shop .select-card-stats { grid-area: auto; grid-column: 2; }
+}
+
+/* Bestiary illustrations must stay readable outside the battle screen. */
+#codex-content .select-card-icon:has(.enemy-art) { width: 140px; height: 140px; margin: 0 auto 12px; }
+#codex-content .select-card-icon > .enemy-art,
+#codex-content .select-card-icon > .enemy-art > svg { display: block; width: 100%; height: 100%; }
+#codex-content .craft-card:has(.enemy-art) { min-width: 0; }
+.is-mobile #codex-content .select-card-icon > .enemy-art { width: 100%; height: 100%; }
+
+/* Concrete 32px objects lead each choice; separate gains from the curse cost. */
+#blessing-pick-cards { max-width: 1200px; align-items: stretch; }
+#blessing-pick-cards .select-card { display: flex; flex-direction: column; align-items: stretch; gap: 14px; padding: 24px; text-align: left; }
+#blessing-pick-cards .select-card-icon { display: flex; justify-content: center; align-items: center; align-self: center; width: 112px; height: 112px; margin: 0 0 8px; flex: 0 0 112px; }
+#blessing-pick-cards .select-card-icon .icon { width: 112px; height: 112px; flex: 0 0 112px; }
+#blessing-pick-cards .select-card-icon svg { width: 100%; height: 100%; }
+#blessing-pick-cards .select-card-icon.blessing-pair-art { width: 100%; gap: 8px; }
+#blessing-pick-cards .blessing-pair-art .icon { width: 96px; height: 96px; flex-basis: 96px; }
+.blessing-trade-sign { color: #c9bda7; font-size: 24px; }
+#blessing-pick-cards .select-card-title { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 1.05rem; line-height: 1.7; }
+#blessing-pick-cards .select-card-desc { display: block; overflow: visible; color: #e3d9c8; font-size: 1rem; line-height: 1.8; }
+.blessing-effects { display: flex; flex-direction: column; gap: 14px; }
+.blessing-effects > div { padding-left: 12px; border-left: 3px solid; }
+.blessing-effect-positive { border-color: #85bc93; }
+.blessing-effect-negative { border-color: #d57c85; }
+.blessing-effect-positive strong { color: #b3deb1; }
+.blessing-effect-negative strong { color: #efa1a8; }
+.blessing-effects strong { font-size: .95rem; line-height: 1.6; }
+.blessing-effects p { margin: 4px 0 0; color: #dfd3c1; font-size: .9rem; line-height: 1.7; }
+#blessing-pick-skip { align-self: center; min-width: 200px; max-width: 1100px; }
+.is-mobile #blessing-pick-cards .select-card-icon { grid-area: auto; }
+@media(max-width:680px) {
+  #blessing-pick-cards .select-card { padding: 20px; }
+  #blessing-pick-cards .select-card-icon { width: 96px; height: 96px; flex-basis: 96px; }
+  #blessing-pick-cards .select-card-icon .icon { width: 96px; height: 96px; flex-basis: 96px; }
+  #blessing-pick-cards .select-card-icon.blessing-pair-art { width: 100%; }
+  #blessing-pick-cards .blessing-pair-art .icon { width: 88px; height: 88px; flex-basis: 88px; }
+}
+.blessing-effects > .blessing-effect-positive { border-left-color: #85bc93; }
+.blessing-effects > .blessing-effect-negative { border-left-color: #d57c85; }
+
+/* Object silhouettes need enough room to stay legible beside menu labels. */
+#menu-actions button > .icon { width: 32px; height: 32px; flex: 0 0 32px; }
+#menu-actions button { gap: 14px; }
+.gear-btn .icon { width: 28px; height: 28px; }
+
+/* Compact material rows show the object, rather than a tier badge over its face. */
+#ws-wallet .item-art,
+.ws-requirements .item-art {
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  padding: 2px;
+  border-width: 1px;
+}
+#ws-wallet .item-art small,
+.ws-requirements .item-art small { display: none; }
+#ws-wallet .item-art svg,
+.ws-requirements .item-art svg { width: 100%; height: 100%; }
+
+/* Companions remain identifiable in the picker, even before unlocking. */
+.companion-picker { width: min(760px, 94vw); }
+.companion-picker .submenu-option { gap: 18px; min-height: 128px; }
+.companion-picker .companion-picker-art { position: relative; width: 96px; height: 96px; flex: 0 0 96px; }
+.companion-picker-art > .icon { width: 100%; height: 100%; }
+.companion-picker .submenu-option:disabled { opacity: 1; }
+.companion-picker .submenu-option:disabled .companion-art { filter: saturate(.45) brightness(.75); }
+.companion-lock { position: absolute; bottom: 0; right: 0; width: 28px; height: 28px; background: #191522; border: 1px solid #796746; }
+.companion-lock > .icon { width: 100%; height: 100%; }
+.companion-portrait .icon { width: 64px; height: 64px; }
+.companion-portrait { width: 68px; height: 68px; flex: 0 0 68px; }
+@media(max-width:560px) {
+ .companion-picker .companion-picker-art { width: 76px; height: 76px; flex-basis: 76px; }
+ .companion-picker .submenu-option { gap: 12px; }
+ .companion-picker .submenu-option-info { min-width: 0; }
+}
+.companion-art { width: 100%; height: 100%; }
+.companion-picker { max-width: 760px; }
+.companion-picker { max-height: calc(100dvh - 32px); overflow: hidden; }
+.companion-picker > h3,.companion-picker > button { flex-shrink: 0; }
+.companion-picker > .submenu-list { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+/* A portrait must never size itself from an unconstrained inline icon. */
+#companion-slot { min-width: 0; }
+#companion-slot .equip-slot-icon { width: 64px; height: 64px; flex: 0 0 64px; overflow: hidden; }
+#companion-slot .equip-slot-icon > .icon { width: 64px; height: 64px; }
+#companion-slot .equip-slot-info { min-width: 0; flex: 1; }
+#companion-slot .equip-slot-name,#companion-slot .equip-slot-desc { overflow-wrap: anywhere; }
+.companion-picker .companion-picker-art { width: 128px; height: 128px; flex-basis: 128px; }
+@media(max-width:560px) {
+ .companion-picker .companion-picker-art { width: 96px; height: 96px; flex-basis: 96px; }
+}
+
+/* Shop art and text must use the same column widths in both layout modes. */
+#screen-shop .select-card,
+.is-mobile #screen-shop .select-card {
+ display: grid; grid-template-columns: 56px minmax(0,1fr);
+ grid-template-areas: "icon title" "icon desc" "icon stats";
+ gap: 6px 14px; align-items: start;
+}
+#screen-shop .select-card-icon,
+.is-mobile #screen-shop .select-card-icon {
+ grid-area: icon; width: 56px; height: 56px; font-size: 16px;
+}
+#screen-shop .select-card-icon > .item-art { width: 56px; height: 56px; }
+#screen-shop .select-card-icon .icon,#screen-shop .select-card-icon svg,
+.is-mobile #screen-shop .select-card-icon .icon,.is-mobile #screen-shop .select-card-icon svg {
+ width: 100%; height: 100%;
+}
+#screen-shop .select-card-title,#screen-shop .select-card-desc,#screen-shop .select-card-stats {
+ min-width: 0;
+}
+#screen-shop .select-card:hover .select-card-icon { transform: none; }
+
+/* ---- Larger icon buttons (home / back / close) ---- */
+.btn-icon {
+  width: 4.4rem;
+  height: 4.4rem;
+}
+.btn-icon .icon,
+.btn-icon .pixel-icon,
+.btn-icon svg,
+.btn-icon img {
+  width: 3rem;
+  height: 3rem;
+  font-size: 2.8rem;
+}
+@media (max-width: 600px) {
+  .btn-icon { width: 3.8rem; height: 3.8rem; }
+  .btn-icon .icon, .btn-icon .pixel-icon, .btn-icon svg, .btn-icon img { width: 2.5rem; height: 2.5rem; }
+}
+
+/* Bigger settings gear (icon only; button frame grows slightly) */
+.gear-btn { width: 4rem; height: 4rem; }
+.gear-btn .icon, .gear-btn .icon svg, .gear-btn .icon img { width: 3.2rem; height: 3.2rem; }
+
+/* Layout alignment pass: every block on a screen shares the header's 1100px column. */
+#status-talents.summary-talents { max-width: 1100px; width: 100%; margin: 0 auto 12px; box-sizing: border-box; }
+#screen-shop #shop-gold, #screen-shop #shop-tabs, #screen-shop #shop-content { max-width: 1100px; width: 100%; margin-left: auto; margin-right: auto; box-sizing: border-box; }
+#screen-shop #shop-tabs { justify-content: center; }
+#screen-shop #shop-gold { justify-content: center; }
+#screen-guide .guide-content { max-width: 1100px; }
+#blessing-pick-cards { max-width: 1100px; width: 100%; margin-left: auto; margin-right: auto; box-sizing: border-box; }
+#screen-blessing-pick .menu-actions { margin-top: 16px; justify-content: center; }
+.ws-shell { max-width: 1100px; }
+#screen-codex #codex-tabs, #screen-codex #codex-content { max-width: 1100px; width: 100%; margin-left: auto; margin-right: auto; box-sizing: border-box; }
+#screen-craft #craft-gold { justify-content: center; }
+/* Narrow screens: the quests "claim all" button must not sit under the fixed settings gear. */
+@media (max-width: 768px) { #screen-quests .screen-header { flex-wrap: wrap; } #screen-quests #quests-claim-all-btn { order: 3; flex: 1 0 100%; } }
+.is-mobile #screen-quests .screen-header { flex-wrap: wrap; }
+.is-mobile #screen-quests #quests-claim-all-btn { order: 3; flex: 1 0 100%; }
+/* Action rows on waypoint/event screens share the page column; the button keeps a sensible width. */
+#waypoint-actions, #event-actions { max-width: 1100px; width: 100%; margin: 16px auto 0; align-items: center; box-sizing: border-box; }
+#waypoint-actions > button, #event-actions > button { min-width: 240px; max-width: 100%; }
+/* Narrow screens: titles must clear the fixed settings gear in the top-right corner. */
+@media (max-width: 768px) { .screen-header { padding-right: 4rem; box-sizing: border-box; } }
+.is-mobile .screen-header { padding-right: 4rem; box-sizing: border-box; }

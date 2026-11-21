@@ -1,0 +1,89 @@
+{
+  "sprites": [
+    {
+      "id": "emberFox",
+      "kind": "companions",
+      "width": 80,
+      "height": 64,
+      "colors": 24,
+      "sourceWidth": 1536,
+      "sourceHeight": 1024,
+      "sourceMargin": 42,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "dawnOwl",
+      "kind": "companions",
+      "width": 64,
+      "height": 80,
+      "colors": 24,
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "sourceMargin": 42,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "stoneheartBear",
+      "kind": "companions",
+      "width": 80,
+      "height": 64,
+      "colors": 24,
+      "sourceWidth": 1312,
+      "sourceHeight": 1199,
+      "sourceMargin": 61,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "stormSprite",
+      "kind": "companions",
+      "width": 64,
+      "height": 80,
+      "colors": 24,
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "sourceMargin": 55,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "sandScarab",
+      "kind": "companions",
+      "width": 64,
+      "height": 64,
+      "colors": 24,
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "sourceMargin": 78,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "frostHare",
+      "kind": "companions",
+      "width": 80,
+      "height": 64,
+      "colors": 24,
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "sourceMargin": 69,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "ironGolemCub",
+      "kind": "companions",
+      "width": 64,
+      "height": 80,
+      "colors": 24,
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "sourceMargin": 50,
+      "palette": 24,
+      "alpha": "binary"
+    }
+  ],
+  "missing": []
+}

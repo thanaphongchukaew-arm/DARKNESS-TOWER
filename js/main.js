@@ -14,7 +14,7 @@
     var titleEl = document.getElementById('end-title');
     var msgEl = document.getElementById('end-message');
     var actionsEl = document.getElementById('end-actions');
-    iconEl.innerHTML = window.Game.Icons.get(victory ? 'crownSkull' : 'skull', 'icon-xl');
+    iconEl.innerHTML = window.Game.Icons.get(victory ? 'trophy' : 'skull', 'icon-xl');
     iconEl.style.color = victory ? 'var(--accent-gold)' : 'var(--danger)';
     titleEl.textContent = T(victory ? 'victoryTitle' : 'defeatTitle');
     msgEl.textContent = victory ? T('victoryMsg') : checkpointFloor ? T('defeatCheckpointMsg', { floor: checkpointFloor }) : T('defeatMsg');
@@ -169,6 +169,7 @@
   window.Game.Main = {
     showEnd: showEnd,
     refreshAudioControls: function () { renderAudioControls(); },
+    refreshEndScreen: refreshEndScreen,
     showErrorOverlay: showErrorOverlay
   };
 

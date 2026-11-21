@@ -405,6 +405,7 @@
     var next = enemy.phasesData[enemy.phase - 1];
     if (!next || enemy.hp > enemy.maxHp * next.hpThreshold) return null;
     enemy.phase += 1;
+    lastPhaseSnapshot = { targetUid: enemy.uid, phase: enemy.phase };
     enemy.attacksPool = next.attacks.slice();
     lastPhaseShift = null; // set below only when this phase carries a shift
     var message = L(next, 'announce');
@@ -423,7 +424,8 @@
   }
 
   var lastPhaseShift = null;
-  function bossEvent(message) { return { type: 'bossPhaseChange', message: message, shift: lastPhaseShift }; }
+  var lastPhaseSnapshot = null;
+  function bossEvent(message) { return { type: 'bossPhaseChange', message: message, shift: lastPhaseShift, targetUid: lastPhaseSnapshot ? lastPhaseSnapshot.targetUid : null, phase: lastPhaseSnapshot ? lastPhaseSnapshot.phase : null }; }
   function shiftFocusLabel(focus) {
     return { companion: X().text('ล่าสหาย', 'hunts your companion'), mana: X().text('ดูดมานา', 'drains mana'), buffs: X().text('ลบบัฟ', 'strips buffs') }[focus] || '';
   }

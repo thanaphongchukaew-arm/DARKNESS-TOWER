@@ -1,0 +1,2251 @@
+{
+  "total": 132,
+  "flagged": [],
+  "images": [
+    {
+      "file": "art-source/pixel16/classes/alchemist.png",
+      "width": 1122,
+      "height": 1402,
+      "bounds": [
+        209,
+        26,
+        879,
+        1362
+      ],
+      "margin": 26,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/bard.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        232,
+        10,
+        1021,
+        1244
+      ],
+      "margin": 10,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/battlemage.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        137,
+        32,
+        1091,
+        1231
+      ],
+      "margin": 23,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/beastmaster.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        110,
+        46,
+        1126,
+        1222
+      ],
+      "margin": 32,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/berserker.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        47,
+        26,
+        1224,
+        1236
+      ],
+      "margin": 18,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/blade.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        193,
+        23,
+        986,
+        1229
+      ],
+      "margin": 23,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/chronomancer.png",
+      "width": 1122,
+      "height": 1402,
+      "bounds": [
+        89,
+        10,
+        1037,
+        1382
+      ],
+      "margin": 10,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/deathbringer.png",
+      "width": 1122,
+      "height": 1402,
+      "bounds": [
+        90,
+        47,
+        1025,
+        1355
+      ],
+      "margin": 47,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/druid.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        188,
+        18,
+        1058,
+        1239
+      ],
+      "margin": 15,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/executioner.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        221,
+        27,
+        1171,
+        1230
+      ],
+      "margin": 24,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/frostOracle.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        176,
+        22,
+        1064,
+        1238
+      ],
+      "margin": 16,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/gunslinger.png",
+      "width": 1122,
+      "height": 1402,
+      "bounds": [
+        76,
+        40,
+        1093,
+        1372
+      ],
+      "margin": 29,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/monk.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        108,
+        53,
+        1132,
+        1229
+      ],
+      "margin": 25,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/necromancer.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        253,
+        10,
+        954,
+        1243
+      ],
+      "margin": 10,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/paladin.png",
+      "width": 1122,
+      "height": 1402,
+      "bounds": [
+        67,
+        45,
+        1040,
+        1366
+      ],
+      "margin": 36,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/puppeteer.png",
+      "width": 1122,
+      "height": 1402,
+      "bounds": [
+        32,
+        48,
+        1094,
+        1356
+      ],
+      "margin": 28,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/radiantOrb.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        235,
+        14,
+        959,
+        1233
+      ],
+      "margin": 14,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/ranger.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        184,
+        16,
+        1068,
+        1238
+      ],
+      "margin": 16,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/runeblade.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        153,
+        21,
+        1029,
+        1233
+      ],
+      "margin": 21,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/samurai.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        56,
+        27,
+        1149,
+        1237
+      ],
+      "margin": 17,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/shadowDancer.png",
+      "width": 1122,
+      "height": 1402,
+      "bounds": [
+        59,
+        132,
+        1070,
+        1315
+      ],
+      "margin": 52,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/shadowhunter.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        65,
+        68,
+        1190,
+        1212
+      ],
+      "margin": 42,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/sharpshooter.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        48,
+        83,
+        1221,
+        1205
+      ],
+      "margin": 33,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/staffOrb.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        166,
+        15,
+        1081,
+        1241
+      ],
+      "margin": 13,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/stormCaller.png",
+      "width": 1122,
+      "height": 1402,
+      "bounds": [
+        52,
+        56,
+        1094,
+        1360
+      ],
+      "margin": 28,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/tempestWitch.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        170,
+        25,
+        1077,
+        1236
+      ],
+      "margin": 18,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/vanguard.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        67,
+        57,
+        1217,
+        1204
+      ],
+      "margin": 37,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/warlock.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        192,
+        19,
+        1096,
+        1241
+      ],
+      "margin": 13,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/classes/warlord.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        83,
+        12,
+        1149,
+        1236
+      ],
+      "margin": 12,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/abyss_knight.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        14,
+        162,
+        1230,
+        1109
+      ],
+      "margin": 14,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/abyssal_eel.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        51,
+        120,
+        1161,
+        1208
+      ],
+      "margin": 46,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/abyssal_matriarch.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        77,
+        16,
+        1229,
+        1226
+      ],
+      "margin": 16,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/ancient_wyrm.png",
+      "width": 1263,
+      "height": 1246,
+      "bounds": [
+        14,
+        84,
+        1239,
+        1202
+      ],
+      "margin": 14,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/archdevil.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        14,
+        13,
+        1225,
+        1240
+      ],
+      "margin": 13,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/astral_wraith.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        36,
+        10,
+        1214,
+        1238
+      ],
+      "margin": 10,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/banshee.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        53,
+        51,
+        1173,
+        1221
+      ],
+      "margin": 33,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/bat_queen.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        20,
+        89,
+        1231,
+        1203
+      ],
+      "margin": 20,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/blight_heart.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        22,
+        87,
+        1227,
+        1198
+      ],
+      "margin": 22,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/bog_slime.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        42,
+        239,
+        1220,
+        1026
+      ],
+      "margin": 34,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/bone_reaper.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        16,
+        113,
+        1224,
+        1199
+      ],
+      "margin": 16,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/bone_serpent.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        107,
+        73,
+        1159,
+        1203
+      ],
+      "margin": 51,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/chaos_golem.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        28,
+        82,
+        1215,
+        1180
+      ],
+      "margin": 28,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/chime_wraith.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        25,
+        25,
+        1221,
+        1224
+      ],
+      "margin": 25,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/chimeric_hound.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        55,
+        197,
+        1201,
+        1104
+      ],
+      "margin": 53,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/choir_warden.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        18,
+        64,
+        1238,
+        1197
+      ],
+      "margin": 16,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/chrono_golem.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        18,
+        46,
+        1223,
+        1218
+      ],
+      "margin": 18,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/chrono_serpent.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        56,
+        47,
+        1137,
+        1225
+      ],
+      "margin": 29,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/cinder_golem.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        36,
+        106,
+        1213,
+        1160
+      ],
+      "margin": 36,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/cloud_serpent.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        34,
+        85,
+        1182,
+        1183
+      ],
+      "margin": 34,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/core_warden.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        14,
+        50,
+        1245,
+        1213
+      ],
+      "margin": 9,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/crimson_drake.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        29,
+        293,
+        1227,
+        983
+      ],
+      "margin": 27,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/crystal_golem.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        29,
+        97,
+        1227,
+        1173
+      ],
+      "margin": 27,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/crystal_wisp.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        98,
+        122,
+        1147,
+        1168
+      ],
+      "margin": 86,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/dark_bat.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        28,
+        108,
+        1224,
+        1144
+      ],
+      "margin": 28,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/discord_wraith.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        8,
+        33,
+        1224,
+        1234
+      ],
+      "margin": 8,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/doom_reaper.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        8,
+        6,
+        1228,
+        1230
+      ],
+      "margin": 6,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/drowned_revenant.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        9,
+        56,
+        1184,
+        1212
+      ],
+      "margin": 9,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/dust_djinn.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        16,
+        28,
+        1218,
+        1229
+      ],
+      "margin": 16,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/flame_imp.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        43,
+        91,
+        1212,
+        1200
+      ],
+      "margin": 42,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/flame_overlord.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        7,
+        59,
+        1237,
+        1190
+      ],
+      "margin": 7,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/flux_serpent.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        90,
+        81,
+        1180,
+        1203
+      ],
+      "margin": 51,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/forest_bandit.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        40,
+        129,
+        1137,
+        1187
+      ],
+      "margin": 40,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/forge_master.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        9,
+        80,
+        1245,
+        1202
+      ],
+      "margin": 9,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/frost_knight.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        15,
+        100,
+        1205,
+        1146
+      ],
+      "margin": 15,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/frost_sovereign.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        10,
+        73,
+        1238,
+        1222
+      ],
+      "margin": 10,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/frost_spawn.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        16,
+        149,
+        1234,
+        1120
+      ],
+      "margin": 16,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/frozen_harpy.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        10,
+        87,
+        1231,
+        1202
+      ],
+      "margin": 10,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/fungal_stalker.png",
+      "width": 1265,
+      "height": 1244,
+      "bounds": [
+        31,
+        145,
+        1231,
+        1116
+      ],
+      "margin": 31,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/gale_falcon.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        70,
+        79,
+        1227,
+        1189
+      ],
+      "margin": 27,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/gear_sentinel.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        30,
+        65,
+        1208,
+        1198
+      ],
+      "margin": 30,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/geode_golem.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        30,
+        108,
+        1222,
+        1176
+      ],
+      "margin": 30,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/giant_spider.png",
+      "width": 1269,
+      "height": 1240,
+      "bounds": [
+        46,
+        206,
+        1215,
+        1127
+      ],
+      "margin": 46,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/glacial_tyrant.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        7,
+        59,
+        1245,
+        1171
+      ],
+      "margin": 7,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/glacial_wraith.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        39,
+        110,
+        1183,
+        1208
+      ],
+      "margin": 39,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/glacial_wyrm.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        16,
+        99,
+        1224,
+        1183
+      ],
+      "margin": 16,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/grand_automaton.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        9,
+        12,
+        1246,
+        1223
+      ],
+      "margin": 8,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/gust_sprite.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        10,
+        86,
+        1217,
+        1224
+      ],
+      "margin": 10,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/hell_hound.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        16,
+        104,
+        1237,
+        1148
+      ],
+      "margin": 16,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/imp_captain.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        19,
+        65,
+        1212,
+        1193
+      ],
+      "margin": 19,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/inferno_beast.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        54,
+        115,
+        1201,
+        1152
+      ],
+      "margin": 53,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/inferno_duke.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        69,
+        13,
+        1166,
+        1231
+      ],
+      "margin": 13,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/inferno_warden.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        11,
+        47,
+        1243,
+        1210
+      ],
+      "margin": 11,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/iron_sentinel.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        11,
+        104,
+        1228,
+        1206
+      ],
+      "margin": 11,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/iron_wyrm.png",
+      "width": 1274,
+      "height": 1235,
+      "bounds": [
+        27,
+        73,
+        1244,
+        1166
+      ],
+      "margin": 27,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/lava_serpent.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        14,
+        65,
+        1226,
+        1200
+      ],
+      "margin": 14,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/leviathan_herald.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        24,
+        21,
+        1228,
+        1235
+      ],
+      "margin": 19,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/magma_hound.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        43,
+        248,
+        1218,
+        1086
+      ],
+      "margin": 36,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/nebula_golem.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        43,
+        72,
+        1176,
+        1203
+      ],
+      "margin": 43,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/obsidian_dragon.png",
+      "width": 1312,
+      "height": 1199,
+      "bounds": [
+        17,
+        43,
+        1292,
+        1170
+      ],
+      "margin": 17,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/pharaoh_ash.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        12,
+        77,
+        1223,
+        1207
+      ],
+      "margin": 12,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/piston_golem.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        16,
+        165,
+        1234,
+        1131
+      ],
+      "margin": 16,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/pit_fiend.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        139,
+        240,
+        1098,
+        1028
+      ],
+      "margin": 139,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/prism_lynx.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        63,
+        191,
+        1190,
+        1089
+      ],
+      "margin": 63,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/pyroclast_bat.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        13,
+        150,
+        1238,
+        1117
+      ],
+      "margin": 13,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/rift_warden.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        6,
+        27,
+        1235,
+        1211
+      ],
+      "margin": 6,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/rime_golem.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        13,
+        104,
+        1241,
+        1176
+      ],
+      "margin": 13,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/rootbound_golem.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        12,
+        48,
+        1209,
+        1205
+      ],
+      "margin": 12,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/rotor_wraith.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        87,
+        82,
+        1163,
+        1196
+      ],
+      "margin": 58,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/sanctum_wraith.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        28,
+        36,
+        1195,
+        1219
+      ],
+      "margin": 28,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/sand_wraith.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        35,
+        85,
+        1214,
+        1208
+      ],
+      "margin": 35,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/scarab_swarm.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        74,
+        50,
+        1170,
+        1222
+      ],
+      "margin": 32,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/shadow_wolf.png",
+      "width": 1448,
+      "height": 1086,
+      "bounds": [
+        69,
+        142,
+        1305,
+        972
+      ],
+      "margin": 69,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/siren_wraith.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        25,
+        45,
+        1166,
+        1214
+      ],
+      "margin": 25,
+      "requiresRepair": false,
+      "alphaRange": [
+        3,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/spark_hound.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        62,
+        313,
+        1236,
+        975
+      ],
+      "margin": 18,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/spore_bat.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        60,
+        129,
+        1229,
+        1180
+      ],
+      "margin": 25,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/star_wisp.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        93,
+        107,
+        1187,
+        1141
+      ],
+      "margin": 67,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/steel_golem.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        15,
+        112,
+        1236,
+        1177
+      ],
+      "margin": 15,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/stone_golem.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        22,
+        134,
+        1223,
+        1167
+      ],
+      "margin": 22,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/storm_harpy.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        15,
+        43,
+        1238,
+        1237
+      ],
+      "margin": 15,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/storm_lancer.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        19,
+        219,
+        1230,
+        1056
+      ],
+      "margin": 19,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/storm_titan.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        16,
+        47,
+        1236,
+        1209
+      ],
+      "margin": 16,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/succubus.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        26,
+        34,
+        1217,
+        1224
+      ],
+      "margin": 26,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/swamp_troll.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        16,
+        116,
+        1226,
+        1125
+      ],
+      "margin": 16,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/tempest_marshal.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        4,
+        100,
+        1250,
+        1168
+      ],
+      "margin": 4,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/thorn_wraith.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        25,
+        29,
+        1215,
+        1223
+      ],
+      "margin": 25,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/thunder_cherub.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        26,
+        61,
+        1203,
+        1178
+      ],
+      "margin": 26,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/thunder_hawk.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        83,
+        80,
+        1227,
+        1193
+      ],
+      "margin": 27,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/thunder_revenant.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        33,
+        53,
+        1178,
+        1202
+      ],
+      "margin": 33,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/tide_golem.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        20,
+        37,
+        1228,
+        1217
+      ],
+      "margin": 20,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/timeless_herald.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        28,
+        17,
+        1219,
+        1213
+      ],
+      "margin": 17,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/timeless_sovereign-phase-2.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        183,
+        134,
+        1021,
+        1065
+      ],
+      "margin": 134,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/timeless_sovereign-phase-3.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        145,
+        145,
+        1069,
+        1114
+      ],
+      "margin": 140,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/timeless_sovereign-phase-4.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        174,
+        193,
+        1044,
+        1051
+      ],
+      "margin": 174,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/timeless_sovereign.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        180,
+        188,
+        1022,
+        1052
+      ],
+      "margin": 180,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/twilight_seraph.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        8,
+        62,
+        1241,
+        1171
+      ],
+      "margin": 8,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/venom_hydra.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        35,
+        71,
+        1223,
+        1213
+      ],
+      "margin": 31,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/venom_wraith.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        31,
+        32,
+        1233,
+        1234
+      ],
+      "margin": 20,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/void_dragon.png",
+      "width": 1287,
+      "height": 1222,
+      "bounds": [
+        47,
+        106,
+        1244,
+        1166
+      ],
+      "margin": 43,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/void_sentinel.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        17,
+        48,
+        1198,
+        1214
+      ],
+      "margin": 17,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/void_serpent.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        30,
+        37,
+        1209,
+        1234
+      ],
+      "margin": 20,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/wyvern_alpha.png",
+      "width": 1263,
+      "height": 1246,
+      "bounds": [
+        48,
+        121,
+        1223,
+        1143
+      ],
+      "margin": 40,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "art-source/pixel16/monsters/young_wyvern.png",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        29,
+        107,
+        1217,
+        1183
+      ],
+      "margin": 29,
+      "requiresRepair": false,
+      "alphaRange": [
+        0,
+        255
+      ]
+    }
+  ],
+  "note": "Numeric borders supplement visual review; they do not prove that an already-truncated shape is complete."
+}

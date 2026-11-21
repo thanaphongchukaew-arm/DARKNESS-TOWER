@@ -300,10 +300,10 @@
     var body = document.getElementById('event-body');
     body.innerHTML = '<div class="card-grid">' +
       '<button class="select-card' + (canTradeGold ? '' : ' locked') + '" data-choice="gold"' + (canTradeGold ? '' : ' disabled') + '>' +
-        '<div class="select-card-icon">' + I('gem') + '</div><div class="select-card-title">' + T('eventSageGoldBtn') + '</div>' +
+        '<div class="select-card-icon">' + I('coin') + '</div><div class="select-card-title">' + T('eventSageGoldBtn') + '</div>' +
         '<div class="select-card-desc">' + T('eventSageGoldDesc', { gold: goldCost, exp: expGain }) + '</div></button>' +
       '<button class="select-card' + (canTradeMat ? '' : ' locked') + '" data-choice="material"' + (canTradeMat ? '' : ' disabled') + '>' +
-        '<div class="select-card-icon">' + I('scroll') + '</div><div class="select-card-title">' + T('eventSageMaterialBtn') + '</div>' +
+        '<div class="select-card-icon">' + I('microIngredient') + '</div><div class="select-card-title">' + T('eventSageMaterialBtn') + '</div>' +
         '<div class="select-card-desc">' + T('eventSageMaterialDesc', { qty: evDef.materialTradeQty }) + '</div></button>' +
       eventChoiceCard('doorway', 'declineBtn', 'eventDeclineDesc', 'decline') +
     '</div>';
@@ -752,7 +752,7 @@
       window.Game.UI.showScreen('screen-codex');
     };
     document.getElementById('tower-codex-badge').classList.add('hidden');
-    document.getElementById('tower-home').innerHTML = I('doorway');
+    document.getElementById('tower-home').innerHTML = I('home');
     document.getElementById('tower-home').onclick = function () {
       SFX('ui_back');
       window.Game.State.saveNow();
@@ -822,7 +822,7 @@
       var title = isBoss ? T('bossFloorTitle') : miniBoss ? (T('floorLabel') + i + ' · ' + L(miniBoss, 'name')) : (T('floorLabel') + i);
       var sub = isBoss ? T('bossFloorSub') : miniBoss ? T('miniBossFloorSub') : (T('floorSub') + i);
       rowsHtml += '<div class="floor-row ' + state + (state === 'cleared' ? ' compact' : '') + ((isBoss || miniBoss) ? ' boss-row' : '') + '" data-floor="' + i + '">' +
-        '<div class="floor-num">' + ((isBoss || miniBoss) ? I('crownSkull') : i) + '</div>' +
+        '<div class="floor-num">' + ((isBoss || miniBoss) ? window.Game.BattleArt.enemy(miniBoss || D.boss) : i) + '</div>' +
         '<div class="floor-info"><div class="floor-info-title">' + title + '</div><div class="floor-info-sub">' + sub + '</div></div>' +
         '<div class="floor-status-icon">' + I(icon) + '</div>' +
       '</div>';
@@ -1327,7 +1327,7 @@
         }).join('');
         var canCraft = matsOk && goldOk;
         return '<div class="craft-card">' +
-          '<div class="select-card-icon">' + I(result.icon) + '</div>' +
+          '<div class="select-card-icon">' + window.Game.Icons.item(result) + '</div>' +
           '<div class="select-card-title">' + L(result, 'name') + '</div>' +
           '<div class="select-card-desc">' + L(result, 'desc') + '</div>' +
           '<div class="craft-materials">' + matsHtml + '</div>' +
@@ -1532,13 +1532,13 @@
     var listHtml = D.companions.map(function (c) {
       var unlocked = S.isCompanionUnlocked(c.id);
       return '<button class="submenu-option" data-id="' + c.id + '"' + (unlocked ? '' : ' disabled') + '>' +
-        '<div class="submenu-option-icon">' + I(unlocked ? c.icon : 'lock') + '</div>' +
+        '<div class="submenu-option-icon companion-picker-art">' + I(c.icon) + (unlocked ? '' : '<span class="companion-lock">' + I('lock') + '</span>') + '</div>' +
         '<div class="submenu-option-info"><div class="submenu-option-name">' + L(c, 'name') + '</div>' +
         '<div class="submenu-option-desc">' + (unlocked ? L(c, 'desc') : T('companionLockedDesc', { floor: c.unlockFloor })) + '</div>' + (unlocked ? window.Game.BondUI.meter(c.id) : '') + '</div>' +
       '</button>';
     }).join('');
     var root = document.getElementById('modal-root');
-    root.innerHTML = '<div class="modal-box"><h3>' + T('chooseCompanionTitle') + '</h3><div class="submenu-list">' + listHtml + '</div>' +
+    root.innerHTML = '<div class="modal-box companion-picker"><h3>' + T('chooseCompanionTitle') + '</h3><div class="submenu-list">' + listHtml + '</div>' +
       (run.companionId ? '<button class="btn-danger" id="dismiss-companion-btn">' + T('dismissCompanionBtn') + '</button>' : '') +
       '<button class="btn-ghost" id="modal-cancel">' + T('closeBtn') + '</button></div>';
     root.classList.remove('hidden');

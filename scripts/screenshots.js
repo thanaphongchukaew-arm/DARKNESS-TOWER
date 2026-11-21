@@ -111,6 +111,12 @@ async function tour(win, tag) {
   `);
   await sleep(1800);
   await shoot(win, tag + '-15-boss');
+  // Art-direction preview; phase-event playback is checked by ui-polish-test.
+  await run(win, `
+    window.Game.BattleUI.cancelPlayback();
+    document.querySelector('.enemy-card.boss .enemy-portrait').innerHTML = '<span class="enemy-ground-ring"></span>' + window.Game.BattleArt.enemy(Object.assign({},window.Game.Data.boss,{phase:4}));
+  `);
+  await shoot(win, tag + '-15b-boss-phase4');
   // Reward screen (needs a live run, so before the defeat screen).
   await run(win, `
     const G = window.Game;

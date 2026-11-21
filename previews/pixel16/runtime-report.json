@@ -1,0 +1,812 @@
+{
+  "classes": 29,
+  "monsters": 100,
+  "images": [
+    {
+      "src": "assets/pixel16/classes/blade.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/staffOrb.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/radiantOrb.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/berserker.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/ranger.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/necromancer.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/monk.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/paladin.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/gunslinger.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/druid.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/alchemist.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/samurai.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/warlock.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/battlemage.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/frostOracle.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/stormCaller.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/shadowDancer.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/bard.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/beastmaster.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/runeblade.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/sharpshooter.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/puppeteer.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/tempestWitch.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/chronomancer.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/warlord.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/shadowhunter.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/executioner.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/deathbringer.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/classes/vanguard.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/monsters/shadow_wolf.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/flame_imp.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/stone_golem.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/dark_bat.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/gust_sprite.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/giant_spider.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/bog_slime.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/forest_bandit.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/monsters/frost_knight.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/monsters/thunder_hawk.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/venom_wraith.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/iron_sentinel.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/storm_harpy.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/swamp_troll.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/monsters/crystal_golem.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/banshee.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/abyss_knight.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/monsters/inferno_beast.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/glacial_wyrm.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/thunder_revenant.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/void_sentinel.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/young_wyvern.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/imp_captain.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/bone_reaper.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/monsters/crimson_drake.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/venom_hydra.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/hell_hound.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/succubus.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/monsters/iron_wyrm.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/pit_fiend.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/monsters/ancient_wyrm.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/archdevil.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/monsters/doom_reaper.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/monsters/void_dragon.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/inferno_duke.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/storm_titan.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/crystal_wisp.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/prism_lynx.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/chime_wraith.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/geode_golem.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/drowned_revenant.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/abyssal_eel.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/tide_golem.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/siren_wraith.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/gale_falcon.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/thunder_cherub.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/storm_lancer.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/monsters/cloud_serpent.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/sand_wraith.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/bone_serpent.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/scarab_swarm.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/dust_djinn.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/magma_hound.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/cinder_golem.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/lava_serpent.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/pyroclast_bat.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/gear_sentinel.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/spark_hound.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/piston_golem.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/rotor_wraith.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/fungal_stalker.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/thorn_wraith.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/spore_bat.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/rootbound_golem.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/frost_spawn.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/glacial_wraith.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/rime_golem.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/frozen_harpy.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/star_wisp.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/void_serpent.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/nebula_golem.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/astral_wraith.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/chimeric_hound.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/chaos_golem.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/discord_wraith.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/flux_serpent.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/twilight_seraph.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/chrono_golem.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/sanctum_wraith.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/chrono_serpent.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/monsters/steel_golem.png",
+      "ok": true,
+      "width": 128,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/bat_queen.png",
+      "ok": true,
+      "width": 128,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/inferno_warden.png",
+      "ok": true,
+      "width": 96,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/wyvern_alpha.png",
+      "ok": true,
+      "width": 128,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/flame_overlord.png",
+      "ok": true,
+      "width": 96,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/glacial_tyrant.png",
+      "ok": true,
+      "width": 96,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/abyssal_matriarch.png",
+      "ok": true,
+      "width": 96,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/obsidian_dragon.png",
+      "ok": true,
+      "width": 128,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/choir_warden.png",
+      "ok": true,
+      "width": 96,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/leviathan_herald.png",
+      "ok": true,
+      "width": 128,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/tempest_marshal.png",
+      "ok": true,
+      "width": 96,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/pharaoh_ash.png",
+      "ok": true,
+      "width": 96,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/core_warden.png",
+      "ok": true,
+      "width": 96,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/grand_automaton.png",
+      "ok": true,
+      "width": 96,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/blight_heart.png",
+      "ok": true,
+      "width": 96,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/frost_sovereign.png",
+      "ok": true,
+      "width": 96,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/rift_warden.png",
+      "ok": true,
+      "width": 96,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/forge_master.png",
+      "ok": true,
+      "width": 96,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/timeless_herald.png",
+      "ok": true,
+      "width": 96,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/monsters/timeless_sovereign.png",
+      "ok": true,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "src": "assets/pixel16/monsters/timeless_sovereign-phase-2.png",
+      "ok": true,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "src": "assets/pixel16/monsters/timeless_sovereign-phase-3.png",
+      "ok": true,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "src": "assets/pixel16/monsters/timeless_sovereign-phase-4.png",
+      "ok": true,
+      "width": 128,
+      "height": 128
+    }
+  ],
+  "originalNames": true,
+  "battle": {
+    "player": "assets/pixel16/classes/samurai.png",
+    "enemies": [
+      "assets/pixel16/monsters/stone_golem.png"
+    ]
+  },
+  "cached": 132,
+  "offline": true,
+  "mobile": {
+    "overflow": false,
+    "portrait": 259.5
+  },
+  "errors": []
+}

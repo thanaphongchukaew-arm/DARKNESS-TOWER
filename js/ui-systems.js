@@ -32,7 +32,9 @@
   function ailments(list) {
     return '<div class="ailment-row">' + (list || []).map(function (a) {
       var names = { poison: ['พิษ', 'Poison'], burn: ['ไหม้', 'Burn'], silence: ['ใบ้', 'Silence'] };
-      return '<span class="ailment-chip">' + I('status' + a.id[0].toUpperCase() + a.id.slice(1)) + X.text(names[a.id][0], names[a.id][1]) + ' · ' + a.turns + '</span>';
+      var descriptions = { poison: ['เสีย HP จากพิษเมื่อถึงเทิร์น', 'Poison deals damage each turn'], burn: ['เสีย HP จากไฟเมื่อถึงเทิร์น', 'Burn deals damage each turn'], silence: ['ใช้ทักษะที่ไม่ใช่กายภาพไม่ได้', 'Cannot use non-physical skills'] };
+      if (!names[a.id]) return '';
+      return G.BattleArt.chip(a.id, X.text(names[a.id][0], names[a.id][1]), X.text(descriptions[a.id][0], descriptions[a.id][1]), a.turns, 'ailment-chip');
     }).join('') + '</div>';
   }
   function comparison(run, item, slot) {

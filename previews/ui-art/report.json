@@ -1,0 +1,3946 @@
+{
+  "views": [
+    {
+      "tag": "desktop",
+      "name": "menu",
+      "screen": "screen-menu",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "guide",
+      "screen": "screen-guide",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 37
+    },
+    {
+      "tag": "desktop",
+      "name": "settings",
+      "screen": "screen-settings",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "classes",
+      "screen": "screen-class",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "difficulty",
+      "screen": "screen-difficulty",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "blessings",
+      "screen": "screen-blessing-pick",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": 2,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "tower",
+      "screen": "screen-tower",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "shop",
+      "screen": "screen-shop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 17
+    },
+    {
+      "tag": "desktop",
+      "name": "shop-no-gold",
+      "screen": "screen-shop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 17
+    },
+    {
+      "tag": "desktop",
+      "name": "shop-sell",
+      "screen": "screen-shop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 192
+    },
+    {
+      "tag": "desktop",
+      "name": "craft",
+      "screen": "screen-craft",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 6
+    },
+    {
+      "tag": "desktop",
+      "name": "quests",
+      "screen": "screen-quests",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 18
+    },
+    {
+      "tag": "desktop",
+      "name": "bestiary",
+      "screen": "screen-codex",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": 139.994,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "achievements",
+      "screen": "screen-codex",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "travelers",
+      "screen": "screen-codex",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "inventory",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 49
+    },
+    {
+      "tag": "desktop",
+      "name": "workshop-runes",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 27
+    },
+    {
+      "tag": "desktop",
+      "name": "workshop-salvage",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 289
+    },
+    {
+      "tag": "desktop",
+      "name": "workshop-forge",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 15
+    },
+    {
+      "tag": "desktop",
+      "name": "workshop-services",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 7
+    },
+    {
+      "tag": "desktop",
+      "name": "workshop-camp",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 3
+    },
+    {
+      "tag": "desktop",
+      "name": "workshop-guild",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 3
+    },
+    {
+      "tag": "desktop",
+      "name": "workshop-book",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 39
+    },
+    {
+      "tag": "desktop",
+      "name": "battle",
+      "screen": "screen-battle",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "battle-skills",
+      "screen": "screen-battle",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "battle-items",
+      "screen": "screen-battle",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 15
+    },
+    {
+      "tag": "desktop",
+      "name": "arena-summary",
+      "screen": "screen-survival-summary",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "reward",
+      "screen": "screen-reward",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 2
+    },
+    {
+      "tag": "desktop",
+      "name": "end",
+      "screen": "screen-end",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "menu",
+      "screen": "screen-menu",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "guide",
+      "screen": "screen-guide",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 37
+    },
+    {
+      "tag": "mobile",
+      "name": "settings",
+      "screen": "screen-settings",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "classes",
+      "screen": "screen-class",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "difficulty",
+      "screen": "screen-difficulty",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "blessings",
+      "screen": "screen-blessing-pick",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": 2,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "tower",
+      "screen": "screen-tower",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "shop",
+      "screen": "screen-shop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 17
+    },
+    {
+      "tag": "mobile",
+      "name": "shop-no-gold",
+      "screen": "screen-shop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 17
+    },
+    {
+      "tag": "mobile",
+      "name": "shop-sell",
+      "screen": "screen-shop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 192
+    },
+    {
+      "tag": "mobile",
+      "name": "craft",
+      "screen": "screen-craft",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 6
+    },
+    {
+      "tag": "mobile",
+      "name": "quests",
+      "screen": "screen-quests",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 18
+    },
+    {
+      "tag": "mobile",
+      "name": "bestiary",
+      "screen": "screen-codex",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": 140,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "achievements",
+      "screen": "screen-codex",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "travelers",
+      "screen": "screen-codex",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "inventory",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 49
+    },
+    {
+      "tag": "mobile",
+      "name": "workshop-runes",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 27
+    },
+    {
+      "tag": "mobile",
+      "name": "workshop-salvage",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 289
+    },
+    {
+      "tag": "mobile",
+      "name": "workshop-forge",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 15
+    },
+    {
+      "tag": "mobile",
+      "name": "workshop-services",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 7
+    },
+    {
+      "tag": "mobile",
+      "name": "workshop-camp",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 3
+    },
+    {
+      "tag": "mobile",
+      "name": "workshop-guild",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 3
+    },
+    {
+      "tag": "mobile",
+      "name": "workshop-book",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 39
+    },
+    {
+      "tag": "mobile",
+      "name": "battle",
+      "screen": "screen-battle",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "battle-skills",
+      "screen": "screen-battle",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "battle-items",
+      "screen": "screen-battle",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 15
+    },
+    {
+      "tag": "mobile",
+      "name": "arena-summary",
+      "screen": "screen-survival-summary",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "reward",
+      "screen": "screen-reward",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 3
+    },
+    {
+      "tag": "mobile",
+      "name": "end",
+      "screen": "screen-end",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "landscape",
+      "name": "menu",
+      "screen": "screen-menu",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "landscape",
+      "name": "guide",
+      "screen": "screen-guide",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 37
+    },
+    {
+      "tag": "landscape",
+      "name": "settings",
+      "screen": "screen-settings",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "landscape",
+      "name": "classes",
+      "screen": "screen-class",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "landscape",
+      "name": "difficulty",
+      "screen": "screen-difficulty",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "landscape",
+      "name": "blessings",
+      "screen": "screen-blessing-pick",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": 2,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "landscape",
+      "name": "tower",
+      "screen": "screen-tower",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "landscape",
+      "name": "shop",
+      "screen": "screen-shop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 17
+    },
+    {
+      "tag": "landscape",
+      "name": "shop-no-gold",
+      "screen": "screen-shop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 17
+    },
+    {
+      "tag": "landscape",
+      "name": "shop-sell",
+      "screen": "screen-shop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 192
+    },
+    {
+      "tag": "landscape",
+      "name": "craft",
+      "screen": "screen-craft",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 6
+    },
+    {
+      "tag": "landscape",
+      "name": "quests",
+      "screen": "screen-quests",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 18
+    },
+    {
+      "tag": "landscape",
+      "name": "bestiary",
+      "screen": "screen-codex",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": 139.996,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "landscape",
+      "name": "achievements",
+      "screen": "screen-codex",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "landscape",
+      "name": "travelers",
+      "screen": "screen-codex",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "landscape",
+      "name": "inventory",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 49
+    },
+    {
+      "tag": "landscape",
+      "name": "workshop-runes",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 27
+    },
+    {
+      "tag": "landscape",
+      "name": "workshop-salvage",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 289
+    },
+    {
+      "tag": "landscape",
+      "name": "workshop-forge",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 15
+    },
+    {
+      "tag": "landscape",
+      "name": "workshop-services",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 7
+    },
+    {
+      "tag": "landscape",
+      "name": "workshop-camp",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 3
+    },
+    {
+      "tag": "landscape",
+      "name": "workshop-guild",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 3
+    },
+    {
+      "tag": "landscape",
+      "name": "workshop-book",
+      "screen": "screen-workshop",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 39
+    },
+    {
+      "tag": "landscape",
+      "name": "battle",
+      "screen": "screen-battle",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "landscape",
+      "name": "battle-skills",
+      "screen": "screen-battle",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "landscape",
+      "name": "battle-items",
+      "screen": "screen-battle",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "landscape",
+      "name": "arena-summary",
+      "screen": "screen-survival-summary",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    },
+    {
+      "tag": "landscape",
+      "name": "reward",
+      "screen": "screen-reward",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 2
+    },
+    {
+      "tag": "landscape",
+      "name": "end",
+      "screen": "screen-end",
+      "overflow": false,
+      "broken": 0,
+      "emptySVG": 0,
+      "bestiaryArt": null,
+      "pairIcons": null,
+      "iconOverlaps": [],
+      "itemCount": 0
+    }
+  ],
+  "errors": [],
+  "originalNames": true,
+  "items": [
+    {
+      "id": "w_rusty_blade",
+      "name": "ดาบสนิมกร้าน",
+      "icon": "weaponSlot",
+      "registered": true
+    },
+    {
+      "id": "w_hunting_blade",
+      "name": "ดาบนักล่า",
+      "icon": "weaponSlot",
+      "registered": true
+    },
+    {
+      "id": "w_apprentice_wand",
+      "name": "คทาศิษย์เวท",
+      "icon": "weaponSlotMag",
+      "registered": true
+    },
+    {
+      "id": "w_knight_sword",
+      "name": "ดาบอัศวิน",
+      "icon": "weaponSlot",
+      "registered": true
+    },
+    {
+      "id": "w_arcane_staff",
+      "name": "คทาอาคม",
+      "icon": "weaponSlotMag",
+      "registered": true
+    },
+    {
+      "id": "w_storm_glaive",
+      "name": "ทวนวายุ",
+      "icon": "weaponSlot",
+      "registered": true
+    },
+    {
+      "id": "w_soul_edge",
+      "name": "ดาบกลืนวิญญาณ",
+      "icon": "weaponSlot",
+      "registered": true
+    },
+    {
+      "id": "w_grand_grimoire",
+      "name": "คัมภีร์มหาเวท",
+      "icon": "weaponSlotMag",
+      "registered": true
+    },
+    {
+      "id": "w_dragonfang_blade",
+      "name": "ดาบเขี้ยวมังกร",
+      "icon": "weaponSlot",
+      "registered": true
+    },
+    {
+      "id": "w_infernal_scepter",
+      "name": "คทาอเวจี",
+      "icon": "weaponSlotMag",
+      "registered": true
+    },
+    {
+      "id": "w_tempest_lance",
+      "name": "หอกพายุทมิฬ",
+      "icon": "weaponSlot",
+      "registered": true
+    },
+    {
+      "id": "w_voidforged_blade",
+      "name": "ดาบหลอมความว่าง",
+      "icon": "weaponSlot",
+      "registered": true
+    },
+    {
+      "id": "w_archdemon_tome",
+      "name": "คัมภีร์จอมเดวิล",
+      "icon": "weaponSlotMag",
+      "registered": true
+    },
+    {
+      "id": "w_resonant_edge",
+      "name": "ดาบก้องกังวาน",
+      "icon": "weaponSlot",
+      "registered": true
+    },
+    {
+      "id": "w_choral_staff",
+      "name": "คทาบทสวด",
+      "icon": "weaponSlotMag",
+      "registered": true
+    },
+    {
+      "id": "w_sovereign_fang",
+      "name": "ดาบเขี้ยวอธิราช",
+      "icon": "weaponSlot",
+      "registered": true
+    },
+    {
+      "id": "w_eternity_tome",
+      "name": "คัมภีร์นิรันดร์",
+      "icon": "weaponSlotMag",
+      "registered": true
+    },
+    {
+      "id": "a_leather_vest",
+      "name": "เสื้อเกราะหนัง",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "a_padded_robe",
+      "name": "ชุดคลุมนวม",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "a_chainmail",
+      "name": "เกราะโซ่",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "a_mystic_robe",
+      "name": "ชุดคลุมเวทลึกลับ",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "a_plate_armor",
+      "name": "เกราะเหล็กแผ่น",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "a_saint_vestment",
+      "name": "อาภรณ์นักบุญ",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "a_dragonscale_mail",
+      "name": "เกราะเกล็ดมังกร",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "a_abyssal_robe",
+      "name": "ชุดคลุมอเวจี",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "a_demonlord_plate",
+      "name": "เกราะจอมมาร",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "a_celestial_shroud",
+      "name": "ผ้าคลุมเทวา",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "a_crystalward_plate",
+      "name": "เกราะผลึกพิทักษ์",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "a_echoing_shroud",
+      "name": "ผ้าคลุมสะท้อนเสียง",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "a_timeless_aegis",
+      "name": "เกราะอีจิสไร้กาล",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "a_sovereign_mantle",
+      "name": "ผ้าคลุมอธิราช",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "c_swift_boots",
+      "name": "รองเท้าวิ่งไว",
+      "icon": "shoesSlot",
+      "registered": true
+    },
+    {
+      "id": "s_wind_treads",
+      "name": "รองเท้าลมกรด",
+      "icon": "shoesSlot",
+      "registered": true
+    },
+    {
+      "id": "s_gale_striders",
+      "name": "รองเท้าไล่ลม",
+      "icon": "shoesSlot",
+      "registered": true
+    },
+    {
+      "id": "s_tempest_boots",
+      "name": "รองเท้าพายุทมิฬ",
+      "icon": "shoesSlot",
+      "registered": true
+    },
+    {
+      "id": "s_stormgod_sabatons",
+      "name": "รองเท้าเทพอัสนี",
+      "icon": "shoesSlot",
+      "registered": true
+    },
+    {
+      "id": "s_resonant_striders",
+      "name": "รองเท้าก้องกังวาน",
+      "icon": "shoesSlot",
+      "registered": true
+    },
+    {
+      "id": "s_boundless_striders",
+      "name": "รองเท้าไร้ขอบเขต",
+      "icon": "shoesSlot",
+      "registered": true
+    },
+    {
+      "id": "c_lucky_charm",
+      "name": "เครื่องรางนำโชค",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_focus_ring",
+      "name": "แหวนสมาธิ",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_guardian_amulet",
+      "name": "เครื่องรางผู้พิทักษ์",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_sovereign_crest",
+      "name": "ตราอธิราช",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_spire_heart",
+      "name": "หัวใจแห่งหอคอย",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_wyrmscale_ring",
+      "name": "แหวนเกล็ดไวเวิร์น",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_infernal_pact",
+      "name": "พันธสัญญาอเวจี",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_demonlord_crown",
+      "name": "มงกุฎจอมมาร",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_heart_of_abyss",
+      "name": "หัวใจอเวจี",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_prism_band",
+      "name": "แหวนปริซึม",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_wardens_seal",
+      "name": "ตราผู้เฝ้าผลึก",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_infinity_loop",
+      "name": "วงแหวนนิรันดร์",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_absolute_ward",
+      "name": "เครื่องรางพิทักษ์สมบูรณ์",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "p_hp_small",
+      "name": "ยาฟื้นฟู HP เล็ก",
+      "icon": "potion",
+      "registered": true
+    },
+    {
+      "id": "p_hp_medium",
+      "name": "ยาฟื้นฟู HP กลาง",
+      "icon": "potion",
+      "registered": true
+    },
+    {
+      "id": "p_hp_large",
+      "name": "ยาฟื้นฟู HP ใหญ่",
+      "icon": "potion",
+      "registered": true
+    },
+    {
+      "id": "p_hp_greater",
+      "name": "ยาฟื้นฟู HP วิเศษ",
+      "icon": "potion",
+      "registered": true
+    },
+    {
+      "id": "p_hp_supreme",
+      "name": "ยาฟื้นฟู HP สูงสุด",
+      "icon": "potion",
+      "registered": true
+    },
+    {
+      "id": "p_hp_pristine",
+      "name": "ยาฟื้นฟู HP บริสุทธิ์",
+      "icon": "potion",
+      "registered": true
+    },
+    {
+      "id": "p_hp_transcendent",
+      "name": "ยาฟื้นฟู HP เหนือกาล",
+      "icon": "potion",
+      "registered": true
+    },
+    {
+      "id": "p_mp_small",
+      "name": "ยาฟื้นฟู MP เล็ก",
+      "icon": "mpPotion",
+      "registered": true
+    },
+    {
+      "id": "p_mp_medium",
+      "name": "ยาฟื้นฟู MP กลาง",
+      "icon": "mpPotion",
+      "registered": true
+    },
+    {
+      "id": "p_mp_greater",
+      "name": "ยาฟื้นฟู MP วิเศษ",
+      "icon": "mpPotion",
+      "registered": true
+    },
+    {
+      "id": "p_mp_supreme",
+      "name": "ยาฟื้นฟู MP สูงสุด",
+      "icon": "mpPotion",
+      "registered": true
+    },
+    {
+      "id": "p_mp_pristine",
+      "name": "ยาฟื้นฟู MP บริสุทธิ์",
+      "icon": "mpPotion",
+      "registered": true
+    },
+    {
+      "id": "p_mp_transcendent",
+      "name": "ยาฟื้นฟู MP เหนือกาล",
+      "icon": "mpPotion",
+      "registered": true
+    },
+    {
+      "id": "p_elixir",
+      "name": "ยาอมฤต",
+      "icon": "gem",
+      "registered": true
+    },
+    {
+      "id": "skill_scroll",
+      "name": "ม้วนคัมภีร์ทักษะ",
+      "icon": "scroll",
+      "registered": true
+    },
+    {
+      "id": "mat_beast_fang",
+      "name": "เขี้ยวอสูรป่า",
+      "icon": "mat_beast_fang",
+      "registered": true
+    },
+    {
+      "id": "mat_spirit_dust",
+      "name": "ธุลีวิญญาณจาง",
+      "icon": "mat_spirit_dust",
+      "registered": true
+    },
+    {
+      "id": "mat_iron_shard",
+      "name": "เศษเกราะเหล็กกล้า",
+      "icon": "mat_iron_shard",
+      "registered": true
+    },
+    {
+      "id": "mat_storm_core",
+      "name": "แก่นวายุ",
+      "icon": "mat_storm_core",
+      "registered": true
+    },
+    {
+      "id": "mat_wyvern_scale",
+      "name": "เกล็ดไวเวิร์น",
+      "icon": "mat_wyvern_scale",
+      "registered": true
+    },
+    {
+      "id": "mat_demon_fang",
+      "name": "เขี้ยวมาร",
+      "icon": "mat_demon_fang",
+      "registered": true
+    },
+    {
+      "id": "mat_dragon_scale",
+      "name": "เกล็ดมังกรเพลิง",
+      "icon": "mat_dragon_scale",
+      "registered": true
+    },
+    {
+      "id": "mat_demonic_core",
+      "name": "แก่นอสูรมาร",
+      "icon": "mat_demonic_core",
+      "registered": true
+    },
+    {
+      "id": "mat_ancient_scale",
+      "name": "เกล็ดมังกรบรรพกาล",
+      "icon": "mat_ancient_scale",
+      "registered": true
+    },
+    {
+      "id": "mat_abyssal_essence",
+      "name": "แก่นสารอเวจี",
+      "icon": "mat_abyssal_essence",
+      "registered": true
+    },
+    {
+      "id": "mat_resonant_shard",
+      "name": "เศษผลึกก้องกังวาน",
+      "icon": "mat_resonant_shard",
+      "registered": true
+    },
+    {
+      "id": "mat_crystal_dust",
+      "name": "ผงผลึกวิญญาณ",
+      "icon": "mat_crystal_dust",
+      "registered": true
+    },
+    {
+      "id": "mat_abyssal_scale",
+      "name": "เกล็ดสมุทรอเวจี",
+      "icon": "mat_abyssal_scale",
+      "registered": true
+    },
+    {
+      "id": "mat_drowned_core",
+      "name": "แก่นวิญญาณสมุทร",
+      "icon": "mat_drowned_core",
+      "registered": true
+    },
+    {
+      "id": "mat_storm_feather",
+      "name": "ขนอัสนี",
+      "icon": "mat_storm_feather",
+      "registered": true
+    },
+    {
+      "id": "mat_voltaic_core",
+      "name": "แก่นประจุอัสนี",
+      "icon": "mat_voltaic_core",
+      "registered": true
+    },
+    {
+      "id": "mat_bone_fragment",
+      "name": "เศษกระดูกบรรพกาล",
+      "icon": "mat_bone_fragment",
+      "registered": true
+    },
+    {
+      "id": "mat_wraith_essence",
+      "name": "แก่นสารวิญญาณทราย",
+      "icon": "mat_wraith_essence",
+      "registered": true
+    },
+    {
+      "id": "w_craft_fangblade",
+      "name": "ดาบเขี้ยวเงา",
+      "icon": "weaponSlot",
+      "registered": true
+    },
+    {
+      "id": "a_craft_ironward",
+      "name": "เกราะหลอมพายุ",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "s_craft_wyvernstride",
+      "name": "รองเท้าเกล็ดไวเวิร์น",
+      "icon": "shoesSlot",
+      "registered": true
+    },
+    {
+      "id": "c_craft_dragonfangring",
+      "name": "แหวนตราเขี้ยวมังกร",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "w_craft_voidreaver",
+      "name": "ดาบเก็บเกี่ยวความว่าง",
+      "icon": "weaponSlot",
+      "registered": true
+    },
+    {
+      "id": "a_craft_resonant_bulwark",
+      "name": "เกราะปราการก้องกังวาน",
+      "icon": "armorSlot",
+      "registered": true
+    },
+    {
+      "id": "s_craft_undertow_striders",
+      "name": "รองเท้ากระแสใต้บาดาล",
+      "icon": "shoesSlot",
+      "registered": true
+    },
+    {
+      "id": "c_craft_stormcaller_band",
+      "name": "แหวนเรียกพายุ",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "w_craft_desert_sovereign",
+      "name": "ดาบอธิราชทะเลทราย",
+      "icon": "weaponSlot",
+      "registered": true
+    },
+    {
+      "id": "c_quest_novice_badge",
+      "name": "ตราผู้เริ่มต้น",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_quest_veteran_medal",
+      "name": "เหรียญทหารผ่านศึก",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_quest_sovereign_relic",
+      "name": "โบราณวัตถุแห่งอธิราชไร้กาล",
+      "icon": "accessorySlot",
+      "registered": true
+    },
+    {
+      "id": "c_shatter_prism",
+      "name": "แหวนทลายมนตรา",
+      "icon": "relicBreak",
+      "registered": true
+    },
+    {
+      "id": "a_steadfast",
+      "name": "เกราะตะเกียงผู้พิทักษ์",
+      "icon": "relicGuard",
+      "registered": true
+    },
+    {
+      "id": "c_echo_bell",
+      "name": "กระดิ่งสายสัมพันธ์",
+      "icon": "relicEcho",
+      "registered": true
+    },
+    {
+      "id": "p_panacea",
+      "name": "ยาชำระมลทิน",
+      "icon": "statusCleanse",
+      "registered": true
+    },
+    {
+      "id": "part_metal",
+      "name": "เศษโลหะ",
+      "icon": "workMetal",
+      "registered": true
+    },
+    {
+      "id": "part_cloth",
+      "name": "ผ้าทอเก่า",
+      "icon": "workCloth",
+      "registered": true
+    },
+    {
+      "id": "part_dust",
+      "name": "ผงอาคม",
+      "icon": "workDust",
+      "registered": true
+    },
+    {
+      "id": "rune_fracture",
+      "name": "รูนทลาย",
+      "icon": "runeFracture",
+      "registered": true
+    },
+    {
+      "id": "rune_shelter",
+      "name": "รูนตั้งมั่น",
+      "icon": "runeShelter",
+      "registered": true
+    },
+    {
+      "id": "rune_venom",
+      "name": "รูนอสรพิษ",
+      "icon": "runeVenom",
+      "registered": true
+    },
+    {
+      "id": "rune_vigor",
+      "name": "รูนชีพจร",
+      "icon": "runeVigor",
+      "registered": true
+    },
+    {
+      "id": "rune_ember",
+      "name": "รูนเพลิง",
+      "icon": "runeEmber",
+      "registered": true
+    },
+    {
+      "id": "rune_frost",
+      "name": "รูนเหมันต์",
+      "icon": "runeFrost",
+      "registered": true
+    },
+    {
+      "id": "rune_thunder",
+      "name": "รูนอสนี",
+      "icon": "runeThunder",
+      "registered": true
+    },
+    {
+      "id": "rune_gale",
+      "name": "รูนวายุ",
+      "icon": "runeGale",
+      "registered": true
+    },
+    {
+      "id": "rune_sun",
+      "name": "รูนอรุณ",
+      "icon": "runeSun",
+      "registered": true
+    },
+    {
+      "id": "rune_moon",
+      "name": "รูนราตรี",
+      "icon": "runeMoon",
+      "registered": true
+    },
+    {
+      "id": "rune_focus",
+      "name": "รูนสมาธิ",
+      "icon": "runeFocus",
+      "registered": true
+    },
+    {
+      "id": "rune_discovery",
+      "name": "รูนนักสำรวจ",
+      "icon": "runeDiscovery",
+      "registered": true
+    },
+    {
+      "id": "forge_w_rusty_blade_keen",
+      "name": "ดาบสนิมกร้าน · คมสังหาร",
+      "icon": "forgeBladekeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_rusty_blade_sanguine",
+      "name": "ดาบสนิมกร้าน · กระหายเลือด",
+      "icon": "forgeBladesanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_rusty_blade_sundering",
+      "name": "ดาบสนิมกร้าน · ทลาย",
+      "icon": "forgeBladesundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_hunting_blade_keen",
+      "name": "ดาบนักล่า · คมสังหาร",
+      "icon": "forgeBladekeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_hunting_blade_sanguine",
+      "name": "ดาบนักล่า · กระหายเลือด",
+      "icon": "forgeBladesanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_hunting_blade_sundering",
+      "name": "ดาบนักล่า · ทลาย",
+      "icon": "forgeBladesundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_apprentice_wand_keen",
+      "name": "คทาศิษย์เวท · คมสังหาร",
+      "icon": "forgeStaffkeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_apprentice_wand_sanguine",
+      "name": "คทาศิษย์เวท · กระหายเลือด",
+      "icon": "forgeStaffsanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_apprentice_wand_sundering",
+      "name": "คทาศิษย์เวท · ทลาย",
+      "icon": "forgeStaffsundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_knight_sword_keen",
+      "name": "ดาบอัศวิน · คมสังหาร",
+      "icon": "forgeBladekeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_knight_sword_sanguine",
+      "name": "ดาบอัศวิน · กระหายเลือด",
+      "icon": "forgeBladesanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_knight_sword_sundering",
+      "name": "ดาบอัศวิน · ทลาย",
+      "icon": "forgeBladesundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_arcane_staff_keen",
+      "name": "คทาอาคม · คมสังหาร",
+      "icon": "forgeStaffkeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_arcane_staff_sanguine",
+      "name": "คทาอาคม · กระหายเลือด",
+      "icon": "forgeStaffsanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_arcane_staff_sundering",
+      "name": "คทาอาคม · ทลาย",
+      "icon": "forgeStaffsundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_storm_glaive_keen",
+      "name": "ทวนวายุ · คมสังหาร",
+      "icon": "forgeBladekeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_storm_glaive_sanguine",
+      "name": "ทวนวายุ · กระหายเลือด",
+      "icon": "forgeBladesanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_storm_glaive_sundering",
+      "name": "ทวนวายุ · ทลาย",
+      "icon": "forgeBladesundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_soul_edge_keen",
+      "name": "ดาบกลืนวิญญาณ · คมสังหาร",
+      "icon": "forgeBladekeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_soul_edge_sanguine",
+      "name": "ดาบกลืนวิญญาณ · กระหายเลือด",
+      "icon": "forgeBladesanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_soul_edge_sundering",
+      "name": "ดาบกลืนวิญญาณ · ทลาย",
+      "icon": "forgeBladesundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_grand_grimoire_keen",
+      "name": "คัมภีร์มหาเวท · คมสังหาร",
+      "icon": "forgeStaffkeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_grand_grimoire_sanguine",
+      "name": "คัมภีร์มหาเวท · กระหายเลือด",
+      "icon": "forgeStaffsanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_grand_grimoire_sundering",
+      "name": "คัมภีร์มหาเวท · ทลาย",
+      "icon": "forgeStaffsundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_dragonfang_blade_keen",
+      "name": "ดาบเขี้ยวมังกร · คมสังหาร",
+      "icon": "forgeBladekeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_dragonfang_blade_sanguine",
+      "name": "ดาบเขี้ยวมังกร · กระหายเลือด",
+      "icon": "forgeBladesanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_dragonfang_blade_sundering",
+      "name": "ดาบเขี้ยวมังกร · ทลาย",
+      "icon": "forgeBladesundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_infernal_scepter_keen",
+      "name": "คทาอเวจี · คมสังหาร",
+      "icon": "forgeStaffkeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_infernal_scepter_sanguine",
+      "name": "คทาอเวจี · กระหายเลือด",
+      "icon": "forgeStaffsanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_infernal_scepter_sundering",
+      "name": "คทาอเวจี · ทลาย",
+      "icon": "forgeStaffsundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_tempest_lance_keen",
+      "name": "หอกพายุทมิฬ · คมสังหาร",
+      "icon": "forgeBladekeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_tempest_lance_sanguine",
+      "name": "หอกพายุทมิฬ · กระหายเลือด",
+      "icon": "forgeBladesanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_tempest_lance_sundering",
+      "name": "หอกพายุทมิฬ · ทลาย",
+      "icon": "forgeBladesundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_voidforged_blade_keen",
+      "name": "ดาบหลอมความว่าง · คมสังหาร",
+      "icon": "forgeBladekeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_voidforged_blade_sanguine",
+      "name": "ดาบหลอมความว่าง · กระหายเลือด",
+      "icon": "forgeBladesanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_voidforged_blade_sundering",
+      "name": "ดาบหลอมความว่าง · ทลาย",
+      "icon": "forgeBladesundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_archdemon_tome_keen",
+      "name": "คัมภีร์จอมเดวิล · คมสังหาร",
+      "icon": "forgeStaffkeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_archdemon_tome_sanguine",
+      "name": "คัมภีร์จอมเดวิล · กระหายเลือด",
+      "icon": "forgeStaffsanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_archdemon_tome_sundering",
+      "name": "คัมภีร์จอมเดวิล · ทลาย",
+      "icon": "forgeStaffsundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_resonant_edge_keen",
+      "name": "ดาบก้องกังวาน · คมสังหาร",
+      "icon": "forgeBladekeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_resonant_edge_sanguine",
+      "name": "ดาบก้องกังวาน · กระหายเลือด",
+      "icon": "forgeBladesanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_resonant_edge_sundering",
+      "name": "ดาบก้องกังวาน · ทลาย",
+      "icon": "forgeBladesundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_choral_staff_keen",
+      "name": "คทาบทสวด · คมสังหาร",
+      "icon": "forgeStaffkeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_choral_staff_sanguine",
+      "name": "คทาบทสวด · กระหายเลือด",
+      "icon": "forgeStaffsanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_choral_staff_sundering",
+      "name": "คทาบทสวด · ทลาย",
+      "icon": "forgeStaffsundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_sovereign_fang_keen",
+      "name": "ดาบเขี้ยวอธิราช · คมสังหาร",
+      "icon": "forgeBladekeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_sovereign_fang_sanguine",
+      "name": "ดาบเขี้ยวอธิราช · กระหายเลือด",
+      "icon": "forgeBladesanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_sovereign_fang_sundering",
+      "name": "ดาบเขี้ยวอธิราช · ทลาย",
+      "icon": "forgeBladesundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_eternity_tome_keen",
+      "name": "คัมภีร์นิรันดร์ · คมสังหาร",
+      "icon": "forgeStaffkeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_eternity_tome_sanguine",
+      "name": "คัมภีร์นิรันดร์ · กระหายเลือด",
+      "icon": "forgeStaffsanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_eternity_tome_sundering",
+      "name": "คัมภีร์นิรันดร์ · ทลาย",
+      "icon": "forgeStaffsundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_craft_fangblade_keen",
+      "name": "ดาบเขี้ยวเงา · คมสังหาร",
+      "icon": "forgeBladekeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_craft_fangblade_sanguine",
+      "name": "ดาบเขี้ยวเงา · กระหายเลือด",
+      "icon": "forgeBladesanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_craft_fangblade_sundering",
+      "name": "ดาบเขี้ยวเงา · ทลาย",
+      "icon": "forgeBladesundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_craft_voidreaver_keen",
+      "name": "ดาบเก็บเกี่ยวความว่าง · คมสังหาร",
+      "icon": "forgeBladekeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_craft_voidreaver_sanguine",
+      "name": "ดาบเก็บเกี่ยวความว่าง · กระหายเลือด",
+      "icon": "forgeBladesanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_craft_voidreaver_sundering",
+      "name": "ดาบเก็บเกี่ยวความว่าง · ทลาย",
+      "icon": "forgeBladesundering",
+      "registered": true
+    },
+    {
+      "id": "forge_w_craft_desert_sovereign_keen",
+      "name": "ดาบอธิราชทะเลทราย · คมสังหาร",
+      "icon": "forgeBladekeen",
+      "registered": true
+    },
+    {
+      "id": "forge_w_craft_desert_sovereign_sanguine",
+      "name": "ดาบอธิราชทะเลทราย · กระหายเลือด",
+      "icon": "forgeBladesanguine",
+      "registered": true
+    },
+    {
+      "id": "forge_w_craft_desert_sovereign_sundering",
+      "name": "ดาบอธิราชทะเลทราย · ทลาย",
+      "icon": "forgeBladesundering",
+      "registered": true
+    },
+    {
+      "id": "orin_a_leather_vest",
+      "name": "เสื้อเกราะหนัง · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_padded_robe",
+      "name": "ชุดคลุมนวม · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_chainmail",
+      "name": "เกราะโซ่ · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_mystic_robe",
+      "name": "ชุดคลุมเวทลึกลับ · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_plate_armor",
+      "name": "เกราะเหล็กแผ่น · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_saint_vestment",
+      "name": "อาภรณ์นักบุญ · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_dragonscale_mail",
+      "name": "เกราะเกล็ดมังกร · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_abyssal_robe",
+      "name": "ชุดคลุมอเวจี · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_demonlord_plate",
+      "name": "เกราะจอมมาร · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_celestial_shroud",
+      "name": "ผ้าคลุมเทวา · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_crystalward_plate",
+      "name": "เกราะผลึกพิทักษ์ · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_echoing_shroud",
+      "name": "ผ้าคลุมสะท้อนเสียง · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_timeless_aegis",
+      "name": "เกราะอีจิสไร้กาล · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_sovereign_mantle",
+      "name": "ผ้าคลุมอธิราช · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_craft_ironward",
+      "name": "เกราะหลอมพายุ · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_craft_resonant_bulwark",
+      "name": "เกราะปราการก้องกังวาน · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    },
+    {
+      "id": "orin_a_steadfast",
+      "name": "เกราะตะเกียงผู้พิทักษ์ · เสริมแผ่นเกราะ",
+      "icon": "workReinforced",
+      "registered": true
+    }
+  ],
+  "registry": [
+    {
+      "key": "eventBloodAltar",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "eventNightCamp",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "bondHeart",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "duoStrike",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "duoHeal",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "duoGuard",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "duoBoost",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "shiftFlip",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "shiftHunt",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "shiftDrain",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "shiftStrip",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxOrb",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxFire",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxIce",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxArrow",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxBullet",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxBottle",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxNote",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxHeart",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxSkull",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxFist",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxShield",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxClock",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxStar",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxBeast",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxScarab",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxPuppet",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxEye",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxAxe",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxScythe",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxFang",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxRune",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxPetal",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxWing",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxHammer",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fxBeak",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "settingsGear",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "companionSlot",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "trophy",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "medal",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "codex",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "ascension",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "eventMerchant",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "eventChest",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "eventShortcut",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "eventSage",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "eventShrine",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "eventCompanion",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "eventSpring",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "eventBattlefield",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "eventGambler",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessMight",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessInsight",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessVitality",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessClarity",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessSwiftness",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessFortune",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessWealth",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessWisdom",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessGuardian",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessIronSkin",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessTitan",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessWanderer",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessFocus",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessWildcat",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessStoneSkin",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blessWarding",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "curseFrailty",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "curseFool",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "curseSlowness",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "cursePoverty",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "curseWeakArms",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "curseDullMind",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "curseTitanBurden",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "curseWandererRuin",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "curseBrokenFocus",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "curseFrailMind",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "relicVampiricFang",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "relicAdrenalineCore",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "relicStoneWard",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "relicMomentumCharm",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "relicCursedCoin",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "relicOpportunist",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "relicSwiftRecovery",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blade",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "staffOrb",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "radiantOrb",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "berserker",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "paladin",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "ranger",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "necromancer",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "monk",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "dragon",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "dragon_ice",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "dragon_iceLord",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "dragon_fire",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "dragon_iron",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "dragon_gold",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "dragon_void",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "dragon_alpha",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "dragon_obsidian",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "demon",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "demon_captain",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "demon_succubus",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "demon_pit",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "demon_arch",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "demon_duke",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "demon_warden",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "demon_overlord",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "demon_matriarch",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "shadowFigure",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "shadowFigure_banshee",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "shadowFigure_storm",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "skull",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "skullMark",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "skullFire",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "crownSkull",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "towerSpire",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "tileBrick",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "tileGround",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "doorway",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "bat",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "bat_blood",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "wolf",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "hound",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "slime",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "spider",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "windSprite",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "bandit",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "knight",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "knight_abyss",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "hawk",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "harpy",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "sentinel",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "sentinel_void",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "troll",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "titan",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "golem",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "golem_crystal",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "golem_steel",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fiend",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "hydra",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "crystalWisp",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "prismLynx",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "chimeWraith",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "geodeGolem",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "choirWarden",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "drownedRevenant",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "abyssalEel",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "tideGolem",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "sirenWraith",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "leviathanHerald",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "galeFalcon",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "thunderCherub",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "stormLancer",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "cloudSerpent",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "tempestMarshal",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "sandWraith",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "boneSerpent",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "scarabSwarm",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "dustDjinn",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "pharaohAsh",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "magmaHound",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "cinderGolem",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "lavaSerpent",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "pyroclastBat",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "coreWarden",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "gearSentinel",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "sparkHound",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "pistonGolem",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "rotorWraith",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "grandAutomaton",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fungalStalker",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "thornWraith",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "sporeBat",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "rootboundGolem",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "blightHeart",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "frostSpawn",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "glacialWraith",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "rimeGolem",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "frozenHarpy",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "frostSovereign",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "starWisp",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "voidSerpent",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "nebulaGolem",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "astralWraith",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "riftWarden",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "chimericHound",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "chaosGolem",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "discordWraith",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fluxSerpent",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "forgeMaster",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "twilightSeraph",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "chronoGolem",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "sanctumWraith",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "chronoSerpent",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "timelessHerald",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "timelessSovereign",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "gunslinger",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "samurai",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "runeblade",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "beastmaster",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "shadowDancer",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "sharpshooter",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "battlemage",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "druid",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "alchemist",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "warlock",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "frostOracle",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "stormCaller",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "bard",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "puppeteer",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "tempestWitch",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "chronomancer",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "warlord",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "shadowhunter",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "executioner",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "vanguard",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "deathbringer",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "weaponSlot",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "weaponSlotMag",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "armorSlot",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "shoesSlot",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "accessorySlot",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "phys",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "fire",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "ice",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "elec",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "wind",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "light",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "dark",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "almighty",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "swordAttack",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "shieldGuard",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "magicBurst",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "bagItem",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "potion",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mpPotion",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "heart",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "drop",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "coin",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "gem",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "scroll",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "lock",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "save",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "trash",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "star",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "sparkles",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "buffUp",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "debuffDown",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "downedMark",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "enterFloor",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "back",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "chevronRight",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "close",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "check",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "soundOn",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "soundOff",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_beast_fang",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_demon_fang",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_storm_feather",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_bone_fragment",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_spirit_dust",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_crystal_dust",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_wraith_essence",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_iron_shard",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_wyvern_scale",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_dragon_scale",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_ancient_scale",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_resonant_shard",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_abyssal_scale",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_storm_core",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_demonic_core",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_abyssal_essence",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_drowned_core",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "mat_voltaic_core",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "emberFox",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "dawnOwl",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "stoneheartBear",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "stormSprite",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "sandScarab",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "frostHare",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "ironGolemCub",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "npcMira",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "npcMiraHurt",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "npcMiraLantern",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "npcOrin",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "npcOrinHurt",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "npcOrinStandard",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "npcLyra",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "npcLyraLost",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "npcLyraAstral",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "npcMerchant",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "npcSage",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "npcGambler",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "propCart",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "propLantern",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "propBanner",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "propStarGate",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "talentRiposte",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "talentFlurry",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "talentPierce",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "relicBreak",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "relicGuard",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "relicEcho",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "routeSafe",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "routeElite",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "routeExplore",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "statusPoison",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "statusBurn",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "statusSilence",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "statusCleanse",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "runeFracture",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "runeShelter",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "runeVenom",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "runeVigor",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "runeEmber",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "runeFrost",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "runeThunder",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "runeGale",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "runeSun",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "runeMoon",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "runeFocus",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "runeDiscovery",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workMetal",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workCloth",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workDust",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workBench",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workSocket",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workSalvage",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workForge",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workCamp",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workGuild",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workBook",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workParcel",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workBounty",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workElite",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workReinforced",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workMeal",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workWard",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workStudy",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "workBond",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "forgeBladekeen",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "forgeBladesanguine",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "forgeBladesundering",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "forgeStaffkeen",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "forgeStaffsanguine",
+      "uneven": false,
+      "unmapped": []
+    },
+    {
+      "key": "forgeStaffsundering",
+      "uneven": false,
+      "unmapped": []
+    }
+  ]
+}

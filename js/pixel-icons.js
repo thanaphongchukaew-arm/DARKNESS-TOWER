@@ -15,6 +15,21 @@
 (function () {
   var P = window.Game.PixelArt;
 
+  P.define('settingsGear', [
+    '...G..GG..G...',
+    '..GGGGGGGGGG..',
+    '...GGGGGGGG...',
+    '.GGGGG..GGGGG.',
+    'GGGGG....GGGGG',
+    '.GGG......GGG.',
+    '.GGG......GGG.',
+    'GGGGG....GGGGG',
+    '.GGGGG..GGGGG.',
+    '...GGGGGGGG...',
+    '..GGGGGGGGGG..',
+    '...G..GG..G...'
+  ], { G: '#e8c050' });
+
   // ---- Companion / codex / ascension ----
   P.define('companionSlot', [
     '.C.....C.',

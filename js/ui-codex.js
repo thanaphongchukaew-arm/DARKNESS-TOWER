@@ -19,7 +19,7 @@
     var meta = window.Game.Save.readMeta();
     var seen = !!(meta.bestiarySeen && meta.bestiarySeen[template.id]);
     return '<div class="craft-card' + (seen ? '' : ' locked') + '">' +
-      '<div class="select-card-icon">' + I(seen ? template.icon : 'lock') + '</div>' +
+      '<div class="select-card-icon">' + (seen ? window.Game.BattleArt.enemy(template) : I('lock')) + '</div>' +
       '<div class="select-card-title">' + (seen ? L(template, 'name') + (meta.bestiaryNew&&meta.bestiaryNew[template.id]?window.Game.Micro.badge():'') : '???') + '</div>' +
       '<div class="select-card-desc">' + (seen ? T('bestiaryDiscoveredNote') : T('bestiaryUndiscoveredNote')) + '</div>' +
       (seen ? window.Game.Systems.affinities(template, false) : '') +

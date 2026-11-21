@@ -98,7 +98,8 @@
   function modifiers(list) {
     return '<div class="combat-modifiers">' + (list || []).filter(function (mod) { return mod.turnsLeft > 0; }).map(function (mod) {
       var label = { atkmag: 'ATK/MAG', defres: 'DEF/RES' }[mod.stat] || mod.stat.toUpperCase();
-      return '<span class="combat-mod ' + (mod.amount > 0 ? 'is-positive' : 'is-negative') + '">' + G.Icons.get(mod.amount > 0 ? (mod.stat.indexOf('def') !== -1 || mod.stat === 'res' ? 'fxShield' : 'fxStar') : 'fxRune') + label + ' ' + (mod.amount > 0 ? '+' : '') + Math.round(mod.amount * 100) + '% · ' + mod.turnsLeft + '</span>';
+      var positive = mod.amount > 0, text = label + ' ' + (positive ? '+' : '') + Math.round(mod.amount * 100) + '%';
+      return G.BattleArt.chip(positive ? 'buff' : 'debuff', text, G.Systems.text(positive ? 'เพิ่มค่าสถานะระหว่างต่อสู้' : 'ลดค่าสถานะระหว่างต่อสู้', positive ? 'Increases this combat stat' : 'Reduces this combat stat'), mod.turnsLeft, 'combat-mod ' + (positive ? 'is-positive' : 'is-negative'));
     }).join('') + '</div>';
   }
   G.BattleFX = { profile: profile, timeline: timeline, play: play, modifiers: modifiers };

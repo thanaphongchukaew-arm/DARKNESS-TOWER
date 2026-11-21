@@ -1,7 +1,7 @@
 {
   "name": "darkness-tower",
   "private": true,
-  "version": "0.21.1",
+  "version": "0.22.0",
   "scripts": {
     "build": "node scripts/build.js",
     "test": "node --test \"test/**/*.test.js\"",
@@ -12,7 +12,8 @@
     "balance": "node scripts/balance-sim.js",
     "build:mac": "npm run build && electron-builder --mac",
     "build:linux": "npm run build && electron-builder --linux",
-    "test:ui": "npm run build && electron scripts/ui-polish-test.js"
+    "test:ui": "npm run build && electron scripts/ui-polish-test.js",
+    "art:pack": "electron scripts/pack-pixel16.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -40,6 +41,7 @@
       "fonts/**",
       "backgrounds/**",
       "assets/classes/**",
+      "assets/pixel16/**",
       "icons/**",
       "manifest.webmanifest",
       "!**/*-source.png",

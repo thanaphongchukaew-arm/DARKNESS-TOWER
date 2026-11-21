@@ -1,0 +1,2824 @@
+[
+  {
+    "id": "shadow_wolf",
+    "name": "หมาป่าเงา",
+    "nameEn": "Shadow Wolf",
+    "baseStats": {
+      "hp": 22,
+      "atk": 8,
+      "mag": 2,
+      "def": 4,
+      "res": 3,
+      "spd": 11,
+      "luk": 5,
+      "exp": 14
+    },
+    "attacks": [
+      {
+        "nameEn": "Rending Bite",
+        "element": "phys",
+        "power": 1,
+        "target": "single"
+      },
+      {
+        "nameEn": "Frost Fang",
+        "element": "ice",
+        "power": 1.2,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "flame_imp",
+    "name": "ปีศาจเปลวไฟ",
+    "nameEn": "Flame Imp",
+    "baseStats": {
+      "hp": 20,
+      "atk": 7,
+      "mag": 8,
+      "def": 3,
+      "res": 5,
+      "spd": 9,
+      "luk": 4,
+      "exp": 14
+    },
+    "attacks": [
+      {
+        "nameEn": "Flame Lick",
+        "element": "fire",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Claw Swipe",
+        "element": "phys",
+        "power": 0.9,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "stone_golem",
+    "name": "โกเลมหิน",
+    "nameEn": "Stone Golem",
+    "baseStats": {
+      "hp": 34,
+      "atk": 9,
+      "mag": 1,
+      "def": 9,
+      "res": 4,
+      "spd": 4,
+      "luk": 2,
+      "exp": 18
+    },
+    "attacks": [
+      {
+        "nameEn": "Rock Smash",
+        "element": "phys",
+        "power": 1.2,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "dark_bat",
+    "name": "ค้างคาวรัตติกาล",
+    "nameEn": "Nightfall Bat",
+    "baseStats": {
+      "hp": 18,
+      "atk": 6,
+      "mag": 7,
+      "def": 3,
+      "res": 4,
+      "spd": 13,
+      "luk": 6,
+      "exp": 13
+    },
+    "attacks": [
+      {
+        "nameEn": "Blood Drain Bite",
+        "element": "dark",
+        "power": 1.1,
+        "target": "single"
+      },
+      {
+        "nameEn": "Swooping Claw",
+        "element": "phys",
+        "power": 0.9,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "gust_sprite",
+    "name": "เอลฟ์สายลม",
+    "nameEn": "Wind Sprite",
+    "baseStats": {
+      "hp": 19,
+      "atk": 6,
+      "mag": 8,
+      "def": 3,
+      "res": 5,
+      "spd": 14,
+      "luk": 7,
+      "exp": 14
+    },
+    "attacks": [
+      {
+        "nameEn": "Wind Blade",
+        "element": "wind",
+        "power": 1.2,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "giant_spider",
+    "name": "แมงมุมพิษยักษ์",
+    "nameEn": "Giant Spider",
+    "baseStats": {
+      "hp": 24,
+      "atk": 9,
+      "mag": 4,
+      "def": 4,
+      "res": 4,
+      "spd": 10,
+      "luk": 5,
+      "exp": 15
+    },
+    "attacks": [
+      {
+        "nameEn": "Venom Bite",
+        "element": "dark",
+        "power": 1.1,
+        "target": "single"
+      },
+      {
+        "nameEn": "Sharp Leg Strike",
+        "element": "phys",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "bog_slime",
+    "name": "เมือกหนองน้ำ",
+    "nameEn": "Bog Slime",
+    "baseStats": {
+      "hp": 30,
+      "atk": 6,
+      "mag": 4,
+      "def": 8,
+      "res": 5,
+      "spd": 3,
+      "luk": 3,
+      "exp": 16
+    },
+    "attacks": [
+      {
+        "nameEn": "Sticky Slam",
+        "element": "phys",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "forest_bandit",
+    "name": "โจรป่าเจ้าเล่ห์",
+    "nameEn": "Forest Bandit",
+    "baseStats": {
+      "hp": 21,
+      "atk": 10,
+      "mag": 2,
+      "def": 4,
+      "res": 3,
+      "spd": 12,
+      "luk": 9,
+      "exp": 15
+    },
+    "attacks": [
+      {
+        "nameEn": "Quick Stab",
+        "element": "phys",
+        "power": 1.1,
+        "target": "single"
+      },
+      {
+        "nameEn": "Hatchet Throw",
+        "element": "phys",
+        "power": 0.9,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "frost_knight",
+    "name": "อัศวินน้ำแข็ง",
+    "nameEn": "Frost Knight",
+    "baseStats": {
+      "hp": 42,
+      "atk": 12,
+      "mag": 6,
+      "def": 10,
+      "res": 7,
+      "spd": 8,
+      "luk": 6,
+      "exp": 26
+    },
+    "attacks": [
+      {
+        "nameEn": "Ice Blade Slash",
+        "element": "ice",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Shield Bash",
+        "element": "phys",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "thunder_hawk",
+    "name": "เหยี่ยวสายฟ้า",
+    "nameEn": "Thunder Hawk",
+    "baseStats": {
+      "hp": 30,
+      "atk": 10,
+      "mag": 10,
+      "def": 5,
+      "res": 6,
+      "spd": 15,
+      "luk": 8,
+      "exp": 24
+    },
+    "attacks": [
+      {
+        "nameEn": "Lightning Peck",
+        "element": "elec",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "venom_wraith",
+    "name": "วิญญาณพิษ",
+    "nameEn": "Venom Wraith",
+    "baseStats": {
+      "hp": 34,
+      "atk": 8,
+      "mag": 12,
+      "def": 5,
+      "res": 6,
+      "spd": 10,
+      "luk": 6,
+      "exp": 25
+    },
+    "attacks": [
+      {
+        "nameEn": "Soul Drain",
+        "element": "dark",
+        "power": 1.2,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "iron_sentinel",
+    "name": "ยามเหล็กจักรกล",
+    "nameEn": "Iron Sentinel",
+    "baseStats": {
+      "hp": 50,
+      "atk": 11,
+      "mag": 3,
+      "def": 12,
+      "res": 6,
+      "spd": 5,
+      "luk": 4,
+      "exp": 27
+    },
+    "attacks": [
+      {
+        "nameEn": "Iron Fist",
+        "element": "phys",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "storm_harpy",
+    "name": "ฮาร์ปี้พายุ",
+    "nameEn": "Storm Harpy",
+    "baseStats": {
+      "hp": 32,
+      "atk": 9,
+      "mag": 11,
+      "def": 6,
+      "res": 7,
+      "spd": 13,
+      "luk": 7,
+      "exp": 25
+    },
+    "attacks": [
+      {
+        "nameEn": "Talon Storm",
+        "element": "wind",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "swamp_troll",
+    "name": "โทรลล์หนองน้ำ",
+    "nameEn": "Swamp Troll",
+    "baseStats": {
+      "hp": 55,
+      "atk": 13,
+      "mag": 2,
+      "def": 11,
+      "res": 5,
+      "spd": 5,
+      "luk": 3,
+      "exp": 27
+    },
+    "attacks": [
+      {
+        "nameEn": "Club Smash",
+        "element": "phys",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "crystal_golem",
+    "name": "โกเลมแก้วอาถรรพ์",
+    "nameEn": "Crystal Golem",
+    "baseStats": {
+      "hp": 46,
+      "atk": 9,
+      "mag": 12,
+      "def": 9,
+      "res": 10,
+      "spd": 6,
+      "luk": 4,
+      "exp": 26
+    },
+    "attacks": [
+      {
+        "nameEn": "Prism Beam",
+        "element": "light",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "banshee",
+    "name": "แม่มดร้องไห้",
+    "nameEn": "Banshee",
+    "baseStats": {
+      "hp": 32,
+      "atk": 8,
+      "mag": 13,
+      "def": 5,
+      "res": 7,
+      "spd": 12,
+      "luk": 7,
+      "exp": 26
+    },
+    "attacks": [
+      {
+        "nameEn": "Wailing Scream",
+        "element": "dark",
+        "power": 1.2,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "abyss_knight",
+    "name": "อัศวินก้นบึ้ง",
+    "nameEn": "Abyss Knight",
+    "baseStats": {
+      "hp": 62,
+      "atk": 15,
+      "mag": 9,
+      "def": 12,
+      "res": 9,
+      "spd": 9,
+      "luk": 7,
+      "exp": 40
+    },
+    "attacks": [
+      {
+        "nameEn": "Shadow Blade",
+        "element": "dark",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "inferno_beast",
+    "name": "อสูรเพลิงนรก",
+    "nameEn": "Inferno Fiend",
+    "baseStats": {
+      "hp": 58,
+      "atk": 16,
+      "mag": 10,
+      "def": 9,
+      "res": 8,
+      "spd": 10,
+      "luk": 6,
+      "exp": 40
+    },
+    "attacks": [
+      {
+        "nameEn": "Infernal Roar",
+        "element": "fire",
+        "power": 1.4,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "glacial_wyrm",
+    "name": "มังกรน้ำแข็ง",
+    "nameEn": "Glacial Wyrm",
+    "baseStats": {
+      "hp": 72,
+      "atk": 13,
+      "mag": 11,
+      "def": 11,
+      "res": 9,
+      "spd": 7,
+      "luk": 6,
+      "exp": 42
+    },
+    "attacks": [
+      {
+        "nameEn": "Ice Breath",
+        "element": "ice",
+        "power": 1.2,
+        "target": "all"
+      },
+      {
+        "nameEn": "Tail Slam",
+        "element": "phys",
+        "power": 1.2,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "thunder_revenant",
+    "name": "วิญญาณสายฟ้า",
+    "nameEn": "Thunder Revenant",
+    "baseStats": {
+      "hp": 54,
+      "atk": 12,
+      "mag": 13,
+      "def": 8,
+      "res": 8,
+      "spd": 14,
+      "luk": 8,
+      "exp": 40
+    },
+    "attacks": [
+      {
+        "nameEn": "Cursed Bolt",
+        "element": "elec",
+        "power": 1.35,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "void_sentinel",
+    "name": "ผู้พิทักษ์ห้วงว่าง",
+    "nameEn": "Void Sentinel",
+    "baseStats": {
+      "hp": 60,
+      "atk": 12,
+      "mag": 12,
+      "def": 10,
+      "res": 10,
+      "spd": 9,
+      "luk": 7,
+      "exp": 42
+    },
+    "attacks": [
+      {
+        "nameEn": "Void Wave",
+        "element": "dark",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "young_wyvern",
+    "name": "ไวเวิร์นหนุ่ม",
+    "nameEn": "Young Wyvern",
+    "baseStats": {
+      "hp": 66,
+      "atk": 16,
+      "mag": 6,
+      "def": 10,
+      "res": 7,
+      "spd": 12,
+      "luk": 7,
+      "exp": 42
+    },
+    "attacks": [
+      {
+        "nameEn": "Talon Rend",
+        "element": "phys",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Wing Gale",
+        "element": "wind",
+        "power": 1.1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "imp_captain",
+    "name": "หัวหน้าปีศาจ",
+    "nameEn": "Imp Captain",
+    "baseStats": {
+      "hp": 56,
+      "atk": 14,
+      "mag": 15,
+      "def": 8,
+      "res": 9,
+      "spd": 11,
+      "luk": 6,
+      "exp": 41
+    },
+    "attacks": [
+      {
+        "nameEn": "Infernal Spark",
+        "element": "fire",
+        "power": 1.35,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "bone_reaper",
+    "name": "นักเกี่ยวกระดูก",
+    "nameEn": "Bone Reaper",
+    "baseStats": {
+      "hp": 64,
+      "atk": 15,
+      "mag": 10,
+      "def": 10,
+      "res": 8,
+      "spd": 10,
+      "luk": 7,
+      "exp": 42
+    },
+    "attacks": [
+      {
+        "nameEn": "Reaper's Scythe",
+        "element": "dark",
+        "power": 1.35,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "crimson_drake",
+    "name": "มังกรไฟสีเลือด",
+    "nameEn": "Crimson Drake",
+    "baseStats": {
+      "hp": 98,
+      "atk": 20,
+      "mag": 17,
+      "def": 13,
+      "res": 11,
+      "spd": 11,
+      "luk": 7,
+      "exp": 63
+    },
+    "attacks": [
+      {
+        "nameEn": "Flame Breath",
+        "element": "fire",
+        "power": 1.15,
+        "target": "all"
+      },
+      {
+        "nameEn": "Blazing Claw",
+        "element": "fire",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "venom_hydra",
+    "name": "ไฮดราพิษ",
+    "nameEn": "Venom Hydra",
+    "baseStats": {
+      "hp": 110,
+      "atk": 18,
+      "mag": 16,
+      "def": 14,
+      "res": 10,
+      "spd": 8,
+      "luk": 6,
+      "exp": 64
+    },
+    "attacks": [
+      {
+        "nameEn": "Venom Fang",
+        "element": "dark",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Tail Whip",
+        "element": "phys",
+        "power": 1.2,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "hell_hound",
+    "name": "สุนัขนรกสามหัว",
+    "nameEn": "Hellhound",
+    "baseStats": {
+      "hp": 88,
+      "atk": 21,
+      "mag": 12,
+      "def": 10,
+      "res": 9,
+      "spd": 16,
+      "luk": 8,
+      "exp": 62
+    },
+    "attacks": [
+      {
+        "nameEn": "Hellfire Bite",
+        "element": "fire",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Cursed Howl",
+        "element": "dark",
+        "power": 1.1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "succubus",
+    "name": "อสูรมารยั่วยวน",
+    "nameEn": "Succubus",
+    "baseStats": {
+      "hp": 80,
+      "atk": 10,
+      "mag": 19,
+      "def": 9,
+      "res": 12,
+      "spd": 13,
+      "luk": 9,
+      "exp": 63
+    },
+    "attacks": [
+      {
+        "nameEn": "Kiss of Ruin",
+        "element": "dark",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Heartbreak Curse",
+        "element": "dark",
+        "power": 0.9,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "iron_wyrm",
+    "name": "มังกรเหล็กจักรกล",
+    "nameEn": "Iron Wyrm",
+    "baseStats": {
+      "hp": 105,
+      "atk": 19,
+      "mag": 8,
+      "def": 16,
+      "res": 9,
+      "spd": 9,
+      "luk": 5,
+      "exp": 64
+    },
+    "attacks": [
+      {
+        "nameEn": "Iron Jaw Crush",
+        "element": "phys",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Static Discharge",
+        "element": "elec",
+        "power": 1.15,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "pit_fiend",
+    "name": "ปีศาจขุมนรก",
+    "nameEn": "Pit Fiend",
+    "baseStats": {
+      "hp": 92,
+      "atk": 22,
+      "mag": 18,
+      "def": 12,
+      "res": 10,
+      "spd": 10,
+      "luk": 7,
+      "exp": 65
+    },
+    "attacks": [
+      {
+        "nameEn": "Hellfire Blade",
+        "element": "fire",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Pit Curse",
+        "element": "dark",
+        "power": 1.2,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "ancient_wyrm",
+    "name": "มังกรโบราณ",
+    "nameEn": "Ancient Wyrm",
+    "baseStats": {
+      "hp": 150,
+      "atk": 26,
+      "mag": 24,
+      "def": 18,
+      "res": 16,
+      "spd": 10,
+      "luk": 8,
+      "exp": 98
+    },
+    "attacks": [
+      {
+        "nameEn": "Ancient Breath",
+        "element": "fire",
+        "power": 1.2,
+        "target": "all"
+      },
+      {
+        "nameEn": "Primeval Claw",
+        "element": "phys",
+        "power": 1.4,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "archdevil",
+    "name": "อาร์คเดวิลผู้บงการ",
+    "nameEn": "Archdevil",
+    "baseStats": {
+      "hp": 135,
+      "atk": 24,
+      "mag": 27,
+      "def": 16,
+      "res": 18,
+      "spd": 13,
+      "luk": 10,
+      "exp": 99
+    },
+    "attacks": [
+      {
+        "nameEn": "Devil's Decree",
+        "element": "dark",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Infernal Edict",
+        "element": "dark",
+        "power": 1,
+        "target": "all"
+      }
+    ]
+  },
+  {
+    "id": "doom_reaper",
+    "name": "นักเกี่ยวความพินาศ",
+    "nameEn": "Doom Reaper",
+    "baseStats": {
+      "hp": 142,
+      "atk": 28,
+      "mag": 14,
+      "def": 15,
+      "res": 13,
+      "spd": 14,
+      "luk": 9,
+      "exp": 98
+    },
+    "attacks": [
+      {
+        "nameEn": "Scythe of Doom",
+        "element": "dark",
+        "power": 1.4,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "void_dragon",
+    "name": "มังกรห้วงว่าง",
+    "nameEn": "Void Dragon",
+    "baseStats": {
+      "hp": 158,
+      "atk": 22,
+      "mag": 26,
+      "def": 17,
+      "res": 17,
+      "spd": 11,
+      "luk": 9,
+      "exp": 100
+    },
+    "attacks": [
+      {
+        "nameEn": "Void Ripple",
+        "element": "dark",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Dimensional Tear",
+        "element": "almighty",
+        "power": 0.9,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "inferno_duke",
+    "name": "ดยุคเปลวนรก",
+    "nameEn": "Inferno Duke",
+    "baseStats": {
+      "hp": 130,
+      "atk": 27,
+      "mag": 20,
+      "def": 17,
+      "res": 14,
+      "spd": 12,
+      "luk": 8,
+      "exp": 97
+    },
+    "attacks": [
+      {
+        "nameEn": "Regal Blaze",
+        "element": "fire",
+        "power": 1.4,
+        "target": "single"
+      },
+      {
+        "nameEn": "Searing Mass",
+        "element": "fire",
+        "power": 1.05,
+        "target": "all"
+      }
+    ]
+  },
+  {
+    "id": "storm_titan",
+    "name": "ไททันสายฟ้า",
+    "nameEn": "Storm Titan",
+    "baseStats": {
+      "hp": 148,
+      "atk": 25,
+      "mag": 18,
+      "def": 19,
+      "res": 14,
+      "spd": 9,
+      "luk": 7,
+      "exp": 98
+    },
+    "attacks": [
+      {
+        "nameEn": "Titan's Thunder",
+        "element": "elec",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Ground-Shaking Slam",
+        "element": "phys",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "crystal_wisp",
+    "name": "ฝูงแสงคริสตัล",
+    "nameEn": "Crystal Wisp Swarm",
+    "baseStats": {
+      "hp": 130,
+      "atk": 21,
+      "mag": 34,
+      "def": 12,
+      "res": 22,
+      "spd": 16,
+      "luk": 11,
+      "exp": 118
+    },
+    "attacks": [
+      {
+        "nameEn": "Prism Shard Burst",
+        "element": "light",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Scatter Glimmer",
+        "element": "elec",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "prism_lynx",
+    "name": "แมวป่าปริซึม",
+    "nameEn": "Prism Lynx",
+    "baseStats": {
+      "hp": 147,
+      "atk": 36,
+      "mag": 13,
+      "def": 18,
+      "res": 16,
+      "spd": 15,
+      "luk": 10,
+      "exp": 118
+    },
+    "attacks": [
+      {
+        "nameEn": "Crystal Fang Bite",
+        "element": "phys",
+        "power": 1.2,
+        "target": "single"
+      },
+      {
+        "nameEn": "Refracting Tail Swipe",
+        "element": "ice",
+        "power": 1.1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "chime_wraith",
+    "name": "วิญญาณระฆังแก้ว",
+    "nameEn": "Chime Wraith",
+    "baseStats": {
+      "hp": 138,
+      "atk": 18,
+      "mag": 35,
+      "def": 16,
+      "res": 23,
+      "spd": 13,
+      "luk": 10,
+      "exp": 118
+    },
+    "attacks": [
+      {
+        "nameEn": "Mournful Chime Toll",
+        "element": "light",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "geode_golem",
+    "name": "โกเลมศิลาแก้ว",
+    "nameEn": "Geode Golem",
+    "baseStats": {
+      "hp": 199,
+      "atk": 32,
+      "mag": 8,
+      "def": 25,
+      "res": 23,
+      "spd": 8,
+      "luk": 7,
+      "exp": 118
+    },
+    "attacks": [
+      {
+        "nameEn": "Geode Crush",
+        "element": "phys",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "drowned_revenant",
+    "name": "ผีดิบใต้บาดาล",
+    "nameEn": "Drowned Revenant",
+    "baseStats": {
+      "hp": 175,
+      "atk": 22,
+      "mag": 42,
+      "def": 18,
+      "res": 28,
+      "spd": 12,
+      "luk": 10,
+      "exp": 142
+    },
+    "attacks": [
+      {
+        "nameEn": "Drowning Soul Grasp",
+        "element": "dark",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Sunken Wail",
+        "element": "dark",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "abyssal_eel",
+    "name": "ปลาไหลก้นสมุทร",
+    "nameEn": "Abyssal Eel",
+    "baseStats": {
+      "hp": 190,
+      "atk": 46,
+      "mag": 15,
+      "def": 20,
+      "res": 16,
+      "spd": 18,
+      "luk": 11,
+      "exp": 142
+    },
+    "attacks": [
+      {
+        "nameEn": "Voltaic Bite",
+        "element": "elec",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Crushing Coil",
+        "element": "phys",
+        "power": 1.1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "tide_golem",
+    "name": "โกเลมกระแสน้ำ",
+    "nameEn": "Tide Golem",
+    "baseStats": {
+      "hp": 255,
+      "atk": 34,
+      "mag": 18,
+      "def": 33,
+      "res": 28,
+      "spd": 8,
+      "luk": 7,
+      "exp": 142
+    },
+    "attacks": [
+      {
+        "nameEn": "Tidal Slam",
+        "element": "phys",
+        "power": 1.25,
+        "target": "single"
+      },
+      {
+        "nameEn": "Whirlpool Surge",
+        "element": "ice",
+        "power": 1.05,
+        "target": "all"
+      }
+    ]
+  },
+  {
+    "id": "siren_wraith",
+    "name": "ไซเรนวิญญาณ",
+    "nameEn": "Siren Wraith",
+    "baseStats": {
+      "hp": 165,
+      "atk": 20,
+      "mag": 40,
+      "def": 17,
+      "res": 25,
+      "spd": 16,
+      "luk": 13,
+      "exp": 142
+    },
+    "attacks": [
+      {
+        "nameEn": "Siren's Deadly Song",
+        "element": "dark",
+        "power": 1.2,
+        "target": "single"
+      },
+      {
+        "nameEn": "Diving Talon",
+        "element": "phys",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "gale_falcon",
+    "name": "เหยี่ยวสายลมพายุ",
+    "nameEn": "Gale Falcon",
+    "baseStats": {
+      "hp": 210,
+      "atk": 55,
+      "mag": 18,
+      "def": 22,
+      "res": 20,
+      "spd": 22,
+      "luk": 12,
+      "exp": 170
+    },
+    "attacks": [
+      {
+        "nameEn": "Gale Talon Dive",
+        "element": "wind",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Rapid Peck",
+        "element": "phys",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "thunder_cherub",
+    "name": "เทวาน้อยสายฟ้า",
+    "nameEn": "Thunder Cherub",
+    "baseStats": {
+      "hp": 200,
+      "atk": 28,
+      "mag": 50,
+      "def": 20,
+      "res": 30,
+      "spd": 20,
+      "luk": 13,
+      "exp": 170
+    },
+    "attacks": [
+      {
+        "nameEn": "Cherub's Wrathful Bolt",
+        "element": "elec",
+        "power": 1.35,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "storm_lancer",
+    "name": "อัศวินหอกพายุ",
+    "nameEn": "Storm Lancer",
+    "baseStats": {
+      "hp": 285,
+      "atk": 52,
+      "mag": 30,
+      "def": 38,
+      "res": 28,
+      "spd": 15,
+      "luk": 9,
+      "exp": 170
+    },
+    "attacks": [
+      {
+        "nameEn": "Thunder Lance Pierce",
+        "element": "elec",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Storm Shield Bash",
+        "element": "phys",
+        "power": 1.05,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "cloud_serpent",
+    "name": "งูเมฆพายุ",
+    "nameEn": "Cloud Serpent",
+    "baseStats": {
+      "hp": 250,
+      "atk": 48,
+      "mag": 35,
+      "def": 27,
+      "res": 25,
+      "spd": 17,
+      "luk": 10,
+      "exp": 170
+    },
+    "attacks": [
+      {
+        "nameEn": "Storm Coil Crush",
+        "element": "wind",
+        "power": 1.25,
+        "target": "single"
+      },
+      {
+        "nameEn": "Lightning Scale Flash",
+        "element": "elec",
+        "power": 1.1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "sand_wraith",
+    "name": "วิญญาณคลื่นทราย",
+    "nameEn": "Sand Wraith",
+    "baseStats": {
+      "hp": 250,
+      "atk": 32,
+      "mag": 58,
+      "def": 25,
+      "res": 40,
+      "spd": 16,
+      "luk": 12,
+      "exp": 204
+    },
+    "attacks": [
+      {
+        "nameEn": "Sand-Swallowing Curse",
+        "element": "dark",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "bone_serpent",
+    "name": "งูกระดูกทะเลทราย",
+    "nameEn": "Bone Serpent",
+    "baseStats": {
+      "hp": 280,
+      "atk": 62,
+      "mag": 20,
+      "def": 30,
+      "res": 25,
+      "spd": 19,
+      "luk": 11,
+      "exp": 204
+    },
+    "attacks": [
+      {
+        "nameEn": "Bone Fang Strike",
+        "element": "phys",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Sandblast Spray",
+        "element": "wind",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "scarab_swarm",
+    "name": "ฝูงด้วงเกราะทราย",
+    "nameEn": "Scarab Swarm",
+    "baseStats": {
+      "hp": 340,
+      "atk": 48,
+      "mag": 30,
+      "def": 45,
+      "res": 35,
+      "spd": 13,
+      "luk": 9,
+      "exp": 204
+    },
+    "attacks": [
+      {
+        "nameEn": "Devouring Scarab Swarm",
+        "element": "phys",
+        "power": 1.2,
+        "target": "all"
+      },
+      {
+        "nameEn": "Mandible Crush",
+        "element": "phys",
+        "power": 1.15,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "dust_djinn",
+    "name": "ญินธุลีทะเลทราย",
+    "nameEn": "Dust Djinn",
+    "baseStats": {
+      "hp": 260,
+      "atk": 35,
+      "mag": 60,
+      "def": 28,
+      "res": 38,
+      "spd": 18,
+      "luk": 14,
+      "exp": 204
+    },
+    "attacks": [
+      {
+        "nameEn": "Ashen Sandstorm Hex",
+        "element": "fire",
+        "power": 1.3,
+        "target": "all"
+      },
+      {
+        "nameEn": "Djinn's Curse",
+        "element": "dark",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "magma_hound",
+    "name": "สุนัขลาวา",
+    "nameEn": "Magma Hound",
+    "baseStats": {
+      "hp": 310,
+      "atk": 78,
+      "mag": 25,
+      "def": 35,
+      "res": 30,
+      "spd": 22,
+      "luk": 12,
+      "exp": 245
+    },
+    "attacks": [
+      {
+        "nameEn": "Molten Fang Bite",
+        "element": "fire",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Scorching Roar",
+        "element": "fire",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "cinder_golem",
+    "name": "โกเลมถ่านคุ",
+    "nameEn": "Cinder Golem",
+    "baseStats": {
+      "hp": 420,
+      "atk": 58,
+      "mag": 30,
+      "def": 56,
+      "res": 42,
+      "spd": 9,
+      "luk": 8,
+      "exp": 245
+    },
+    "attacks": [
+      {
+        "nameEn": "Ember Fist Slam",
+        "element": "phys",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "lava_serpent",
+    "name": "งูเพลิงลาวา",
+    "nameEn": "Lava Serpent",
+    "baseStats": {
+      "hp": 360,
+      "atk": 68,
+      "mag": 40,
+      "def": 38,
+      "res": 32,
+      "spd": 18,
+      "luk": 11,
+      "exp": 245
+    },
+    "attacks": [
+      {
+        "nameEn": "Lava Coil Crush",
+        "element": "fire",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Iron-Melting Flame Breath",
+        "element": "fire",
+        "power": 1.1,
+        "target": "all"
+      }
+    ]
+  },
+  {
+    "id": "pyroclast_bat",
+    "name": "ค้างคาวเถ้าปะทุ",
+    "nameEn": "Pyroclast Bat",
+    "baseStats": {
+      "hp": 302,
+      "atk": 72,
+      "mag": 32,
+      "def": 30,
+      "res": 28,
+      "spd": 24,
+      "luk": 13,
+      "exp": 245
+    },
+    "attacks": [
+      {
+        "nameEn": "Pyroclastic Dive",
+        "element": "fire",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Heat-Draining Bite",
+        "element": "fire",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "gear_sentinel",
+    "name": "ยามเฟืองจักรกลโบราณ",
+    "nameEn": "Gear Sentinel",
+    "baseStats": {
+      "hp": 470,
+      "atk": 80,
+      "mag": 30,
+      "def": 66,
+      "res": 50,
+      "spd": 13,
+      "luk": 10,
+      "exp": 294
+    },
+    "attacks": [
+      {
+        "nameEn": "Gear-Crushing Fist",
+        "element": "phys",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "spark_hound",
+    "name": "สุนัขประกายไฟฟ้า",
+    "nameEn": "Spark Hound",
+    "baseStats": {
+      "hp": 380,
+      "atk": 95,
+      "mag": 35,
+      "def": 45,
+      "res": 38,
+      "spd": 24,
+      "luk": 13,
+      "exp": 294
+    },
+    "attacks": [
+      {
+        "nameEn": "Voltaic Fang",
+        "element": "phys",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Spark Charge Ram",
+        "element": "elec",
+        "power": 1.15,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "piston_golem",
+    "name": "โกเลมลูกสูบเหล็กกล้า",
+    "nameEn": "Piston Golem",
+    "baseStats": {
+      "hp": 510,
+      "atk": 88,
+      "mag": 20,
+      "def": 75,
+      "res": 48,
+      "spd": 10,
+      "luk": 8,
+      "exp": 294
+    },
+    "attacks": [
+      {
+        "nameEn": "Piston Drive Punch",
+        "element": "phys",
+        "power": 1.35,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "rotor_wraith",
+    "name": "โดรนใบพัดคำสาป",
+    "nameEn": "Rotor Wraith",
+    "baseStats": {
+      "hp": 360,
+      "atk": 82,
+      "mag": 40,
+      "def": 40,
+      "res": 36,
+      "spd": 26,
+      "luk": 14,
+      "exp": 294
+    },
+    "attacks": [
+      {
+        "nameEn": "Rotor Blade Slice",
+        "element": "wind",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Energy Bolt Volley",
+        "element": "elec",
+        "power": 1.1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "fungal_stalker",
+    "name": "ผู้ไล่ล่าเห็ดรา",
+    "nameEn": "Fungal Stalker",
+    "baseStats": {
+      "hp": 450,
+      "atk": 112,
+      "mag": 35,
+      "def": 50,
+      "res": 45,
+      "spd": 20,
+      "luk": 13,
+      "exp": 352
+    },
+    "attacks": [
+      {
+        "nameEn": "Fungal Spore Spike",
+        "element": "dark",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Rootfang Bite",
+        "element": "phys",
+        "power": 1.1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "thorn_wraith",
+    "name": "วิญญาณเถาหนาม",
+    "nameEn": "Thorn Wraith",
+    "baseStats": {
+      "hp": 430,
+      "atk": 48,
+      "mag": 100,
+      "def": 45,
+      "res": 68,
+      "spd": 18,
+      "luk": 14,
+      "exp": 352
+    },
+    "attacks": [
+      {
+        "nameEn": "Soul-Binding Thorns",
+        "element": "dark",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "spore_bat",
+    "name": "ค้างคาวสปอร์พิษ",
+    "nameEn": "Spore Bat",
+    "baseStats": {
+      "hp": 410,
+      "atk": 85,
+      "mag": 55,
+      "def": 42,
+      "res": 40,
+      "spd": 24,
+      "luk": 15,
+      "exp": 352
+    },
+    "attacks": [
+      {
+        "nameEn": "Toxic Spore Cloud",
+        "element": "dark",
+        "power": 1.15,
+        "target": "all"
+      },
+      {
+        "nameEn": "Nightfall Bite",
+        "element": "phys",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "rootbound_golem",
+    "name": "โกเลมรากไม้ยักษ์",
+    "nameEn": "Rootbound Golem",
+    "baseStats": {
+      "hp": 620,
+      "atk": 95,
+      "mag": 40,
+      "def": 75,
+      "res": 62,
+      "spd": 11,
+      "luk": 10,
+      "exp": 352
+    },
+    "attacks": [
+      {
+        "nameEn": "Rootbound Crushing Fist",
+        "element": "phys",
+        "power": 1.35,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "frost_spawn",
+    "name": "ทายาทความเยือกแข็ง",
+    "nameEn": "Frost Spawn",
+    "baseStats": {
+      "hp": 540,
+      "atk": 135,
+      "mag": 40,
+      "def": 60,
+      "res": 50,
+      "spd": 22,
+      "luk": 15,
+      "exp": 423
+    },
+    "attacks": [
+      {
+        "nameEn": "Deep Freeze Bite",
+        "element": "ice",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Icy Tail Lash",
+        "element": "phys",
+        "power": 1.1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "glacial_wraith",
+    "name": "วิญญาณธารน้ำแข็ง",
+    "nameEn": "Glacial Wraith",
+    "baseStats": {
+      "hp": 520,
+      "atk": 58,
+      "mag": 120,
+      "def": 55,
+      "res": 80,
+      "spd": 20,
+      "luk": 16,
+      "exp": 423
+    },
+    "attacks": [
+      {
+        "nameEn": "Soul-Freezing Breath",
+        "element": "ice",
+        "power": 1.3,
+        "target": "all"
+      }
+    ]
+  },
+  {
+    "id": "rime_golem",
+    "name": "โกเลมน้ำค้างแข็ง",
+    "nameEn": "Rime Golem",
+    "baseStats": {
+      "hp": 740,
+      "atk": 112,
+      "mag": 45,
+      "def": 90,
+      "res": 70,
+      "spd": 12,
+      "luk": 11,
+      "exp": 423
+    },
+    "attacks": [
+      {
+        "nameEn": "Primordial Ice Fist",
+        "element": "phys",
+        "power": 1.35,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "frozen_harpy",
+    "name": "ฮาร์ปี้เยือกแข็ง",
+    "nameEn": "Frozen Harpy",
+    "baseStats": {
+      "hp": 500,
+      "atk": 118,
+      "mag": 60,
+      "def": 52,
+      "res": 48,
+      "spd": 26,
+      "luk": 17,
+      "exp": 423
+    },
+    "attacks": [
+      {
+        "nameEn": "Frostbite Talon",
+        "element": "ice",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Chilling Shriek",
+        "element": "ice",
+        "power": 0.95,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "star_wisp",
+    "name": "ฝูงวิญญาณดาวตก",
+    "nameEn": "Star Wisp Swarm",
+    "baseStats": {
+      "hp": 620,
+      "atk": 70,
+      "mag": 155,
+      "def": 70,
+      "res": 105,
+      "spd": 24,
+      "luk": 16,
+      "exp": 507
+    },
+    "attacks": [
+      {
+        "nameEn": "Starfall Barrage",
+        "element": "light",
+        "power": 1.3,
+        "target": "all"
+      }
+    ]
+  },
+  {
+    "id": "void_serpent",
+    "name": "งูห้วงว่างดาราจักร",
+    "nameEn": "Void Serpent",
+    "baseStats": {
+      "hp": 720,
+      "atk": 162,
+      "mag": 60,
+      "def": 80,
+      "res": 70,
+      "spd": 23,
+      "luk": 15,
+      "exp": 507
+    },
+    "attacks": [
+      {
+        "nameEn": "Void-Devouring Bite",
+        "element": "dark",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Dimensional Coil",
+        "element": "phys",
+        "power": 1.1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "nebula_golem",
+    "name": "โกเลมเนบิวลา",
+    "nameEn": "Nebula Golem",
+    "baseStats": {
+      "hp": 900,
+      "atk": 128,
+      "mag": 80,
+      "def": 110,
+      "res": 95,
+      "spd": 13,
+      "luk": 11,
+      "exp": 507
+    },
+    "attacks": [
+      {
+        "nameEn": "Nebula-Crushing Fist",
+        "element": "phys",
+        "power": 1.35,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "astral_wraith",
+    "name": "วิญญาณดาราจักร",
+    "nameEn": "Astral Wraith",
+    "baseStats": {
+      "hp": 660,
+      "atk": 75,
+      "mag": 160,
+      "def": 72,
+      "res": 100,
+      "spd": 21,
+      "luk": 17,
+      "exp": 507
+    },
+    "attacks": [
+      {
+        "nameEn": "Astral Ruin Curse",
+        "element": "dark",
+        "power": 1.25,
+        "target": "single"
+      },
+      {
+        "nameEn": "Falling Star Beam",
+        "element": "light",
+        "power": 1.1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "chimeric_hound",
+    "name": "สุนัขไฮบริดโกลาหล",
+    "nameEn": "Chimeric Hound",
+    "baseStats": {
+      "hp": 780,
+      "atk": 195,
+      "mag": 60,
+      "def": 90,
+      "res": 70,
+      "spd": 28,
+      "luk": 17,
+      "exp": 609
+    },
+    "attacks": [
+      {
+        "nameEn": "Chimeric Flame Fang",
+        "element": "fire",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Chaotic Claw Rend",
+        "element": "phys",
+        "power": 1.15,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "chaos_golem",
+    "name": "โกเลมหลอมโกลาหล",
+    "nameEn": "Chaos Golem",
+    "baseStats": {
+      "hp": 1080,
+      "atk": 155,
+      "mag": 95,
+      "def": 135,
+      "res": 110,
+      "spd": 14,
+      "luk": 12,
+      "exp": 609
+    },
+    "attacks": [
+      {
+        "nameEn": "Chaos-Forged Fist",
+        "element": "phys",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Discordant Discharge",
+        "element": "elec",
+        "power": 1.15,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "discord_wraith",
+    "name": "วิญญาณแห่งความวุ่นวาย",
+    "nameEn": "Discord Wraith",
+    "baseStats": {
+      "hp": 810,
+      "atk": 90,
+      "mag": 190,
+      "def": 95,
+      "res": 135,
+      "spd": 23,
+      "luk": 18,
+      "exp": 609
+    },
+    "attacks": [
+      {
+        "nameEn": "Curse of Discord",
+        "element": "dark",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "flux_serpent",
+    "name": "งูผันแปรธาตุ",
+    "nameEn": "Flux Serpent",
+    "baseStats": {
+      "hp": 830,
+      "atk": 168,
+      "mag": 100,
+      "def": 100,
+      "res": 85,
+      "spd": 26,
+      "luk": 16,
+      "exp": 609
+    },
+    "attacks": [
+      {
+        "nameEn": "Flux-Warped Bite",
+        "element": "elec",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Elemental Flux Breath",
+        "element": "fire",
+        "power": 1.15,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "twilight_seraph",
+    "name": "เทวาสนธยาผู้เสื่อมทราม",
+    "nameEn": "Twilight Seraph",
+    "baseStats": {
+      "hp": 950,
+      "atk": 210,
+      "mag": 180,
+      "def": 110,
+      "res": 140,
+      "spd": 30,
+      "luk": 19,
+      "exp": 731
+    },
+    "attacks": [
+      {
+        "nameEn": "Twilight Wing Pierce",
+        "element": "light",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Fallen Radiance Beam",
+        "element": "light",
+        "power": 1.15,
+        "target": "all"
+      }
+    ]
+  },
+  {
+    "id": "chrono_golem",
+    "name": "โกเลมกาลเวลาเลือนราง",
+    "nameEn": "Chrono Golem",
+    "baseStats": {
+      "hp": 1350,
+      "atk": 185,
+      "mag": 110,
+      "def": 165,
+      "res": 140,
+      "spd": 16,
+      "luk": 14,
+      "exp": 731
+    },
+    "attacks": [
+      {
+        "nameEn": "Time-Crushing Fist",
+        "element": "phys",
+        "power": 1.35,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "sanctum_wraith",
+    "name": "วิญญาณวิหารเสื่อมทราม",
+    "nameEn": "Sanctum Wraith",
+    "baseStats": {
+      "hp": 1000,
+      "atk": 105,
+      "mag": 230,
+      "def": 115,
+      "res": 165,
+      "spd": 25,
+      "luk": 20,
+      "exp": 731
+    },
+    "attacks": [
+      {
+        "nameEn": "Sanctum's Corrupting Curse",
+        "element": "dark",
+        "power": 1.3,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "chrono_serpent",
+    "name": "งูกัดกร่อนกาลเวลา",
+    "nameEn": "Chrono Serpent",
+    "baseStats": {
+      "hp": 1000,
+      "atk": 205,
+      "mag": 120,
+      "def": 120,
+      "res": 105,
+      "spd": 28,
+      "luk": 18,
+      "exp": 731
+    },
+    "attacks": [
+      {
+        "nameEn": "Time-Eroding Bite",
+        "element": "almighty",
+        "power": 1.1,
+        "target": "single"
+      },
+      {
+        "nameEn": "Twilight Coil Crush",
+        "element": "dark",
+        "power": 1.2,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "steel_golem",
+    "name": "โกเลมเหล็กกล้า",
+    "nameEn": "Steel-Forged Golem",
+    "baseStats": {
+      "hp": 75,
+      "atk": 13,
+      "mag": 3,
+      "def": 11,
+      "res": 6,
+      "spd": 6,
+      "luk": 4,
+      "exp": 55
+    },
+    "attacks": [
+      {
+        "nameEn": "Iron Slam",
+        "element": "phys",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Steel Arm Swing",
+        "element": "phys",
+        "power": 1,
+        "target": "single"
+      },
+      {
+        "nameEn": "Tremor Slam",
+        "element": "phys",
+        "power": 0.9,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "bat_queen",
+    "name": "ราชินีค้างคาวเลือด",
+    "nameEn": "Blood Bat Queen",
+    "baseStats": {
+      "hp": 100,
+      "atk": 14,
+      "mag": 14,
+      "def": 8,
+      "res": 9,
+      "spd": 13,
+      "luk": 8,
+      "exp": 95
+    },
+    "attacks": [
+      {
+        "nameEn": "Queen's Blood Drain",
+        "element": "dark",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Swift Dive",
+        "element": "phys",
+        "power": 1.1,
+        "target": "single"
+      },
+      {
+        "nameEn": "Piercing Shriek",
+        "element": "dark",
+        "power": 0.9,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "inferno_warden",
+    "name": "เจ้าไฟผู้พิทักษ์",
+    "nameEn": "Inferno Warden",
+    "baseStats": {
+      "hp": 155,
+      "atk": 20,
+      "mag": 20,
+      "def": 14,
+      "res": 11,
+      "spd": 11,
+      "luk": 8,
+      "exp": 150
+    },
+    "attacks": [
+      {
+        "nameEn": "Warden's Blaze",
+        "element": "fire",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Heat Wave",
+        "element": "fire",
+        "power": 1,
+        "target": "all"
+      },
+      {
+        "nameEn": "Ember Fist",
+        "element": "phys",
+        "power": 1.1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "wyvern_alpha",
+    "name": "ไวเวิร์นจ่าฝูง",
+    "nameEn": "Wyvern Alpha",
+    "baseStats": {
+      "hp": 165,
+      "atk": 22,
+      "mag": 10,
+      "def": 14,
+      "res": 10,
+      "spd": 14,
+      "luk": 8,
+      "exp": 135
+    },
+    "attacks": [
+      {
+        "nameEn": "Alpha Talon",
+        "element": "phys",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Gale Wingbeat",
+        "element": "wind",
+        "power": 1.15,
+        "target": "all"
+      },
+      {
+        "nameEn": "Intimidating Roar",
+        "element": "phys",
+        "power": 0.9,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "flame_overlord",
+    "name": "จอมปีศาจเพลิง",
+    "nameEn": "Flame Overlord",
+    "baseStats": {
+      "hp": 212,
+      "atk": 26,
+      "mag": 24,
+      "def": 15,
+      "res": 13,
+      "spd": 12,
+      "luk": 9,
+      "exp": 210
+    },
+    "attacks": [
+      {
+        "nameEn": "Throne of Flame",
+        "element": "fire",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Inferno Collapse",
+        "element": "fire",
+        "power": 1.05,
+        "target": "all"
+      },
+      {
+        "nameEn": "Smoldering Curse",
+        "element": "fire",
+        "power": 0.9,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "glacial_tyrant",
+    "name": "ทรราชน้ำแข็งนิรันดร์",
+    "nameEn": "Glacial Tyrant",
+    "baseStats": {
+      "hp": 300,
+      "atk": 28,
+      "mag": 26,
+      "def": 18,
+      "res": 16,
+      "spd": 11,
+      "luk": 9,
+      "exp": 310
+    },
+    "attacks": [
+      {
+        "nameEn": "Eternal Frost Breath",
+        "element": "ice",
+        "power": 1.2,
+        "target": "all"
+      },
+      {
+        "nameEn": "Frozen Bite",
+        "element": "ice",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Glacial Tail Slam",
+        "element": "phys",
+        "power": 1.15,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "abyssal_matriarch",
+    "name": "มารดาแห่งห้วงนรก",
+    "nameEn": "Abyssal Matriarch",
+    "baseStats": {
+      "hp": 345,
+      "atk": 30,
+      "mag": 32,
+      "def": 19,
+      "res": 20,
+      "spd": 14,
+      "luk": 10,
+      "exp": 360
+    },
+    "attacks": [
+      {
+        "nameEn": "Abyssal Call",
+        "element": "dark",
+        "power": 1.3,
+        "target": "single"
+      },
+      {
+        "nameEn": "Wailing Soul Wave",
+        "element": "dark",
+        "power": 1.05,
+        "target": "all"
+      },
+      {
+        "nameEn": "Kiss of Death",
+        "element": "dark",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "obsidian_dragon",
+    "name": "มังกรหินอัคคี",
+    "nameEn": "Obsidian Dragon",
+    "baseStats": {
+      "hp": 430,
+      "atk": 34,
+      "mag": 30,
+      "def": 22,
+      "res": 19,
+      "spd": 13,
+      "luk": 10,
+      "exp": 450
+    },
+    "attacks": [
+      {
+        "nameEn": "Molten Breath",
+        "element": "fire",
+        "power": 1.25,
+        "target": "all"
+      },
+      {
+        "nameEn": "Obsidian Claw",
+        "element": "phys",
+        "power": 1.4,
+        "target": "single"
+      },
+      {
+        "nameEn": "Wing Slam",
+        "element": "phys",
+        "power": 1.1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "choir_warden",
+    "name": "ผู้พิทักษ์เสียงประสาน",
+    "nameEn": "Choir Warden",
+    "baseStats": {
+      "hp": 605,
+      "atk": 42,
+      "mag": 36,
+      "def": 28,
+      "res": 25,
+      "spd": 16,
+      "luk": 12,
+      "exp": 531
+    },
+    "attacks": [
+      {
+        "nameEn": "Shattering Crystal Hymn",
+        "element": "light",
+        "power": 1.3,
+        "target": "all"
+      },
+      {
+        "nameEn": "Crystal Titan Fist",
+        "element": "phys",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Resonant Soul Toll",
+        "element": "light",
+        "power": 0.95,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "leviathan_herald",
+    "name": "ทูตแห่งเลวีอาธาน",
+    "nameEn": "Leviathan's Herald",
+    "baseStats": {
+      "hp": 725,
+      "atk": 52,
+      "mag": 43,
+      "def": 35,
+      "res": 31,
+      "spd": 17,
+      "luk": 13,
+      "exp": 639
+    },
+    "attacks": [
+      {
+        "nameEn": "Leviathan's Tidal Wave",
+        "element": "ice",
+        "power": 1.3,
+        "target": "all"
+      },
+      {
+        "nameEn": "Abyssal Maw Crush",
+        "element": "phys",
+        "power": 1.4,
+        "target": "single"
+      },
+      {
+        "nameEn": "Deep Sea Curse",
+        "element": "dark",
+        "power": 0.95,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "tempest_marshal",
+    "name": "จอมทัพพายุ",
+    "nameEn": "Tempest Marshal",
+    "baseStats": {
+      "hp": 872,
+      "atk": 62,
+      "mag": 52,
+      "def": 41,
+      "res": 38,
+      "spd": 18,
+      "luk": 13,
+      "exp": 765
+    },
+    "attacks": [
+      {
+        "nameEn": "Marshal's Thunder Blade",
+        "element": "elec",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Citadel Cyclone",
+        "element": "wind",
+        "power": 1.05,
+        "target": "all"
+      },
+      {
+        "nameEn": "Sky-Shaking Command",
+        "element": "phys",
+        "power": 0.95,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "pharaoh_ash",
+    "name": "ฟาโรห์เถ้าถ่าน",
+    "nameEn": "Pharaoh of Ash",
+    "baseStats": {
+      "hp": 1043,
+      "atk": 74,
+      "mag": 63,
+      "def": 49,
+      "res": 45,
+      "spd": 20,
+      "luk": 14,
+      "exp": 918
+    },
+    "attacks": [
+      {
+        "nameEn": "Ashen Pharaoh's Scepter",
+        "element": "fire",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Ancient Mummy's Curse",
+        "element": "dark",
+        "power": 1.1,
+        "target": "all"
+      },
+      {
+        "nameEn": "Eternal Sandstorm",
+        "element": "wind",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "core_warden",
+    "name": "ผู้พิทักษ์แกนโลก",
+    "nameEn": "Core Warden",
+    "baseStats": {
+      "hp": 1253,
+      "atk": 88,
+      "mag": 76,
+      "def": 59,
+      "res": 53,
+      "spd": 20,
+      "luk": 14,
+      "exp": 1103
+    },
+    "attacks": [
+      {
+        "nameEn": "Warden's Lava Torrent",
+        "element": "fire",
+        "power": 1.3,
+        "target": "all"
+      },
+      {
+        "nameEn": "Core-Forged Fist",
+        "element": "phys",
+        "power": 1.4,
+        "target": "single"
+      },
+      {
+        "nameEn": "Eternal Flame Curse",
+        "element": "fire",
+        "power": 0.95,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "grand_automaton",
+    "name": "ราชันจักรกลโบราณ",
+    "nameEn": "Grand Automaton",
+    "baseStats": {
+      "hp": 1502,
+      "atk": 106,
+      "mag": 90,
+      "def": 71,
+      "res": 64,
+      "spd": 21,
+      "luk": 16,
+      "exp": 1323
+    },
+    "attacks": [
+      {
+        "nameEn": "Grand Automaton's Fist",
+        "element": "phys",
+        "power": 1.4,
+        "target": "single"
+      },
+      {
+        "nameEn": "Bastion Energy Beam",
+        "element": "elec",
+        "power": 1.1,
+        "target": "all"
+      },
+      {
+        "nameEn": "Disruption Field",
+        "element": "elec",
+        "power": 0.95,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "blight_heart",
+    "name": "หัวใจแห่งโรคร้าย",
+    "nameEn": "Heart of the Blight",
+    "baseStats": {
+      "hp": 1803,
+      "atk": 127,
+      "mag": 108,
+      "def": 85,
+      "res": 77,
+      "spd": 22,
+      "luk": 17,
+      "exp": 1584
+    },
+    "attacks": [
+      {
+        "nameEn": "Blighted Heartbeat Pulse",
+        "element": "dark",
+        "power": 1.3,
+        "target": "all"
+      },
+      {
+        "nameEn": "Deathvine Lash",
+        "element": "phys",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Spore of Decay",
+        "element": "dark",
+        "power": 0.95,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "frost_sovereign",
+    "name": "ราชันน้ำแข็งห้วงลึก",
+    "nameEn": "Abyssal Frost Sovereign",
+    "baseStats": {
+      "hp": 2163,
+      "atk": 153,
+      "mag": 129,
+      "def": 102,
+      "res": 92,
+      "spd": 23,
+      "luk": 18,
+      "exp": 1904
+    },
+    "attacks": [
+      {
+        "nameEn": "Sovereign's Glacial Breath",
+        "element": "ice",
+        "power": 1.3,
+        "target": "all"
+      },
+      {
+        "nameEn": "Abyssal Frost Claw",
+        "element": "phys",
+        "power": 1.4,
+        "target": "single"
+      },
+      {
+        "nameEn": "Eternal Ice Throne",
+        "element": "ice",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "rift_warden",
+    "name": "ผู้พิทักษ์รอยแยก",
+    "nameEn": "Rift Warden",
+    "baseStats": {
+      "hp": 2597,
+      "atk": 183,
+      "mag": 155,
+      "def": 123,
+      "res": 111,
+      "spd": 25,
+      "luk": 18,
+      "exp": 2282
+    },
+    "attacks": [
+      {
+        "nameEn": "Rift-Devouring Rend",
+        "element": "dark",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Collapsing Galaxy Wave",
+        "element": "light",
+        "power": 1.05,
+        "target": "all"
+      },
+      {
+        "nameEn": "Warden's Dimensional Tear",
+        "element": "almighty",
+        "power": 0.9,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "forge_master",
+    "name": "นายช่างเพลิงโกลาหล",
+    "nameEn": "Forgemaster of Chaos",
+    "baseStats": {
+      "hp": 3119,
+      "atk": 220,
+      "mag": 186,
+      "def": 147,
+      "res": 133,
+      "spd": 27,
+      "luk": 20,
+      "exp": 2741
+    },
+    "attacks": [
+      {
+        "nameEn": "Chaos Forge Hammer",
+        "element": "fire",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Forge-Wide Discord Wave",
+        "element": "dark",
+        "power": 1.1,
+        "target": "all"
+      },
+      {
+        "nameEn": "All-Element Overload",
+        "element": "almighty",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "timeless_herald",
+    "name": "ทูตแห่งนิรันดร",
+    "nameEn": "Herald of the Timeless",
+    "baseStats": {
+      "hp": 3742,
+      "atk": 263,
+      "mag": 224,
+      "def": 176,
+      "res": 160,
+      "spd": 29,
+      "luk": 21,
+      "exp": 3290
+    },
+    "attacks": [
+      {
+        "nameEn": "Herald's Proclamation of the End",
+        "element": "light",
+        "power": 1.3,
+        "target": "all"
+      },
+      {
+        "nameEn": "Eternal Blade Pierce",
+        "element": "almighty",
+        "power": 1.35,
+        "target": "single"
+      },
+      {
+        "nameEn": "Call of Succession",
+        "element": "dark",
+        "power": 1,
+        "target": "single"
+      }
+    ]
+  },
+  {
+    "id": "timeless_sovereign",
+    "name": "ราชันไร้กาลเวลา",
+    "nameEn": "The Timeless Sovereign",
+    "baseStats": {
+      "hp": 31000,
+      "atk": 500,
+      "mag": 500,
+      "def": 185,
+      "res": 175,
+      "spd": 34,
+      "luk": 22,
+      "exp": 17000
+    },
+    "attacks": [
+      {
+        "nameEn": "Blade of Unending Time",
+        "element": "dark",
+        "power": 1.2,
+        "target": "single"
+      },
+      {
+        "nameEn": "Collapsing Dimension Wave",
+        "element": "almighty",
+        "power": 1,
+        "target": "all"
+      },
+      {
+        "nameEn": "Crush All Moments",
+        "element": "dark",
+        "power": 0.8,
+        "target": "single"
+      }
+    ]
+  }
+]

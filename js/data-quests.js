@@ -26,7 +26,7 @@
     { id: 'q_floor_25', name: 'ผู้ท้าทายเงามืด', nameEn: 'Shadow Challenger', icon: 'doorway', type: 'floor', target: 25,
       desc: 'ไต่หอคอยถึงชั้นที่ 25', descEn: 'Reach floor 25 of the tower.',
       reward: { gold: 600, exp: 300, items: [{ id: 'mat_demon_fang', qty: 4 }] } },
-    { id: 'q_floor_40', name: 'ผู้ฝ่าดงมังกรและปีศาจ', nameEn: 'Dragon and Demon Vanquisher', icon: 'doorway', type: 'floor', target: 40,
+    { id: 'q_floor_40', name: 'ผู้ย่ำดงมังกรมาร', nameEn: 'Dragon and Demon Vanquisher', icon: 'doorway', type: 'floor', target: 40,
       desc: 'ไต่หอคอยถึงชั้นที่ 40', descEn: 'Reach floor 40 of the tower.',
       reward: { gold: 900, exp: 500, items: [{ id: 'mat_dragon_scale', qty: 4 }] } },
     { id: 'q_floor_45', name: 'ผู้ปลดผนึกหอคอยซ่อนเร้น', nameEn: 'Unsealer of the Hidden Tower', icon: 'doorway', type: 'floor', target: 45,
@@ -39,7 +39,7 @@
       desc: 'ไต่หอคอยถึงชั้นที่ 80', descEn: 'Reach floor 80 of the tower.',
       reward: { gold: 3200, exp: 2000, items: [{ id: 'p_hp_transcendent', qty: 3 }] } },
     { id: 'q_floor_100', name: 'ผู้พิชิตหอคอยแห่งความมืด', nameEn: 'Conqueror of the Darkness Tower', icon: 'crownSkull', type: 'floor', target: 100,
-      desc: 'ไต่หอคอยถึงชั้นบัลลังก์ของราชันไร้กาลเวลา', descEn: "Reach the Timeless Sovereign's throne floor.",
+      desc: 'ไต่หอคอยถึงชั้นบัลลังก์ของอธิราชไร้กาล', descEn: "Reach the Timeless Sovereign's throne floor.",
       reward: { gold: 5000, exp: 3000, items: [{ id: 'c_quest_sovereign_relic', qty: 1 }] } },
 
     { id: 'q_level_10', name: 'นักผจญภัยมือใหม่', nameEn: 'Fledgling Adventurer', icon: 'star', type: 'level', target: 10,
@@ -52,20 +52,20 @@
       desc: 'มีเลเวลตัวละครถึง 50', descEn: 'Reach character level 50.',
       reward: { gold: 1500, items: [{ id: 'c_quest_veteran_medal', qty: 1 }] } },
 
-    { id: 'q_gold_500', name: 'นักสะสมมือใหม่', nameEn: 'Budding Collector', icon: 'coin', type: 'gold', target: 500,
+    { id: 'q_gold_500', name: 'นักสะสมเหรียญ', nameEn: 'Budding Collector', icon: 'coin', type: 'gold', target: 500,
       desc: 'มีทองอยู่ในมือพร้อมกัน 500', descEn: 'Hold 500 gold at once.',
       reward: { exp: 80, items: [{ id: 'p_mp_small', qty: 3 }] } },
-    { id: 'q_gold_earned_5000', name: 'เจ้าสัวหอคอย', nameEn: 'Tower Tycoon', icon: 'coin', type: 'goldEarned', target: 5000,
+    { id: 'q_gold_earned_5000', name: 'เศรษฐีเหรียญทอง', nameEn: 'Gold Magnate', icon: 'coin', type: 'goldEarned', target: 5000,
       desc: 'สะสมทองรวมตลอดการเดินทาง 5,000', descEn: 'Accumulate 5,000 gold in total over the journey.',
       reward: { gold: 300, items: [{ id: 'c_quest_veteran_medal', qty: 1 }] } },
 
-    { id: 'q_kills_20', name: 'นักล่าเงามืดมือใหม่', nameEn: 'Novice Shadow Hunter', icon: 'skull', type: 'enemiesDefeated', target: 20,
+    { id: 'q_kills_20', name: 'นักล่าเงาฝึกหัด', nameEn: 'Novice Shadow Hunter', icon: 'skull', type: 'enemiesDefeated', target: 20,
       desc: 'กำจัดศัตรู 20 ตัว', descEn: 'Defeat 20 enemies.',
       reward: { gold: 120, exp: 60 } },
-    { id: 'q_kills_100', name: 'นักล่าเงามืดผู้เชี่ยวชาญ', nameEn: 'Expert Shadow Hunter', icon: 'skull', type: 'enemiesDefeated', target: 100,
+    { id: 'q_kills_100', name: 'นักล่าเงาชำนาญ', nameEn: 'Expert Shadow Hunter', icon: 'skull', type: 'enemiesDefeated', target: 100,
       desc: 'กำจัดศัตรู 100 ตัว', descEn: 'Defeat 100 enemies.',
       reward: { gold: 400, exp: 250, items: [{ id: 'mat_iron_shard', qty: 5 }] } },
-    { id: 'q_kills_300', name: 'ผู้ล้างเผ่าพันธุ์เงามืด', nameEn: 'Shadow Exterminator', icon: 'skull', type: 'enemiesDefeated', target: 300,
+    { id: 'q_kills_300', name: 'ผู้กวาดล้างเงามืด', nameEn: 'Shadow Exterminator', icon: 'skull', type: 'enemiesDefeated', target: 300,
       desc: 'กำจัดศัตรู 300 ตัว', descEn: 'Defeat 300 enemies.',
       reward: { gold: 1200, exp: 700, items: [{ id: 'c_quest_veteran_medal', qty: 1 }] } },
 
@@ -89,10 +89,10 @@
       reward: { gold: 300, exp: 150 } },
 
     { id: 'q_arena_10', name: 'นักประลองหน้าใหม่', nameEn: 'Arena Newcomer', icon: 'sparkles', type: 'arenaWaves', target: 10,
-      desc: 'ผ่านคลื่นในสนามประลองรวม 10 คลื่น', descEn: 'Clear a total of 10 waves in the Endless Arena.',
+      desc: 'ผ่านระลอกในสนามประลองรวม 10 ระลอก', descEn: 'Clear a total of 10 waves in the Endless Arena.',
       reward: { gold: 200, items: [{ id: 'mat_spirit_dust', qty: 3 }] } },
     { id: 'q_arena_50', name: 'จอมประลองไร้พ่าย', nameEn: 'Arena Champion', icon: 'sparkles', type: 'arenaWaves', target: 50,
-      desc: 'ผ่านคลื่นในสนามประลองรวม 50 คลื่น', descEn: 'Clear a total of 50 waves in the Endless Arena.',
+      desc: 'ผ่านระลอกในสนามประลองรวม 50 ระลอก', descEn: 'Clear a total of 50 waves in the Endless Arena.',
       reward: { gold: 1000, exp: 400, items: [{ id: 'c_quest_novice_badge', qty: 1 }] } }
   ];
 

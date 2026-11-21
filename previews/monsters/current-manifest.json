@@ -1,0 +1,2346 @@
+{
+  "total": 100,
+  "regular": 80,
+  "minibosses": 19,
+  "finalBosses": 1,
+  "uniqueIcons": 100,
+  "reusedIcons": [],
+  "missing": [],
+  "roster": [
+    {
+      "id": "shadow_wolf",
+      "name": "ขนนิลเงา",
+      "nameEn": "Shadow Wolf",
+      "icon": "wolf",
+      "group": "regular",
+      "tier": 1,
+      "floor": null,
+      "role": "swift",
+      "attacks": [
+        {
+          "name": "เขี้ยวฉีกวิญญาณ",
+          "nameEn": "Rending Bite",
+          "element": "phys"
+        },
+        {
+          "name": "เขี้ยวเหมันต์",
+          "nameEn": "Frost Fang",
+          "element": "ice"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "flame_imp",
+      "name": "จิ๋วเพลิงซน",
+      "nameEn": "Flame Imp",
+      "icon": "demon",
+      "group": "regular",
+      "tier": 1,
+      "floor": null,
+      "role": "swift",
+      "attacks": [
+        {
+          "name": "ลิ้นเพลิงเลีย",
+          "nameEn": "Flame Lick",
+          "element": "fire"
+        },
+        {
+          "name": "กรงเล็บข่วนฉึก",
+          "nameEn": "Claw Swipe",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "stone_golem",
+      "name": "หินกร้าวคลั่ง",
+      "nameEn": "Stone Golem",
+      "icon": "golem",
+      "group": "regular",
+      "tier": 1,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "หมัดศิลาทุบ",
+          "nameEn": "Rock Smash",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "dark_bat",
+      "name": "ปีกราตรี",
+      "nameEn": "Nightfall Bat",
+      "icon": "bat",
+      "group": "regular",
+      "tier": 1,
+      "floor": null,
+      "role": "swift",
+      "attacks": [
+        {
+          "name": "งับดื่มโลหิต",
+          "nameEn": "Blood Drain Bite",
+          "element": "dark"
+        },
+        {
+          "name": "โฉบตะปบราตรี",
+          "nameEn": "Swooping Claw",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "gust_sprite",
+      "name": "ภูตลมกรรโชก",
+      "nameEn": "Wind Sprite",
+      "icon": "windSprite",
+      "group": "regular",
+      "tier": 1,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "คมใบมีดลม",
+          "nameEn": "Wind Blade",
+          "element": "wind"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "giant_spider",
+      "name": "นางพรายใยพิษ",
+      "nameEn": "Gloomweaver",
+      "icon": "spider",
+      "group": "regular",
+      "tier": 1,
+      "floor": null,
+      "role": "swift",
+      "attacks": [
+        {
+          "name": "เขี้ยวพิษกัดซึม",
+          "nameEn": "Venom Bite",
+          "element": "dark"
+        },
+        {
+          "name": "ขาเคียวแทงทะลวง",
+          "nameEn": "Sharp Leg Strike",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "bog_slime",
+      "name": "เมือกโคลนกลืน",
+      "nameEn": "Bog Slime",
+      "icon": "slime",
+      "group": "regular",
+      "tier": 1,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ถาโถมเมือกหนึบ",
+          "nameEn": "Sticky Slam",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "forest_bandit",
+      "name": "โจรเงาพงไพร",
+      "nameEn": "Forest Bandit",
+      "icon": "bandit",
+      "group": "regular",
+      "tier": 1,
+      "floor": null,
+      "role": "swift",
+      "attacks": [
+        {
+          "name": "แทงสายฟ้า",
+          "nameEn": "Quick Stab",
+          "element": "phys"
+        },
+        {
+          "name": "ขว้างขวานสั้น",
+          "nameEn": "Hatchet Throw",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "frost_knight",
+      "name": "อัศวินเหมันต์",
+      "nameEn": "Frost Knight",
+      "icon": "knight",
+      "group": "regular",
+      "tier": 2,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "ดาบเหมันต์เฉือน",
+          "nameEn": "Ice Blade Slash",
+          "element": "ice"
+        },
+        {
+          "name": "โล่กระแทกอก",
+          "nameEn": "Shield Bash",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "thunder_hawk",
+      "name": "เหยี่ยวอัสนี",
+      "nameEn": "Thunder Hawk",
+      "icon": "hawk",
+      "group": "regular",
+      "tier": 2,
+      "floor": null,
+      "role": "swift",
+      "attacks": [
+        {
+          "name": "จงอยอัสนี",
+          "nameEn": "Lightning Peck",
+          "element": "elec"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "venom_wraith",
+      "name": "วิญญาณพิษร้าย",
+      "nameEn": "Venom Wraith",
+      "icon": "shadowFigure",
+      "group": "regular",
+      "tier": 2,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "ดูดดึงวิญญาณ",
+          "nameEn": "Soul Drain",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "iron_sentinel",
+      "name": "ทหารเหล็กนิรนาม",
+      "nameEn": "Iron Sentinel",
+      "icon": "sentinel",
+      "group": "regular",
+      "tier": 2,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "หมัดเหล็กกล้า",
+          "nameEn": "Iron Fist",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "storm_harpy",
+      "name": "ฮาร์ปี้วายุ",
+      "nameEn": "Storm Harpy",
+      "icon": "harpy",
+      "group": "regular",
+      "tier": 2,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "พายุกรงเล็บ",
+          "nameEn": "Talon Storm",
+          "element": "wind"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "swamp_troll",
+      "name": "ยักษ์บึงเน่า",
+      "nameEn": "Swamp Troll",
+      "icon": "troll",
+      "group": "regular",
+      "tier": 2,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ตะบองบดกระดูก",
+          "nameEn": "Club Smash",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "crystal_golem",
+      "name": "ศิลาแก้วร้าว",
+      "nameEn": "Crystal Golem",
+      "icon": "golem_crystal",
+      "group": "regular",
+      "tier": 2,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "ลำแสงแก้วเฉือน",
+          "nameEn": "Prism Beam",
+          "element": "light"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "banshee",
+      "name": "เสียงหวีดอาลัย",
+      "nameEn": "Banshee",
+      "icon": "shadowFigure_banshee",
+      "group": "regular",
+      "tier": 2,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "หวีดร้องอาลัย",
+          "nameEn": "Wailing Scream",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "abyss_knight",
+      "name": "อัศวินห้วงลึก",
+      "nameEn": "Abyss Knight",
+      "icon": "knight_abyss",
+      "group": "regular",
+      "tier": 3,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "ดาบเงาทมิฬ",
+          "nameEn": "Shadow Blade",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "inferno_beast",
+      "name": "อสูรเพลิงคลั่ง",
+      "nameEn": "Inferno Fiend",
+      "icon": "fiend",
+      "group": "regular",
+      "tier": 3,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "คำรามนรกเพลิง",
+          "nameEn": "Infernal Roar",
+          "element": "fire"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "glacial_wyrm",
+      "name": "มังกรธารเหมันต์",
+      "nameEn": "Glacial Wyrm",
+      "icon": "dragon_ice",
+      "group": "regular",
+      "tier": 3,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ลมหายใจเหมันต์",
+          "nameEn": "Ice Breath",
+          "element": "ice"
+        },
+        {
+          "name": "หางฟาดฟ้า",
+          "nameEn": "Tail Slam",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "thunder_revenant",
+      "name": "วิญญาณพิโรธฟ้า",
+      "nameEn": "Thunder Revenant",
+      "icon": "shadowFigure_storm",
+      "group": "regular",
+      "tier": 3,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "อสนีบาตต้องสาป",
+          "nameEn": "Cursed Bolt",
+          "element": "elec"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "void_sentinel",
+      "name": "ผู้เฝ้าความว่างเปล่า",
+      "nameEn": "Void Sentinel",
+      "icon": "sentinel_void",
+      "group": "regular",
+      "tier": 3,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "ระลอกความว่างเปล่า",
+          "nameEn": "Void Wave",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "young_wyvern",
+      "name": "ไวเวิร์นปีกอ่อน",
+      "nameEn": "Young Wyvern",
+      "icon": "dragon",
+      "group": "regular",
+      "tier": 3,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "กรงเล็บฉีกฟ้า",
+          "nameEn": "Talon Rend",
+          "element": "phys"
+        },
+        {
+          "name": "ปีกพายุกระพือ",
+          "nameEn": "Wing Gale",
+          "element": "wind"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "imp_captain",
+      "name": "นายหมวดปีศาจ",
+      "nameEn": "Imp Captain",
+      "icon": "demon_captain",
+      "group": "regular",
+      "tier": 3,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ประกายไฟนรก",
+          "nameEn": "Infernal Spark",
+          "element": "fire"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "bone_reaper",
+      "name": "เทพเคียวกระดูก",
+      "nameEn": "Bone Reaper",
+      "icon": "skull",
+      "group": "regular",
+      "tier": 3,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "เคียวมัจจุราช",
+          "nameEn": "Reaper's Scythe",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "crimson_drake",
+      "name": "เดรคชาดเลือด",
+      "nameEn": "Crimson Drake",
+      "icon": "dragon_fire",
+      "group": "regular",
+      "tier": 4,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ลมหายใจเพลิง",
+          "nameEn": "Flame Breath",
+          "element": "fire"
+        },
+        {
+          "name": "กรงเล็บอัคคี",
+          "nameEn": "Blazing Claw",
+          "element": "fire"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "venom_hydra",
+      "name": "ไฮดราพิษสยอง",
+      "nameEn": "Venom Hydra",
+      "icon": "hydra",
+      "group": "regular",
+      "tier": 4,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "เขี้ยวพิษร้าย",
+          "nameEn": "Venom Fang",
+          "element": "dark"
+        },
+        {
+          "name": "หางหวดสะบัด",
+          "nameEn": "Tail Whip",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "hell_hound",
+      "name": "เคอร์เบอรัสน้อย",
+      "nameEn": "Hellhound",
+      "icon": "hound",
+      "group": "regular",
+      "tier": 4,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "เขี้ยวเพลิงอเวจี",
+          "nameEn": "Hellfire Bite",
+          "element": "fire"
+        },
+        {
+          "name": "เห่าหอนสาปแช่ง",
+          "nameEn": "Cursed Howl",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "succubus",
+      "name": "นางมารกระซิบ",
+      "nameEn": "Succubus",
+      "icon": "demon_succubus",
+      "group": "regular",
+      "tier": 4,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "จุมพิตพินาศ",
+          "nameEn": "Kiss of Ruin",
+          "element": "dark"
+        },
+        {
+          "name": "มนตร์หักหัวใจ",
+          "nameEn": "Heartbreak Curse",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "iron_wyrm",
+      "name": "มังกรเหล็กคำราม",
+      "nameEn": "Iron Wyrm",
+      "icon": "dragon_iron",
+      "group": "regular",
+      "tier": 4,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ขากรรไกรเหล็กบด",
+          "nameEn": "Iron Jaw Crush",
+          "element": "phys"
+        },
+        {
+          "name": "ปลดปล่อยประจุฟ้า",
+          "nameEn": "Static Discharge",
+          "element": "elec"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "pit_fiend",
+      "name": "จอมมารขุมเพลิง",
+      "nameEn": "Pit Fiend",
+      "icon": "demon_pit",
+      "group": "regular",
+      "tier": 4,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ดาบเพลิงอเวจี",
+          "nameEn": "Hellfire Blade",
+          "element": "fire"
+        },
+        {
+          "name": "คำสาปขุมนรก",
+          "nameEn": "Pit Curse",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "ancient_wyrm",
+      "name": "มังกรยุคบรรพกาล",
+      "nameEn": "Ancient Wyrm",
+      "icon": "dragon_gold",
+      "group": "regular",
+      "tier": 5,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ลมหายใจบรรพกาล",
+          "nameEn": "Ancient Breath",
+          "element": "fire"
+        },
+        {
+          "name": "กรงเล็บยุคดึกดำบรรพ์",
+          "nameEn": "Primeval Claw",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "archdevil",
+      "name": "จอมเดวิลผู้บงการ",
+      "nameEn": "Archdevil",
+      "icon": "demon_arch",
+      "group": "regular",
+      "tier": 5,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ประกาศิตเดวิล",
+          "nameEn": "Devil's Decree",
+          "element": "dark"
+        },
+        {
+          "name": "บัญญัตินรก",
+          "nameEn": "Infernal Edict",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "doom_reaper",
+      "name": "เคียวพิพากษา",
+      "nameEn": "Doom Reaper",
+      "icon": "crownSkull",
+      "group": "regular",
+      "tier": 5,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "เคียวพิพากษาวินาศ",
+          "nameEn": "Scythe of Doom",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "void_dragon",
+      "name": "มังกรหลุมดำ",
+      "nameEn": "Void Dragon",
+      "icon": "dragon_void",
+      "group": "regular",
+      "tier": 5,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ริ้วรอยความว่าง",
+          "nameEn": "Void Ripple",
+          "element": "dark"
+        },
+        {
+          "name": "ฉีกมิติ",
+          "nameEn": "Dimensional Tear",
+          "element": "almighty"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "inferno_duke",
+      "name": "ดยุคอัคคีนรก",
+      "nameEn": "Inferno Duke",
+      "icon": "demon_duke",
+      "group": "regular",
+      "tier": 5,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "เพลิงราชันย์",
+          "nameEn": "Regal Blaze",
+          "element": "fire"
+        },
+        {
+          "name": "ก้อนเพลิงแผดเผา",
+          "nameEn": "Searing Mass",
+          "element": "fire"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "storm_titan",
+      "name": "ไททันอสนีบาต",
+      "nameEn": "Storm Titan",
+      "icon": "titan",
+      "group": "regular",
+      "tier": 5,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "อัสนีไททัน",
+          "nameEn": "Titan's Thunder",
+          "element": "elec"
+        },
+        {
+          "name": "ทุบแผ่นดินสะท้าน",
+          "nameEn": "Ground-Shaking Slam",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "crystal_wisp",
+      "name": "ประกายแก้วลอยเคว้ง",
+      "nameEn": "Shard Wisps",
+      "icon": "crystalWisp",
+      "group": "regular",
+      "tier": 6,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "ระเบิดเศษปริซึม",
+          "nameEn": "Prism Shard Burst",
+          "element": "light"
+        },
+        {
+          "name": "ประกายแตกกระจาย",
+          "nameEn": "Scatter Glimmer",
+          "element": "elec"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "prism_lynx",
+      "name": "ลิงซ์รุ้งแก้ว",
+      "nameEn": "Prism Lynx",
+      "icon": "prismLynx",
+      "group": "regular",
+      "tier": 6,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "เขี้ยวคริสตัลงับ",
+          "nameEn": "Crystal Fang Bite",
+          "element": "phys"
+        },
+        {
+          "name": "หางสะท้อนแสงสะบัด",
+          "nameEn": "Refracting Tail Swipe",
+          "element": "ice"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "chime_wraith",
+      "name": "เงาระฆังคริสตัล",
+      "nameEn": "Chime Wraith",
+      "icon": "chimeWraith",
+      "group": "regular",
+      "tier": 6,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "ระฆังอาลัยก้อง",
+          "nameEn": "Mournful Chime Toll",
+          "element": "light"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "geode_golem",
+      "name": "โกเลมผลึกลึก",
+      "nameEn": "Geode Golem",
+      "icon": "geodeGolem",
+      "group": "regular",
+      "tier": 6,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "บดผลึกศิลา",
+          "nameEn": "Geode Crush",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "drowned_revenant",
+      "name": "ศพจมนทีสาป",
+      "nameEn": "Drowned Revenant",
+      "icon": "drownedRevenant",
+      "group": "regular",
+      "tier": 7,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "มือวิญญาณจมน้ำคว้า",
+          "nameEn": "Drowning Soul Grasp",
+          "element": "dark"
+        },
+        {
+          "name": "เสียงครวญใต้สมุทร",
+          "nameEn": "Sunken Wail",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "abyssal_eel",
+      "name": "ไหลดำห้วงสมุทร",
+      "nameEn": "Abyssal Eel",
+      "icon": "abyssalEel",
+      "group": "regular",
+      "tier": 7,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "งับอัสนีกระชาก",
+          "nameEn": "Voltaic Bite",
+          "element": "elec"
+        },
+        {
+          "name": "ขดรัดบดกระดูก",
+          "nameEn": "Crushing Coil",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "tide_golem",
+      "name": "ยักษ์น้ำซัดฝั่ง",
+      "nameEn": "Tide Golem",
+      "icon": "tideGolem",
+      "group": "regular",
+      "tier": 7,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "น้ำหลากฟาดฝั่ง",
+          "nameEn": "Tidal Slam",
+          "element": "phys"
+        },
+        {
+          "name": "น้ำวนกลืนกิน",
+          "nameEn": "Whirlpool Surge",
+          "element": "ice"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "siren_wraith",
+      "name": "เสียงสะอื้นไซเรน",
+      "nameEn": "Siren Wraith",
+      "icon": "sirenWraith",
+      "group": "regular",
+      "tier": 7,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "เพลงไซเรนปลิดชีพ",
+          "nameEn": "Siren's Deadly Song",
+          "element": "dark"
+        },
+        {
+          "name": "กรงเล็บโฉบดิ่ง",
+          "nameEn": "Diving Talon",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "gale_falcon",
+      "name": "เหยี่ยวพายุหมุน",
+      "nameEn": "Gale Falcon",
+      "icon": "galeFalcon",
+      "group": "regular",
+      "tier": 8,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "โฉบกรงเล็บวายุ",
+          "nameEn": "Gale Talon Dive",
+          "element": "wind"
+        },
+        {
+          "name": "จิกรัวเร็ว",
+          "nameEn": "Rapid Peck",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "thunder_cherub",
+      "name": "เทวทูตฟ้าน้อย",
+      "nameEn": "Thunder Cherub",
+      "icon": "thunderCherub",
+      "group": "regular",
+      "tier": 8,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "อสนีเทวทูตพิโรธ",
+          "nameEn": "Cherub's Wrathful Bolt",
+          "element": "elec"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "storm_lancer",
+      "name": "พลหอกวายุ",
+      "nameEn": "Storm Lancer",
+      "icon": "stormLancer",
+      "group": "regular",
+      "tier": 8,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "หอกอัสนีทะลวง",
+          "nameEn": "Thunder Lance Pierce",
+          "element": "elec"
+        },
+        {
+          "name": "โล่พายุกระแทก",
+          "nameEn": "Storm Shield Bash",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "cloud_serpent",
+      "name": "พญางูเมฆา",
+      "nameEn": "Cloud Serpent",
+      "icon": "cloudSerpent",
+      "group": "regular",
+      "tier": 8,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ขดเมฆรัดพายุ",
+          "nameEn": "Storm Coil Crush",
+          "element": "wind"
+        },
+        {
+          "name": "เกล็ดฟ้าแลบวาบ",
+          "nameEn": "Lightning Scale Flash",
+          "element": "elec"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "sand_wraith",
+      "name": "วิญญาณธุลีทราย",
+      "nameEn": "Sand Wraith",
+      "icon": "sandWraith",
+      "group": "regular",
+      "tier": 9,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "สาปทรายกลืนวิญญาณ",
+          "nameEn": "Sand-Swallowing Curse",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "bone_serpent",
+      "name": "นาคากระดูกทราย",
+      "nameEn": "Bone Serpent",
+      "icon": "boneSerpent",
+      "group": "regular",
+      "tier": 9,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "เขี้ยวกระดูกฟาด",
+          "nameEn": "Bone Fang Strike",
+          "element": "phys"
+        },
+        {
+          "name": "พ่นทรายเฉือน",
+          "nameEn": "Sandblast Spray",
+          "element": "wind"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "scarab_swarm",
+      "name": "ฝูงแมลงเกราะสุริยา",
+      "nameEn": "Scarab Swarm",
+      "icon": "scarabSwarm",
+      "group": "regular",
+      "tier": 9,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ฝูงด้วงสุริยากัดกิน",
+          "nameEn": "Devouring Scarab Swarm",
+          "element": "phys"
+        },
+        {
+          "name": "กรามเหล็กบดขยี้",
+          "nameEn": "Mandible Crush",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "dust_djinn",
+      "name": "จินนีฝุ่นคลั่ง",
+      "nameEn": "Dust Djinn",
+      "icon": "dustDjinn",
+      "group": "regular",
+      "tier": 9,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "มนตร์พายุทรายเถ้า",
+          "nameEn": "Ashen Sandstorm Hex",
+          "element": "fire"
+        },
+        {
+          "name": "คำสาปจินนี",
+          "nameEn": "Djinn's Curse",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "magma_hound",
+      "name": "เจ้าหมาลาวา",
+      "nameEn": "Magma Hound",
+      "icon": "magmaHound",
+      "group": "regular",
+      "tier": 10,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "เขี้ยวลาวางับ",
+          "nameEn": "Molten Fang Bite",
+          "element": "fire"
+        },
+        {
+          "name": "คำรามไอร้อน",
+          "nameEn": "Scorching Roar",
+          "element": "fire"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "cinder_golem",
+      "name": "โกเลมถ่านแดง",
+      "nameEn": "Cinder Golem",
+      "icon": "cinderGolem",
+      "group": "regular",
+      "tier": 10,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "หมัดถ่านแดงทุบ",
+          "nameEn": "Ember Fist Slam",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "lava_serpent",
+      "name": "งูหลอมธรณี",
+      "nameEn": "Lava Serpent",
+      "icon": "lavaSerpent",
+      "group": "regular",
+      "tier": 10,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ขดลาวารัดบด",
+          "nameEn": "Lava Coil Crush",
+          "element": "fire"
+        },
+        {
+          "name": "ไฟหลอมเหล็กพ่น",
+          "nameEn": "Iron-Melting Flame Breath",
+          "element": "fire"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "pyroclast_bat",
+      "name": "ค้างคาวเถ้าถล่ม",
+      "nameEn": "Pyroclast Bat",
+      "icon": "pyroclastBat",
+      "group": "regular",
+      "tier": 10,
+      "floor": null,
+      "role": "swift",
+      "attacks": [
+        {
+          "name": "โฉบเถ้าปะทุ",
+          "nameEn": "Pyroclastic Dive",
+          "element": "fire"
+        },
+        {
+          "name": "งับดูดไอร้อน",
+          "nameEn": "Heat-Draining Bite",
+          "element": "fire"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "gear_sentinel",
+      "name": "หุ่นเฝ้าเฟืองโบราณ",
+      "nameEn": "Gear Sentinel",
+      "icon": "gearSentinel",
+      "group": "regular",
+      "tier": 11,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "หมัดเฟืองบด",
+          "nameEn": "Gear-Crushing Fist",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "spark_hound",
+      "name": "เจ้าหมาประกายไฟ",
+      "nameEn": "Spark Hound",
+      "icon": "sparkHound",
+      "group": "regular",
+      "tier": 11,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "เขี้ยวไฟฟ้า",
+          "nameEn": "Voltaic Fang",
+          "element": "phys"
+        },
+        {
+          "name": "พุ่งชนประกายไฟ",
+          "nameEn": "Spark Charge Ram",
+          "element": "elec"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "piston_golem",
+      "name": "กลไกลูกสูบคลั่ง",
+      "nameEn": "Piston Golem",
+      "icon": "pistonGolem",
+      "group": "regular",
+      "tier": 11,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "หมัดลูกสูบอัด",
+          "nameEn": "Piston Drive Punch",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "rotor_wraith",
+      "name": "โดรนใบพัดต้องสาป",
+      "nameEn": "Hexed Rotor",
+      "icon": "rotorWraith",
+      "group": "regular",
+      "tier": 11,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ใบพัดหมุนเฉือน",
+          "nameEn": "Rotor Blade Slice",
+          "element": "wind"
+        },
+        {
+          "name": "ห่ากระสุนพลังงาน",
+          "nameEn": "Energy Bolt Volley",
+          "element": "elec"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "fungal_stalker",
+      "name": "ผีเห็ดนักล่า",
+      "nameEn": "Sporestalker",
+      "icon": "fungalStalker",
+      "group": "regular",
+      "tier": 12,
+      "floor": null,
+      "role": "swift",
+      "attacks": [
+        {
+          "name": "หนามสปอร์เห็ด",
+          "nameEn": "Fungal Spore Spike",
+          "element": "dark"
+        },
+        {
+          "name": "เขี้ยวรากไม้งับ",
+          "nameEn": "Rootfang Bite",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "thorn_wraith",
+      "name": "ผีหนามรัดรึง",
+      "nameEn": "Thorn Wraith",
+      "icon": "thornWraith",
+      "group": "regular",
+      "tier": 12,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "หนามรัดวิญญาณ",
+          "nameEn": "Soul-Binding Thorns",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "spore_bat",
+      "name": "ค้างคาวสปอร์ร้าย",
+      "nameEn": "Spore Bat",
+      "icon": "sporeBat",
+      "group": "regular",
+      "tier": 12,
+      "floor": null,
+      "role": "swift",
+      "attacks": [
+        {
+          "name": "หมอกสปอร์พิษ",
+          "nameEn": "Toxic Spore Cloud",
+          "element": "dark"
+        },
+        {
+          "name": "งับยามราตรี",
+          "nameEn": "Nightfall Bite",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "rootbound_golem",
+      "name": "ยักษ์รากไม้ตื่น",
+      "nameEn": "Rootbound Golem",
+      "icon": "rootboundGolem",
+      "group": "regular",
+      "tier": 12,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "หมัดรากไม้ยักษ์",
+          "nameEn": "Rootbound Crushing Fist",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "frost_spawn",
+      "name": "ทายาทเยือกแข็ง",
+      "nameEn": "Rimeborn",
+      "icon": "frostSpawn",
+      "group": "regular",
+      "tier": 13,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "งับแช่แข็งลึก",
+          "nameEn": "Deep Freeze Bite",
+          "element": "ice"
+        },
+        {
+          "name": "หางน้ำแข็งหวด",
+          "nameEn": "Icy Tail Lash",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "glacial_wraith",
+      "name": "เงาธารน้ำแข็ง",
+      "nameEn": "Glacial Wraith",
+      "icon": "glacialWraith",
+      "group": "regular",
+      "tier": 13,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "ลมหายใจแช่แข็งวิญญาณ",
+          "nameEn": "Soul-Freezing Breath",
+          "element": "ice"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "rime_golem",
+      "name": "โกเลมเกล็ดน้ำค้าง",
+      "nameEn": "Rime Golem",
+      "icon": "rimeGolem",
+      "group": "regular",
+      "tier": 13,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "หมัดน้ำแข็งดึกดำบรรพ์",
+          "nameEn": "Primordial Ice Fist",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "frozen_harpy",
+      "name": "ฮาร์ปี้หิมะกรีด",
+      "nameEn": "Frozen Harpy",
+      "icon": "frozenHarpy",
+      "group": "regular",
+      "tier": 13,
+      "floor": null,
+      "role": "swift",
+      "attacks": [
+        {
+          "name": "กรงเล็บหิมะกัด",
+          "nameEn": "Frostbite Talon",
+          "element": "ice"
+        },
+        {
+          "name": "กรีดร้องเยือกเย็น",
+          "nameEn": "Chilling Shriek",
+          "element": "ice"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "star_wisp",
+      "name": "ดาวตกพเนจร",
+      "nameEn": "Starfall Wisps",
+      "icon": "starWisp",
+      "group": "regular",
+      "tier": 14,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "ห่าดาวตก",
+          "nameEn": "Starfall Barrage",
+          "element": "light"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "void_serpent",
+      "name": "งูมหาอวกาศ",
+      "nameEn": "Void Serpent",
+      "icon": "voidSerpent",
+      "group": "regular",
+      "tier": 14,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "งับกลืนความว่าง",
+          "nameEn": "Void-Devouring Bite",
+          "element": "dark"
+        },
+        {
+          "name": "ขดรัดมิติ",
+          "nameEn": "Dimensional Coil",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "nebula_golem",
+      "name": "โกเลมหมอกดารา",
+      "nameEn": "Nebula Golem",
+      "icon": "nebulaGolem",
+      "group": "regular",
+      "tier": 14,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "หมัดหมอกดาราบด",
+          "nameEn": "Nebula-Crushing Fist",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "astral_wraith",
+      "name": "วิญญาณดาราจร",
+      "nameEn": "Astral Wraith",
+      "icon": "astralWraith",
+      "group": "regular",
+      "tier": 14,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "สาปดาราพินาศ",
+          "nameEn": "Astral Ruin Curse",
+          "element": "dark"
+        },
+        {
+          "name": "ลำแสงดาวร่วง",
+          "nameEn": "Falling Star Beam",
+          "element": "light"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "chimeric_hound",
+      "name": "หมาผสมโกลาหล",
+      "nameEn": "Patchwork Hound",
+      "icon": "chimericHound",
+      "group": "regular",
+      "tier": 15,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "เขี้ยวเพลิงผสมพันธุ์",
+          "nameEn": "Chimeric Flame Fang",
+          "element": "fire"
+        },
+        {
+          "name": "กรงเล็บโกลาหลฉีก",
+          "nameEn": "Chaotic Claw Rend",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "chaos_golem",
+      "name": "โกเลมหลอมวิปริต",
+      "nameEn": "Chaos Golem",
+      "icon": "chaosGolem",
+      "group": "regular",
+      "tier": 15,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "หมัดหลอมโกลาหล",
+          "nameEn": "Chaos-Forged Fist",
+          "element": "phys"
+        },
+        {
+          "name": "ปลดปล่อยประจุปั่นป่วน",
+          "nameEn": "Discordant Discharge",
+          "element": "elec"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "discord_wraith",
+      "name": "เงาแห่งความปั่นป่วน",
+      "nameEn": "Discord Wraith",
+      "icon": "discordWraith",
+      "group": "regular",
+      "tier": 15,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "คำสาปปั่นป่วน",
+          "nameEn": "Curse of Discord",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "flux_serpent",
+      "name": "งูแปรธาตุ",
+      "nameEn": "Flux Serpent",
+      "icon": "fluxSerpent",
+      "group": "regular",
+      "tier": 15,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "งับบิดเบือนธาตุ",
+          "nameEn": "Flux-Warped Bite",
+          "element": "elec"
+        },
+        {
+          "name": "ลมหายใจแปรธาตุ",
+          "nameEn": "Elemental Flux Breath",
+          "element": "fire"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "twilight_seraph",
+      "name": "เซราฟสนธยาตกสวรรค์",
+      "nameEn": "Twilight Seraph",
+      "icon": "twilightSeraph",
+      "group": "regular",
+      "tier": 16,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ปีกสนธยาทะลวง",
+          "nameEn": "Twilight Wing Pierce",
+          "element": "light"
+        },
+        {
+          "name": "ลำแสงเทวาตกสวรรค์",
+          "nameEn": "Fallen Radiance Beam",
+          "element": "light"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "chrono_golem",
+      "name": "โกเลมนาฬิกาพัง",
+      "nameEn": "Chrono Golem",
+      "icon": "chronoGolem",
+      "group": "regular",
+      "tier": 16,
+      "floor": null,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "หมัดบดกาลเวลา",
+          "nameEn": "Time-Crushing Fist",
+          "element": "phys"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "sanctum_wraith",
+      "name": "ผีวิหารร้าง",
+      "nameEn": "Sanctum Wraith",
+      "icon": "sanctumWraith",
+      "group": "regular",
+      "tier": 16,
+      "floor": null,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "สาปวิหารกัดกร่อน",
+          "nameEn": "Sanctum's Corrupting Curse",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "chrono_serpent",
+      "name": "งูกลืนกาลเวลา",
+      "nameEn": "Chrono Serpent",
+      "icon": "chronoSerpent",
+      "group": "regular",
+      "tier": 16,
+      "floor": null,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "งับกัดเซาะกาล",
+          "nameEn": "Time-Eroding Bite",
+          "element": "almighty"
+        },
+        {
+          "name": "ขดสนธยารัดบด",
+          "nameEn": "Twilight Coil Crush",
+          "element": "dark"
+        }
+      ],
+      "phases": 1,
+      "spriteAvailable": true
+    },
+    {
+      "id": "steel_golem",
+      "name": "โกเลมหัวใจเหล็ก",
+      "nameEn": "Steelheart Golem",
+      "icon": "golem_steel",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 5,
+      "role": "tank",
+      "attacks": [
+        {
+          "name": "ทุบเกราะเหล็กสะท้าน",
+          "nameEn": "Iron Slam",
+          "element": "phys"
+        },
+        {
+          "name": "แขนเหล็กกวาดฟาด",
+          "nameEn": "Steel Arm Swing",
+          "element": "phys"
+        },
+        {
+          "name": "กระแทกพื้นสะเทือน",
+          "nameEn": "Tremor Slam",
+          "element": "phys"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "bat_queen",
+      "name": "ราชินีค้างคาวโลหิต",
+      "nameEn": "Blood Bat Queen",
+      "icon": "bat_blood",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 10,
+      "role": "swift",
+      "attacks": [
+        {
+          "name": "ราชินีดื่มโลหิต",
+          "nameEn": "Queen's Blood Drain",
+          "element": "dark"
+        },
+        {
+          "name": "ทิ้งตัวโฉบไว",
+          "nameEn": "Swift Dive",
+          "element": "phys"
+        },
+        {
+          "name": "หวีดทะลวงโสต",
+          "nameEn": "Piercing Shriek",
+          "element": "dark"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "inferno_warden",
+      "name": "ผู้คุมนรกอัคคี",
+      "nameEn": "Inferno Warden",
+      "icon": "demon_warden",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 15,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "เพลิงผู้คุมนรก",
+          "nameEn": "Warden's Blaze",
+          "element": "fire"
+        },
+        {
+          "name": "ไอร้อนถล่ม",
+          "nameEn": "Heat Wave",
+          "element": "fire"
+        },
+        {
+          "name": "หมัดถ่านแดง",
+          "nameEn": "Ember Fist",
+          "element": "phys"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "wyvern_alpha",
+      "name": "ไวเวิร์นจ่าฝูง",
+      "nameEn": "Wyvern Alpha",
+      "icon": "dragon_alpha",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 20,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "กรงเล็บจ่าฝูง",
+          "nameEn": "Alpha Talon",
+          "element": "phys"
+        },
+        {
+          "name": "ปีกพายุกระหน่ำ",
+          "nameEn": "Gale Wingbeat",
+          "element": "wind"
+        },
+        {
+          "name": "คำรามข่มขวัญ",
+          "nameEn": "Intimidating Roar",
+          "element": "phys"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "flame_overlord",
+      "name": "มหาจอมมารเพลิง",
+      "nameEn": "Flame Overlord",
+      "icon": "demon_overlord",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 25,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "บัลลังก์เพลิง",
+          "nameEn": "Throne of Flame",
+          "element": "fire"
+        },
+        {
+          "name": "เพลิงถล่มทลาย",
+          "nameEn": "Inferno Collapse",
+          "element": "fire"
+        },
+        {
+          "name": "สาปมอดไหม้",
+          "nameEn": "Smoldering Curse",
+          "element": "fire"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "glacial_tyrant",
+      "name": "ทรราชหิมะนิรันดร์",
+      "nameEn": "Glacial Tyrant",
+      "icon": "dragon_iceLord",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 30,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ลมหายใจเหมันต์นิรันดร์",
+          "nameEn": "Eternal Frost Breath",
+          "element": "ice"
+        },
+        {
+          "name": "งับตรึงน้ำแข็ง",
+          "nameEn": "Frozen Bite",
+          "element": "ice"
+        },
+        {
+          "name": "หางธารน้ำแข็งฟาด",
+          "nameEn": "Glacial Tail Slam",
+          "element": "phys"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "abyssal_matriarch",
+      "name": "มารดาห้วงอเวจี",
+      "nameEn": "Abyssal Matriarch",
+      "icon": "demon_matriarch",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 35,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "เสียงเรียกจากอเวจี",
+          "nameEn": "Abyssal Call",
+          "element": "dark"
+        },
+        {
+          "name": "วิญญาณครวญถล่ม",
+          "nameEn": "Wailing Soul Wave",
+          "element": "dark"
+        },
+        {
+          "name": "จุมพิตมรณะ",
+          "nameEn": "Kiss of Death",
+          "element": "dark"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "obsidian_dragon",
+      "name": "มังกรหินภูเขาไฟ",
+      "nameEn": "Obsidian Dragon",
+      "icon": "dragon_obsidian",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 40,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ลมหายใจหินหลอม",
+          "nameEn": "Molten Breath",
+          "element": "fire"
+        },
+        {
+          "name": "กรงเล็บหินภูเขาไฟ",
+          "nameEn": "Obsidian Claw",
+          "element": "phys"
+        },
+        {
+          "name": "ปีกกระแทกสะท้าน",
+          "nameEn": "Wing Slam",
+          "element": "phys"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "choir_warden",
+      "name": "ผู้พิทักษ์บทสวดแก้ว",
+      "nameEn": "Choir Warden",
+      "icon": "choirWarden",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 45,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "บทสวดผลึกทลายล้าง",
+          "nameEn": "Shattering Crystal Hymn",
+          "element": "light"
+        },
+        {
+          "name": "หมัดไททันคริสตัล",
+          "nameEn": "Crystal Titan Fist",
+          "element": "phys"
+        },
+        {
+          "name": "ระฆังก้องสั่นวิญญาณ",
+          "nameEn": "Resonant Soul Toll",
+          "element": "light"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "leviathan_herald",
+      "name": "ทูตแห่งเลวีอาธาน",
+      "nameEn": "Leviathan's Herald",
+      "icon": "leviathanHerald",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 50,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "มหาอุทกภัยเลวีอาธาน",
+          "nameEn": "Leviathan's Tidal Wave",
+          "element": "ice"
+        },
+        {
+          "name": "ขย้ำขากรรไกรอเวจี",
+          "nameEn": "Abyssal Maw Crush",
+          "element": "phys"
+        },
+        {
+          "name": "สาปสมุทรลึก",
+          "nameEn": "Deep Sea Curse",
+          "element": "dark"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "tempest_marshal",
+      "name": "จอมทัพทมิฬพายุ",
+      "nameEn": "Tempest Marshal",
+      "icon": "tempestMarshal",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 55,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ดาบอัสนีจอมทัพ",
+          "nameEn": "Marshal's Thunder Blade",
+          "element": "elec"
+        },
+        {
+          "name": "พายุหมุนล้อมปราการ",
+          "nameEn": "Citadel Cyclone",
+          "element": "wind"
+        },
+        {
+          "name": "บัญชาสะท้านฟ้า",
+          "nameEn": "Sky-Shaking Command",
+          "element": "phys"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "pharaoh_ash",
+      "name": "ฟาโรห์เถ้ากระดูก",
+      "nameEn": "Pharaoh of Ash",
+      "icon": "pharaohAsh",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 60,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "คทาฟาโรห์เถ้ากระดูก",
+          "nameEn": "Ashen Pharaoh's Scepter",
+          "element": "fire"
+        },
+        {
+          "name": "คำสาปมัมมี่บรรพกาล",
+          "nameEn": "Ancient Mummy's Curse",
+          "element": "dark"
+        },
+        {
+          "name": "พายุทรายนิรันดร์",
+          "nameEn": "Eternal Sandstorm",
+          "element": "wind"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "core_warden",
+      "name": "ผู้พิทักษ์แก่นโลก",
+      "nameEn": "Core Warden",
+      "icon": "coreWarden",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 65,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ลาวาหลากผู้พิทักษ์",
+          "nameEn": "Warden's Lava Torrent",
+          "element": "fire"
+        },
+        {
+          "name": "หมัดหลอมแก่นโลก",
+          "nameEn": "Core-Forged Fist",
+          "element": "phys"
+        },
+        {
+          "name": "สาปเพลิงนิรันดร์",
+          "nameEn": "Eternal Flame Curse",
+          "element": "fire"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "grand_automaton",
+      "name": "มหาจักรกลโบราณ",
+      "nameEn": "Grand Automaton",
+      "icon": "grandAutomaton",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 70,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "หมัดมหาจักรกล",
+          "nameEn": "Grand Automaton's Fist",
+          "element": "phys"
+        },
+        {
+          "name": "ลำแสงพลังงานปราการ",
+          "nameEn": "Bastion Energy Beam",
+          "element": "elec"
+        },
+        {
+          "name": "สนามรบกวนระบบ",
+          "nameEn": "Disruption Field",
+          "element": "elec"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "blight_heart",
+      "name": "หัวใจแห่งมรสุมโรค",
+      "nameEn": "Heart of the Blight",
+      "icon": "blightHeart",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 75,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ชีพจรหัวใจโรคระบาด",
+          "nameEn": "Blighted Heartbeat Pulse",
+          "element": "dark"
+        },
+        {
+          "name": "เถาวัลย์มรณะหวด",
+          "nameEn": "Deathvine Lash",
+          "element": "phys"
+        },
+        {
+          "name": "สปอร์เสื่อมสลาย",
+          "nameEn": "Spore of Decay",
+          "element": "dark"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "frost_sovereign",
+      "name": "ราชันหิมะห้วงลึก",
+      "nameEn": "Hoarfrost Sovereign",
+      "icon": "frostSovereign",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 80,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ลมหายใจราชันหิมะ",
+          "nameEn": "Sovereign's Glacial Breath",
+          "element": "ice"
+        },
+        {
+          "name": "กรงเล็บเหมันต์ห้วงลึก",
+          "nameEn": "Abyssal Frost Claw",
+          "element": "phys"
+        },
+        {
+          "name": "บัลลังก์น้ำแข็งนิรันดร์",
+          "nameEn": "Eternal Ice Throne",
+          "element": "ice"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "rift_warden",
+      "name": "ผู้เฝ้ารอยแยก",
+      "nameEn": "Rift Warden",
+      "icon": "riftWarden",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 85,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ฉีกรอยแยกกลืนกิน",
+          "nameEn": "Rift-Devouring Rend",
+          "element": "dark"
+        },
+        {
+          "name": "ดาราจักรล่มสลาย",
+          "nameEn": "Collapsing Galaxy Wave",
+          "element": "light"
+        },
+        {
+          "name": "ฉีกมิติผู้เฝ้ารอยแยก",
+          "nameEn": "Warden's Dimensional Tear",
+          "element": "almighty"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "forge_master",
+      "name": "ช่างตีแห่งโกลาหล",
+      "nameEn": "Chaos Forgemaster",
+      "icon": "forgeMaster",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 90,
+      "role": "striker",
+      "attacks": [
+        {
+          "name": "ค้อนเพลิงโกลาหล",
+          "nameEn": "Chaos Forge Hammer",
+          "element": "fire"
+        },
+        {
+          "name": "ความปั่นป่วนถล่มโรงหลอม",
+          "nameEn": "Forge-Wide Discord Wave",
+          "element": "dark"
+        },
+        {
+          "name": "โอเวอร์โหลดหลอมทุกธาตุ",
+          "nameEn": "All-Element Overload",
+          "element": "almighty"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "timeless_herald",
+      "name": "ทูตแห่งนิรันดร์",
+      "nameEn": "Herald of the Timeless",
+      "icon": "timelessHerald",
+      "group": "miniboss",
+      "tier": null,
+      "floor": 95,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "ประกาศกาลอวสาน",
+          "nameEn": "Herald's Proclamation of the End",
+          "element": "light"
+        },
+        {
+          "name": "ดาบนิรันดร์ทะลวง",
+          "nameEn": "Eternal Blade Pierce",
+          "element": "almighty"
+        },
+        {
+          "name": "เสียงเรียกผู้สืบทอด",
+          "nameEn": "Call of Succession",
+          "element": "dark"
+        }
+      ],
+      "phases": 2,
+      "spriteAvailable": true
+    },
+    {
+      "id": "timeless_sovereign",
+      "name": "อธิราชไร้กาล",
+      "nameEn": "The Timeless Sovereign",
+      "icon": "timelessSovereign",
+      "group": "final-boss",
+      "tier": null,
+      "floor": 100,
+      "role": "caster",
+      "attacks": [
+        {
+          "name": "ดาบกาลไร้อวสาน",
+          "nameEn": "Blade of Unending Time",
+          "element": "dark"
+        },
+        {
+          "name": "มิติล่มสลาย",
+          "nameEn": "Collapsing Dimension Wave",
+          "element": "almighty"
+        },
+        {
+          "name": "บดขยี้ทุกขณะ",
+          "nameEn": "Crush All Moments",
+          "element": "dark"
+        }
+      ],
+      "phases": 4,
+      "spriteAvailable": true
+    }
+  ]
+}

@@ -60,18 +60,18 @@
   }
 
   function renderMainMenu() {
-    document.getElementById('menu-bat-1').innerHTML = window.Game.PixelArt.render('bat');
-    document.getElementById('menu-bat-2').innerHTML = window.Game.PixelArt.render('bat');
+    document.getElementById('menu-bat-1').innerHTML = window.Game.MonsterArt.icon('bat');
+    document.getElementById('menu-bat-2').innerHTML = window.Game.MonsterArt.icon('bat');
     var hasSave = window.Game.Save.exists();
     var el = document.getElementById('menu-actions');
     var html = '';
     if (hasSave) {
-      html += '<button class="btn-primary" id="btn-continue">' + I('doorway') + '<span>' + T('continueGame') + '</span></button>';
+      html += '<button class="btn-primary" id="btn-continue">' + I('menuContinue') + '<span>' + T('continueGame') + '</span></button>';
     }
-    html += '<button class="' + (hasSave ? 'btn-secondary' : 'btn-primary') + '" id="btn-new">' + I('towerSpire') + '<span>' + T('newGame') + '</span></button>';
-    html += '<button class="btn-secondary" id="btn-guide">' + I('scroll') + '<span>' + T('guideBtn') + '</span></button>';
-    html += '<button class="btn-secondary" id="btn-settings">' + I('gem') + '<span>' + T('settingsBtn') + '</span></button>';
-    html += '<button class="btn-secondary" id="btn-credits">' + I('star') + '<span>' + T('creditsBtn') + '</span></button>';
+    html += '<button class="' + (hasSave ? 'btn-secondary' : 'btn-primary') + '" id="btn-new">' + I('swordAttack') + '<span>' + T('newGame') + '</span></button>';
+    html += '<button class="btn-secondary" id="btn-guide">' + I('codex') + '<span>' + T('guideBtn') + '</span></button>';
+    html += '<button class="btn-secondary" id="btn-settings">' + I('settingsGear') + '<span>' + T('settingsBtn') + '</span></button>';
+    html += '<button class="btn-secondary" id="btn-credits">' + I('credits') + '<span>' + T('creditsBtn') + '</span></button>';
     if (hasSave) {
       html += '<button class="btn-danger" id="btn-clear">' + I('trash') + '<span>' + T('clearSave') + '</span></button>';
     }
@@ -264,14 +264,13 @@
 
   function renderStory(kind, onContinue) {
     lastStory = { kind: kind, onContinue: onContinue };
-    var isIntro = kind === 'intro';
     document.getElementById('screen-story').classList.toggle('story-ending', kind === 'ending');
     document.getElementById('story-icon').innerHTML = I(STORY_ICON[kind], 'icon-xl');
-    document.getElementById('story-title').textContent = T(isIntro ? 'storyIntroTitle' : 'storyEndTitle');
-    var bodyText = T(isIntro ? 'storyIntroBody' : 'storyEndBody');
-    document.getElementById('story-body').innerHTML = bodyText.split('\n\n').map(function (p) { return '<p>' + p + '</p>'; }).join('');
+    var screen = window.Game.Story.screen(kind, window.Game.State.current);
+    document.getElementById('story-title').textContent = screen.title;
+    document.getElementById('story-body').innerHTML = screen.body.split('\n\n').map(function (p) { return '<p>' + p + '</p>'; }).join('');
     var btn = document.getElementById('story-continue');
-    btn.textContent = T(isIntro ? 'storyIntroBtn' : 'storyEndBtn');
+    btn.textContent = screen.btn;
     btn.onclick = function () { SFX('ui_confirm'); onContinue(); };
   }
 
@@ -279,7 +278,7 @@
   // ascension level) -> class -> blessing. See data-classes.js's elite-class unlock
   // note for how clearing Nightmare gates the 5 Valiant classes.
   var DIFFICULTY_ORDER = ['easy', 'normal', 'hard', 'nightmare'];
-  var DIFFICULTY_ICON = { easy: 'heart', normal: 'swordAttack', hard: 'skull', nightmare: 'skullFire' };
+  var DIFFICULTY_ICON = { easy: 'heart', normal: 'swordAttack', hard: 'skullMark', nightmare: 'skullFire' };
   var DIFFICULTY_DESC = { easy: 'diffEasyDesc', normal: 'diffNormalDesc', hard: 'diffHardDesc', nightmare: 'diffNightmareDesc' };
 
   function startNewRun() {
@@ -519,9 +518,10 @@
     }).join('');
     var pair = blessingPickState.pair;
     var pairHtml = '<button class="select-card" data-kind="pair">' +
-      '<div class="select-card-icon">' + I('eventShrine') + '</div>' +
-      '<div class="select-card-title">' + L(pair.blessing, 'name') + ' + ' + L(pair.curse, 'name') + '<span class="stat-chip" style="margin-left:0.4rem">' + T('blessingRiskyTag') + '</span></div>' +
-      '<div class="select-card-desc">' + L(pair.blessing, 'desc') + ' — ' + L(pair.curse, 'desc') + '</div>' +
+      '<div class="select-card-icon blessing-pair-art">' + I(pair.blessing.icon) + '<span class="blessing-trade-sign">+</span>' + I(pair.curse.icon) + '</div>' +
+      '<div class="select-card-title">' + window.Game.Systems.text('พรพร้อมคำสาป', 'Blessing & curse') + '<span class="stat-chip">' + T('blessingRiskyTag') + '</span></div>' +
+      '<div class="blessing-effects"><div class="blessing-effect-positive"><strong>' + L(pair.blessing, 'name') + '</strong><p>' + L(pair.blessing, 'desc') + '</p></div>' +
+      '<div class="blessing-effect-negative"><strong>' + L(pair.curse, 'name') + '</strong><p>' + L(pair.curse, 'desc') + '</p></div></div>' +
     '</button>';
     el.innerHTML = soloHtml + pairHtml;
     Array.prototype.forEach.call(el.querySelectorAll('.select-card'), function (card) {
