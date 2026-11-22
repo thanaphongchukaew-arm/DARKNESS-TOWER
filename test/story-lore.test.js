@@ -84,7 +84,7 @@ test('lore waits while an NPC encounter is active', () => {
 });
 
 test('ending text follows the player’s NPC choices and lore progress', () => {
-  const closing = (g, run) => g.Story.screen('ending', run).body;
+  const closing = (g, run) => { g.I18n.setLang('th'); return g.Story.screen('ending', run).body; };
 
   const warm = fixture();
   play(warm, 'mira', 'lift'); play(warm, 'mira', 'leave'); play(warm, 'mira', 'leave');
@@ -111,7 +111,7 @@ test('ending text follows the player’s NPC choices and lore progress', () => {
 });
 
 test('intro screen needs no run and carries the hero’s origin', () => {
-  const g = loadGame();
+  const g = loadGame(); g.I18n.setLang('th');
   const intro = g.Story.screen('intro', null);
   assert.match(intro.body, /เศษจันทรา/);
   assert.ok(intro.title && intro.btn);

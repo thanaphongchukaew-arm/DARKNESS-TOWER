@@ -63,7 +63,7 @@ test('flurry adds one weaker hit without AP refund', () => {
   assert.equal(f.battle.playerAP, 0);
 });
 test('riposte fires only once against a multi-action enemy and cannot counter after death', () => {
-  const f = fixture('blade'); f.run.talents[5] = 'riposte';
+  const f = fixture('blade'); f.g.I18n.setLang('th'); f.run.talents[5] = 'riposte';
   f.enemy.atk = 1; f.enemy.mag = 1; f.enemy.spd = 999; f.battle.round = 2;
   act(f, { kind: 'guard' });
   const result = f.g.BattleEngine.runEnemyPhase(f.battle);

@@ -5,7 +5,7 @@
 // the 8-bit pixel font (Press Start 2P) has no Thai glyphs.
 (function () {
   var STORAGE_KEY = 'shadowspire_lang';
-  var lang = 'th';
+  var lang = 'en';
   try {
     var saved = localStorage.getItem(STORAGE_KEY);
     if (saved === 'th' || saved === 'en') lang = saved;
