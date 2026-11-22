@@ -41,3 +41,11 @@ test('every mini-game string exists in Thai and English', () => {
     for (const lang of ['th','en']) { g.I18n.setLang && g.I18n.setLang(lang); const text = g.I18n.t(key); assert.ok(text && text !== key, key + ' ' + lang); }
   }
 });
+
+test('no forge recipe refunds its base weapon: every recipe has a non-equipment part to return', () => {
+  const g = loadGame();
+  for (const r of g.Workshop.allRecipes().filter(x => x.type === 'forge')) {
+    const part = r.materials.find(m => { const it = g.Data.getItem(m.id); return it && (it.kind === 'component' || it.kind === 'material'); });
+    if (part) assert.ok(!['weapon','armor','shoes','accessory'].includes(g.Data.getItem(part.id).kind), r.id);
+  }
+});
