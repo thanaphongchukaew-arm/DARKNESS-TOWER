@@ -61,6 +61,8 @@
     state.history.push({ chapter: state.chapter, choice: option.id, floor: run.currentFloor });
     state.chapter += 1; state.lastFloor = run.currentFloor;
     story.lastFloor = run.currentFloor; story.active = null;
+    if (option.relic === 'veyra_bell') S.setAchievementFlag('veyraBell');
+    if (arcs.every(function (a) { var st = story.people[a.id]; return st.chapter >= a.chapters.length && st.trust >= 2; })) S.setAchievementFlag('allBonded');
     S.saveNow(); return { arc: arc, chapter: chapter, option: option };
   }
   function supportRounds(run) { return ensure(run).orinRounds || 0; }

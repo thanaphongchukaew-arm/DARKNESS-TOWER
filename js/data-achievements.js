@@ -12,7 +12,7 @@
 //       'survivalWaves' (target) | 'bestiary' (target, or 'all') | 'floorReached' (target) |
 //       'companionsAll' | 'blessingsAll' | 'cursesAll' | 'eventsAll' | 'relicsAll' |
 //       'flag' (param: meta flag key set elsewhere -- flawlessVictor/blessedStacker/
-//       riskTaker/goldHoarder/levelCapped/bigGambleWon)
+//       riskTaker/goldHoarder/levelCapped/bigGambleWon/veyraBell/allBonded/lockpicked/forgeStruck/cardSharp)
 (function () {
   var achievements = [
     { id: 'clear_easy', name: 'ผู้กล้าฝึกหัด', nameEn: 'Fledgling Hero', icon: 'trophy',
@@ -111,6 +111,26 @@
       type: 'flag', flag: 'bigGambleWon',
       desc: 'ชนะการพนันเดิมพันสูงสุดที่บ่อนพนัน', descEn: 'Win the highest-stakes bet at the Gambler\'s Den.',
       title: 'เจ้ามือดวงเพชร', titleEn: 'Jackpot Winner' },
+    { id: 'veyra_bell', name: 'เสียงระฆังแห่งรุ่งอรุณ', nameEn: 'Sound of the Dawn Bell', icon: 'propDawnBell',
+      type: 'flag', flag: 'veyraBell',
+      desc: 'รับระฆังเล็กแห่งรุ่งอรุณจากเวย์ร่า', descEn: 'Receive the Dawn Handbell from Veyra.',
+      title: 'ผู้ตื่นพร้อมรุ่งอรุณ', titleEn: 'Dawn Waker' },
+    { id: 'all_bonded', name: 'เพื่อนร่วมทางทั้งสี่', nameEn: 'Four Travelers, One Road', icon: 'bondHeart',
+      type: 'flag', flag: 'allBonded',
+      desc: 'จบเรื่องราวของมิรา โอริน ไลรา และเวย์ร่า โดยมีความไว้ใจถึง 2 กับทุกคน', descEn: 'Finish the stories of Mira, Orin, Lyra and Veyra with trust 2 or more for each.',
+      title: 'เพื่อนของผู้พเนจร', titleEn: 'Friend of Wanderers' },
+    { id: 'locksmith', name: 'ช่างกุญแจแห่งหอคอย', nameEn: 'Tower Locksmith', icon: 'eventChest',
+      type: 'flag', flag: 'lockpicked',
+      desc: 'งัดกุญแจหีบสมบัติสำเร็จด้วยมินิเกม', descEn: 'Pick a chest lock successfully in the mini-game.',
+      title: 'มือปราบกับดัก', titleEn: 'Trap Breaker' },
+    { id: 'forge_rhythm', name: 'จังหวะค้อนทอง', nameEn: 'Golden Hammer Rhythm', icon: 'workForge',
+      type: 'flag', flag: 'forgeStruck',
+      desc: 'ตีเหล็กได้จังหวะสำเร็จในโรงช่าง', descEn: 'Strike true in the forge mini-game.',
+      title: 'ช่างตีเหล็กจังหวะทอง', titleEn: 'Golden Smith' },
+    { id: 'card_sharp', name: 'นักเสี่ยงไพ่', nameEn: 'Card Sharp', icon: 'eventGambler',
+      type: 'flag', flag: 'cardSharp',
+      desc: 'ชนะเกมไพ่สูงต่ำที่จ่ายคูณ 3 ขึ้นไป', descEn: 'Win a higher/lower guess that pays ×3 or more.',
+      title: 'นักเสี่ยงไพ่ตาเฉียบ', titleEn: 'Card Sharp' },
     { id: 'events_all', name: 'ผู้ท่องเหตุการณ์ครบทุกรูปแบบ', nameEn: 'Seen It All', icon: 'codex',
       type: 'eventsAll',
       desc: 'เคยพบเหตุการณ์สุ่มครบทุกประเภทอย่างน้อยครั้งหนึ่ง', descEn: 'Have ever encountered every type of random tower event.',

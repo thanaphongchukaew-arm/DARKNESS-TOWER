@@ -259,7 +259,7 @@
         var MG = window.Game.Minigame;
         if (MG && MG.enabled()) {
           card.disabled = true;
-          MG.timing({ title: T('mgLockTitle'), hint: T('mgLockHint'), stops: 3, need: 2, speed: 1.0, zone: 0.22 }, function (r) { openChest(r.success); });
+          MG.timing({ title: T('mgLockTitle'), hint: T('mgLockHint'), stops: 3, need: 2, speed: 1.0, zone: 0.22 }, function (r) { if (r.success) window.Game.State.setAchievementFlag('lockpicked'); openChest(r.success); });
         } else openChest(false);
       };
     });
@@ -496,7 +496,8 @@
           var MG = window.Game.Minigame;
           if (MG && MG.enabled()) {
             MG.hiLo({ title: T('mgCardsTitle'), bet: bet }, function (r) {
-              if (r.skipped) settle(Math.random() < 0.5, bet * 2); else settle(r.won, r.payout);
+              if (r.skipped) settle(Math.random() < 0.5, bet * 2);
+              else { if (r.won && r.mult >= 3) window.Game.State.setAchievementFlag('cardSharp'); settle(r.won, r.payout); }
             });
           } else settle(Math.random() < 0.5, bet * 2);
         };

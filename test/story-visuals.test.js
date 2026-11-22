@@ -47,6 +47,7 @@ test('all twelve chapters play in order with consequences, exclusive relics and 
   for (const state of Object.values(f.run.story.people)) assert.equal(state.chapter,3);
   assert.equal(f.g.Story.supportRounds(f.run),5);
   for (const id of ['mira_lantern','orin_standard','lyra_astrolabe','veyra_bell']) assert.ok(f.run.relics.includes(id));
+  const meta0 = f.g.Save.readMeta(); assert.equal(meta0.veyraBell,true); assert.equal(meta0.allBonded,true);
   const discovered = f.g.Save.readMeta().affinities;
   for (const enemy of f.g.Data.getEnemiesByTier(f.g.Formulas.tierForFloor(38))) {
     assert.equal(discovered[enemy.id][enemy.weak],true);assert.equal(discovered[enemy.id][enemy.resist],true);
