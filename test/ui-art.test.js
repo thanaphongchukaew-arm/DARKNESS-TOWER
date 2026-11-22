@@ -55,7 +55,7 @@ test('item artwork uses a unique clipPath id per rendered SVG',()=>{
 
 test('all story states and service NPCs have shipped portraits through the actual icon path',()=>{
  const g=game(),keys=new Set(g.Story.arcs.flatMap(a=>[a.icon,...a.chapters.map(c=>c.icon)]).concat(['npcMerchant','npcSage','npcGambler']));
- assert.equal(keys.size,12);
+ assert.equal(keys.size,15);
  for(const key of keys){assert.ok(g.Icons.get(key).includes('data-npc-art="'+key+'"'),key);const file=path.join(__dirname,'../assets/pixel16/npcs',key+'.png');assert.ok(fs.existsSync(file),key);const png=fs.readFileSync(file);assert.equal(png.readUInt32BE(16),80);assert.equal(png.readUInt32BE(20),96);}
 });
 test('all battle motifs have transparent padding and a fully mapped pixel grid',()=>{

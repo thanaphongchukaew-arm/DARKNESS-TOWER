@@ -18,12 +18,15 @@ app.whenReady().then(async()=>{
    for(const a of report.assets)if(a.colors>24||a.margin<2||a.alpha.some(v=>v!==0&&v!==255))throw Error('Sprite '+JSON.stringify(a));
   }
   await run(`G.State.createRun('normal','blade');G.CodexUI.renderCodex();G.UI.showScreen('screen-codex');document.querySelector('#codex-tab-stories').click();`);await shot('travelers-unmet');
-  for(const arc of ['mira','orin','lyra'])for(let chapter=0;chapter<3;chapter++){
+  for(const arc of await run('return G.Story.arcs.map(a=>a.id);'))for(let chapter=0;chapter<3;chapter++){
    await run(`G.State.createRun('normal','blade');const r=G.State.current,s=G.Story.ensure(r);G.Story.arcs.forEach(a=>s.people[a.id].chapter=3);s.people['${arc}'].chapter=${chapter};s.people['${arc}'].trust=3;const a=G.Story.arcs.find(a=>a.id==='${arc}');r.currentFloor=a.chapters[${chapter}].floor;r.gold=3000;G.StoryUI.maybe(r.currentFloor);`);
    await shot(arc+'-'+chapter);
    const bounds=await run(`const p=document.querySelector('.npc-portrait').getBoundingClientRect(),s=document.querySelector('.npc-scene').getBoundingClientRect();return {key:document.querySelector('#screen-event .npc-portrait [data-npc-art]')?.getAttribute('data-npc-art'),html:document.querySelector('#screen-event .npc-portrait').innerHTML.slice(0,320),inside:p.left>=s.left&&p.right<=s.right&&p.top>=s.top&&p.bottom<=s.bottom};`);if(!bounds.inside||!bounds.key)throw Error('Portrait clipped '+JSON.stringify(bounds));
   }
   await run(`G.CodexUI.renderCodex();G.UI.showScreen('screen-codex');document.querySelector('#codex-tab-stories').click();`);await shot('travelers-met');
+  for(const [eventId,key]of [['merchant','npcMerchant'],['sage','npcSage'],['gambler','npcGambler']]){
+   await run(`G.State.createRun('normal','blade');const r=G.State.current;r.currentFloor=7;r.gold=3000;const s=G.Story.ensure(r);G.Story.arcs.forEach(a=>s.people[a.id].chapter=3);G.Data.story.lore.forEach(l=>s.lore[l.id]=1);const events=G.Data.events,random=Math.random,talent=G.SystemsUI.talentPrompt,route=G.SystemsUI.routePrompt;G.Data.events=[G.Data.getEvent('${eventId}')];Math.random=()=>0;G.SystemsUI.talentPrompt=done=>done();G.SystemsUI.routePrompt=(f,done)=>done();try{G.TowerUI.renderTower();G.UI.showScreen('screen-tower');document.querySelector('#tower-jump-current').click();}finally{G.Data.events=events;Math.random=random;G.SystemsUI.talentPrompt=talent;G.SystemsUI.routePrompt=route;}if(!document.querySelector('#screen-event [data-npc-art="${key}"]'))throw Error('Wrong event portrait ${key}');`);await shot('event-'+eventId);
+  }
   await run(`G.WorkshopUI.open('services');`);await shot('services');
   await run(`G.WorkshopUI.open('camp');`);await shot('camp');
   await run(`G.State.createRun('normal','blade');G.BattleUI.startBattle(2,false,false);`);await pause(1700);await run('G.BattleUI.cancelPlayback();');

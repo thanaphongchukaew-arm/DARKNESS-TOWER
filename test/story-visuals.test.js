@@ -33,9 +33,9 @@ test('story migration, saved active encounter, and idempotent rewards survive re
   const fresh = f.g.State.createRun('normal','blade');
   assert.equal(f.g.Story.ensure(fresh).people.mira.chapter,0);
 });
-test('all nine chapters play in order with consequences, exclusive relics and boss support', () => {
+test('all twelve chapters play in order with consequences, exclusive relics and boss support', () => {
   const f = fixture();
-  const plan = {3:'lift',8:'guide',13:'mark',18:'gift',28:'oath',38:'research',48:'lantern',68:'stand',88:'astrolabe'};
+  const plan = {3:'lift',8:'guide',13:'mark',18:'gift',28:'oath',38:'research',48:'lantern',68:'stand',88:'astrolabe',55:'ring',78:'blessing',96:'bell'};
   for (let floor=1;floor<=99;floor++) {
     f.run.currentFloor = floor;
     const next = f.g.Story.next(f.run,floor);
@@ -46,7 +46,7 @@ test('all nine chapters play in order with consequences, exclusive relics and bo
   }
   for (const state of Object.values(f.run.story.people)) assert.equal(state.chapter,3);
   assert.equal(f.g.Story.supportRounds(f.run),5);
-  for (const id of ['mira_lantern','orin_standard','lyra_astrolabe']) assert.ok(f.run.relics.includes(id));
+  for (const id of ['mira_lantern','orin_standard','lyra_astrolabe','veyra_bell']) assert.ok(f.run.relics.includes(id));
   const discovered = f.g.Save.readMeta().affinities;
   for (const enemy of f.g.Data.getEnemiesByTier(f.g.Formulas.tierForFloor(38))) {
     assert.equal(discovered[enemy.id][enemy.weak],true);assert.equal(discovered[enemy.id][enemy.resist],true);
@@ -55,7 +55,7 @@ test('all nine chapters play in order with consequences, exclusive relics and bo
 test('refusing early help changes trust-gated choices but does not block later chapters', () => {
   const f = fixture();resolveAt(f,3,'leave');
   // Other arcs are marked complete here to isolate Mira's later decisions.
-  for (const id of ['orin','lyra']) f.g.Story.ensure(f.run).people[id].chapter = 3;
+  for (const id of ['orin','lyra','veyra']) f.g.Story.ensure(f.run).people[id].chapter = 3;
   f.run.currentFloor = 18;f.g.Story.begin(f.run,18);
   assert.equal(f.g.Story.resolve(f.run,'mira','gift'),null);
   assert.ok(f.g.Story.resolve(f.run,'mira','trade'));
@@ -82,7 +82,8 @@ test('overdue chapters on old saves are offered one per floor with gaps within e
   resolveAt(f,90,'leave');assert.equal(f.g.Story.next(f.run,90),null);
   assert.equal(resolveAt(f,91,'leave').arc.id,'orin');
   assert.equal(resolveAt(f,92,'leave').arc.id,'lyra');
-  f.run.currentFloor=93;assert.equal(f.g.Story.next(f.run,93),null);
+  assert.equal(resolveAt(f,93,'leave').arc.id,'veyra');
+  f.run.currentFloor=94;assert.equal(f.g.Story.next(f.run,94),null);
   assert.equal(resolveAt(f,95,'leave').arc.id,'mira');
   assert.equal(f.run.story.people.mira.chapter,2);
 });
@@ -135,7 +136,7 @@ test('all class builds render distinct palette-grid portraits without mutating o
   }
 });
 test('all NPCs and props have valid rectangular palette grids and every story image exists',()=>{
-  const g=loadArt(loadGame());const ids=['npcMira','npcMiraHurt','npcMiraLantern','npcOrin','npcOrinHurt','npcOrinStandard','npcLyra','npcLyraLost','npcLyraAstral','npcMerchant','npcSage','npcGambler','propCart','propLantern','propBanner','propStarGate'];
+  const g=loadArt(loadGame());const ids=['npcMira','npcMiraHurt','npcMiraLantern','npcOrin','npcOrinHurt','npcOrinStandard','npcLyra','npcLyraLost','npcLyraAstral','npcVeyra','npcVeyraVigil','npcVeyraDawn','npcMerchant','npcSage','npcGambler','propCart','propLantern','propBanner','propStarGate','propDawnBell'];
   for(const id of ids){const {grid,palette}=g.PixelArt.getDefinition(id);for(const row of grid){assert.equal(row.length,24,id);for(const c of row)assert.ok(c==='.'||/^#[a-f0-9]{6}$/i.test(palette[c]||''),id+':'+c);}}
   for(const arc of g.Story.arcs)for(const chapter of arc.chapters){assert.ok(g.PixelArt.has(chapter.icon));assert.ok(g.PixelArt.has(chapter.prop));}
 });

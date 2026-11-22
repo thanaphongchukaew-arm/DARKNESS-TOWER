@@ -51,6 +51,22 @@
       { floor: 13, icon: 'npcLyraLost', prop: 'propStarGate', title: 'แผนที่ที่ไม่มีท้องฟ้า', titleEn: 'A Map Without a Sky', text: 'เด็กสาวสวมหมวกดาวหมุนแผนที่กลับหัว เศษกระดาษเต็มไปด้วยภาพสัตว์ประหลาด\n“ถ้าหอคอยนี้แตะฟ้าได้จริง ฉันต้องเห็นดาวของแม่จากยอดมันแน่ ๆ... แต่ตอนนี้ฉันหลงทางแล้ว”', textEn: 'A young scholar in a star hat turns her map upside down. Her notes are filled with monster sketches.\n“If this tower truly reaches the sky, I can see Mother’s star from its summit… but I am lost.”', choices: [choice('decipher', 'ใช้เวทอ่านแผนที่ให้', 'Illuminate her map', 'ใช้ MP 15% ของค่าสูงสุด • ได้รับความไว้ใจ 2', 'Spend 15% max MP • earn 2 trust', { mpCost: 0.15, trust: 2 }), choice('mark', 'ทำเครื่องหมายบอกทาง', 'Mark a path', 'ไม่มีค่าใช้จ่าย • ได้รับความไว้ใจ 1', 'No cost • earn 1 trust', { trust: 1 }), choice('leave', 'เตือนให้เธอกลับลงไป', 'Urge her to turn back', 'เธอเก็บแผนที่ไว้ และคิดหาทางของตัวเอง', 'She keeps her map and seeks her own way') ] },
       { floor: 38, icon: 'npcLyra', prop: 'propStarGate', title: 'สมุดที่เริ่มมีคำตอบ', titleEn: 'A Journal Finding Answers', text: 'ไลรามีสมุดเล่มหนาขึ้น และไม่ถือแผนที่กลับหัวอีกแล้ว\n“ฉันเริ่มอ่านหอคอยออกแล้ว! สัตว์ประหลาดแต่ละตัวมีสิ่งที่กลัว ให้ฉันแบ่งสิ่งที่ค้นพบกับเธอสิ”', textEn: 'Lyra’s journal is thicker now, and her map is the right way up.\n“I am learning to read this tower! Every monster fears something. Let me share what I found.”', helped: '“หน้าที่เธอช่วยอ่านวันนั้น เป็นจุดเริ่มต้นของทุกอย่างเลย”', helpedEn: '“The page you helped me read was where all of this began.”', choices: [choice('research', 'แลกเปลี่ยนผลสำรวจ', 'Compare discoveries', 'ความไว้ใจ 1 • เปิดจุดอ่อน/ต้านของศัตรูปกติในโซนนี้ และฟื้น HP 30%', 'Trust 1 • reveal this zone’s regular enemy affinities and heal 30% HP', { minTrust: 1, research: true, heal: 0.3, trust: 1 }), choice('pages', 'ช่วยจัดเรียงหน้าสมุด', 'Help bind her journal', 'ไม่มีค่าใช้จ่าย • ได้รับยาชำระมลทิน 2 และความไว้ใจ 1', 'No cost • receive 2 Panaceas and earn 1 trust', { trust: 1, items: [{ id: 'p_panacea', qty: 2 }] }), choice('leave', 'ฝากเธอเขียนต่อให้จบ', 'Ask her to keep writing', 'เรื่องราวของเธอยังเดินหน้าต่อ', 'Her story keeps moving') ] },
       { floor: 88, icon: 'npcLyraAstral', prop: 'propStarGate', title: 'ดาวที่เห็นแม้ไม่มีฟ้า', titleEn: 'Stars Beyond the Sky', text: 'ไลรายืนใต้รอยแยกที่เต็มไปด้วยแสงดาว สมุดเล่มนั้นเขียนถึงหน้าสุดท้ายแล้ว\n“ฉันเจอดาวของแม่แล้ว มันไม่ได้อยู่ไกลบนฟ้า... มันอยู่ในทุกคนที่ช่วยให้ฉันเดินมาถึงตรงนี้”', textEn: 'Lyra stands beneath a rift filled with starlight. Her journal has reached its final page.\n“I found Mother’s star. It was never far above us… it lives in everyone who helped me reach this place.”', choices: [choice('astrolabe', 'รับเครื่องดูดาวของเธอ', 'Accept her astrolabe', 'ความไว้ใจ 2 • Relic เพิ่ม MAG/RES 8%', 'Trust 2 • relic grants +8% MAG/RES', { minTrust: 2, relic: 'lyra_astrolabe' }), choice('pages', 'รับหน้าสมุดที่คัดไว้', 'Take the copied pages', 'เปิดจุดอ่อน/ต้านของศัตรูปกติในโซนนี้ • ฟื้น HP 30%', 'Reveal this zone’s regular enemy affinities • heal 30% HP', { research: true, heal: 0.3 }), choice('farewell', 'ขอให้เธอเขียนชื่อคุณไว้', 'Ask her to remember you', 'ไม่รับรางวัล • ปิดหน้าสุดท้ายร่วมกัน', 'No reward • close the final page together') ] }
+    ] },
+    { id: 'veyra', name: 'เวย์ร่า · นักบวชระฆังเงียบ', nameEn: 'Veyra · Priest of the Silent Bell', icon: 'npcVeyra', color: '#f0c86a', chapters: [
+      { floor: 55, icon: 'npcVeyra', prop: 'propDawnBell', title: 'ระฆังที่ไม่เคยตี', titleEn: 'The Bell That Never Rang',
+        text: 'เหนือประตูผนึกที่แตกร้าว หญิงในผ้าคลุมสีทองซีดนั่งอยู่ข้างระฆังใบใหญ่ สายระฆังขาดไปนานแล้ว\n“ข้าเคยเป็นศิษย์ของผู้รักษารุ่งอรุณ งานของข้าคือตีระฆังบอกว่าวันใหม่มาถึง... แต่ที่นี่ไม่มีวันใหม่อีกแล้ว”',
+        textEn: 'Above the cracked seal-gate, a woman in a faded golden hood sits beside a great bell whose rope snapped long ago.\n“I was an acolyte of the Keeper of the Dawn. My duty was to ring in each new day… but here, no new day ever comes.”',
+        choices: [choice('ring', 'ช่วยเธอตีระฆังด้วยเวท', 'Ring the bell with magic', 'ใช้ MP 10% ของค่าสูงสุด • เสียงระฆังดังครั้งแรกในรอบหลายปี • ความไว้ใจ 2', 'Spend 10% max MP • the bell sounds for the first time in years • trust 2', { mpCost: 0.1, trust: 2 }), choice('offer', 'ถวายทองซ่อมสายระฆัง', 'Donate gold for a new rope', 'จ่าย 40 ทอง • ความไว้ใจ 1 • รับยา MP เล็ก 1', 'Pay 40 gold • trust 1 • 1 Small MP Potion', { goldCost: 40, trust: 1, items: [{ id: 'p_mp_small', qty: 1 }] }), choice('leave', 'ฟังเงียบ ๆ แล้วเดินต่อ', 'Listen quietly and move on', 'ไม่มีค่าใช้จ่าย • เธอยังรอวันใหม่ต่อไป', 'No cost • she keeps waiting for a new day') ] },
+      { floor: 78, icon: 'npcVeyraVigil', prop: 'propDawnBell', title: 'คำสารภาพใต้เสียงระฆัง', titleEn: 'A Confession Beneath the Bell',
+        text: 'เวย์ร่าเย็บสายระฆังใหม่จากผ้าคลุมของตัวเอง แสงทองจาง ๆ เล็ดลอดจากรอยปักบนแขนเสื้อ\n“ข้าอยู่ตอนที่ท่านผู้รักษาตัดสินใจหยุดเวลา ข้าไม่ได้ห้าม ข้าแค่ภาวนาให้มันเป็นความจริง... ความผิดนั้นข้าแบกมาตลอด”',
+        textEn: 'Veyra stitches a new bell rope from her own hood, faint gold light seeping from the embroidery on her sleeve.\n“I was there when the Keeper chose to stop time. I did not stop it. I only prayed it would be true… I have carried that guilt ever since.”',
+        helped: '“เสียงระฆังวันนั้นทำให้ข้ากล้าพูดความจริงอีกครั้ง ขอบคุณที่ไม่ปล่อยให้ข้าเงียบ”', helpedEn: '“That bell gave me the courage to speak the truth again. Thank you for not leaving me silent.”',
+        distant: '“ข้าไม่ได้หวังให้ใครรับฟัง แต่ถ้าเจ้ายังอยู่ตรงนี้ ข้าจะเล่าให้จบ”', distantEn: '“I never expected anyone to listen. But if you are still here, I will finish telling it.”',
+        choices: [choice('blessing', 'รับพรรุ่งอรุณ', 'Receive the dawn blessing', 'ต้องมีความไว้ใจ 2 • ฟื้น HP 50% • รับยา HP กลาง 1 และ MP กลาง 1 • ความไว้ใจ 1', 'Requires trust 2 • heal 50% HP • 1 Medium HP + 1 Medium MP Potion • trust 1', { minTrust: 2, heal: 0.5, trust: 1, items: [{ id: 'p_hp_medium', qty: 1 }, { id: 'p_mp_medium', qty: 1 }] }), choice('pledge', 'ช่วยเก็บเงินถวายวัด', 'Fund the shrine’s repair', 'จ่าย 60 ทอง • ความไว้ใจ 2 • ฟื้น HP 20%', 'Pay 60 gold • trust 2 • heal 20% HP', { goldCost: 60, trust: 2, heal: 0.2 }), choice('leave', 'ปลอบเธอแล้วออกเดินทาง', 'Comfort her and depart', 'ไม่มีค่าใช้จ่าย • เรื่องราวยังดำเนินต่อ', 'No cost • her story continues') ] },
+      { floor: 96, icon: 'npcVeyraDawn', prop: 'propDawnBell', title: 'ระฆังแห่งวันใหม่', titleEn: 'The Bell of a New Day',
+        text: 'ก่อนถึงบัลลังก์ เวย์ร่ายืนข้างระฆังที่ซ่อมเสร็จ แสงรุ่งอรุณจริง ๆ เริ่มซึมผ่านรอยร้าวของหอคอย\n“ถ้าเจ้าชนะ ข้าจะตีระฆังนี้ให้ทั้งโลกได้ยิน... ให้ท่านผู้รักษารู้ว่าวันพรุ่งนี้ไม่ใช่สิ่งที่ต้องกลัว”',
+        textEn: 'Before the throne, Veyra stands beside the repaired bell as true dawnlight begins to seep through the tower’s cracks.\n“If you win, I will ring this bell for the whole world to hear… so the Keeper may know tomorrow is nothing to fear.”',
+        choices: [choice('bell', 'รับระฆังเล็กแห่งรุ่งอรุณ', 'Take the dawn handbell', 'ความไว้ใจ 2 • Relic เพิ่ม HP/RES 8% ตลอดการเดินทาง', 'Trust 2 • relic grants +8% max HP/RES', { minTrust: 2, relic: 'veyra_bell' }), choice('prayer', 'ขอคำภาวนาก่อนศึกสุดท้าย', 'Ask for a prayer before the final fight', 'ฟื้น HP 40% • รับยา HP ใหญ่ 1', 'Heal 40% HP • 1 Large HP Potion', { heal: 0.4, items: [{ id: 'p_hp_large', qty: 1 }] }), choice('farewell', 'สัญญาว่าจะกลับมาฟังเสียงระฆัง', 'Promise to return for the bell', 'ไม่รับรางวัล • สัญญาร่วมกัน', 'No reward • a shared promise') ] }
     ] }
   ];
 
@@ -79,6 +95,14 @@
         clueEn: 'Lyra notes that every monster fears the same thing: “tomorrow.” They seem like moments held back from ever moving on.' },
       { clue: 'ในแผนที่ของแม่ ดาวดวงเดียวที่ยังเคลื่อนอยู่คือแสงของคนที่ยังเชื่อ ไลราคิดว่ามันคือสิ่งเดียวที่ผู้เบื้องบนหยุดไม่ได้',
         clueEn: 'On her mother’s chart, one star still moves: the light of those who still believe. Lyra thinks it is the one thing the power above cannot stop.' }
+    ],
+    veyra: [
+      { clue: 'ระฆังของเวย์ร่าไม่มีเสียงตั้งแต่วันที่เวลาหยุด แต่เมื่อเจ้าจับมัน ผิวโลหะอุ่นเท่ากับแสงเช้าแรกของวัน',
+        clueEn: 'Veyra’s bell has been silent since time stopped, yet when you touch it the metal is warm as the first light of morning.' },
+      { clue: 'เวย์ร่าบอกว่าผู้รักษารุ่งอรุณไม่เคยโกรธใคร มันกลัวเพียงอย่างเดียว คือการที่วันสุดท้ายมาถึงโดยไม่มีใครจำได้ว่ามันสวยงามแค่ไหน',
+        clueEn: 'Veyra says the Keeper of the Dawn never hated anyone. It feared only one thing: a last day arriving with no one left to remember how beautiful it was.' },
+      { clue: 'เสียงระฆังที่ซ่อมแล้วทำให้เปลวไฟนิ่งสนิทของตะเกียงนับพันดวงสั่นไหวเป็นครั้งแรก ราวกับพวกมันจำได้ว่าเวลาเคยเดิน',
+        clueEn: 'The mended bell makes the perfectly still flames of a thousand lamps flicker for the first time, as if they remember that time once moved.' }
     ]
   };
   arcs.forEach(function (arc) {
@@ -170,7 +194,15 @@
       { id: 'throne_gate', floor: 100, kind: 'voice', icon: 'towerSpire',
         title: 'ก่อนถึงบัลลังก์', titleEn: 'Before the Throne',
         text: 'ที่ปลายทางเดิน ตะเกียงนับพันดวงลอยเรียงกันเหมือนดวงดาว เจ้าจำดวงหนึ่งได้ทันที ผู้จุดตะเกียงยังอยู่ตรงนั้น เปลวไฟนิ่งสนิท ยิ้มเหมือนรอเจ้ามานาน\nเศษจันทราสว่างวาบ เสียงจากบัลลังก์ดังขึ้น\n“เจ้ามาแล้ว ช้าไปสิบปี... และเร็วไปหนึ่งวัน”',
-        textEn: 'At the end of the hall, a thousand lamps float in rows like stars. You recognize one at once. The Lamplighter is there, flame perfectly still, smiling as if they had waited a long time for you.\nThe Moon Shard flares. A voice speaks from the throne.\n“You have come. Ten years late... and one day too early.”' }
+        textEn: 'At the end of the hall, a thousand lamps float in rows like stars. You recognize one at once. The Lamplighter is there, flame perfectly still, smiling as if they had waited a long time for you.\nThe Moon Shard flares. A voice speaks from the throne.\n“You have come. Ten years late... and one day too early.”' },
+      { id: 'veyra_bell_echo', floor: 85, kind: 'voice', icon: 'star',
+        title: 'เสียงระฆังจากอดีต', titleEn: 'A Bell from the Past',
+        text: 'ท่ามกลางความเงียบ เสียงระฆังจางหายดังก้องมาจากที่ไกลมาก ไม่ใช่ของใบที่เวย์ร่าซ่อม แต่เป็นเสียงจากวันที่เวลายังเดิน\n“ทุกเช้า ข้าตีระฆังนี้ให้ผู้คนตื่น” เสียงของใครบางคนกระซิบ “วันนั้น ข้ายังไม่กลัวพรุ่งนี้เลย”',
+        textEn: 'In the silence, a faint bell echoes from very far away, not Veyra’s, but one from a day when time still moved.\n“Every morning I rang this bell so people would wake,” someone whispers. “Back then, I was not afraid of tomorrow.”' },
+      { id: 'lamp_roll', floor: 97, kind: 'inscription', icon: 'tome',
+        title: 'บัญชีรายชื่อดวงไฟ', titleEn: 'The Roll of Lamps',
+        text: 'ทางเดินสุดท้ายเรียงด้วยตะเกียงนับพันดวง ใต้แต่ละดวงมีชื่อสลักเล็ก ๆ ชื่อแรกคือชื่อของผู้จุดตะเกียง\nท้ายสุดมีช่องว่างช่องหนึ่ง ยังไม่มีชื่อ เหมือนรอใครสักคนเดินมาถึง',
+        textEn: 'The final corridor is lined with a thousand lamps, each with a small name carved beneath. The first name is the Lamplighter’s.\nAt the very end, one slot stands empty, waiting for someone to arrive.' }
     ],
 
     // ---- Epilogues: one paragraph per NPC chosen by trust. `bonded` needs trust >= 2
@@ -196,6 +228,12 @@
         bondedEn: 'Lyra sets down her final page and looks up at the dawn sky as the last star fades. “I wrote your name on every page, in case I ever forget. The stars will remember for me.”',
         distant: 'ไลราเปิดสมุดเล่มใหม่ หน้าแรกเขียนไว้ว่า “ดวงดาวเริ่มเคลื่อนที่อีกครั้ง” เธอยังไม่รู้ชื่อทุกดวง แต่เธอมีทั้งชีวิตที่จะเรียนรู้มัน',
         distantEn: 'Lyra opens a fresh journal. The first line reads: “The stars are moving again.” She does not know all their names yet, but she has a lifetime to learn them.'
+      },
+      veyra: {
+        bonded: 'ในรุ่งเช้าแรกหลังหอคอยพังทลาย เสียงระฆังของเวย์ร่าดังก้องไปทั่วหุบเขา เธอหันมายิ้มให้เจ้าและกระซิบ “นี่คือเสียงของวันใหม่ ข้าสัญญาไว้แล้วว่าจะตีให้เจ้าได้ยิน”',
+        bondedEn: 'On the first morning after the tower falls, Veyra’s bell rings across the valley. She smiles and whispers, “This is the sound of a new day. I promised I would ring it for you.”',
+        distant: 'เสียงระฆังเบา ๆ ดังมาจากซากหอคอยในยามรุ่งสาง เวย์ร่าเดินจากไปโดยไม่หันหลังกลับ แต่ทุกเช้าเธอยังตีระฆังใบเดิมอยู่เงียบ ๆ',
+        distantEn: 'A soft bell sounds from the ruins at dawn. Veyra walks away without looking back, yet every morning she still rings the same bell, quietly.'
       }
     },
 
@@ -208,6 +246,7 @@
   D.relics.push(
     { id: 'mira_lantern', name: 'ตะเกียงแห่งคำสัญญา', nameEn: 'Promise Lantern', icon: 'propLantern', storyOnly: true, statKey: 'mp', statAmount: 0.1, economy: 'gold', economyAmount: 0.1, desc: '+10% MP สูงสุด และทองจากการต่อสู้ +10%', descEn: '+10% max MP and +10% battle gold' },
     { id: 'orin_standard', name: 'ธงแห่งรุ่งอรุณ', nameEn: 'Dawn Standard', icon: 'propBanner', storyOnly: true, statKey: ['def', 'res'], statAmount: 0.08, desc: '+8% DEF/RES ตลอดการเดินทาง', descEn: '+8% DEF/RES for this run' },
-    { id: 'lyra_astrolabe', name: 'เครื่องดูดาวแห่งความทรงจำ', nameEn: 'Memory Astrolabe', icon: 'propStarGate', storyOnly: true, statKey: ['mag', 'res'], statAmount: 0.08, desc: '+8% MAG/RES ตลอดการเดินทาง', descEn: '+8% MAG/RES for this run' }
+    { id: 'lyra_astrolabe', name: 'เครื่องดูดาวแห่งความทรงจำ', nameEn: 'Memory Astrolabe', icon: 'propStarGate', storyOnly: true, statKey: ['mag', 'res'], statAmount: 0.08, desc: '+8% MAG/RES ตลอดการเดินทาง', descEn: '+8% MAG/RES for this run' },
+    { id: 'veyra_bell', name: 'ระฆังเล็กแห่งรุ่งอรุณ', nameEn: 'Dawn Handbell', icon: 'propDawnBell', storyOnly: true, statKey: ['hp', 'res'], statAmount: 0.08, desc: '+8% HP สูงสุด/RES ตลอดการเดินทาง', descEn: '+8% max HP/RES for this run' }
   );
 })();

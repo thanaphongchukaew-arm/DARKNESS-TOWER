@@ -23,7 +23,7 @@ const companionJobs = [
   ['emberFox',80,64],['dawnOwl',64,80],['stoneheartBear',80,64],
   ['stormSprite',64,80],['sandScarab',64,64],['frostHare',80,64],['ironGolemCub',64,80]
 ].map(([id,width,height])=>({id,kind:'companions',width,height,colors:24}));
-const npcJobs=['npcMira','npcMiraHurt','npcMiraLantern','npcOrin','npcOrinHurt','npcOrinStandard','npcLyra','npcLyraLost','npcLyraAstral','npcMerchant','npcSage','npcGambler'].map(id=>({id,kind:'npcs',width:80,height:96,colors:24}));
+const npcJobs=['npcMira','npcMiraHurt','npcMiraLantern','npcOrin','npcOrinHurt','npcOrinStandard','npcLyra','npcLyraLost','npcLyraAstral','npcVeyra','npcVeyraVigil','npcVeyraDawn','npcMerchant','npcSage','npcGambler'].map(id=>({id,kind:'npcs',width:80,height:96,colors:24}));
 if(process.argv.includes('--companions-only'))jobs.splice(0,jobs.length,...companionJobs);
 else if(process.argv.includes('--npcs-only'))jobs.splice(0,jobs.length,...npcJobs);
 else jobs.push(...companionJobs,...npcJobs);

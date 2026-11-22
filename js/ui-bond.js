@@ -7,7 +7,7 @@
   function T(key, vars) { return G.I18n.t(key, vars); }
   function L(obj, field) { return G.I18n.L(obj, field); }
   function I(id) { return G.Icons.get(id); }
-  var NPC = { mira: { icon: 'npcMira', name: 'มิรา', nameEn: 'Mira' }, orin: { icon: 'npcOrin', name: 'โอริน', nameEn: 'Orin' }, lyra: { icon: 'npcLyra', name: 'ไลรา', nameEn: 'Lyra' } };
+  var NPC = { mira: { icon: 'npcMira', name: 'มิรา', nameEn: 'Mira' }, orin: { icon: 'npcOrin', name: 'โอริน', nameEn: 'Orin' }, lyra: { icon: 'npcLyra', name: 'ไลรา', nameEn: 'Lyra' }, veyra: { icon: 'npcVeyra', name: 'เวย์ร่า', nameEn: 'Veyra' } };
 
   // A compact meter: "Lv.2 ▮▮▮▯▯ 8/14" plus the duo-move line.
   function meter(id) {
