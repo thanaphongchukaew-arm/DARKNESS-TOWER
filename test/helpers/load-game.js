@@ -31,6 +31,7 @@ const FILES = [
   'js/data-story.js',
   'js/formulas.js',
   'js/save.js',
+  'js/minigame.js',
   'js/state.js',
   'js/systems.js',
   'js/story-system.js',

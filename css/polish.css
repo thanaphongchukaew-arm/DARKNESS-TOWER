@@ -545,3 +545,22 @@ body, button, input, select { font-variant-ligatures: none; font-feature-setting
   .is-mobile #screen-battle .enemy-card .affinity-row, .is-mobile #screen-battle .enemy-card .ailment-row, .is-mobile #screen-battle .enemy-card .combat-modifiers { margin-top: 2px; }
   .is-mobile #screen-battle .enemy-card:not(.boss) .enemy-portrait, .is-mobile #screen-battle .enemy-card:not(.boss) .enemy-portrait > .enemy-art { width: 72px; height: 62px; }
 }
+
+/* ---- Mini-games (js/minigame.js) ---- */
+.minigame-overlay { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 1rem; background: rgba(1, 6, 4, 0.88); }
+.minigame-box { width: min(26rem, 100%); padding: 1.25rem; background: var(--bg-panel); border: 2px double var(--border-strong); text-align: center; }
+.minigame-box h3 { margin: 0 0 0.4rem; }
+.minigame-hint { margin: 0 0 1rem; opacity: 0.85; font-size: 0.9rem; }
+.minigame-gauge { position: relative; height: 1.6rem; margin: 0 0 0.8rem; background: rgba(255, 255, 255, 0.08); border: 2px solid var(--border-strong); cursor: pointer; touch-action: manipulation; }
+.minigame-zone { position: absolute; top: 0; bottom: 0; background: rgba(240, 200, 106, 0.55); border-left: 2px solid #f0c86a; border-right: 2px solid #f0c86a; }
+.minigame-marker { position: absolute; top: -0.2rem; bottom: -0.2rem; width: 0.3rem; margin-left: -0.15rem; background: #fff; box-shadow: 0 0 6px #fff; }
+.minigame-pips { display: flex; justify-content: center; gap: 0.4rem; margin-bottom: 0.5rem; }
+.minigame-pips i { width: 0.7rem; height: 0.7rem; border: 2px solid var(--border-strong); background: transparent; }
+.minigame-pips i.hit { background: #7bd88f; }
+.minigame-pips i.miss { background: #e0646a; }
+.minigame-status { min-height: 1.4em; margin: 0 0 0.8rem; }
+.minigame-actions { display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; }
+.minigame-cards { display: flex; justify-content: center; gap: 1rem; margin-bottom: 0.8rem; }
+.minigame-card { display: inline-flex; align-items: center; justify-content: center; width: 4rem; height: 5.6rem; font-size: 1.8rem; color: #20202e; background: #f3e6c4; border: 2px solid #10101e; }
+.minigame-card.back { color: #f0c86a; background: #3a2c5c; }
+@media (prefers-reduced-motion: reduce) { .minigame-marker { transition: none; } }

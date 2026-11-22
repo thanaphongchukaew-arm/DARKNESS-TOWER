@@ -84,6 +84,7 @@
         row(T('setLanguage'), '<button class="btn-secondary" id="set-lang">' + (lang === 'en' ? 'English' : 'ไทย') + '</button>') +
         row(T('setBattleSpeed'), '<button class="btn-secondary" id="set-speed">×' + battleSpeed() + '</button>') +
         (canFullscreen() ? row(T('setFullscreen'), toggleBtn('set-fullscreen', isFullscreen())) : '') +
+        row(T('setMinigames'), toggleBtn('set-minigames', window.Game.Minigame.enabled())) +
         row(T('setHints'), toggleBtn('set-hints', Tips.enabled())) +
         row('', '<button class="btn-ghost" id="set-hints-reset">' + T('setHintsReset') + '</button>') +
       '</div>' +
@@ -135,6 +136,11 @@
       SFX('ui_confirm');
       setFullscreen(!isFullscreen());
       setTimeout(function () { if (document.querySelector('#screen-settings.active')) renderSettings(); }, 250);
+    };
+    document.getElementById('set-minigames').onclick = function () {
+      SFX('ui_confirm');
+      window.Game.Minigame.setEnabled(!window.Game.Minigame.enabled());
+      renderSettings();
     };
     document.getElementById('set-hints').onclick = function () {
       SFX('ui_confirm');

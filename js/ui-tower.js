@@ -221,9 +221,11 @@
     Array.prototype.forEach.call(body.querySelectorAll('.select-card'), function (card) {
       card.onclick = function () {
         if (card.getAttribute('data-choice') === 'leave') { SFX('ui_cancel'); finishEvent(floor); return; }
+        var openChest = function (picked) {
         SFX('item_get');
         var D = window.Game.Data, S = window.Game.State, F = window.Game.Formulas;
-        if (Math.random() < evDef.goodChance) {
+        // A picked lock skips the trap check entirely; a failed or skipped attempt is the plain roll.
+        if (picked || Math.random() < evDef.goodChance) {
           var roll = Math.random();
           if (roll < 0.34) {
             var gold = F.goldForExp(50 + floor * 4);
@@ -253,6 +255,12 @@
           S.addCurse(run, c.id, false);
           window.Game.UI.confirmModal({ title: T('eventChestTrapTitle'), message: T('eventChestTrapMsg', { dmg: dmg, name: L(c, 'name') }), confirmLabel: T('closeBtn'), danger: true, onConfirm: function () { finishEvent(floor); } });
         }
+        };
+        var MG = window.Game.Minigame;
+        if (MG && MG.enabled()) {
+          card.disabled = true;
+          MG.timing({ title: T('mgLockTitle'), hint: T('mgLockHint'), stops: 3, need: 2, speed: 1.0, zone: 0.22 }, function (r) { openChest(r.success); });
+        } else openChest(false);
       };
     });
   }
@@ -471,17 +479,26 @@
           var idx = parseInt(card.getAttribute('data-idx'), 10);
           var bet = Math.round((run.gold || 0) * evDef.betTiers[idx]);
           if (bet <= 0 || !window.Game.State.spendGold(run, bet)) return;
-          var won = Math.random() < 0.5;
-          if (won) {
-            window.Game.State.addGold(run, bet * 2);
-            if (idx === evDef.betTiers.length - 1) window.Game.State.setAchievementFlag('bigGambleWon');
-            SFX('item_get');
-            window.Game.UI.confirmModal({ title: T('eventGamblerWinTitle'), message: T('eventGamblerWinMsg', { gold: bet * 2 }), confirmLabel: T('closeBtn'), onConfirm: function () { finishEvent(floor); } });
-          } else {
-            SFX('hit_null');
-            window.Game.UI.confirmModal({ title: T('eventGamblerLoseTitle'), message: T('eventGamblerLoseMsg', { gold: bet }), confirmLabel: T('closeBtn'), danger: true, onConfirm: function () { finishEvent(floor); } });
+          var big = idx === evDef.betTiers.length - 1;
+          function settle(won, payout) {
+            if (won) {
+              window.Game.State.addGold(run, payout);
+              if (big) window.Game.State.setAchievementFlag('bigGambleWon');
+              SFX('item_get');
+              window.Game.UI.confirmModal({ title: T('eventGamblerWinTitle'), message: T('eventGamblerWinMsg', { gold: payout }), confirmLabel: T('closeBtn'), onConfirm: function () { finishEvent(floor); } });
+            } else {
+              SFX('hit_null');
+              window.Game.UI.confirmModal({ title: T('eventGamblerLoseTitle'), message: T('eventGamblerLoseMsg', { gold: bet }), confirmLabel: T('closeBtn'), danger: true, onConfirm: function () { finishEvent(floor); } });
+            }
+            window.Game.State.saveNow();
           }
           window.Game.State.saveNow();
+          var MG = window.Game.Minigame;
+          if (MG && MG.enabled()) {
+            MG.hiLo({ title: T('mgCardsTitle'), bet: bet }, function (r) {
+              if (r.skipped) settle(Math.random() < 0.5, bet * 2); else settle(r.won, r.payout);
+            });
+          } else settle(Math.random() < 0.5, bet * 2);
         };
       });
     }
@@ -1699,6 +1716,7 @@
     renderShop: renderShop,
     renderCraft: renderCraft,
     renderQuests: renderQuests,
-    refreshActiveScreen: refreshActiveScreen
+    refreshActiveScreen: refreshActiveScreen,
+    renderEvent: renderEvent
   };
 })();

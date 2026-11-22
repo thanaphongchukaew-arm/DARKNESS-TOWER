@@ -1,4 +1,4 @@
-const CACHE_NAME = 'darkness-tower-v63';
+const CACHE_NAME = 'darkness-tower-v64';
 
 const PRECACHE_URLS = [
   './assets/pixel16/npcs/npcMira.png',

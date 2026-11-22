@@ -100,6 +100,8 @@ const IN_PAGE = async function (TARGET, BUDGET) {
         const tip = $('#tip-card-ok'); if (vis(tip)) tip.click();
         if (screen !== lastScreen) { lastScreen = screen; log.push('screen ' + screen + ' floor ' + (run && run.currentFloor) + ' t=' + Math.round((Date.now() - started) / 1000) + 's'); }
         if (screen === 'screen-waypoint' && Date.now() - t0 > 20000 && !seen.dumpedWaypoint) { seen.dumpedWaypoint = 1; log.push('WAYPOINT DUMP: ' + $('#screen-waypoint').innerText.replace(/\s+/g, ' ').slice(0, 400) + ' | buttons: ' + Array.from($('#screen-waypoint').querySelectorAll('button')).map((b) => (b.id || b.className) + (vis(b) ? '' : '(hidden)')).join(',')); }
+        // Optional mini-games (forge/lockpick/cards) always offer Skip, which resolves the event as before.
+        const mg = document.querySelector('.minigame-overlay [data-mg="skip"]'); if (mg) { mg.click(); await sleep(150); continue; }
         const modal = modalOpen('modal-root'), allout = modalOpen('allout-modal');
         if (allout) click('#allout-confirm');
         else if (modal) { const b = ['[data-choice]', '[data-story-choice]', '#modal-confirm', '#bond-close', '.btn-primary', 'button'].map((q) => modal.querySelector(q)).find(Boolean); if (b) b.click(); }
