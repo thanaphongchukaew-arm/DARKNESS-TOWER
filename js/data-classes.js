@@ -41,7 +41,7 @@
       description: 'นักรบบ้าคลั่งที่ทุ่มสุดตัวใส่ศัตรู พลัง HP และโจมตีสูงลิ่ว แต่การป้องกันและต้านเวทต่ำมาก',
       descriptionEn: 'A reckless warrior who throws everything into the attack. Massive HP and ATK, but very low DEF/RES.',
       baseStats: { hp: 55, mp: 10, atk: 17, mag: 3, def: 8, res: 5, spd: 8, luk: 6 },
-      growth: { hp: 9.5, mp: 1.5, atk: 3.2, mag: 0.4, def: 1.6, res: 0.8, spd: 0.7, luk: 0.6 }
+      growth: { hp: 9.0, mp: 1.5, atk: 3.0, mag: 0.4, def: 1.5, res: 0.8, spd: 0.7, luk: 0.6 }
     },
     {
       id: 'ranger',
@@ -51,7 +51,7 @@
       description: 'นักล่าผู้ว่องไว ถนัดธนูและสายลม ความเร็วและโชคสูงเยี่ยม แต่ HP และ MP ค่อนข้างต่ำ',
       descriptionEn: 'A swift hunter skilled with bow and wind. Excellent SPD and LUK, but lower HP/MP.',
       baseStats: { hp: 36, mp: 20, atk: 12, mag: 6, def: 8, res: 8, spd: 14, luk: 12 },
-      growth: { hp: 6.0, mp: 3.0, atk: 2.2, mag: 0.9, def: 1.1, res: 1.1, spd: 1.7, luk: 1.4 }
+      growth: { hp: 6.7, mp: 3.0, atk: 2.5, mag: 0.9, def: 1.2, res: 1.2, spd: 1.7, luk: 1.4 }
     },
     {
       id: 'necromancer',
@@ -60,8 +60,8 @@
       icon: 'necromancer',
       description: 'นักเวทมนตร์มืดที่เรียกพลังวิญญาณและคำสาป พลังเวทสูงจัด แต่ HP และการป้องกันต่ำมาก',
       descriptionEn: 'A dark spellcaster who commands cursed spirits. Extremely high MAG, but very low HP/DEF.',
-      baseStats: { hp: 30, mp: 38, atk: 5, mag: 17, def: 7, res: 11, spd: 9, luk: 7 },
-      growth: { hp: 5.0, mp: 5.4, atk: 0.6, mag: 3.2, def: 0.9, res: 1.7, spd: 0.9, luk: 0.8 }
+      baseStats: { hp: 33, mp: 38, atk: 5, mag: 17, def: 7, res: 11, spd: 9, luk: 7 },
+      growth: { hp: 5.8, mp: 5.4, atk: 0.6, mag: 3.2, def: 1.1, res: 1.7, spd: 0.9, luk: 0.8 }
     },
     {
       id: 'monk',
@@ -71,7 +71,7 @@
       description: 'นักสู้สายพลังชี่ที่ผสานหมัดกับสายฟ้า ความเร็วสูง สมดุลระหว่างกายภาพและเวท',
       descriptionEn: 'A martial artist who channels ki through lightning-charged strikes. High SPD, balanced between physical and magic.',
       baseStats: { hp: 40, mp: 24, atk: 11, mag: 9, def: 9, res: 10, spd: 13, luk: 9 },
-      growth: { hp: 6.4, mp: 3.4, atk: 1.8, mag: 1.5, def: 1.3, res: 1.4, spd: 1.5, luk: 1.0 }
+      growth: { hp: 6.9, mp: 3.4, atk: 2.0, mag: 1.7, def: 1.3, res: 1.4, spd: 1.5, luk: 1.0 }
     },
     {
       id: 'paladin',
@@ -80,8 +80,8 @@
       icon: 'paladin',
       description: 'อัศวินผู้พิทักษ์ที่ผสานดาบกับแสงศักดิ์สิทธิ์ การป้องกันและต้านเวทสูงเป็นเลิศ แต่ความเร็วต่ำ',
       descriptionEn: 'A guardian knight blending swordplay with holy light. Outstanding DEF/RES, but slow.',
-      baseStats: { hp: 46, mp: 22, atk: 11, mag: 9, def: 15, res: 14, spd: 6, luk: 7 },
-      growth: { hp: 7.6, mp: 3.0, atk: 1.6, mag: 1.3, def: 2.4, res: 2.2, spd: 0.5, luk: 0.7 }
+      baseStats: { hp: 46, mp: 22, atk: 11, mag: 9, def: 15, res: 14, spd: 7, luk: 7 },
+      growth: { hp: 7.6, mp: 3.0, atk: 2.0, mag: 1.4, def: 2.3, res: 2.1, spd: 0.9, luk: 0.7 }
     },
 
     // ---- 16 additional classes ----
@@ -162,8 +162,8 @@
       icon: 'stormCaller',
       description: 'จอมเวทที่เรียกพายุฝนฟ้าคะนอง พลังเวทและความเร็วสูงลิ่ว แต่ร่างกายเปราะบางที่สุดในบรรดานักเวททั้งหมด',
       descriptionEn: 'A mage who summons raging thunderstorms. Sky-high MAG and SPD, but the frailest body among all spellcasters.',
-      baseStats: { hp: 31, mp: 35, atk: 6, mag: 17, def: 6, res: 9, spd: 13, luk: 9 },
-      growth: { hp: 5.7, mp: 4.9, atk: 0.5, mag: 3.2, def: 0.9, res: 1.4, spd: 1.4, luk: 1.0 }
+      baseStats: { hp: 34, mp: 35, atk: 6, mag: 17, def: 6, res: 9, spd: 13, luk: 9 },
+      growth: { hp: 6.4, mp: 4.9, atk: 0.5, mag: 3.2, def: 1.1, res: 1.5, spd: 1.4, luk: 1.0 }
     },
     {
       id: 'shadowDancer',
@@ -173,7 +173,7 @@
       description: 'นักฆ่าที่เคลื่อนไหวปะปนไปกับเงามืด ความเร็วและโชคสูงล้ำ เน้นจู่โจมฉับไว แต่ HP ต่ำมาก',
       descriptionEn: 'An assassin who moves as one with the shadows. Blazing SPD and LUK for swift strikes, but very low HP.',
       baseStats: { hp: 34, mp: 18, atk: 15, mag: 4, def: 6, res: 6, spd: 16, luk: 13 },
-      growth: { hp: 6.2, mp: 2.5, atk: 2.9, mag: 0.3, def: 0.9, res: 0.9, spd: 1.8, luk: 1.4 }
+      growth: { hp: 6.9, mp: 2.5, atk: 2.9, mag: 0.3, def: 1.0, res: 1.0, spd: 1.8, luk: 1.4 }
     },
     {
       id: 'bard',
@@ -243,7 +243,7 @@
       description: 'นักเวทผู้บิดเบือนสายธารเวลา เก่งด้านบัฟ/ดีบัฟและควบคุมความเร็ว ความเร็วสูงที่สุดในบรรดานักเวท แต่พลังโจมตีโดยตรงต่ำ',
       descriptionEn: 'A mage who bends the flow of time, mastering buffs, debuffs, and speed control. The fastest of all spellcasters, but low direct damage.',
       baseStats: { hp: 34, mp: 30, atk: 5, mag: 12, def: 7, res: 10, spd: 15, luk: 10 },
-      growth: { hp: 6.2, mp: 4.2, atk: 0.4, mag: 1.9, def: 1.1, res: 1.5, spd: 1.7, luk: 1.1 }
+      growth: { hp: 6.7, mp: 4.2, atk: 0.4, mag: 2.2, def: 1.2, res: 1.5, spd: 1.7, luk: 1.1 }
     },
 
     // ---- 5 unlockable elite classes: each locked behind clearing the tower
@@ -262,7 +262,7 @@
       description: 'ปลดล็อกด้วยการพิชิตหอคอยโหมด Nightmare จอมทัพผู้บัญชาการศึกที่สั่นสะเทือนขวัญศัตรูทั้งกลุ่มได้ในคำสั่งเดียว สมดุลระหว่างรุกและรับ',
       descriptionEn: 'Unlocked by clearing the tower on Nightmare. A battlefield commander who can shake an entire enemy group with a single decree. Balanced offense and defense.',
       baseStats: { hp: 52, mp: 24, atk: 14, mag: 10, def: 13, res: 11, spd: 10, luk: 9 },
-      growth: { hp: 9.0, mp: 3.3, atk: 2.2, mag: 1.5, def: 2.0, res: 1.7, spd: 1.1, luk: 1.0 }
+      growth: { hp: 8.4, mp: 3.3, atk: 2.1, mag: 1.5, def: 1.8, res: 1.6, spd: 1.1, luk: 1.0 }
     },
     {
       id: 'shadowhunter',
@@ -273,7 +273,7 @@
       description: 'ปลดล็อกด้วยการพิชิตหอคอยโหมด Nightmare นักล่าผู้ทำให้ทุกจังหวะโจมตีกลายเป็นบาดแผลถาวร ความเร็วและโชคสูงเป็นเลิศ',
       descriptionEn: 'Unlocked by clearing the tower on Nightmare. A hunter whose every strike leaves a lasting wound. Superb SPD and LUK.',
       baseStats: { hp: 40, mp: 22, atk: 17, mag: 6, def: 8, res: 8, spd: 16, luk: 14 },
-      growth: { hp: 6.9, mp: 3.0, atk: 3.1, mag: 0.6, def: 1.2, res: 1.2, spd: 1.9, luk: 1.6 }
+      growth: { hp: 7.8, mp: 3.0, atk: 3.1, mag: 0.6, def: 1.5, res: 1.5, spd: 1.9, luk: 1.6 }
     },
     {
       id: 'executioner',
@@ -295,7 +295,7 @@
       description: 'ปลดล็อกด้วยการพิชิตหอคอยโหมด Nightmare จอมเวทเลือดผู้สังเวย HP ของตนเองแทน MP เพื่อร่ายพลังทำลายล้างสูงสุด แข็งแกร่งที่สุดในบรรดาผู้กล้าทั้งห้า',
       descriptionEn: 'Unlocked by clearing the tower on Nightmare. A blood mage who spends their own HP instead of MP to unleash devastating power. The strongest of the five Valiant classes.',
       baseStats: { hp: 56, mp: 28, atk: 16, mag: 17, def: 10, res: 10, spd: 11, luk: 10 },
-      growth: { hp: 9.6, mp: 3.9, atk: 2.9, mag: 3.1, def: 1.5, res: 1.5, spd: 1.2, luk: 1.1 }
+      growth: { hp: 7.8, mp: 3.9, atk: 2.3, mag: 2.4, def: 1.4, res: 1.4, spd: 1.2, luk: 1.1 }
     },
     {
       id: 'vanguard',

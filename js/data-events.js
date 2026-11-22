@@ -78,10 +78,10 @@
       desc: 'เตาหลอมโบราณยังอุ่นอยู่ พอใช้ได้อีกครั้งเดียว', descEn: 'An ancient forge is still warm, good for one more use.',
       choices: [
         { id: 'sharpen', icon: 'swordAttack', name: 'ลับอาวุธ', nameEn: 'Sharpen', desc: 'จ่ายทอง ได้ ATK และ MAG ถาวรตลอดการเดินทาง', descEn: 'Pay gold for run-long ATK and MAG.',
-          cost: function (run, floor) { return 70 * tierOf(floor); },
+          cost: function (run, floor) { return 140 * tierOf(floor); },
           effect: function (run, floor) { var n = 2 + tierOf(floor); S().addStatBoost(run, 'atk', n); S().addStatBoost(run, 'mag', n); return { th: 'ATK และ MAG +' + n, en: 'ATK and MAG +' + n }; } },
         { id: 'reinforce', icon: 'shieldGuard', name: 'เสริมเกราะ', nameEn: 'Reinforce', desc: 'จ่ายทอง ได้ DEF และ RES ถาวรตลอดการเดินทาง', descEn: 'Pay gold for run-long DEF and RES.',
-          cost: function (run, floor) { return 70 * tierOf(floor); },
+          cost: function (run, floor) { return 140 * tierOf(floor); },
           effect: function (run, floor) { var n = 2 + tierOf(floor); S().addStatBoost(run, 'def', n); S().addStatBoost(run, 'res', n); return { th: 'DEF และ RES +' + n, en: 'DEF and RES +' + n }; } },
         leave
       ] },
@@ -105,14 +105,15 @@
     { id: 'idol', icon: 'eventShrine', name: 'เทวรูปต้องสาป', nameEn: 'Cursed Idol', minFloor: 6,
       desc: 'เทวรูปหินถืออัญมณีเม็ดโต ดวงตาของมันเหมือนกำลังมองคุณ', descEn: 'A stone idol clutches a large gem. Its eyes seem to follow you.',
       choices: [
-        { id: 'gem', icon: 'gem', name: 'หยิบอัญมณี', nameEn: 'Take the gem', desc: 'ได้ทองก้อนโต แต่ติดคำสาปสุ่ม 1 อย่าง', descEn: 'Gain a large sum of gold, but suffer a random curse.',
+        { id: 'gem', icon: 'gem', name: 'หยิบอัญมณี', nameEn: 'Take the gem', desc: 'ได้ทองก้อนโตและวัตถุดิบโซน 4 ชิ้น แต่ติดคำสาปสุ่ม 1 อย่าง', descEn: 'Gain a large sum of gold and 4 zone materials, but suffer a random curse.',
           effect: function (run, floor) {
-            var D = window.Game.Data, gold = 220 + floor * 30;
+            var D = window.Game.Data, gold = 220 + floor * 30, gemMat = zoneMaterial(floor);
             S().addGold(run, gold);
+            if (gemMat) S().addItem(run, gemMat.id, 4);
             var open = D.curses.filter(function (c) { return (run.curses || []).indexOf(c.id) === -1; });
             if (!open.length) return { th: 'ได้รับทอง ' + gold + ' คำสาปไม่มีผลกับคุณอีกแล้ว', en: 'Gained ' + gold + ' gold. No curse can take hold of you any more.' };
             var c = pick(open); S().addCurse(run, c.id, true);
-            return { th: 'ได้รับทอง ' + gold + ' แต่ติด ' + c.name, en: 'Gained ' + gold + ' gold, but you are afflicted with ' + nameOf(c, true) + '.', danger: true };
+            return { th: 'ได้รับทอง ' + gold + (gemMat ? ' และ ' + gemMat.name + ' ×4' : '') + ' แต่ติด ' + c.name, en: 'Gained ' + gold + ' gold' + (gemMat ? ' and ' + nameOf(gemMat, true) + ' ×4' : '') + ', but you are afflicted with ' + nameOf(c, true) + '.', danger: true };
           } },
         { id: 'pray', icon: 'statusCleanse', name: 'สวดอ้อนวอน', nameEn: 'Pray', desc: 'ลบคำสาป 1 อย่างถ้ามี ไม่เช่นนั้นฟื้นฟู HP 20%', descEn: 'Lift one curse if you carry any; otherwise restore 20% HP.',
           effect: function (run) {
@@ -129,7 +130,7 @@
         { id: 'mind', icon: 'drop', name: 'ฝึกจิต', nameEn: 'Train the mind', desc: 'MP สูงสุดเพิ่มถาวรตลอดการเดินทาง', descEn: 'Run-long max MP.',
           effect: function (run, floor) { var n = 5 + tierOf(floor) * 3; S().addStatBoost(run, 'mp', n); return { th: 'MP สูงสุด +' + n, en: 'Max MP +' + n }; } },
         { id: 'feet', icon: 'wind', name: 'ฝึกฝีเท้า', nameEn: 'Train footwork', desc: 'SPD เพิ่มถาวรตลอดการเดินทาง', descEn: 'Run-long SPD.',
-          effect: function (run, floor) { var n = 1 + Math.ceil(tierOf(floor) / 2); S().addStatBoost(run, 'spd', n); return { th: 'SPD +' + n, en: 'SPD +' + n }; } }
+          effect: function (run, floor) { var n = 2 + tierOf(floor); S().addStatBoost(run, 'spd', n); return { th: 'SPD +' + n, en: 'SPD +' + n }; } }
       ] },
     { id: 'smuggler', icon: 'npcMerchant', npc: true, name: 'กล่องปริศนาของนักลักลอบ', nameEn: "Smuggler's Crate", minFloor: 4,
       desc: 'พ่อค้าท่าทางมีพิรุธเสนอขายกล่องปิดผนึก ไม่บอกว่าข้างในคืออะไร', descEn: 'A shifty trader offers a sealed crate and will not say what is inside.',

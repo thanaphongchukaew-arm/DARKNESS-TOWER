@@ -1,0 +1,149 @@
+{
+  "sprites": [
+    {
+      "id": "npcMira",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1024,
+      "sourceHeight": 1536,
+      "sourceMargin": 20,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "npcMiraHurt",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1024,
+      "sourceHeight": 1536,
+      "sourceMargin": 100,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "npcMiraLantern",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1024,
+      "sourceHeight": 1536,
+      "sourceMargin": 35,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "npcOrin",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1199,
+      "sourceHeight": 1312,
+      "sourceMargin": 233,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "npcOrinHurt",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1199,
+      "sourceHeight": 1312,
+      "sourceMargin": 120,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "npcOrinStandard",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1199,
+      "sourceHeight": 1312,
+      "sourceMargin": 77,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "npcLyra",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1199,
+      "sourceHeight": 1312,
+      "sourceMargin": 23,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "npcLyraLost",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1199,
+      "sourceHeight": 1312,
+      "sourceMargin": 95,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "npcLyraAstral",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1199,
+      "sourceHeight": 1312,
+      "sourceMargin": 101,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "npcMerchant",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1199,
+      "sourceHeight": 1312,
+      "sourceMargin": 106,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "npcSage",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1199,
+      "sourceHeight": 1312,
+      "sourceMargin": 113,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "npcGambler",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1199,
+      "sourceHeight": 1312,
+      "sourceMargin": 126,
+      "palette": 24,
+      "alpha": "binary"
+    }
+  ],
+  "missing": []
+}

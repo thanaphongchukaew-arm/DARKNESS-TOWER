@@ -557,11 +557,15 @@
   // unlocked. Deliberately does not touch the floor-100 boss-victory code path --
   // main.js's showEnd(true) just increments this meta counter on a Nightmare clear,
   // exactly like it already does for recordDifficultyCleared. ----
-  function recordAscensionClear() {
+  // `clearedLevel` is the Ascension the cleared run was played at: only clearing the highest
+  // unlocked level opens the next one (clearing level 0 ten times used to unlock level 10).
+  function recordAscensionClear(clearedLevel) {
     deps();
     var meta = window.Game.Save.readMeta();
-    var next = Math.min(F.ASCENSION_MAX, (meta.ascensionUnlocked || 0) + 1);
-    if (next === (meta.ascensionUnlocked || 0)) return;
+    var unlocked = meta.ascensionUnlocked || 0;
+    if ((clearedLevel || 0) < unlocked) return;
+    var next = Math.min(F.ASCENSION_MAX, unlocked + 1);
+    if (next === unlocked) return;
     meta.ascensionUnlocked = next;
     window.Game.Save.writeMeta(meta);
   }

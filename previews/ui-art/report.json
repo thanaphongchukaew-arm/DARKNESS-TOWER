@@ -334,7 +334,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 2
+      "itemCount": 3
     },
     {
       "tag": "desktop",
@@ -1006,7 +1006,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 0
+      "itemCount": 15
     },
     {
       "tag": "landscape",
@@ -1045,8 +1045,6 @@
       "itemCount": 0
     }
   ],
-  "errors": [],
-  "originalNames": true,
   "items": [
     {
       "id": "w_rusty_blade",
@@ -3942,5 +3940,7 @@
       "uneven": false,
       "unmapped": []
     }
-  ]
+  ],
+  "errors": [],
+  "originalNames": true
 }

@@ -1144,8 +1144,12 @@
     var floor = run.currentFloor;
     var tier = F.tierForFloor(floor);
     var bonus = minibossesCleared(floor);
+    // Gear follows the same tier table as floor rewards and the forge (itemTierForFloor);
+    // materials and consumables keep the finer per-5-floor tiers.
+    var gearTier = F.itemTierForFloor(floor);
     function entries(kind, n, maxQty) {
-      return shuffled(D.items.filter(function (it) { return it.kind === kind && it.tier <= tier && !it.craftOnly && !it.questOnly; }))
+      var cap = ['weapon', 'armor', 'shoes', 'accessory'].indexOf(kind) !== -1 ? gearTier : tier;
+      return shuffled(D.items.filter(function (it) { return it.kind === kind && it.tier <= cap && !it.craftOnly && !it.questOnly; }))
         .slice(0, n)
         .map(function (it) { return { id: it.id, maxQty: maxQty, qty: maxQty }; });
     }

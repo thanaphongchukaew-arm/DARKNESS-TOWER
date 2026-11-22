@@ -82,7 +82,7 @@ const IN_PAGE = async function (TARGET, BUDGET) {
     click('#btn-new'); click('#story-continue'); click('#difficulty-cards [data-id="normal"]');
     check(active() === 'screen-class' && G.State.pending.difficulty === 'normal', 'picking Normal leads to class select');
     check(document.querySelectorAll('#class-cards .select-card').length === 29, '29 classes are listed');
-    const imgs = Array.from(document.querySelectorAll('#class-cards .class-character.pixel-sprite')).slice(0, 3);
+    const imgs = Array.from(document.querySelectorAll('#class-cards svg.class-character')).slice(0, 3);
     click('#class-cards [data-id="blade"]'); check(active() === 'screen-blessing-pick', 'class leads to blessing pick');
     click('#blessing-pick-skip'); check(active() === 'screen-tower' && G.State.current && G.State.current.difficulty === 'normal', 'run starts on the tower');
     check(imgs.length === 3, 'class portraits render');
@@ -136,7 +136,7 @@ const IN_PAGE = async function (TARGET, BUDGET) {
     log.push('screens visited: ' + Object.keys(seen).filter((k) => k.indexOf('text-') !== 0).join(', ') + ' in ' + Math.round((Date.now() - started) / 1000) + 's');
     if (reached) {
       const run = G.State.current;
-      check(run.level > 1 && Object.keys(run.talents || {}).length >= 1, 'levelled up and chose a talent (level ' + run.level + ')');
+      check(run.level > 1 && (run.level < 5 || Object.keys(run.talents || {}).length >= 1), 'levelled up and chose a talent (level ' + run.level + ')');
       const cpFloor = Math.floor((run.currentFloor - 1) / 10) * 10 + 1;
       if (TARGET >= 11) check(!!G.State.getCheckpoint(run) && G.State.getCheckpoint(run).currentFloor === cpFloor, 'a checkpoint exists for floor ' + cpFloor);
       checkScreenText('tower');

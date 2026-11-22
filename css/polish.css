@@ -462,3 +462,86 @@ body, button, input, select { font-variant-ligatures: none; font-feature-setting
 /* Narrow screens: titles must clear the fixed settings gear in the top-right corner. */
 @media (max-width: 768px) { .screen-header { padding-right: 4rem; box-sizing: border-box; } }
 .is-mobile .screen-header { padding-right: 4rem; box-sizing: border-box; }
+
+/* In compact reward chips, the item name already carries tier/HP/MP context. */
+.stat-chip .item-art {
+ width: 28px; height: 28px; padding: 2px;
+ border-width: 1px; flex: 0 0 28px;
+}
+.stat-chip .item-art small { display: none; }
+.stat-chip .item-art > .icon,.stat-chip .item-art svg { width: 100%; height: 100%; }
+
+/* A locked achievement still shows what its reward represents. */
+#codex-content .achievement-card { display: grid; grid-template-columns: 56px minmax(0,1fr); gap: 8px 16px; text-align: left; align-content: start; }
+#codex-content .achievement-card > .select-card-icon { position: relative; grid-column: 1; grid-row: 1 / 4; width: 56px; height: 56px; font-size: 16px; }
+#codex-content .achievement-card .select-card-icon > .icon,
+#codex-content .achievement-card .select-card-icon > .icon > svg { width: 100%; height: 100%; }
+#codex-content .achievement-card > .select-card-title,
+#codex-content .achievement-card > .select-card-desc,
+#codex-content .achievement-card > .select-card-stats,
+#codex-content .achievement-card > button { grid-column: 2; min-width: 0; }
+#codex-content .achievement-card.locked { opacity: 1; border-color: #544a60; }
+#codex-content .achievement-card.locked .select-card-icon > .icon { opacity: .65; }
+#codex-content .achievement-card.locked .select-card-title { color: #c9bfd0; }
+.achievement-lock { position: absolute; right: -3px; bottom: -3px; width: 22px; height: 22px; background: #171323; border: 1px solid #6d5f49; }
+.achievement-lock > .icon,.achievement-lock svg { width: 100%; height: 100%; }
+#codex-content .achievement-card { grid-template-areas: "icon title" "icon desc" "icon stats" ". action"; }
+#codex-content .achievement-card > .select-card-icon { grid-area: icon; }
+#codex-content .achievement-card > .select-card-title { grid-area: title; }
+#codex-content .achievement-card > .select-card-desc { grid-area: desc; }
+#codex-content .achievement-card > .select-card-stats { grid-area: stats; }
+#codex-content .achievement-card > button { grid-area: action; }
+#codex-content .achievement-card .achievement-lock > .icon,
+#codex-content .achievement-card .achievement-lock svg { width: 20px; height: 20px; }
+
+/* Detailed 16-bit story portraits and genuine pixel stone tiles. */
+.npc-art { image-rendering: pixelated; overflow: visible; }
+.npc-scene::before { background-image: var(--tileBrick); background-size: 96px 96px; opacity: .62; }
+.npc-scene-ground { background-image: var(--tileGround); background-size: 96px 96px; border-top: 3px solid #64566e; opacity: 1; }
+.npc-portrait { filter: drop-shadow(2px 3px 0 #080712); }
+.npc-prop { right: 12px; bottom: 55px; opacity: .6; }
+.ws-camp-scene { background-image: linear-gradient(#171320cf,#171320cf),var(--tileBrick); background-size: auto,96px 96px; }
+.event-npc-icon .npc-art { width: 60px; height: 72px; }
+@media(max-width:680px) {
+  .npc-prop { right: 12px; bottom: 45px; width: 100px; height: 100px; }
+  .npc-story-body .npc-portrait { width: 180px; height: 216px; left: calc(50% - 110px); }
+}
+.story-journal-card { grid-template-columns: 144px minmax(0,1fr); align-items: start; }
+.journal-portrait { width: 144px; height: 172px; }
+.journal-portrait .icon,.journal-portrait svg { display: block; width: 100%; height: 100%; }
+.lore-archive .journal-portrait { width: 100px; height: 116px; }
+.event-npc-icon .icon,.event-npc-icon .npc-art { width: 60px; height: 72px; }
+@media(max-width:680px) {
+  .story-journal-card { grid-template-columns: 88px minmax(0,1fr); gap: 12px; }
+  .journal-portrait { width: 88px; height: 106px; }
+  .lore-archive .journal-portrait { width: 64px; height: 75px; }
+}
+
+/* Story-event choices have no icon: the mobile card grid reserved a 2.6rem icon column
+   and squeezed the title into it, wrapping one syllable per line. */
+.is-mobile .story-choice { display: flex; flex-direction: column; align-items: stretch; gap: .35rem; text-align: left; }
+.is-mobile .story-choice strong, .is-mobile .story-choice span { width: 100%; }
+
+/* Phone portrait battle: the 4rem settings gear overhangs the 3.4rem top margin and touches the turn-order chips. */
+@media (max-width: 768px) and (orientation: portrait) {
+  .battle-topbar { margin-top: 4.9rem; }
+}
+
+/* A "Recommended" chip made one difficulty title row taller, pushing its text out of line with the other cards. */
+#difficulty-cards .select-card-title { display: flex; align-items: center; min-height: 2.2em; }
+
+/* Phone landscape battle has no top margin, so reserve the corner the settings gear occupies. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .is-mobile #screen-battle .battle-topbar { box-sizing: border-box; padding-right: 4.6rem; }
+}
+
+/* Phone landscape battle: the enemy card (art + role + name + HP + weaknesses) was ~148px tall in a ~99px arena
+   and spilled over the battle log. Reclaim height from the chrome around the arena instead of hiding enemy info. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .is-mobile #screen-battle #battle-home { width: 2.8rem; height: 2.8rem; }
+  .is-mobile #screen-battle #battle-home .icon, .is-mobile #screen-battle #battle-home svg, .is-mobile #screen-battle #battle-home img { width: 1.9rem; height: 1.9rem; font-size: 1.9rem; }
+  .is-mobile #screen-battle #battle-actions button { min-height: 2.6rem; height: 2.6rem; }
+  .is-mobile #screen-battle .ailment-row:empty, .is-mobile #screen-battle .combat-modifiers:empty { display: none; }
+  .is-mobile #screen-battle .enemy-card .affinity-row, .is-mobile #screen-battle .enemy-card .ailment-row, .is-mobile #screen-battle .enemy-card .combat-modifiers { margin-top: 2px; }
+  .is-mobile #screen-battle .enemy-card:not(.boss) .enemy-portrait, .is-mobile #screen-battle .enemy-card:not(.boss) .enemy-portrait > .enemy-art { width: 72px; height: 62px; }
+}

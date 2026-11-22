@@ -73,11 +73,11 @@
   }
 
   // Equipment/consumable tiers only go up to 5 (see data-items.js) -- floors 45+ draw from the
-  // same tier-5 pool, plus tier-6/7 gear layered in for the hidden upper tower (floors 45-100),
+  // same tier-5 pool, plus tier-6 gear from floor 45 and tier-7 from floor 60 (hidden upper tower),
   // so shop stock and reward pools never come up empty on the new higher enemy tiers.
   function itemTierForFloor(floor) {
     if (floor <= 44) return Math.min(tierForFloor(floor), 5);
-    if (floor <= 74) return 6;
+    if (floor <= 59) return 6;
     return 7;
   }
 
@@ -157,8 +157,15 @@
   // wider gap would make level 10 a strictly better reward-per-difficulty deal
   // than level 1, turning "pick your Ascension level" into "always max it".
   var ASCENSION_MAX = 10;
-  function ascensionEnemyMult(level) {
-    return 1 + 0.09 * clamp(level || 0, 0, ASCENSION_MAX);
+  // `floor` (optional) ramps the bonus in over the first floors: a level-1 hero with no gear
+  // cannot absorb the full multiplier, so floor 1 takes 25% of it and floor 40+ takes all of it.
+  // Omit `floor` for the full-strength figure the level picker displays.
+  function ascensionRamp(floor) {
+    if (floor == null) return 1;
+    return clamp(0.25 + 0.75 * (floor - 1) / 39, 0.25, 1);
+  }
+  function ascensionEnemyMult(level, floor) {
+    return 1 + 0.09 * clamp(level || 0, 0, ASCENSION_MAX) * ascensionRamp(floor);
   }
   function ascensionRewardMult(level) {
     return 1 + 0.11 * clamp(level || 0, 0, ASCENSION_MAX);
@@ -175,6 +182,12 @@
     return base * Math.pow(1.15, steps);
   }
 
+  // Arena rewards: a wave pays a fraction of a tower fight's EXP and materials, and level-ups
+  // inside the arena do not refill HP/MP, so it is practice and a side income, not a way to
+  // out-level the tower for free (see BattleUI.handleSurvivalWaveEnd).
+  var ARENA_EXP_MULT = 0.3;
+  var ARENA_MATERIAL_MULT = 0.4;
+
   // Deliberately capped at 3 (never grows to the tower's late-game 4-5 packs) --
   // survival waves are meant to resolve quickly since the whole point is chaining
   // many of them back to back.
@@ -184,6 +197,7 @@
     return Math.random() < 0.35 ? 2 : 3;
   }
 
+  var SPD_SCALE_SHARE = 0.4;
   function scaleStatsBlock(baseStats, scale, groupScale) {
     var out = {};
     Object.keys(baseStats).forEach(function (k) {
@@ -194,6 +208,10 @@
       // of its authored per-tier luk. Each tier's baseStats.luk already encodes the
       // intended crit-rate progression on its own, so leave it unscaled here.
       if (k === 'luk') { out[k] = Math.max(1, round(baseStats[k])); return; }
+      // SPD only takes SPD_SCALE_SHARE of the floor multiplier: the player's SPD grows by
+      // ~1 per level, so scaling enemy SPD like HP/ATK handed every boss a first strike
+      // and a bonus action each round against slow classes (Paladin, Runeblade, casters).
+      if (k === 'spd') { out[k] = Math.max(1, round(baseStats[k] * (1 + (scale - 1) * SPD_SCALE_SHARE))); return; }
       // Offence shrinks less than health/defence when a pack splits its strength:
       // under ratio mitigation several weak hits are worth far less than one
       // strong hit, so an even split would leave packs nearly harmless.
@@ -260,8 +278,10 @@
 
   // Gold dropped per defeated enemy, derived from its EXP reward so no extra
   // per-enemy data is needed.
+  // Diminishing above ~300 EXP per enemy: a flat 50% gave ~96,000 gold per run against roughly
+  // 20,000 worth of things to buy, so gold stopped mattering from floor 45 on.
   function goldForExp(exp) {
-    return Math.max(1, round(exp * 0.5));
+    return Math.max(1, round(exp * 0.5 / (1 + exp / 600)));
   }
 
   // Shop price for an item, based on its tier and kind -- unless the item defines
@@ -269,14 +289,17 @@
   function shopPrice(item) {
     if (item.price != null) return item.price;
     var base = item.kind === 'consumable' ? 20 : item.kind === 'material' ? 35 : 60;
-    return item.tier * base;
+    var price = item.tier * base;
+    // Late gear is priced up (tier 6 x1.5, tier 7 x1.75: +25% per tier above 4) to give the second half of the run a gold sink.
+    if (item.kind !== 'consumable' && item.kind !== 'material' && (item.tier || 1) >= 6) price = Math.round(price * (1 + ((item.tier || 1) - 4) * 0.25));
+    return price;
   }
 
   // The last floor where a given item tier is still the "current" one on offer
   // (matches itemTierForFloor's own breakpoints -- see formulas.js/ui-tower.js).
   // Tiers 8-9 are craft-only with no shop floor range of their own, so they're
   // treated as always current within a 100-floor run.
-  var ITEM_TIER_FLOOR_CEILING = { 1: 10, 2: 20, 3: 30, 4: 40, 5: 44, 6: 74, 7: 100, 8: 100, 9: 100 };
+  var ITEM_TIER_FLOOR_CEILING = { 1: 10, 2: 20, 3: 30, 4: 40, 5: 44, 6: 59, 7: 100, 8: 100, 9: 100 };
 
   // Sell-back price the shop pays for an item already in the player's bag --
   // always 20-30% of its shop price, nudged within that band by two factors:
@@ -327,8 +350,11 @@
     ascensionEnemyMult: ascensionEnemyMult,
     ascensionRewardMult: ascensionRewardMult,
     survivalStatScale: survivalStatScale,
+    ARENA_EXP_MULT: ARENA_EXP_MULT,
+    ARENA_MATERIAL_MULT: ARENA_MATERIAL_MULT,
     survivalEnemyCount: survivalEnemyCount,
     scaleStatsBlock: scaleStatsBlock,
+    SPD_SCALE_SHARE: SPD_SCALE_SHARE,
     critChance: critChance,
     computeDamage: computeDamage,
     goldForExp: goldForExp,

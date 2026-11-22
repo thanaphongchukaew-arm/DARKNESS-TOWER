@@ -188,8 +188,8 @@
     survivalBtn: { th: 'สนามประลอง', en: 'Endless Arena' },
     survivalIntroTitle: { th: 'สนามประลองไม่สิ้นสุด', en: 'The Endless Arena' },
     survivalIntroMsg: {
-      th: 'ต่อสู้กับศัตรูสุ่มไปเรื่อย ๆ ไม่จำกัดจำนวนระลอก ความยากจะเพิ่มขึ้นทุก ๆ 5 ระลอก รางวัลมีแค่ EXP และวัตถุดิบคราฟต์เท่านั้น (ไม่มีทองหรืออุปกรณ์) HP/MP จะไม่ฟื้นฟูระหว่างระลอก กดหยุดเมื่อไรก็ได้เพื่อเก็บของรางวัลและดูสรุปผล ไม่กระทบความคืบหน้าของหอคอย',
-      en: "Fight endless waves of random enemies. Difficulty climbs every 5 waves. Rewards are EXP and crafting materials only (no gold or gear). HP/MP don't recover between waves. Stop anytime to bank your rewards and see a summary -- your tower progress is never affected."
+      th: 'ต่อสู้กับศัตรูสุ่มไปเรื่อย ๆ ไม่จำกัดจำนวนระลอก ความยากจะเพิ่มขึ้นทุก ๆ 5 ระลอก รางวัลมีแค่ EXP (30% ของการต่อสู้ในหอคอย) และวัตถุดิบคราฟต์ (40%) เท่านั้น ไม่มีทองหรืออุปกรณ์ HP/MP จะไม่ฟื้นฟูระหว่างระลอก แม้เลเวลอัปก็ไม่ฟื้นฟูให้ กดหยุดเมื่อไรก็ได้เพื่อเก็บของรางวัลและดูสรุปผล ไม่กระทบความคืบหน้าของหอคอย',
+      en: "Fight endless waves of random enemies. Difficulty climbs every 5 waves. Rewards are EXP (30% of a tower fight) and crafting materials (40%) only -- no gold or gear. HP/MP don't recover between waves, not even on a level-up. Stop anytime to bank your rewards and see a summary -- your tower progress is never affected."
     },
     survivalIntroConfirmBtn: { th: 'เข้าสู่สนามประลอง', en: 'Enter the Arena' },
     survivalWaveLabel: { th: 'ระลอกที่ {wave}', en: 'Wave {wave}' },
@@ -380,8 +380,8 @@
     // Ascension level picker (Nightmare-only, run-start screen)
     ascensionScreenTitle: { th: 'เลือกระดับ Ascension', en: 'Choose Ascension Level' },
     ascensionSub: {
-      th: 'ยิ่งระดับสูง ศัตรูยิ่งแข็งแกร่งขึ้น แต่ก็ได้รับทอง/EXP/วัตถุดิบมากขึ้นตามไปด้วย เลือกระดับ 0 เพื่อเล่นแบบปกติ',
-      en: 'Higher levels make enemies tougher, but gold/EXP/material rewards scale up to match. Choose level 0 for a normal run.'
+      th: 'ยิ่งระดับสูง ศัตรูยิ่งแข็งแกร่งขึ้น (ตัวเลขที่แสดงคือค่าเต็ม โบนัสจะค่อยๆ เพิ่มจากชั้น 1 จนเต็มที่ชั้น 40) แต่ก็ได้รับทอง/EXP/วัตถุดิบมากขึ้นตามไปด้วย ปลดล็อกระดับถัดไปได้ด้วยการเคลียร์ระดับสูงสุดที่ปลดแล้ว เลือกระดับ 0 เพื่อเล่นแบบปกติ',
+      en: 'Higher levels make enemies tougher (the figure shown is full strength; the bonus ramps in from floor 1 to floor 40), but gold/EXP/material rewards scale up to match. Clear your highest unlocked level to unlock the next. Choose level 0 for a normal run.'
     },
     ascensionLevelZeroTitle: { th: 'ไม่ใช้ Ascension', en: 'No Ascension' },
     ascensionLevelZeroDesc: { th: 'เล่นแบบปกติ ไม่มีการปรับพลังศัตรูหรือรางวัลเพิ่มเติม', en: 'A normal run -- no extra enemy toughness or reward bonus.' },

@@ -46,6 +46,8 @@
     var def = spriteCache[name] || G.PixelArt.getDefinition(name); if (!def) return;
     spriteCache[name] = def;
     var grid = def.grid, w = grid[0].length, h = grid.length;
+    // New 24px motifs retain the previous choreography footprint.
+    if (name.indexOf('fx') === 0) scale *= 12 / Math.max(w, h);
     ctx.save(); ctx.translate(Math.round(x / 2) * 2, Math.round(y / 2) * 2); ctx.rotate(angle || 0); ctx.scale(scale, scale);
     ctx.globalAlpha = clamp(alpha == null ? 1 : alpha, 0, 1);
     var palette = { M: colors[2], C: colors[1], H: colors[0], E: '#1b172a' };

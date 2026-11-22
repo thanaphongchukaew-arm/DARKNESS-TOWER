@@ -1,0 +1,1346 @@
+[
+  {
+    "id": "w_rusty_blade",
+    "left": 16,
+    "top": 6,
+    "right": 35,
+    "bottom": 47
+  },
+  {
+    "id": "w_hunting_blade",
+    "left": 16,
+    "top": 4,
+    "right": 35,
+    "bottom": 47
+  },
+  {
+    "id": "w_apprentice_wand",
+    "left": 16,
+    "top": 5,
+    "right": 35,
+    "bottom": 46
+  },
+  {
+    "id": "w_knight_sword",
+    "left": 13,
+    "top": 3,
+    "right": 38,
+    "bottom": 47
+  },
+  {
+    "id": "w_arcane_staff",
+    "left": 12,
+    "top": 4,
+    "right": 40,
+    "bottom": 46
+  },
+  {
+    "id": "w_storm_glaive",
+    "left": 17,
+    "top": 4,
+    "right": 39,
+    "bottom": 46
+  },
+  {
+    "id": "w_soul_edge",
+    "left": 12,
+    "top": 4,
+    "right": 38,
+    "bottom": 47
+  },
+  {
+    "id": "w_grand_grimoire",
+    "left": 10,
+    "top": 7,
+    "right": 41,
+    "bottom": 46
+  },
+  {
+    "id": "w_dragonfang_blade",
+    "left": 13,
+    "top": 3,
+    "right": 38,
+    "bottom": 47
+  },
+  {
+    "id": "w_infernal_scepter",
+    "left": 11,
+    "top": 4,
+    "right": 40,
+    "bottom": 46
+  },
+  {
+    "id": "w_tempest_lance",
+    "left": 17,
+    "top": 3,
+    "right": 35,
+    "bottom": 46
+  },
+  {
+    "id": "w_voidforged_blade",
+    "left": 11,
+    "top": 3,
+    "right": 40,
+    "bottom": 47
+  },
+  {
+    "id": "w_archdemon_tome",
+    "left": 5,
+    "top": 4,
+    "right": 46,
+    "bottom": 46
+  },
+  {
+    "id": "w_resonant_edge",
+    "left": 13,
+    "top": 4,
+    "right": 39,
+    "bottom": 47
+  },
+  {
+    "id": "w_choral_staff",
+    "left": 13,
+    "top": 4,
+    "right": 38,
+    "bottom": 46
+  },
+  {
+    "id": "w_sovereign_fang",
+    "left": 10,
+    "top": 3,
+    "right": 40,
+    "bottom": 47
+  },
+  {
+    "id": "w_eternity_tome",
+    "left": 10,
+    "top": 7,
+    "right": 41,
+    "bottom": 46
+  },
+  {
+    "id": "a_leather_vest",
+    "left": 10,
+    "top": 6,
+    "right": 41,
+    "bottom": 43
+  },
+  {
+    "id": "a_padded_robe",
+    "left": 6,
+    "top": 5,
+    "right": 45,
+    "bottom": 45
+  },
+  {
+    "id": "a_chainmail",
+    "left": 6,
+    "top": 6,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "a_mystic_robe",
+    "left": 6,
+    "top": 5,
+    "right": 45,
+    "bottom": 45
+  },
+  {
+    "id": "a_plate_armor",
+    "left": 6,
+    "top": 6,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "a_saint_vestment",
+    "left": 6,
+    "top": 5,
+    "right": 45,
+    "bottom": 45
+  },
+  {
+    "id": "a_dragonscale_mail",
+    "left": 6,
+    "top": 6,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "a_abyssal_robe",
+    "left": 6,
+    "top": 5,
+    "right": 45,
+    "bottom": 45
+  },
+  {
+    "id": "a_demonlord_plate",
+    "left": 6,
+    "top": 5,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "a_celestial_shroud",
+    "left": 4,
+    "top": 5,
+    "right": 47,
+    "bottom": 46
+  },
+  {
+    "id": "a_crystalward_plate",
+    "left": 6,
+    "top": 5,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "a_echoing_shroud",
+    "left": 5,
+    "top": 5,
+    "right": 46,
+    "bottom": 46
+  },
+  {
+    "id": "a_timeless_aegis",
+    "left": 6,
+    "top": 6,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "a_sovereign_mantle",
+    "left": 5,
+    "top": 5,
+    "right": 46,
+    "bottom": 46
+  },
+  {
+    "id": "c_swift_boots",
+    "left": 6,
+    "top": 5,
+    "right": 47,
+    "bottom": 45
+  },
+  {
+    "id": "s_wind_treads",
+    "left": 4,
+    "top": 5,
+    "right": 47,
+    "bottom": 45
+  },
+  {
+    "id": "s_gale_striders",
+    "left": 4,
+    "top": 5,
+    "right": 47,
+    "bottom": 45
+  },
+  {
+    "id": "s_tempest_boots",
+    "left": 6,
+    "top": 5,
+    "right": 47,
+    "bottom": 45
+  },
+  {
+    "id": "s_stormgod_sabatons",
+    "left": 6,
+    "top": 4,
+    "right": 47,
+    "bottom": 45
+  },
+  {
+    "id": "s_resonant_striders",
+    "left": 6,
+    "top": 5,
+    "right": 47,
+    "bottom": 45
+  },
+  {
+    "id": "s_boundless_striders",
+    "left": 6,
+    "top": 5,
+    "right": 47,
+    "bottom": 45
+  },
+  {
+    "id": "c_lucky_charm",
+    "left": 7,
+    "top": 5,
+    "right": 44,
+    "bottom": 46
+  },
+  {
+    "id": "c_focus_ring",
+    "left": 6,
+    "top": 7,
+    "right": 44,
+    "bottom": 47
+  },
+  {
+    "id": "c_guardian_amulet",
+    "left": 7,
+    "top": 5,
+    "right": 44,
+    "bottom": 46
+  },
+  {
+    "id": "c_sovereign_crest",
+    "left": 9,
+    "top": 4,
+    "right": 42,
+    "bottom": 47
+  },
+  {
+    "id": "c_spire_heart",
+    "left": 7,
+    "top": 10,
+    "right": 44,
+    "bottom": 46
+  },
+  {
+    "id": "c_wyrmscale_ring",
+    "left": 6,
+    "top": 5,
+    "right": 44,
+    "bottom": 47
+  },
+  {
+    "id": "c_infernal_pact",
+    "left": 4,
+    "top": 5,
+    "right": 42,
+    "bottom": 46
+  },
+  {
+    "id": "c_demonlord_crown",
+    "left": 5,
+    "top": 4,
+    "right": 46,
+    "bottom": 40
+  },
+  {
+    "id": "c_heart_of_abyss",
+    "left": 7,
+    "top": 10,
+    "right": 44,
+    "bottom": 46
+  },
+  {
+    "id": "c_prism_band",
+    "left": 6,
+    "top": 6,
+    "right": 44,
+    "bottom": 47
+  },
+  {
+    "id": "c_wardens_seal",
+    "left": 9,
+    "top": 4,
+    "right": 42,
+    "bottom": 47
+  },
+  {
+    "id": "c_infinity_loop",
+    "left": 6,
+    "top": 7,
+    "right": 44,
+    "bottom": 47
+  },
+  {
+    "id": "c_absolute_ward",
+    "left": 7,
+    "top": 5,
+    "right": 44,
+    "bottom": 46
+  },
+  {
+    "id": "p_hp_small",
+    "left": 14,
+    "top": 6,
+    "right": 37,
+    "bottom": 44
+  },
+  {
+    "id": "p_hp_medium",
+    "left": 12,
+    "top": 5,
+    "right": 39,
+    "bottom": 46
+  },
+  {
+    "id": "p_hp_large",
+    "left": 9,
+    "top": 4,
+    "right": 42,
+    "bottom": 46
+  },
+  {
+    "id": "p_hp_greater",
+    "left": 11,
+    "top": 4,
+    "right": 40,
+    "bottom": 47
+  },
+  {
+    "id": "p_hp_supreme",
+    "left": 9,
+    "top": 4,
+    "right": 42,
+    "bottom": 47
+  },
+  {
+    "id": "p_hp_pristine",
+    "left": 7,
+    "top": 3,
+    "right": 44,
+    "bottom": 48
+  },
+  {
+    "id": "p_hp_transcendent",
+    "left": 9,
+    "top": 3,
+    "right": 42,
+    "bottom": 47
+  },
+  {
+    "id": "p_mp_small",
+    "left": 14,
+    "top": 6,
+    "right": 37,
+    "bottom": 44
+  },
+  {
+    "id": "p_mp_medium",
+    "left": 12,
+    "top": 5,
+    "right": 39,
+    "bottom": 46
+  },
+  {
+    "id": "p_mp_greater",
+    "left": 11,
+    "top": 4,
+    "right": 40,
+    "bottom": 47
+  },
+  {
+    "id": "p_mp_supreme",
+    "left": 9,
+    "top": 4,
+    "right": 42,
+    "bottom": 47
+  },
+  {
+    "id": "p_mp_pristine",
+    "left": 7,
+    "top": 3,
+    "right": 44,
+    "bottom": 48
+  },
+  {
+    "id": "p_mp_transcendent",
+    "left": 9,
+    "top": 3,
+    "right": 42,
+    "bottom": 47
+  },
+  {
+    "id": "p_elixir",
+    "left": 9,
+    "top": 4,
+    "right": 43,
+    "bottom": 46
+  },
+  {
+    "id": "skill_scroll",
+    "left": 4,
+    "top": 5,
+    "right": 42,
+    "bottom": 46
+  },
+  {
+    "id": "mat_beast_fang",
+    "left": 6,
+    "top": 4,
+    "right": 42,
+    "bottom": 47
+  },
+  {
+    "id": "mat_spirit_dust",
+    "left": 11,
+    "top": 5,
+    "right": 40,
+    "bottom": 44
+  },
+  {
+    "id": "mat_iron_shard",
+    "left": 7,
+    "top": 4,
+    "right": 46,
+    "bottom": 43
+  },
+  {
+    "id": "mat_storm_core",
+    "left": 4,
+    "top": 4,
+    "right": 47,
+    "bottom": 47
+  },
+  {
+    "id": "mat_wyvern_scale",
+    "left": 6,
+    "top": 4,
+    "right": 45,
+    "bottom": 48
+  },
+  {
+    "id": "mat_demon_fang",
+    "left": 6,
+    "top": 4,
+    "right": 42,
+    "bottom": 47
+  },
+  {
+    "id": "mat_dragon_scale",
+    "left": 6,
+    "top": 4,
+    "right": 45,
+    "bottom": 48
+  },
+  {
+    "id": "mat_demonic_core",
+    "left": 4,
+    "top": 4,
+    "right": 47,
+    "bottom": 47
+  },
+  {
+    "id": "mat_ancient_scale",
+    "left": 6,
+    "top": 4,
+    "right": 45,
+    "bottom": 48
+  },
+  {
+    "id": "mat_abyssal_essence",
+    "left": 11,
+    "top": 5,
+    "right": 40,
+    "bottom": 44
+  },
+  {
+    "id": "mat_resonant_shard",
+    "left": 7,
+    "top": 4,
+    "right": 46,
+    "bottom": 43
+  },
+  {
+    "id": "mat_crystal_dust",
+    "left": 11,
+    "top": 5,
+    "right": 40,
+    "bottom": 44
+  },
+  {
+    "id": "mat_abyssal_scale",
+    "left": 6,
+    "top": 4,
+    "right": 45,
+    "bottom": 48
+  },
+  {
+    "id": "mat_drowned_core",
+    "left": 4,
+    "top": 4,
+    "right": 47,
+    "bottom": 47
+  },
+  {
+    "id": "mat_storm_feather",
+    "left": 3,
+    "top": 3,
+    "right": 44,
+    "bottom": 48
+  },
+  {
+    "id": "mat_voltaic_core",
+    "left": 4,
+    "top": 4,
+    "right": 47,
+    "bottom": 47
+  },
+  {
+    "id": "mat_bone_fragment",
+    "left": 4,
+    "top": 5,
+    "right": 48,
+    "bottom": 47
+  },
+  {
+    "id": "mat_wraith_essence",
+    "left": 11,
+    "top": 5,
+    "right": 40,
+    "bottom": 44
+  },
+  {
+    "id": "w_craft_fangblade",
+    "left": 12,
+    "top": 4,
+    "right": 38,
+    "bottom": 47
+  },
+  {
+    "id": "a_craft_ironward",
+    "left": 6,
+    "top": 6,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "s_craft_wyvernstride",
+    "left": 6,
+    "top": 5,
+    "right": 47,
+    "bottom": 45
+  },
+  {
+    "id": "c_craft_dragonfangring",
+    "left": 6,
+    "top": 5,
+    "right": 44,
+    "bottom": 47
+  },
+  {
+    "id": "w_craft_voidreaver",
+    "left": 10,
+    "top": 3,
+    "right": 38,
+    "bottom": 47
+  },
+  {
+    "id": "a_craft_resonant_bulwark",
+    "left": 6,
+    "top": 6,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "s_craft_undertow_striders",
+    "left": 6,
+    "top": 5,
+    "right": 47,
+    "bottom": 45
+  },
+  {
+    "id": "c_craft_stormcaller_band",
+    "left": 6,
+    "top": 7,
+    "right": 44,
+    "bottom": 47
+  },
+  {
+    "id": "w_craft_desert_sovereign",
+    "left": 11,
+    "top": 3,
+    "right": 40,
+    "bottom": 47
+  },
+  {
+    "id": "c_quest_novice_badge",
+    "left": 9,
+    "top": 4,
+    "right": 42,
+    "bottom": 47
+  },
+  {
+    "id": "c_quest_veteran_medal",
+    "left": 9,
+    "top": 4,
+    "right": 42,
+    "bottom": 47
+  },
+  {
+    "id": "c_quest_sovereign_relic",
+    "left": 9,
+    "top": 4,
+    "right": 43,
+    "bottom": 47
+  },
+  {
+    "id": "c_shatter_prism",
+    "left": 6,
+    "top": 6,
+    "right": 44,
+    "bottom": 47
+  },
+  {
+    "id": "a_steadfast",
+    "left": 6,
+    "top": 6,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "c_echo_bell",
+    "left": 6,
+    "top": 4,
+    "right": 45,
+    "bottom": 46
+  },
+  {
+    "id": "p_panacea",
+    "left": 14,
+    "top": 6,
+    "right": 37,
+    "bottom": 44
+  },
+  {
+    "id": "part_metal",
+    "left": 6,
+    "top": 5,
+    "right": 43,
+    "bottom": 42
+  },
+  {
+    "id": "part_cloth",
+    "left": 7,
+    "top": 13,
+    "right": 45,
+    "bottom": 42
+  },
+  {
+    "id": "part_dust",
+    "left": 11,
+    "top": 5,
+    "right": 40,
+    "bottom": 44
+  },
+  {
+    "id": "rune_fracture",
+    "left": 9,
+    "top": 9,
+    "right": 42,
+    "bottom": 43
+  },
+  {
+    "id": "rune_shelter",
+    "left": 9,
+    "top": 9,
+    "right": 42,
+    "bottom": 43
+  },
+  {
+    "id": "rune_venom",
+    "left": 9,
+    "top": 9,
+    "right": 42,
+    "bottom": 43
+  },
+  {
+    "id": "rune_vigor",
+    "left": 9,
+    "top": 9,
+    "right": 42,
+    "bottom": 43
+  },
+  {
+    "id": "rune_ember",
+    "left": 9,
+    "top": 9,
+    "right": 42,
+    "bottom": 43
+  },
+  {
+    "id": "rune_frost",
+    "left": 9,
+    "top": 9,
+    "right": 42,
+    "bottom": 43
+  },
+  {
+    "id": "rune_thunder",
+    "left": 9,
+    "top": 9,
+    "right": 42,
+    "bottom": 43
+  },
+  {
+    "id": "rune_gale",
+    "left": 9,
+    "top": 9,
+    "right": 42,
+    "bottom": 43
+  },
+  {
+    "id": "rune_sun",
+    "left": 9,
+    "top": 9,
+    "right": 42,
+    "bottom": 43
+  },
+  {
+    "id": "rune_moon",
+    "left": 9,
+    "top": 9,
+    "right": 42,
+    "bottom": 43
+  },
+  {
+    "id": "rune_focus",
+    "left": 9,
+    "top": 9,
+    "right": 42,
+    "bottom": 43
+  },
+  {
+    "id": "rune_discovery",
+    "left": 9,
+    "top": 9,
+    "right": 42,
+    "bottom": 43
+  },
+  {
+    "id": "forge_w_rusty_blade_keen",
+    "left": 16,
+    "top": 6,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_rusty_blade_sanguine",
+    "left": 16,
+    "top": 6,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_rusty_blade_sundering",
+    "left": 16,
+    "top": 6,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_hunting_blade_keen",
+    "left": 16,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_hunting_blade_sanguine",
+    "left": 16,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_hunting_blade_sundering",
+    "left": 16,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_apprentice_wand_keen",
+    "left": 16,
+    "top": 5,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_apprentice_wand_sanguine",
+    "left": 16,
+    "top": 5,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_apprentice_wand_sundering",
+    "left": 16,
+    "top": 5,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_knight_sword_keen",
+    "left": 13,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_knight_sword_sanguine",
+    "left": 13,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_knight_sword_sundering",
+    "left": 13,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_arcane_staff_keen",
+    "left": 12,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_arcane_staff_sanguine",
+    "left": 12,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_arcane_staff_sundering",
+    "left": 12,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_storm_glaive_keen",
+    "left": 17,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_storm_glaive_sanguine",
+    "left": 17,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_storm_glaive_sundering",
+    "left": 17,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_soul_edge_keen",
+    "left": 12,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_soul_edge_sanguine",
+    "left": 12,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_soul_edge_sundering",
+    "left": 12,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_grand_grimoire_keen",
+    "left": 10,
+    "top": 7,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_grand_grimoire_sanguine",
+    "left": 10,
+    "top": 7,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_grand_grimoire_sundering",
+    "left": 10,
+    "top": 7,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_dragonfang_blade_keen",
+    "left": 13,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_dragonfang_blade_sanguine",
+    "left": 13,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_dragonfang_blade_sundering",
+    "left": 13,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_infernal_scepter_keen",
+    "left": 11,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_infernal_scepter_sanguine",
+    "left": 11,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_infernal_scepter_sundering",
+    "left": 11,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_tempest_lance_keen",
+    "left": 17,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_tempest_lance_sanguine",
+    "left": 17,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_tempest_lance_sundering",
+    "left": 17,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_voidforged_blade_keen",
+    "left": 11,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_voidforged_blade_sanguine",
+    "left": 11,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_voidforged_blade_sundering",
+    "left": 11,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_archdemon_tome_keen",
+    "left": 5,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_archdemon_tome_sanguine",
+    "left": 5,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_archdemon_tome_sundering",
+    "left": 5,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_resonant_edge_keen",
+    "left": 13,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_resonant_edge_sanguine",
+    "left": 13,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_resonant_edge_sundering",
+    "left": 13,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_choral_staff_keen",
+    "left": 13,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_choral_staff_sanguine",
+    "left": 13,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_choral_staff_sundering",
+    "left": 13,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_sovereign_fang_keen",
+    "left": 10,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_sovereign_fang_sanguine",
+    "left": 10,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_sovereign_fang_sundering",
+    "left": 10,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_eternity_tome_keen",
+    "left": 10,
+    "top": 7,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_eternity_tome_sanguine",
+    "left": 10,
+    "top": 7,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_eternity_tome_sundering",
+    "left": 10,
+    "top": 7,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_craft_fangblade_keen",
+    "left": 12,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_craft_fangblade_sanguine",
+    "left": 12,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_craft_fangblade_sundering",
+    "left": 12,
+    "top": 4,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_craft_voidreaver_keen",
+    "left": 10,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_craft_voidreaver_sanguine",
+    "left": 10,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_craft_voidreaver_sundering",
+    "left": 10,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_craft_desert_sovereign_keen",
+    "left": 11,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_craft_desert_sovereign_sanguine",
+    "left": 11,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "forge_w_craft_desert_sovereign_sundering",
+    "left": 11,
+    "top": 3,
+    "right": 49,
+    "bottom": 49
+  },
+  {
+    "id": "orin_a_leather_vest",
+    "left": 10,
+    "top": 6,
+    "right": 41,
+    "bottom": 43
+  },
+  {
+    "id": "orin_a_padded_robe",
+    "left": 6,
+    "top": 5,
+    "right": 45,
+    "bottom": 45
+  },
+  {
+    "id": "orin_a_chainmail",
+    "left": 6,
+    "top": 6,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "orin_a_mystic_robe",
+    "left": 6,
+    "top": 5,
+    "right": 45,
+    "bottom": 45
+  },
+  {
+    "id": "orin_a_plate_armor",
+    "left": 6,
+    "top": 6,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "orin_a_saint_vestment",
+    "left": 6,
+    "top": 5,
+    "right": 45,
+    "bottom": 45
+  },
+  {
+    "id": "orin_a_dragonscale_mail",
+    "left": 6,
+    "top": 6,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "orin_a_abyssal_robe",
+    "left": 6,
+    "top": 5,
+    "right": 45,
+    "bottom": 45
+  },
+  {
+    "id": "orin_a_demonlord_plate",
+    "left": 6,
+    "top": 5,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "orin_a_celestial_shroud",
+    "left": 4,
+    "top": 5,
+    "right": 47,
+    "bottom": 46
+  },
+  {
+    "id": "orin_a_crystalward_plate",
+    "left": 6,
+    "top": 5,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "orin_a_echoing_shroud",
+    "left": 5,
+    "top": 5,
+    "right": 46,
+    "bottom": 46
+  },
+  {
+    "id": "orin_a_timeless_aegis",
+    "left": 6,
+    "top": 6,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "orin_a_sovereign_mantle",
+    "left": 5,
+    "top": 5,
+    "right": 46,
+    "bottom": 46
+  },
+  {
+    "id": "orin_a_craft_ironward",
+    "left": 6,
+    "top": 6,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "orin_a_craft_resonant_bulwark",
+    "left": 6,
+    "top": 6,
+    "right": 45,
+    "bottom": 44
+  },
+  {
+    "id": "orin_a_steadfast",
+    "left": 6,
+    "top": 6,
+    "right": 45,
+    "bottom": 44
+  }
+]

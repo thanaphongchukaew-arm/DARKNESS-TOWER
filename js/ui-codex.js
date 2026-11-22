@@ -49,8 +49,8 @@
       var unlocked = S.isAchievementUnlocked(ach);
       var isEquipped = equipped && equipped.id === ach.id;
       var statusTag = unlocked ? (isEquipped ? T('achievementEquippedTag') : T('achievementUnlockedTag')) : T('achievementLockedTag');
-      return '<div class="craft-card' + (unlocked ? '' : ' locked') + '">' +
-        '<div class="select-card-icon">' + I(unlocked ? ach.icon : 'lock') + '</div>' +
+      return '<div class="craft-card achievement-card' + (unlocked ? '' : ' locked') + '">' +
+        '<div class="select-card-icon">' + I(ach.icon) + (unlocked ? '' : '<span class="achievement-lock">' + I('lock') + '</span>') + '</div>' +
         '<div class="select-card-title">' + L(ach, 'name') + '</div>' +
         '<div class="select-card-desc">' + L(ach, 'desc') + '</div>' +
         '<div class="select-card-stats"><span class="stat-chip">' + statusTag + '</span></div>' +

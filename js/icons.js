@@ -136,6 +136,8 @@
 
   function glyph(name, extraClass) {
     var cls = extraClass ? 'icon ' + extraClass : 'icon';
+    var npc = window.Game.NPCArt && window.Game.NPCArt.render(name);
+    if(npc)return '<span class="'+cls+' pixel-icon" aria-hidden="true">'+npc+'</span>';
     var companion = window.Game.CompanionArt && window.Game.CompanionArt.render(name);
     if(companion)return '<span class="'+cls+' pixel-icon" aria-hidden="true">'+companion+'</span>';
     var emblem = window.Game.UISymbols && window.Game.UISymbols.render(name);
@@ -363,7 +365,10 @@
     var colors = ['#a9b3c5','#84c994','#65bfe8','#b395ef','#efb86c','#ee8498','#f0df99','#83e3d6','#e9a2eb','#c9df79','#ffa275','#a3a4ff','#78deff','#f888ba','#ffe8b7','#ffffff'];
     var mark = item.icon === 'mpPotion' ? 'MP·' + tier : item.icon === 'potion' ? 'HP·' + tier : 'T' + tier;
     var shape = itemShape(item), art = glyph(item.icon);
-    if (shape) {
+    var engravingItem=item.baseId?Object.assign({},item,{id:item.baseId,forgeEffect:null}):item;
+    var detailed = window.Game.ItemArt && window.Game.ItemArt.render(item,shape,ornament(engravingItem));
+    if(detailed)art='<span class="icon pixel-icon" aria-hidden="true">'+detailed+'</span>';
+    else if (shape) {
       var base = shape === 'hpFlask' ? '#b94364' : shape === 'mpFlask' ? '#497dc4' : shape === 'leather' || shape === 'boots' ? '#99623c' : colors[tier - 1];
       var physical = {mat_beast_fang:'#c7b698',mat_demon_fang:'#775d80',mat_dragon_scale:'#bb5e45',mat_ancient_scale:'#d0ad66',mat_abyssal_scale:'#4f909c',mat_wyvern_scale:'#74976b',mat_iron_shard:'#9ba9b6',mat_bone_fragment:'#c7b698',mat_demonic_core:'#9d557e',mat_drowned_core:'#58a5ba',mat_voltaic_core:'#dfb45d'};
       if (physical[item.id]) base=physical[item.id];

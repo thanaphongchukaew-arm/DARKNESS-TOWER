@@ -22,7 +22,7 @@
   }
   bind(skillFamilies, 'slash', 'attack|edge_fire|edge_ice|edge_elec|edge_wind|edge_light|edge_dark|holy_strike|sword_absolution|rune_slash|spellsword_finale|lightning_blade_strike|shadow_step|midnight_execution|runic_edge|blood_rune_slash|oathbreakers_judgment|shadow_verdict_blade|warlord_cleave|crippling_strike|reaping_slash|bloodlust_edge|flowing_strike|sunder_strike');
   bind(skillFamilies, 'cross', 'cross_slash|blademasters_flourish|twin_lightning_cut|twin_fang_dance|nightblade_waltz|twin_shadow_fangs|thousand_cuts');
-  bind(skillFamilies, 'cleave', 'blade_dance|end_bringer|reckless_strike|lifesteal_cleave|raging_whirl|berserks_end|bloodletting_axe|wind_wheel_slash|blade_of_a_thousand_shadows|final_march|coup_de_grace');
+  bind(skillFamilies, 'cleave', 'blade_dance|end_bringer|reckless_strike|lifesteal_cleave|raging_whirl|berserks_end|bloodletting_axe|wind_wheel_slash|blade_of_a_thousand_shadows|final_march|coup_de_grace|shadow_volley|harvest_sweep');
   bind(skillFamilies, 'thrust', 'armor_piercer|iai_strike|tempest_lance|last_hunt|endless_assault');
   bind(skillFamilies, 'fireball', 'fire_bolt|primal_spark|soul_ember|concentrated_blast');
   bind(skillFamilies, 'iceShard', 'ice_shard|frost_vision|temporal_shard|riptide_bolt');
@@ -35,7 +35,7 @@
   bind(skillFamilies, 'wave', 'radiant_wave|abyss_wave|runic_discharge|storm_surge|corroding_tide|oblivion_wave');
   bind(skillFamilies, 'eruption', 'grave_eruption|grave_horror|prophetic_glacier|glacial_prophecy|sigil_of_ruin');
   bind(skillFamilies, 'blast', 'almighty_burst|grand_cataclysm|judgment|cataclysm_damned|wrath_of_wilds|demonic_covenant|apocalypse_of_ruin');
-  bind(skillFamilies, 'heal', 'heal|greater_heal|soothing_light|cleansing_light|oracles_respite');
+  bind(skillFamilies, 'heal', 'heal|greater_heal|soothing_light|cleansing_light|oracles_respite|catch_breath|divine_mercy');
   bind(skillFamilies, 'empower', 'focus|warriors_wrath|elemental_sovereignty|bloodlust|hunters_focus|spirit_possession|blood_covenant|arcane_edge|gathering_storm|shadowhunters_focus|headhunters_gambit|dark_communion|primal_howl|forests_vigor|bushido_focus|eagle_eye|steady_aim|rallying_banner');
   bind(skillFamilies, 'shield', 'iron_stance|sanctuary|angelic_ward|divine_aegis|eternal_guardian|natures_blessing|frost_ward|veil_of_night|runic_ward|iron_wall_command|vanguards_resolve');
   bind(skillFamilies, 'haste', 'haste|chi_step');

@@ -1,6 +1,19 @@
-const CACHE_NAME = 'darkness-tower-v54';
+const CACHE_NAME = 'darkness-tower-v61';
 
 const PRECACHE_URLS = [
+  './assets/pixel16/npcs/npcMira.png',
+  './assets/pixel16/npcs/npcMiraHurt.png',
+  './assets/pixel16/npcs/npcMiraLantern.png',
+  './assets/pixel16/npcs/npcOrin.png',
+  './assets/pixel16/npcs/npcOrinHurt.png',
+  './assets/pixel16/npcs/npcOrinStandard.png',
+  './assets/pixel16/npcs/npcLyra.png',
+  './assets/pixel16/npcs/npcLyraLost.png',
+  './assets/pixel16/npcs/npcLyraAstral.png',
+  './assets/pixel16/npcs/npcMerchant.png',
+  './assets/pixel16/npcs/npcSage.png',
+  './assets/pixel16/npcs/npcGambler.png',
+
   './assets/pixel16/companions/emberFox.png',
   './assets/pixel16/companions/dawnOwl.png',
   './assets/pixel16/companions/stoneheartBear.png',

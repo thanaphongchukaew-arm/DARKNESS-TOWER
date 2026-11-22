@@ -1,0 +1,1137 @@
+{
+  "assets": [
+    {
+      "key": "npcMira",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        18,
+        2,
+        60,
+        93
+      ],
+      "margin": 2
+    },
+    {
+      "key": "npcMiraHurt",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        10,
+        2,
+        68,
+        93
+      ],
+      "margin": 2
+    },
+    {
+      "key": "npcMiraLantern",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        19,
+        2,
+        60,
+        93
+      ],
+      "margin": 2
+    },
+    {
+      "key": "npcOrin",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        8,
+        2,
+        70,
+        93
+      ],
+      "margin": 2
+    },
+    {
+      "key": "npcOrinHurt",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        7,
+        2,
+        72,
+        93
+      ],
+      "margin": 2
+    },
+    {
+      "key": "npcOrinStandard",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        11,
+        2,
+        67,
+        93
+      ],
+      "margin": 2
+    },
+    {
+      "key": "npcLyra",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        12,
+        2,
+        66,
+        93
+      ],
+      "margin": 2
+    },
+    {
+      "key": "npcLyraLost",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        8,
+        2,
+        70,
+        93
+      ],
+      "margin": 2
+    },
+    {
+      "key": "npcLyraAstral",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        13,
+        2,
+        63,
+        93
+      ],
+      "margin": 2
+    },
+    {
+      "key": "npcMerchant",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        2,
+        2,
+        76,
+        93
+      ],
+      "margin": 2
+    },
+    {
+      "key": "npcSage",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        9,
+        2,
+        70,
+        93
+      ],
+      "margin": 2
+    },
+    {
+      "key": "npcGambler",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        18,
+        2,
+        60,
+        93
+      ],
+      "margin": 2
+    }
+  ],
+  "views": [
+    {
+      "tag": "desktop",
+      "name": "travelers-unmet",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcMira",
+          "w": 115.9140625,
+          "h": 138.453125
+        },
+        {
+          "key": "npcOrin",
+          "w": 115.9140625,
+          "h": 138.453125
+        },
+        {
+          "key": "npcLyra",
+          "w": 115.9140625,
+          "h": 138.453125
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "mira-0",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcMira",
+          "w": 48.296875,
+          "h": 57.953125
+        },
+        {
+          "key": "npcMiraHurt",
+          "w": 193.7890625,
+          "h": 261.3671875
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "mira-1",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcMira",
+          "w": 48.296875,
+          "h": 57.953125
+        },
+        {
+          "key": "npcMira",
+          "w": 193.7890625,
+          "h": 261.3671875
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "mira-2",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcMira",
+          "w": 48.296875,
+          "h": 57.953125
+        },
+        {
+          "key": "npcMiraLantern",
+          "w": 193.7890625,
+          "h": 261.3671875
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "orin-0",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcOrin",
+          "w": 48.296875,
+          "h": 57.953125
+        },
+        {
+          "key": "npcOrinHurt",
+          "w": 193.7890625,
+          "h": 261.3671875
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "orin-1",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcOrin",
+          "w": 48.296875,
+          "h": 57.953125
+        },
+        {
+          "key": "npcOrin",
+          "w": 193.7890625,
+          "h": 261.3671875
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "orin-2",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcOrin",
+          "w": 48.296875,
+          "h": 57.953125
+        },
+        {
+          "key": "npcOrinStandard",
+          "w": 193.7890625,
+          "h": 261.3671875
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "lyra-0",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcLyra",
+          "w": 48.296875,
+          "h": 57.953125
+        },
+        {
+          "key": "npcLyraLost",
+          "w": 193.7890625,
+          "h": 261.3671875
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "lyra-1",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcLyra",
+          "w": 48.296875,
+          "h": 57.953125
+        },
+        {
+          "key": "npcLyra",
+          "w": 193.7890625,
+          "h": 261.3671875
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "lyra-2",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcLyra",
+          "w": 48.296875,
+          "h": 57.953125
+        },
+        {
+          "key": "npcLyraAstral",
+          "w": 193.7890625,
+          "h": 261.3671875
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "travelers-met",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcMiraLantern",
+          "w": 115.9140625,
+          "h": 138.453125
+        },
+        {
+          "key": "npcOrinStandard",
+          "w": 115.9140625,
+          "h": 138.453125
+        },
+        {
+          "key": "npcLyra",
+          "w": 115.9140625,
+          "h": 138.453125
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "services",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcMira",
+          "w": 57.953125,
+          "h": 67.6171875
+        },
+        {
+          "key": "npcOrin",
+          "w": 57.953125,
+          "h": 67.6171875
+        },
+        {
+          "key": "npcLyra",
+          "w": 57.953125,
+          "h": 67.6171875
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "camp",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "fx-fireball-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "fx-iceShard-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "fx-arrow-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "fx-bullet-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "fx-bomb-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "fx-punch-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "fx-shield-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "fx-temporal-clock",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "fx-music-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "fx-puppet-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "fx-swarm-beast",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "fx-swarm-scarab",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "fx-bite-fang",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "fx-shield-wings",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "travelers-unmet",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcMira",
+          "w": 71.5,
+          "h": 86.125
+        },
+        {
+          "key": "npcOrin",
+          "w": 71.5,
+          "h": 86.125
+        },
+        {
+          "key": "npcLyra",
+          "w": 71.5,
+          "h": 86.125
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "mira-0",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcMira",
+          "w": 48.75,
+          "h": 58.5
+        },
+        {
+          "key": "npcMiraHurt",
+          "w": 146.25,
+          "h": 175.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "mira-1",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcMira",
+          "w": 48.75,
+          "h": 58.5
+        },
+        {
+          "key": "npcMira",
+          "w": 146.25,
+          "h": 175.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "mira-2",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcMira",
+          "w": 48.75,
+          "h": 58.5
+        },
+        {
+          "key": "npcMiraLantern",
+          "w": 146.25,
+          "h": 175.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "orin-0",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcOrin",
+          "w": 48.75,
+          "h": 58.5
+        },
+        {
+          "key": "npcOrinHurt",
+          "w": 146.25,
+          "h": 175.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "orin-1",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcOrin",
+          "w": 48.75,
+          "h": 58.5
+        },
+        {
+          "key": "npcOrin",
+          "w": 146.25,
+          "h": 175.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "orin-2",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcOrin",
+          "w": 48.75,
+          "h": 58.5
+        },
+        {
+          "key": "npcOrinStandard",
+          "w": 146.25,
+          "h": 175.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "lyra-0",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcLyra",
+          "w": 48.75,
+          "h": 58.5
+        },
+        {
+          "key": "npcLyraLost",
+          "w": 146.25,
+          "h": 175.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "lyra-1",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcLyra",
+          "w": 48.75,
+          "h": 58.5
+        },
+        {
+          "key": "npcLyra",
+          "w": 146.25,
+          "h": 175.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "lyra-2",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcLyra",
+          "w": 48.75,
+          "h": 58.5
+        },
+        {
+          "key": "npcLyraAstral",
+          "w": 146.25,
+          "h": 175.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "travelers-met",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcMiraLantern",
+          "w": 71.5,
+          "h": 86.125
+        },
+        {
+          "key": "npcOrinStandard",
+          "w": 71.5,
+          "h": 86.125
+        },
+        {
+          "key": "npcLyra",
+          "w": 71.5,
+          "h": 86.125
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "services",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcMira",
+          "w": 58.5,
+          "h": 68.25
+        },
+        {
+          "key": "npcOrin",
+          "w": 58.5,
+          "h": 68.25
+        },
+        {
+          "key": "npcLyra",
+          "w": 58.5,
+          "h": 68.25
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "camp",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "fx-fireball-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "fx-iceShard-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "fx-arrow-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "fx-bullet-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "fx-bomb-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "fx-punch-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "fx-shield-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "fx-temporal-clock",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "fx-music-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "fx-puppet-",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "fx-swarm-beast",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "fx-swarm-scarab",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "fx-bite-fang",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "fx-shield-wings",
+      "overflow": false,
+      "npcs": [],
+      "overlaps": 0
+    }
+  ],
+  "effects": [
+    {
+      "tag": "desktop",
+      "family": "fireball",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "desktop",
+      "family": "iceShard",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "desktop",
+      "family": "arrow",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "desktop",
+      "family": "bullet",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "desktop",
+      "family": "bomb",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "desktop",
+      "family": "punch",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "desktop",
+      "family": "shield",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "desktop",
+      "family": "temporal",
+      "motif": "clock",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "desktop",
+      "family": "music",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "desktop",
+      "family": "puppet",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "desktop",
+      "family": "swarm",
+      "motif": "beast",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "desktop",
+      "family": "swarm",
+      "motif": "scarab",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "desktop",
+      "family": "bite",
+      "motif": "fang",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "desktop",
+      "family": "shield",
+      "motif": "wings",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "mobile",
+      "family": "fireball",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "mobile",
+      "family": "iceShard",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "mobile",
+      "family": "arrow",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "mobile",
+      "family": "bullet",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "mobile",
+      "family": "bomb",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "mobile",
+      "family": "punch",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "mobile",
+      "family": "shield",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "mobile",
+      "family": "temporal",
+      "motif": "clock",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "mobile",
+      "family": "music",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "mobile",
+      "family": "puppet",
+      "motif": "",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "mobile",
+      "family": "swarm",
+      "motif": "beast",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "mobile",
+      "family": "swarm",
+      "motif": "scarab",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "mobile",
+      "family": "bite",
+      "motif": "fang",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    },
+    {
+      "tag": "mobile",
+      "family": "shield",
+      "motif": "wings",
+      "jobs": 0,
+      "gestures": 0,
+      "failures": 0,
+      "framePending": false
+    }
+  ],
+  "errors": []
+}

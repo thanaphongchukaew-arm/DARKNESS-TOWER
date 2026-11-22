@@ -43,7 +43,7 @@
       // Formulas.ascensionEnemyMult/ascensionRewardMult) -- meta counters only, so
       // this never touches the battle/victory logic itself.
       S.recordDifficultyCleared(run.difficulty);
-      if (run.difficulty === 'nightmare') S.recordAscensionClear();
+      if (run.difficulty === 'nightmare') S.recordAscensionClear(run.ascension || 0);
     }
     if (run) window.Game.SystemsUI.summary(run, victory);
     var checkpointFloor = null;

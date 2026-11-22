@@ -330,13 +330,13 @@
   // at this call site, never inside scaleStatsBlock itself, so a plain (non-Nightmare
   // or ascension-0) run's numbers are completely unaffected.
   function buildEnemyActor(template, floor, difficultyId, groupScale, uid, ascension) {
-    var scale = F().enemyStatScale(floor, difficultyId) * F().ascensionEnemyMult(ascension);
+    var scale = F().enemyStatScale(floor, difficultyId) * F().ascensionEnemyMult(ascension, floor);
     return buildEnemyActorScaled(template, scale, groupScale, uid);
   }
 
   function buildBossActor(template, difficultyId, uid, ascension) {
     S().recordEnemySeen(template.id);
-    var scale = F().bossStatScale(difficultyId) * F().ascensionEnemyMult(ascension);
+    var scale = F().bossStatScale(difficultyId) * F().ascensionEnemyMult(ascension, 100);
     var stats = F().tuneBossStats(F().scaleStatsBlock(template.baseStats, scale, 1), F().FINAL_BOSS_TUNING);
     return {
       uid: uid, templateId: template.id, name: L(template, 'name'), icon: template.icon, isBoss: true,
@@ -354,7 +354,7 @@
   // regular enemy), not the flat end-game bossStatScale.
   function buildMiniBossActor(template, floor, difficultyId, uid, ascension) {
     S().recordEnemySeen(template.id);
-    var scale = F().enemyStatScale(floor, difficultyId) * F().ascensionEnemyMult(ascension);
+    var scale = F().enemyStatScale(floor, difficultyId) * F().ascensionEnemyMult(ascension, floor);
     var stats = F().tuneBossStats(F().scaleStatsBlock(template.baseStats, scale, 1), F().MINIBOSS_TUNING);
     return {
       uid: uid, templateId: template.id, name: L(template, 'name'), icon: template.icon, isBoss: true,
@@ -544,7 +544,7 @@
     var pool = D().getEnemiesByTier(tier);
     var count = F().survivalEnemyCount(wave);
     var groupScale = F().groupScaleFactor(count);
-    var scale = F().survivalStatScale(run.currentFloor, run.difficulty, wave) * F().ascensionEnemyMult(run.ascension);
+    var scale = F().survivalStatScale(run.currentFloor, run.difficulty, wave) * F().ascensionEnemyMult(run.ascension, run.currentFloor);
     var enemies = [];
     for (var i = 0; i < count; i++) {
       var template = pool[Math.floor(Math.random() * pool.length)];
@@ -1101,7 +1101,12 @@
   }
 
   function getGoldReward(battle, rate) {
-    var total = battle.enemies.reduce(function (s, e) { return s + F().goldForExp(e.expReward || 0); }, 0);
+    // The diminishing gold curve is per enemy, so a lone boss (one huge EXP figure) must be
+    // priced like the 5-strong pack it replaces, or boss floors would pay less than ordinary ones.
+    var total = battle.enemies.reduce(function (s, e) {
+      var exp = e.expReward || 0;
+      return s + (e.isBoss ? 5 * F().goldForExp(exp / 5) : F().goldForExp(exp));
+    }, 0);
     return rate == null ? total : Math.round(total * rate);
   }
 
@@ -1117,7 +1122,11 @@
     battle.enemies.forEach(function (e) {
       var template = D().getEnemyTemplate(e.templateId);
       if (!template) return;
-      var tier = Math.min(template.tier || F().tierForFloor(battle.floor), 9);
+      var rawTier = template.tier || F().tierForFloor(battle.floor);
+      var tier = Math.min(rawTier, 9);
+      // Tier 10+ enemies would only ever drop tier-9 materials (one recipe), leaving the
+      // scarce tier 5-8 recipes starved: deep-floor enemies feed those pools as well.
+      if (rawTier >= 10) tier = 5 + Math.floor(Math.random() * 5);
       var mats = D().items.filter(function (it) { return it.kind === 'material' && it.tier === tier; });
       if (!mats.length) return;
       var dropChance = Math.min(1, ((e.isBoss || e.champion) ? 1 : 0.5) * rate * (1 + relicSum(battle.run, 'dropChanceBonus')));

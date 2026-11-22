@@ -23,8 +23,10 @@ const companionJobs = [
   ['emberFox',80,64],['dawnOwl',64,80],['stoneheartBear',80,64],
   ['stormSprite',64,80],['sandScarab',64,64],['frostHare',80,64],['ironGolemCub',64,80]
 ].map(([id,width,height])=>({id,kind:'companions',width,height,colors:24}));
+const npcJobs=['npcMira','npcMiraHurt','npcMiraLantern','npcOrin','npcOrinHurt','npcOrinStandard','npcLyra','npcLyraLost','npcLyraAstral','npcMerchant','npcSage','npcGambler'].map(id=>({id,kind:'npcs',width:80,height:96,colors:24}));
 if(process.argv.includes('--companions-only'))jobs.splice(0,jobs.length,...companionJobs);
-else jobs.push(...companionJobs);
+else if(process.argv.includes('--npcs-only'))jobs.splice(0,jobs.length,...npcJobs);
+else jobs.push(...companionJobs,...npcJobs);
 
 // Runs in the hidden export window. Never modifies the original source artwork.
 /* global Image, document */
@@ -76,7 +78,7 @@ app.whenReady().then(async()=>{
     } catch (error) { throw new Error(job.kind+'/'+job.id+': '+error.message,{cause:error}); }
     const out=path.join(ROOT,'assets/pixel16',job.kind,job.id+'.png');fs.mkdirSync(path.dirname(out),{recursive:true});fs.writeFileSync(out,Buffer.from(result.png,'base64'));delete result.png;report.push({...job,...result});
   }
-  fs.mkdirSync(path.join(ROOT,'previews/pixel16'),{recursive:true});fs.writeFileSync(path.join(ROOT,'previews/pixel16',process.argv.includes('--companions-only')?'companion-export-report.json':'export-report.json'),JSON.stringify({sprites:report,missing},null,2));
+  fs.mkdirSync(path.join(ROOT,'previews/pixel16'),{recursive:true});fs.writeFileSync(path.join(ROOT,'previews/pixel16',process.argv.includes('--companions-only')?'companion-export-report.json':process.argv.includes('--npcs-only')?'npc-export-report.json':'export-report.json'),JSON.stringify({sprites:report,missing},null,2));
   console.log('Exported '+report.length+'/'+jobs.length+' sprites; missing '+missing.length);
   app.exit(missing.length&&!process.argv.includes('--available')?1:0);
 }).catch(e=>{console.error(e);app.exit(1);});

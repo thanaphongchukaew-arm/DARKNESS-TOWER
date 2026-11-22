@@ -38,8 +38,9 @@ test('tierForFloor covers the known-tower boundaries (1-40) and the hidden tower
 test('itemTierForFloor never exceeds the top item tier and tracks tierForFloor below floor 45', () => {
   assert.equal(F.itemTierForFloor(1), F.tierForFloor(1));
   assert.equal(F.itemTierForFloor(44), Math.min(F.tierForFloor(44), 5));
-  assert.equal(F.itemTierForFloor(74), 6);
-  assert.equal(F.itemTierForFloor(75), 7);
+  assert.equal(F.itemTierForFloor(45), 6);
+  assert.equal(F.itemTierForFloor(59), 6);
+  assert.equal(F.itemTierForFloor(60), 7);
   assert.equal(F.itemTierForFloor(100), 7);
 });
 

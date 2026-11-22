@@ -2,7 +2,7 @@
 
 // Equipment + consumable item definitions. tier matches the tower's floor tiers (1: 1-10, 2: 11-20,
 // 3: 21-30, 4: 31-40, 5: 41-44). Floors 45-100 (the hidden upper tower, see data-enemies.js) draw from
-// two more gear tiers layered on top -- 6 (floors 45-74) and 7 (floors 75-100) -- via
+// two more gear tiers layered on top -- 6 (floors 45-59) and 7 (floors 60-100) -- via
 // Formulas.itemTierForFloor, which caps out at 7 instead of following the monster tier (which
 // keeps climbing to 16) since gear doesn't need a new rung every 5 floors the way monsters do.
 (function () {
@@ -76,6 +76,7 @@
     { id: 'p_hp_transcendent', name: 'ยาฟื้นฟู HP เหนือกาล', nameEn: 'Transcendent HP Potion', kind: 'consumable', tier: 7, icon: 'potion', effect: { type: 'healHp', amount: 750 }, desc: 'ฟื้นฟู 750 HP', descEn: 'Restores 750 HP', battleUsable: true },
     { id: 'p_mp_small', name: 'ยาฟื้นฟู MP เล็ก', nameEn: 'Small MP Potion', kind: 'consumable', tier: 1, icon: 'mpPotion', effect: { type: 'healMp', amount: 15 }, desc: 'ฟื้นฟู 15 MP', descEn: 'Restores 15 MP', battleUsable: true },
     { id: 'p_mp_medium', name: 'ยาฟื้นฟู MP กลาง', nameEn: 'Medium MP Potion', kind: 'consumable', tier: 2, icon: 'mpPotion', effect: { type: 'healMp', amount: 32 }, desc: 'ฟื้นฟู 32 MP', descEn: 'Restores 32 MP', battleUsable: true },
+    { id: 'p_mp_large', name: 'ยาฟื้นฟู MP ใหญ่', nameEn: 'Large MP Potion', kind: 'consumable', tier: 3, icon: 'mpPotion', effect: { type: 'healMp', amount: 42 }, desc: 'ฟื้นฟู 42 MP', descEn: 'Restores 42 MP', battleUsable: true },
     { id: 'p_mp_greater', name: 'ยาฟื้นฟู MP วิเศษ', nameEn: 'Greater MP Potion', kind: 'consumable', tier: 4, icon: 'mpPotion', effect: { type: 'healMp', amount: 55 }, desc: 'ฟื้นฟู 55 MP', descEn: 'Restores 55 MP', battleUsable: true },
     { id: 'p_mp_supreme', name: 'ยาฟื้นฟู MP สูงสุด', nameEn: 'Supreme MP Potion', kind: 'consumable', tier: 5, icon: 'mpPotion', effect: { type: 'healMp', amount: 90 }, desc: 'ฟื้นฟู 90 MP', descEn: 'Restores 90 MP', battleUsable: true },
     { id: 'p_mp_pristine', name: 'ยาฟื้นฟู MP บริสุทธิ์', nameEn: 'Pristine MP Potion', kind: 'consumable', tier: 6, icon: 'mpPotion', effect: { type: 'healMp', amount: 120 }, desc: 'ฟื้นฟู 120 MP', descEn: 'Restores 120 MP', battleUsable: true },

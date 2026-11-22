@@ -16,7 +16,7 @@
     });
   }
   function talentPrompt(done) {
-    var run = G.State.current, level = X.pending(run);
+    var run = G.State.current, level = run && X.pending(run);
     if (!level) { if (done) done(); return; }
     choose(X.text('เลือกพรสวรรค์ · เลเวล ', 'Choose a talent · Level ') + level, X.text('เลือกได้หนึ่งอย่างต่อขั้น เปลี่ยนไม่ได้ในการเดินทางนี้', 'Choose one per milestone. Choices last for this run.'), X.options(run, level), function (id) {
       X.chooseTalent(run, id); talentPrompt(function () { G.TowerUI.renderTower(); if (done) done(); });

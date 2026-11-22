@@ -1024,6 +1024,21 @@
 
   function handleDefeat() {
     SFX('defeat');
+    // Replaying a cleared floor is farming, not progress: losing there costs the retreat gold
+    // and leaves you at 1 HP instead of ending the whole run.
+    if (currentIsReplay) {
+      var run = window.Game.State.current;
+      var lost = window.Game.State.settleRetreat(run);
+      run.hp = 1;
+      window.Game.State.clampVitals(run);
+      window.Game.State.saveNow();
+      battleLater(function () {
+        window.Game.TowerUI.renderTower();
+        window.Game.UI.showScreen('screen-tower');
+        window.Game.UI.notice(T('retreatNotice', { gold: lost }), 'warn');
+      }, 1400 / window.Game.SystemsUI.speed());
+      return;
+    }
     battleLater(function () { window.Game.Main.showEnd(false); }, 1400 / window.Game.SystemsUI.speed());
   }
 
@@ -1217,15 +1232,21 @@
   function handleSurvivalWaveEnd(battle) {
     var run = window.Game.State.current;
     if (battle.victory) {
-      var exp = window.Game.BattleEngine.getExpReward(battle, window.Game.State.getRewardMult(run, 'exp'));
+      var F = window.Game.Formulas;
+      var exp = window.Game.BattleEngine.getExpReward(battle, window.Game.State.getRewardMult(run, 'exp') * F.ARENA_EXP_MULT);
+      // Arena level-ups do not refill HP/MP (addExp does so in the tower), otherwise a session
+      // chains waves on free full heals.
+      var hpBefore = run.hp, mpBefore = run.mp;
       var lvlRes = window.Game.State.addExp(run, exp);
+      run.hp = hpBefore; run.mp = mpBefore;
+      window.Game.State.clampVitals(run);
       window.Game.State.recordBattleWon(run);
       window.Game.State.recordEnemiesDefeated(run, battle.enemies.length);
       window.Game.State.recordArenaWaveCleared(run);
       SFX('victory');
       logLine(T('logExpGained', { exp: exp }), 'log-heal');
       survivalSession.totalExp += exp;
-      var drops = window.Game.BattleEngine.getMaterialDrops(battle, window.Game.State.getRewardMult(run, 'material'));
+      var drops = window.Game.BattleEngine.getMaterialDrops(battle, window.Game.State.getRewardMult(run, 'material') * window.Game.Formulas.ARENA_MATERIAL_MULT);
       drops.forEach(function (d) {
         window.Game.State.addItem(run, d.id, d.qty);
         survivalSession.materials[d.id] = (survivalSession.materials[d.id] || 0) + d.qty;
@@ -1249,9 +1270,8 @@
   }
 
   function endSurvivalSession(defeated) {
-    // Reaching a wave count is what unlocks the Valiant Vanguard elite class
-    // (see data-classes.js) regardless of how the session ended -- stopping
-    // voluntarily still counts, since the mode itself has no other "finish".
+    // Best wave count is kept in meta (achievements, survivalWaves unlocks) however the
+    // session ended -- stopping voluntarily still counts.
     window.Game.State.recordSurvivalWaves(survivalSession.wavesCleared);
     lastSurvivalSummary = { session: survivalSession, defeated: !!defeated };
     currentBattle = null;

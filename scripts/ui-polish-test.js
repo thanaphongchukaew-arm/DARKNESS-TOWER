@@ -77,6 +77,7 @@ const page = async function () {
   G.BattleUI.cancelPlayback(); G.State.fullRestore(run);
   G.BattleUI.startBattle(12,false,false); await new Promise(resolve=>setTimeout(resolve,1550));
   check(document.querySelectorAll('.enemy-role-label').length === observed.enemies.length, 'all enemies have visible role labels');
+  { const logTop = document.getElementById('battle-log').getBoundingClientRect().top; check(Array.from(document.querySelectorAll('.enemy-card')).every(card => card.getBoundingClientRect().bottom <= logTop + 2), 'enemy cards do not overlap the battle log'); }
   check(document.querySelectorAll('#battle-zone-props .zone-illustration').length === 3, 'real zone renders scenery illustrations');
   observed.enemies[0].ailments = [{id:'poison',turns:2}]; G.BattleUI.refreshActiveScreen();
   click('act-attack');

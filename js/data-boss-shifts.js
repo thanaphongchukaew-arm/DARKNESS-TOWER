@@ -24,7 +24,7 @@
   });
 
   // ---- Mini-bosses: flip affinity at 50% HP, and hunt a different resource ----
-  var focusByFloor = { 5: 'buffs', 10: 'mana', 15: 'companion', 20: 'buffs', 25: 'mana', 30: 'companion', 35: 'mana', 40: 'buffs', 45: 'companion', 50: 'mana' };
+  var focusByFloor = { 5: 'buffs', 10: 'mana', 15: 'companion', 20: 'buffs', 25: 'mana', 30: 'companion', 35: 'mana', 40: 'buffs', 45: 'companion', 50: 'mana', 55: 'buffs', 60: 'companion', 65: 'mana', 70: 'buffs', 75: 'companion', 80: 'mana', 85: 'buffs', 90: 'companion', 95: 'mana' };
   var phaseText = {
     buffs: { th: 'โกรธจัดและเริ่มทำลายพลังเสริมของคุณ!', en: 'is enraged and begins shredding your buffs!' },
     mana: { th: 'โกรธจัดและเริ่มดูดมานาของคุณ!', en: 'is enraged and begins draining your mana!' },

@@ -1,258 +1,43 @@
-// Original battle-effect sprites, drawn as palette-key pixel grids.
-(function () {
-  var P = window.Game.PixelArt;
-  P.define('fxOrb', [
-    "....MM....",
-    "..MMCCMM..",
-    ".MCCCCCCM.",
-    "MCCHHCCCCM",
-    "MCCHHCCCCM",
-    "MCCCCCCCCM",
-    "MCCCCCCCCM",
-    ".MCCCCCCM.",
-    "..MMCCMM..",
-    "....MM...."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxFire', [
-    ".....H....",
-    "....HH....",
-    "....HCH...",
-    "..H.HCH...",
-    "..HHCCCH..",
-    ".HCCCCCH..",
-    ".HCCHCCCH.",
-    "HCCCHHCCCH",
-    "HCCCHHCCCH",
-    ".MCCCCCMM.",
-    "..MMCCMM..",
-    "....MM...."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxIce', [
-    "....H...",
-    "...HCH..",
-    "..HCCCH.",
-    ".HCCCCCH",
-    "HCCCCHCM",
-    "HCCCHCCM",
-    "MCCCHCCM",
-    ".MCCHCM.",
-    ".MCCHCM.",
-    "..MCCM..",
-    "...MM..."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxArrow', [
-    "..........HH",
-    ".........HCH",
-    "HHHHHHHHHCCH",
-    ".CCCCCCCCCH.",
-    "HHHHHHHHHCCH",
-    ".........HCH",
-    "..........HH"
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxBullet', [
-    "......HH",
-    "MCCCCCHH",
-    "MCCCCCHH",
-    "......HH"
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxBottle', [
-    "..MMMMM..",
-    "..MHHHM..",
-    "..MMMMM..",
-    "...HHH...",
-    "..H...H..",
-    ".H.....M.",
-    "HCCCCCCCM",
-    "HCCHHCCCM",
-    "HCCHCCCCM",
-    "HCCCCCCCM",
-    ".MCCCCMM.",
-    "..MMMMM.."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxNote', [
-    "....MMMM",
-    "....MCCM",
-    "....MCCM",
-    "....MCCM",
-    "....M..M",
-    "....M..M",
-    ".CCCM..M",
-    "CCCCMCCC",
-    "CCCCCCCC",
-    ".CC..CC."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxHeart', [
-    ".HH...HH.",
-    "HCCM.HCCM",
-    "HCCCMCCCM",
-    "HCCCCCCCM",
-    ".HCCCCCM.",
-    "..HCCCM..",
-    "...HCM...",
-    "....M...."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxSkull', [
-    "..MMMMM..",
-    ".MHCCCMM.",
-    "MHHCCCCCM",
-    "MHMMCCMMC",
-    "MCMMCCMMC",
-    "MCCCCCCCM",
-    ".MCCMCCM.",
-    "..MCMCM..",
-    "..MMMMM.."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxFist', [
-    "..MMMMMM..",
-    ".MHCHCHCM.",
-    "MHCHCHCHCM",
-    "MHCCCCCCCM",
-    "MCCCCCCCCM",
-    "MMCCCCCCCM",
-    ".MCCCCCCM.",
-    "..MCCCCM..",
-    "..MMMMMM.."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxShield', [
-    "...MMMM...",
-    ".MMHHCCMM.",
-    "MHHCCCCCCM",
-    "MHCCCCCCCM",
-    "MHCCHHCCM.",
-    "MHCCHHCCM.",
-    ".MCCCCCCM.",
-    ".MHCCCCM..",
-    "..MCCCM...",
-    "...MCM....",
-    "....M....."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxClock', [
-    "...MMMM...",
-    ".MMHHCCMM.",
-    "MHCCCCCCCM",
-    "MHCCCHCCCM",
-    "MHCCCHCCCM",
-    "MHCCCHHCCM",
-    "MHCCCCCCCM",
-    "MHCCCCCCCM",
-    ".MMCCCCMM.",
-    "...MMMM..."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxStar', [
-    "....H....",
-    "....H....",
-    "...HCH...",
-    "..HCCHH..",
-    "HHCCCCCHH",
-    "..HCCHH..",
-    "...HCH...",
-    "....H....",
-    "....H...."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxBeast', [
-    "..M......M..",
-    "..CM....MC..",
-    "..CCMMMMCC..",
-    ".MCCHHCCCM..",
-    "MCCCCCCCCMM.",
-    "MCCCCCCCCCCM",
-    ".MMCCCCCCCM.",
-    "..M.M..M.M.."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxScarab', [
-    "...M..M...",
-    "..MCCCCM..",
-    ".MHHCCCCM.",
-    "MMCCCCCCMM",
-    ".MCCMCCCM.",
-    "MMCCMCCCMM",
-    ".MCCCCCCM.",
-    "..MM..MM.."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxPuppet', [
-    "...MMMM...",
-    "..MHCCCM..",
-    "..MCEECM..",
-    "...MCCM...",
-    "....MM....",
-    "..MMCCMM..",
-    ".MCCCCCCM.",
-    "MCMCCCCMCM",
-    "MM.CCCC.MM",
-    "...CCCC...",
-    "...M..M...",
-    "...M..M...",
-    "..MM..MM.."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxEye', [
-    "....MMMM....",
-    "..MMHHCCMM..",
-    ".MHCCMMCCCM.",
-    "MHCCMMMMCCCM",
-    ".MCCCHHCCCM.",
-    "..MMCCCCMM..",
-    "....MMMM...."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxAxe', [
-    ".......MMM..",
-    ".....MMHCCM.",
-    "....MHCCCCCM",
-    "....MHCCCCCM",
-    ".....MCCCCM.",
-    ".....MMCCM..",
-    "....MC.MMM..",
-    "...MC.......",
-    "..MC........",
-    ".MC.........",
-    "MC..........",
-    "M..........."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxScythe', [
-    ".....MMMMM..",
-    "...MMHHCCCM.",
-    "..MHCCCCCCCM",
-    ".MHCCMMMMMM.",
-    "MHCM........",
-    "MMM.........",
-    "..MC........",
-    "..MC........",
-    "..MC........",
-    "..MC........",
-    "..MC........",
-    "..MC........",
-    "..MC........"
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxFang', [
-    "HH.....HH",
-    "HCH...HCH",
-    ".HCM.MCH.",
-    ".HCCMCCM.",
-    "..HCCCM..",
-    "...MCM...",
-    "....M...."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxRune', [
-    "....HH....",
-    "...H..H...",
-    "..H.CC.H..",
-    ".H.C..C.H.",
-    "H.C.HH.C.H",
-    "H.C.HH.C.H",
-    ".H.C..C.H.",
-    "..H.CC.H..",
-    "...H..H...",
-    "....HH...."
-  ], {"M": "#4a355d", "C": "#e8b76d", "H": "#fff0c7", "E": "#181326"});
-  P.define('fxPetal', [
-    '...HH..', '..HCCH.', '.HCCCM.', 'HCCCCM.', 'HCCCM..', '.MMM...'
-  ], { M: '#b875b5', C: '#f6b2d3', H: '#fff0fa' });
-  P.define('fxWing', [
-    'H.........', 'HH........', 'HCH.......', 'HCCH......', 'HCCCH.....', '.HCCCH....', '..HCCCH...', '...HCCCH..', '....HHHHH.', '......HHHH'
-  ], { H: '#fff9e1', C: '#e6d6a6' });
-  P.define('fxHammer', [
-    '...MMMMMMMM.', '...MHHCCCCM.', '...MHHCCCCM.', '...MCCCCCCM.', '...MMMMMMMM.', '......MC....', '.....MC.....', '....MC......', '...MC.......', '..MC........', '.MC.........', 'MM..........'
-  ], { M: '#4a355d', C: '#e8b76d', H: '#fff0c7' });
-  P.define('fxBeak', [
-    'MH......', 'MCHH....', 'MCCCHH..', 'MCCCCCHH', 'MCCCHH..', 'MCHH....', 'MH......'
-  ], { M: '#4a355d', C: '#e8b76d', H: '#fff0c7' });
+// Authored 24px battle motifs. Pixel grids remain palette-driven in the VFX canvas.
+(function(){
+  var P=window.Game.PixelArt;
+  var palette={E:'#171323',M:'#57405f',C:'#d39057',H:'#fff0c7',S:'#91b5cb',W:'#684135'};
+  function motif(name,draw){
+    var a=Array.from({length:24},function(){return Array(24).fill('.');});
+    function dot(x,y,c){if(x>=1&&x<=22&&y>=1&&y<=22)a[y][x]=c;}
+    function box(x,y,w,h,c){for(var j=y;j<y+h;j++)for(var i=x;i<x+w;i++)dot(i,j,c);}
+    function poly(points,c){for(var y=1;y<23;y++)for(var x=1;x<23;x++){var inside=false;for(var i=0,j=points.length-1;i<points.length;j=i++){var u=points[i],v=points[j];if((u[1]>y+.5)!==(v[1]>y+.5)&&(x+.5<(v[0]-u[0])*(y+.5-u[1])/(v[1]-u[1])+u[0]))inside=!inside;}if(inside)dot(x,y,c);}}
+    function oval(x,y,rx,ry,c){for(var j=1;j<23;j++)for(var i=1;i<23;i++)if(((i-x)/rx)**2+((j-y)/ry)**2<=1)dot(i,j,c);}
+    function line(x,y,xx,yy,c,width){var steps=Math.max(Math.abs(xx-x),Math.abs(yy-y));for(var i=0;i<=steps;i++)box(Math.round(x+(xx-x)*i/Math.max(1,steps)),Math.round(y+(yy-y)*i/Math.max(1,steps)),width||1,width||1,c);}
+    draw({box:box,poly:poly,oval:oval,line:line,dot:dot});
+    var copy=a.map(function(row){return row.slice();});
+    for(var y=1;y<23;y++)for(var x=1;x<23;x++)if(copy[y][x]!=='.')[[0,-1],[-1,0],[1,0],[0,1]].forEach(function(d){var xx=x+d[0],yy=y+d[1];if(a[yy][xx]==='.')a[yy][xx]='E';});
+    var empty='............................';
+    P.define(name,[empty,empty].concat(a.map(function(row){return '..'+row.join('')+'..';}),[empty,empty]),palette);
+  }
+  motif('fxOrb',function(d){d.oval(12,12,8,8,'M');d.oval(11,11,7,7,'C');d.oval(9,8,3,3,'H');d.line(5,16,8,19,'H');d.box(16,7,2,2,'H');});
+  motif('fxFire',function(d){d.poly([[11,2],[15,7],[14,10],[19,6],[18,12],[22,15],[20,20],[15,22],[7,22],[3,18],[2,12],[7,15],[7,8],[10,11]],'M');d.poly([[11,5],[13,10],[12,14],[17,10],[17,15],[20,17],[17,21],[8,21],[5,18],[6,14],[10,16]],'C');d.poly([[12,12],[13,17],[16,16],[15,20],[11,22],[8,19],[10,16]],'H');});
+  motif('fxIce',function(d){d.poly([[12,2],[19,9],[17,19],[11,22],[5,15],[6,8]],'M');d.poly([[12,3],[12,17],[7,14],[7,9]],'H');d.poly([[13,4],[18,10],[16,18],[13,20]],'C');d.line(12,17,11,21,'H');d.line(14,9,17,10,'H');});
+  motif('fxArrow',function(d){d.poly([[15,6],[22,12],[15,18],[16,14],[5,14],[2,18],[2,13],[5,12],[2,11],[2,6],[6,10],[16,10]],'M');d.box(5,11,13,2,'C');d.poly([[16,7],[21,12],[16,12]],'H');d.poly([[16,13],[21,12],[16,17]],'S');d.line(3,7,6,10,'H');d.line(3,16,6,13,'H');});
+  motif('fxBullet',function(d){d.poly([[3,8],[16,8],[21,11],[21,14],[16,17],[3,17]],'M');d.box(4,9,12,7,'C');d.box(4,9,12,2,'H');d.poly([[16,9],[21,12],[16,16]],'S');d.box(6,10,2,6,'W');});
+  motif('fxBottle',function(d){d.box(9,2,7,3,'W');d.box(10,5,5,4,'S');d.poly([[10,8],[15,8],[20,13],[21,19],[18,22],[6,22],[3,19],[4,13]],'M');d.poly([[10,10],[15,10],[19,14],[19,19],[17,20],[7,20],[5,18],[6,14]],'C');d.box(6,14,13,2,'H');d.box(6,16,2,3,'H');d.box(11,11,4,2,'S');});
+  motif('fxNote',function(d){d.box(9,4,3,14,'C');d.box(18,2,3,14,'C');d.poly([[9,4],[21,2],[21,7],[9,9]],'H');d.oval(7,18,4,3,'M');d.oval(16,16,4,3,'M');d.box(5,16,4,2,'H');d.box(14,14,4,2,'H');});
+  motif('fxHeart',function(d){d.poly([[3,7],[6,4],[10,4],[12,7],[15,4],[19,4],[22,7],[22,12],[12,22],[2,12]],'M');d.poly([[4,7],[7,5],[10,6],[12,9],[16,6],[19,6],[21,8],[20,12],[12,20],[4,12]],'C');d.box(5,7,4,2,'H');d.box(4,9,2,3,'H');d.box(12,18,2,2,'H');});
+  motif('fxSkull',function(d){d.poly([[6,3],[18,3],[22,8],[21,15],[18,17],[18,21],[6,21],[6,17],[3,15],[2,8]],'M');d.poly([[7,4],[17,4],[20,8],[20,14],[16,16],[16,20],[8,20],[8,16],[4,14],[4,8]],'C');d.box(6,5,10,2,'H');d.box(5,9,5,5,'E');d.box(14,9,5,5,'E');d.poly([[12,13],[14,17],[10,17]],'E');d.box(10,18,1,3,'E');d.box(14,18,1,3,'E');});
+  motif('fxFist',function(d){d.poly([[5,7],[7,3],[10,3],[12,4],[15,3],[18,4],[20,7],[21,14],[18,17],[17,22],[7,22],[6,17],[3,14],[3,10]],'M');d.poly([[6,8],[8,5],[10,5],[11,9],[12,5],[15,5],[16,9],[17,6],[19,8],[19,14],[16,17],[16,20],[8,20],[8,16],[5,13],[5,10]],'C');d.box(7,6,2,3,'H');d.box(12,6,2,3,'H');d.box(17,8,2,2,'H');d.box(8,11,9,2,'M');d.poly([[5,10],[9,10],[12,14],[10,16],[6,14]],'H');d.box(8,20,8,2,'S');});
+  motif('fxShield',function(d){d.poly([[3,3],[12,5],[21,3],[20,15],[17,19],[12,23],[7,19],[4,15]],'M');d.poly([[5,5],[12,7],[19,5],[18,14],[15,18],[12,20],[8,17],[6,14]],'C');d.line(6,6,7,14,'H',2);d.line(8,16,12,19,'H');d.box(11,8,3,9,'H');d.box(8,11,9,3,'H');});
+  motif('fxClock',function(d){d.box(10,1,5,3,'C');d.oval(12,13,9,9,'M');d.oval(12,13,7,7,'H');d.oval(12,13,6,6,'C');d.box(11,7,2,2,'M');d.box(11,18,2,2,'M');d.box(6,12,2,2,'M');d.box(17,12,2,2,'M');d.box(11,9,2,5,'E');d.line(12,13,16,15,'E',2);d.box(11,12,2,2,'H');});
+  motif('fxStar',function(d){d.poly([[12,2],[15,9],[22,12],[15,15],[12,22],[9,15],[2,12],[9,9]],'M');d.poly([[12,4],[14,10],[20,12],[14,14],[12,20],[10,14],[4,12],[10,10]],'C');d.box(11,9,2,6,'H');d.box(9,11,6,2,'H');});
+  motif('fxBeast',function(d){d.poly([[4,2],[9,6],[15,6],[20,2],[21,11],[19,17],[12,22],[5,17],[3,11]],'M');d.poly([[5,5],[9,8],[16,8],[19,5],[19,12],[16,16],[12,19],[7,15],[5,11]],'C');d.poly([[5,9],[10,10],[9,12],[6,11]],'H');d.poly([[14,10],[19,9],[18,11],[15,12]],'H');d.poly([[9,14],[15,14],[17,17],[12,21],[7,17]],'M');d.box(10,14,5,2,'E');d.box(9,17,2,3,'H');d.box(14,17,2,3,'H');});
+  motif('fxScarab',function(d){d.line(8,5,5,2,'C');d.line(16,5,19,2,'C');[8,13,18].forEach(function(y){d.line(7,y,2,y-2,'M',2);d.line(17,y,21,y-2,'M',2);});d.oval(12,6,4,3,'C');d.oval(12,14,7,8,'M');d.oval(11,13,5,7,'C');d.box(11,7,2,14,'M');d.line(7,10,9,8,'H',2);d.box(14,11,2,6,'H');});
+  motif('fxPuppet',function(d){d.line(4,2,20,2,'W',2);d.line(7,3,7,15,'S');d.line(17,3,17,15,'S');d.oval(12,7,4,4,'C');d.box(10,6,1,2,'E');d.box(14,6,1,2,'E');d.box(11,10,3,3,'W');d.box(9,12,7,6,'M');d.line(9,13,6,17,'C',2);d.line(15,13,19,17,'C',2);d.line(10,17,8,21,'C',2);d.line(14,17,16,21,'C',2);d.box(10,13,4,3,'H');});
+  motif('fxEye',function(d){d.poly([[2,12],[7,6],[12,4],[18,7],[23,12],[18,17],[12,20],[6,17]],'M');d.poly([[4,12],[8,8],[12,6],[17,9],[21,12],[17,15],[12,18],[7,15]],'H');d.oval(12,12,4,6,'C');d.box(11,8,2,9,'E');d.box(10,8,2,2,'H');});
+  motif('fxAxe',function(d){d.line(5,21,18,5,'W',3);d.line(5,20,17,5,'C');d.poly([[12,4],[17,2],[22,5],[21,12],[16,15],[15,9],[10,9]],'M');d.poly([[16,4],[20,5],[20,11],[17,13],[17,8],[13,7]],'S');d.line(20,6,20,10,'H');d.box(14,7,4,3,'C');});
+  motif('fxScythe',function(d){d.line(9,7,10,22,'W',2);d.line(9,9,9,21,'C');d.poly([[3,12],[4,6],[9,2],[16,2],[21,5],[23,10],[19,8],[14,6],[9,7]],'M');d.poly([[4,10],[6,5],[10,3],[16,3],[20,6],[13,5],[8,6]],'S');d.line(9,3,16,3,'H');d.box(8,6,4,3,'C');});
+  motif('fxFang',function(d){d.poly([[3,3],[9,3],[10,9],[9,15],[6,21],[7,13],[4,9]],'M');d.poly([[4,4],[7,4],[8,9],[7,15],[6,17],[6,10]],'H');d.poly([[15,3],[21,3],[20,10],[17,17],[13,21],[16,12]],'M');d.poly([[16,4],[20,4],[18,11],[15,17],[17,9]],'C');d.line(18,5,17,10,'H');});
+  motif('fxRune',function(d){d.poly([[12,2],[22,12],[12,22],[2,12]],'M');d.poly([[12,4],[20,12],[12,20],[4,12]],'C');d.poly([[12,6],[18,12],[12,18],[6,12]],'E');d.box(11,8,2,8,'H');d.line(8,10,15,10,'H');d.line(8,14,15,14,'C');d.box(11,2,2,2,'H');d.box(11,20,2,2,'H');});
+  motif('fxPetal',function(d){d.poly([[6,21],[3,15],[4,8],[11,3],[20,2],[22,6],[19,14],[13,20]],'M');d.poly([[5,14],[6,9],[12,4],[20,3],[19,10],[13,17],[7,19]],'C');d.line(6,18,18,5,'H');d.line(11,12,17,12,'H');});
+  motif('fxWing',function(d){d.poly([[3,21],[2,13],[5,8],[11,4],[22,2],[20,6],[14,9],[21,7],[18,12],[12,14],[18,13],[15,18],[9,19],[7,22]],'M');d.poly([[4,18],[4,13],[7,9],[12,6],[20,4],[13,9],[8,13]],'H');d.poly([[6,17],[11,12],[18,9],[16,12],[10,16],[15,15],[13,17],[8,19],[6,21]],'C');d.line(5,18,12,10,'H');});
+  motif('fxHammer',function(d){d.line(5,21,16,7,'W',3);d.line(5,20,14,8,'C');d.poly([[9,3],[13,1],[23,10],[21,14],[17,14],[8,7]],'M');d.poly([[11,3],[13,3],[21,10],[20,12],[18,12],[10,6]],'S');d.line(11,3,20,10,'H');d.box(12,8,3,3,'C');});
+  motif('fxBeak',function(d){d.poly([[3,4],[9,5],[21,11],[22,14],[13,15],[7,20],[3,19]],'M');d.poly([[5,6],[9,7],[20,12],[8,12],[5,15]],'C');d.line(6,7,17,11,'H');d.poly([[6,14],[13,14],[8,18],[5,18]],'C');});
 })();

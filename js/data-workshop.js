@@ -37,7 +37,7 @@
       var id = 'forge_' + base.id + '_' + affix.id, magic = (base.statBonus.mag || 0) > (base.statBonus.atk || 0);
       var item = Object.assign({}, base, { id: id, name: base.name + ' · ' + affix.name, nameEn: affix.nameEn + ' ' + base.nameEn, icon: 'forge' + (magic ? 'Staff' : 'Blade') + affix.id, craftOnly: true, price: F.shopPrice(base), forgeEffect: { effect: affix.effect, amount: affix.amount }, baseId: base.id, desc: base.desc + ' • ' + affix.desc, descEn: base.descEn + ' • ' + affix.descEn });
       D.items.push(item);
-      recipes.push({ id: 'make_' + id, type: 'forge', resultId: id, baseId: base.id, affix: affix.id, floor: ({1:1,2:11,3:21,4:31,5:41,6:45,7:75,8:55,9:60})[base.tier] || 1, gold: 60 * base.tier, materials: [{ id: base.id, qty: 1 }, { id: affix.id === 'sanguine' ? 'part_dust' : 'part_metal', qty: 2 }, { id: 'part_cloth', qty: 1 }] });
+      recipes.push({ id: 'make_' + id, type: 'forge', resultId: id, baseId: base.id, affix: affix.id, floor: ({1:1,2:11,3:21,4:31,5:41,6:45,7:60,8:55,9:60})[base.tier] || 1, gold: 60 * base.tier, materials: [{ id: base.id, qty: 1 }, { id: affix.id === 'sanguine' ? 'part_dust' : 'part_metal', qty: 2 }, { id: 'part_cloth', qty: 1 }] });
     });
   });
   D.items.filter(function (it) { return it.kind === 'armor' && !it.questOnly; }).forEach(function (base) {
@@ -45,7 +45,7 @@
     stats.def = (stats.def || 0) + base.tier * 2; stats.res = (stats.res || 0) + base.tier;
     var desc = Object.keys(stats).map(function (key) { return '+' + stats[key] + ' ' + key.toUpperCase(); }).join(', ');
     D.items.push(Object.assign({}, base, { id: id, name: base.name + ' · เสริมแผ่นเกราะ', nameEn: 'Reinforced ' + base.nameEn, statBonus: stats, icon: 'workReinforced', craftOnly: true, price: F.shopPrice(base), baseId: base.id, desc: desc, descEn: desc }));
-    recipes.push({ id: 'make_' + id, type: 'armor', resultId: id, npc: 'orin', trust: 1, floor: Math.max(8, ({1:1,2:11,3:21,4:31,5:41,6:45,7:75})[base.tier] || 1), gold: 80 * base.tier, materials: [{ id: base.id, qty: 1 }, { id: 'part_metal', qty: 2 }, { id: 'part_cloth', qty: 2 }] });
+    recipes.push({ id: 'make_' + id, type: 'armor', resultId: id, npc: 'orin', trust: 1, floor: Math.max(8, ({1:1,2:11,3:21,4:31,5:41,6:45,7:60})[base.tier] || 1), gold: 80 * base.tier, materials: [{ id: base.id, qty: 1 }, { id: 'part_metal', qty: 2 }, { id: 'part_cloth', qty: 2 }] });
   });
   G.WorkshopData = { components: components, runes: runes, affixes: affixes, recipes: recipes };
 })();

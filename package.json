@@ -13,7 +13,8 @@
     "build:mac": "npm run build && electron-builder --mac",
     "build:linux": "npm run build && electron-builder --linux",
     "test:ui": "npm run build && electron scripts/ui-polish-test.js",
-    "art:pack": "electron scripts/pack-pixel16.js"
+    "art:pack": "electron scripts/pack-pixel16.js",
+    "test:modes": "npm run build && electron scripts/modes-test.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -164,7 +164,7 @@
   function sourceHint(id) {
     var item = D.getItem(id); if (!item) return {th:'',en:''};
     if (item.kind === 'component') return {th:'แยกอุปกรณ์ / หลอม 3 ต่อ 1 / งานสมาคม / สั่งจาก NPC',en:'Dismantle gear / fuse 3:1 / guild jobs / NPC orders'};
-    if (item.kind === 'material') { var starts={1:1,2:11,3:21,4:31,5:41,6:45,7:50,8:55,9:60}; return {th:'ศัตรูโซนชั้น '+starts[item.tier]+(item.tier===9?' ขึ้นไป':'–'+({1:10,2:20,3:30,4:40,5:44,6:49,7:54,8:59})[item.tier]),en:'Enemies on floors '+starts[item.tier]+(item.tier===9?'+':'–'+({1:10,2:20,3:30,4:40,5:44,6:49,7:54,8:59})[item.tier])}; }
+    if (item.kind === 'material') { var starts={1:1,2:11,3:21,4:31,5:41,6:45,7:50,8:55,9:60}; return {th:'ศัตรูโซนชั้น '+starts[item.tier]+(item.tier===9?' ขึ้นไป':'–'+({1:10,2:20,3:30,4:40,5:44,6:49,7:54,8:59})[item.tier])+(item.tier>=5&&item.tier<=8?' (และจากศัตรูชั้น 65+)':''),en:'Enemies on floors '+starts[item.tier]+(item.tier===9?'+':'–'+({1:10,2:20,3:30,4:40,5:44,6:49,7:54,8:59})[item.tier])+(item.tier>=5&&item.tier<=8?' (also dropped by floor 65+ enemies)':'')}; }
     return {th:item.craftOnly?'คราฟต์ตามสูตรเดิมก่อนนำมาดัดแปลง':'อุปกรณ์ในกระเป๋า / ร้านค้า / รางวัลชั้น',en:item.craftOnly?'Craft the original recipe first':'Unequipped gear / shop / floor rewards'};
   }
   var originalEquip=S.equip, originalUnequip=S.unequip, originalReward=S.getRewardMult;
