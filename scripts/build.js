@@ -65,6 +65,7 @@ const FILES = [
   'js/battle-vfx.js',
   'js/input.js',
   'js/tips.js',
+  'js/guide-art.js',
   'js/ui-menu.js',
   'js/minigame.js',
   'js/ui-tower.js',

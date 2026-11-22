@@ -2,7 +2,7 @@
 
 // End-to-end smoke test: boots the real game in a hidden Electron window (same
 // preload bridge as the shipped desktop build), then plays it through the UI --
-// menus, settings, a new run, battles, rewards, events, a checkpoint, a retreat,
+// menus, settings, a new run, battles, rewards, events, a retreat,
 // a defeat, save export/import and keyboard navigation -- failing on any script
 // error, console error or broken expectation.
 //
@@ -118,7 +118,7 @@ const IN_PAGE = async function (TARGET, BUDGET) {
         else if (screen === 'screen-waypoint') { const c = Array.from(document.querySelectorAll('#waypoint-actions button, #waypoint-body .select-card')).filter(vis); const b = c.find((x) => x.closest('#waypoint-actions')) || c[0]; if (b) b.click(); }
         else if (screen === 'screen-story') click('#story-continue');
         else if (screen === 'screen-end') {
-          // An under-geared bot falls sometimes: a defeat must offer the checkpoint, and resuming must work.
+          // A natural defeat ends this smoke run under permadeath.
           if (!vis($('#end-checkpoint-btn'))) return false;
           defeats++; $('#end-checkpoint-btn').click();
         }
@@ -139,8 +139,7 @@ const IN_PAGE = async function (TARGET, BUDGET) {
     if (reached) {
       const run = G.State.current;
       check(run.level > 1 && (run.level < 5 || Object.keys(run.talents || {}).length >= 1), 'levelled up and chose a talent (level ' + run.level + ')');
-      const cpFloor = Math.floor((run.currentFloor - 1) / 10) * 10 + 1;
-      if (TARGET >= 11) check(!!G.State.getCheckpoint(run) && G.State.getCheckpoint(run).currentFloor === cpFloor, 'a checkpoint exists for floor ' + cpFloor);
+      check(G.State.getCheckpoint(run) === null, 'permadeath has no checkpoint');
       checkScreenText('tower');
 
       // ---- side screens ----
@@ -163,15 +162,6 @@ const IN_PAGE = async function (TARGET, BUDGET) {
       click('#battle-home'); await sleep(80); click('#leave-confirm'); await sleep(200);
       check(active() === 'screen-tower' && G.State.current.gold === goldBefore - Math.floor(goldBefore * 0.15) && G.State.current.battleMark == null, 'retreating costs 15% gold and clears the mark');
 
-      // ---- defeat returns to the checkpoint ----
-      if (TARGET >= 11) {
-        G.Main.showEnd(false); await sleep(100);
-        check(active() === 'screen-end' && vis($('#end-checkpoint-btn')), 'defeat screen offers the checkpoint'); checkScreenText('defeat');
-        check(G.State.current && G.State.current.currentFloor === cpFloor && G.Save.read().currentFloor === cpFloor, 'the saved run is back on floor ' + cpFloor);
-        click('#end-checkpoint-btn'); await sleep(100);
-        check(active() === 'screen-tower' && G.State.current.hp === G.State.getMaxHp(G.State.current), 'resumes on the tower fully healed');
-      }
-
       // ---- save: export / import / corruption recovery ----
       const exported = G.Save.exportAll();
       const floorNow = G.State.current.currentFloor;
@@ -191,6 +181,13 @@ const IN_PAGE = async function (TARGET, BUDGET) {
       check(active() === 'screen-menu' && vis($('#btn-continue')), 'home returns to the menu with Continue');
       click('#btn-continue'); await sleep(120);
       check(active() === 'screen-tower' || active() === 'screen-reward', 'Continue resumes the run');
+
+      // ---- defeat clears the run on every difficulty ----
+      G.Main.showEnd(false); await sleep(100);
+      check(active() === 'screen-end' && !vis($('#end-checkpoint-btn')), 'defeat offers no checkpoint'); checkScreenText('defeat');
+      check(G.State.current === null && !G.Save.read(), 'defeat clears the active and saved run');
+      click('#end-menu-btn'); await sleep(60);
+      check(active() === 'screen-menu' && !vis($('#btn-continue')), 'defeat returns to a menu without Continue');
 
       // ---- crash overlay ----
       G.Main.showErrorOverlay(new Error('smoke test probe'));

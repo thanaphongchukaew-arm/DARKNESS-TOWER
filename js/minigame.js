@@ -8,6 +8,15 @@
   var LS_KEY = 'minigames';
   function X(th, en) { return G.I18n && G.I18n.getLang && G.I18n.getLang() === 'en' ? en : th; }
   function SFX(name) { if (G.Audio && G.Audio.sfx) G.Audio.sfx(name); }
+  function icon(name) { return G.Icons ? G.Icons.get(name) : ''; }
+  function scene(name) { return '<div class="minigame-scene" aria-hidden="true">' + icon(name) + '</div>'; }
+  function cardArt(value) {
+    var rank = ['', 'A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'][value];
+    var suit = ['Spade', 'Heart', 'Club', 'Diamond'][(value - 1) % 4];
+    var color = suit === 'Heart' || suit === 'Diamond' ? 'card-red' : 'card-black';
+    return '<span class="card-face ' + color + '"><span class="card-corner">' + rank + icon('cardSuit' + suit) + '</span><span class="card-main"><strong>' + rank + '</strong>' + icon('cardSuit' + suit) + '</span><span class="card-corner card-corner-bottom" aria-hidden="true">' + rank + icon('cardSuit' + suit) + '</span></span>';
+  }
+  function cardBack() { return '<span class="card-back-pattern" aria-hidden="true"><span>' + icon('cardSuitDiamond') + '</span></span>'; }
 
   function enabled() {
     try { return G.Save.readMeta()[LS_KEY] !== false; } catch (e) { return true; }
@@ -56,7 +65,7 @@
     var stops = opts.stops || 3, need = opts.need || 2, speed = opts.speed || 1.1, zoneW = opts.zone || 0.2;
     var hits = 0, stop = 0, pos = 0, dir = 1, last = 0, raf = 0, zoneStart = 0, locked = false, done = false;
     var el = open(
-      '<h3>' + opts.title + '</h3><p class="minigame-hint">' + opts.hint + '</p>' +
+      scene(opts.art || 'miniForge') + '<h3>' + opts.title + '</h3><p class="minigame-hint">' + opts.hint + '</p>' +
       '<div class="minigame-gauge" aria-hidden="true"><span class="minigame-zone"></span><span class="minigame-marker"></span></div>' +
       '<div class="minigame-pips" aria-hidden="true"></div>' +
       '<p class="minigame-status" aria-live="polite"></p>' +
@@ -112,13 +121,12 @@
   // opts: { title, bet }  ->  cb({ played, skipped, won, mult, card, hidden, payout })
   function hiLo(opts, cb) {
     var card = 1 + Math.floor(Math.random() * 13), odds = hiLoOdds(card), done = false;
-    function face(v) { return ['', 'A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'][v]; }
     function sideBtn(key, label, o) {
       return '<button class="btn-primary" data-mg="' + key + '"' + (o.available ? '' : ' disabled') + '>' + label + (o.available ? ' ×' + o.mult.toFixed(2) : '') + '</button>';
     }
     var el = open(
-      '<h3>' + opts.title + '</h3><p class="minigame-hint">' + X('ไพ่ใบถัดไปจะสูงหรือต่ำกว่า? เสมอถือว่าแพ้ ยิ่งเสี่ยงยิ่งได้คูณสูง', 'Will the next card be higher or lower? A tie loses; riskier guesses pay more.') + '</p>' +
-      '<div class="minigame-cards"><span class="minigame-card">' + face(card) + '</span><span class="minigame-card back" id="mg-hidden">?</span></div>' +
+      scene('miniCards') + '<h3>' + opts.title + '</h3><p class="minigame-hint">' + X('ไพ่ใบถัดไปจะสูงหรือต่ำกว่า? เสมอถือว่าแพ้ ยิ่งเสี่ยงยิ่งได้คูณสูง', 'Will the next card be higher or lower? A tie loses; riskier guesses pay more.') + '</p>' +
+      '<div class="minigame-cards"><span class="minigame-card" aria-label="' + card + '">' + cardArt(card) + '</span><span class="minigame-card back" id="mg-hidden" aria-label="' + X('ไพ่คว่ำ', 'Hidden card') + '">' + cardBack() + '</span></div>' +
       '<p class="minigame-status" aria-live="polite">' + X('เดิมพัน ', 'Stake ') + opts.bet + '</p>' +
       '<div class="minigame-actions"><button class="btn-ghost" data-mg="skip">' + X('ข้าม (โยนเหรียญ)', 'Skip (coin flip)') + '</button>' +
       sideBtn('lower', X('ต่ำกว่า', 'Lower'), odds.lower) + sideBtn('higher', X('สูงกว่า', 'Higher'), odds.higher) + '</div>');
@@ -128,7 +136,8 @@
       if (done) return; done = true;
       var o = odds[side], hidden = 1 + Math.floor(Math.random() * 13);
       var won = side === 'higher' ? hidden > card : hidden < card;
-      el.querySelector('#mg-hidden').textContent = face(hidden); el.querySelector('#mg-hidden').classList.remove('back');
+      el.querySelector('#mg-hidden').innerHTML = cardArt(hidden); el.querySelector('#mg-hidden').classList.remove('back');
+      el.querySelector('#mg-hidden').setAttribute('aria-label', String(hidden));
       Array.prototype.forEach.call(el.querySelectorAll('button'), function (b) { b.disabled = true; });
       SFX(won ? 'item_get' : 'hit_null');
       setTimeout(function () { close(); cb({ played: true, skipped: false, won: won, mult: o.mult, card: card, hidden: hidden, payout: won ? hiLoPayout(opts.bet, o.mult) : 0 }); }, 800);

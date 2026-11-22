@@ -41,7 +41,6 @@
       "css/**",
       "fonts/**",
       "backgrounds/**",
-      "assets/classes/**",
       "assets/pixel16/**",
       "icons/**",
       "manifest.webmanifest",

@@ -16,8 +16,11 @@ app.whenReady().then(async()=>{
  const report=await run(`
  const paths=Game.Data.classes.map(c=>'assets/pixel16/classes/'+c.icon+'.png').concat(Game.Data.getAllEnemyTemplates().map(e=>'assets/pixel16/monsters/'+e.id+'.png'));
  for(let phase=2;phase<=4;phase++)paths.push('assets/pixel16/monsters/timeless_sovereign-phase-'+phase+'.png');
+ paths.push(...Game.NPCArt.keys.map(k=>'assets/pixel16/npcs/'+k+'.png'),...Game.CompanionArt.keys.map(k=>'assets/pixel16/companions/'+k+'.png'));
+ const routes={classes:Game.Data.classes.map(c=>({id:c.icon,html:Game.Icons.get(c.icon)})),monsters:Game.Data.getAllEnemyTemplates().map(e=>({id:e.id,html:Game.BattleArt.enemy(e)})),npcs:Game.NPCArt.keys.map(k=>({id:k,html:Game.Icons.get(k)})),companions:Game.CompanionArt.keys.map(k=>({id:k,html:Game.Icons.get(k)}))};
+ for(const [kind,list]of Object.entries(routes))for(const entry of list)if(!entry.html.includes('assets/pixel16/'+kind+'/'+entry.id+'.png'))throw Error('Wrong artwork route: '+kind+'/'+entry.id);
  const loads=await Promise.all(paths.map(src=>new Promise(resolve=>{const image=new Image();image.onload=()=>resolve({src,ok:true,width:image.naturalWidth,height:image.naturalHeight});image.onerror=()=>resolve({src,ok:false});image.src=src;})));
- return {classes:Game.Data.classes.length,monsters:Game.Data.getAllEnemyTemplates().length,images:loads};`);
+ return {classes:Game.Data.classes.length,monsters:Game.Data.getAllEnemyTemplates().length,images:loads,routes:Object.fromEntries(Object.entries(routes).map(([k,v])=>[k,v.length]))};`);
  if(report.images.some(i=>!i.ok))throw Error('Missing runtime images');
  const identities=JSON.parse(fs.readFileSync(path.join(OUT,'original-monster-identities.json'),'utf8'));
  const actual=await run('return Game.Data.getAllEnemyTemplates().map(e=>({id:e.id,name:e.name,nameEn:e.nameEn}));');
@@ -32,7 +35,13 @@ app.whenReady().then(async()=>{
  fs.writeFileSync(path.join(OUT,'game-battle-desktop.png'),(await win.webContents.capturePage()).toPNG());
  await run('await Promise.race([navigator.serviceWorker.ready,new Promise((_,reject)=>setTimeout(()=>reject(Error("Offline cache not ready")),8000))]);');
  report.cached=await run('return (await Promise.all('+JSON.stringify(report.images.map(i=>i.src))+'.map(src=>caches.match(src)))).filter(Boolean).length;');
- if(report.cached!==132)throw Error('Offline sprite cache incomplete: '+report.cached);
+ if(report.cached!==report.images.length)throw Error('Offline sprite cache incomplete: '+report.cached);
+ const crypto=require('crypto');
+ const files=report.images.map(i=>i.src).concat(['dist/game.min.js','css/polish.css']);
+ report.contentHashes=await run(`return Promise.all(${JSON.stringify(files)}.map(async src=>{const digest=async response=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',await response.arrayBuffer()))].map(b=>b.toString(16).padStart(2,'0')).join('');const cached=await caches.match(src);return {src,network:await digest(await fetch(src)),cache:cached?await digest(cached):null};}));`);
+ for(const row of report.contentHashes){const expected=crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT,row.src))).digest('hex');if(row.network!==expected||row.cache!==expected)throw Error('Stale content: '+row.src);}
+ report.legacyCached=await run("return (await Promise.all((await caches.keys()).map(async k=>(await (await caches.open(k)).keys()).map(r=>new URL(r.url).pathname)))).flat().filter(p=>p.includes('/assets/classes/')); ");
+ if(report.legacyCached.length)throw Error('Legacy class images still cached');
  await win.webContents.session.enableNetworkEmulation({offline:true});
  await win.loadURL(base);await run('if(!Game.Data.getAllEnemyTemplates().length)throw Error("Offline game did not load");');
  report.offline=true;await win.webContents.session.disableNetworkEmulation();
@@ -42,6 +51,6 @@ app.whenReady().then(async()=>{
  fs.writeFileSync(path.join(OUT,'game-classes-mobile.png'),(await win.webContents.capturePage()).toPNG());
  report.errors=errors;fs.writeFileSync(path.join(OUT,'runtime-report.json'),JSON.stringify(report,null,2));
  if(errors.length)throw Error(errors.join('\n'));
- console.log(JSON.stringify({classes:report.classes,monsters:report.monsters,loaded:report.images.length,cached:report.cached,offline:report.offline,mobile:report.mobile,errors}));
+ console.log(JSON.stringify({classes:report.classes,monsters:report.monsters,loaded:report.images.length,routes:report.routes,hashes:report.contentHashes.length,cached:report.cached,offline:report.offline,mobile:report.mobile,errors}));
  server.close();app.quit();
 }).catch(error=>{console.error(error);server.close();app.exit(1);});

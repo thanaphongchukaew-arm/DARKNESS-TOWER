@@ -28,7 +28,7 @@ test('save stamps a version and clear removes the slot together with its backup'
 test('export then import round-trips the run, meta and checkpoint; foreign data is rejected', () => {
   const { G, run } = fresh();
   run.currentFloor = 11; run.gold = 321;
-  assert.equal(G.State.maybeCheckpoint(run), true);
+  G.Save.writeCheckpoint(JSON.parse(JSON.stringify(run)));
   G.State.saveNow();
   const meta = G.Save.readMeta(); meta.bestFloorReached = 11; G.Save.writeMeta(meta);
   const text = G.Save.exportAll();
@@ -106,27 +106,14 @@ test('champion floors field one tougher, better-paying leader', () => {
   assert.ok(battle.enemies.slice(1).every((e) => !e.champion));
 });
 
-test('checkpoints: every 10 floors, never on Nightmare, restore heals and survives clearRun rules', () => {
-  const { G, run } = fresh('blade', 'normal');
-  const S = G.State;
-  run.currentFloor = 10; assert.equal(S.maybeCheckpoint(run), false);
-  run.currentFloor = 11; run.gold = 500; assert.equal(S.maybeCheckpoint(run), true);
-  assert.equal(S.maybeCheckpoint(run), false, 'the same floor is not snapshotted twice');
-  run.currentFloor = 17; run.gold = 3; run.hp = 0; run.battleMark = 17;
-  const restored = S.restoreCheckpoint();
-  assert.equal(restored.currentFloor, 11);
-  assert.equal(restored.gold, 500);
-  assert.equal(restored.hp, S.getMaxHp(restored));
-  assert.equal(restored.battleMark, undefined);
-  assert.equal(S.current, restored);
-  assert.equal(G.Save.read().currentFloor, 11);
-  S.clearRun();
-  assert.equal(G.Save.readCheckpoint(), null, 'a finished run takes its checkpoint with it');
-
-  const nm = fresh('blade', 'nightmare');
-  nm.run.currentFloor = 11;
-  assert.equal(nm.G.State.maybeCheckpoint(nm.run), false);
-  assert.equal(nm.G.State.restoreCheckpoint(), null);
+test('permadeath on every difficulty: no checkpoints are ever taken or restored', () => {
+  for (const diff of ['easy', 'normal', 'hard', 'nightmare']) {
+    const { G, run } = fresh('blade', diff);
+    run.currentFloor = 11;
+    assert.equal(G.State.maybeCheckpoint(run), false, diff);
+    assert.equal(G.Save.readCheckpoint(), null, diff);
+    assert.equal(G.State.restoreCheckpoint(), null, diff);
+  }
 });
 
 test('retreat costs 15% gold only when a battle was in progress', () => {

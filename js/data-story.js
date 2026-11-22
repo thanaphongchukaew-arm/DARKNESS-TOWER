@@ -195,11 +195,11 @@
         title: 'ก่อนถึงบัลลังก์', titleEn: 'Before the Throne',
         text: 'ที่ปลายทางเดิน ตะเกียงนับพันดวงลอยเรียงกันเหมือนดวงดาว เจ้าจำดวงหนึ่งได้ทันที ผู้จุดตะเกียงยังอยู่ตรงนั้น เปลวไฟนิ่งสนิท ยิ้มเหมือนรอเจ้ามานาน\nเศษจันทราสว่างวาบ เสียงจากบัลลังก์ดังขึ้น\n“เจ้ามาแล้ว ช้าไปสิบปี... และเร็วไปหนึ่งวัน”',
         textEn: 'At the end of the hall, a thousand lamps float in rows like stars. You recognize one at once. The Lamplighter is there, flame perfectly still, smiling as if they had waited a long time for you.\nThe Moon Shard flares. A voice speaks from the throne.\n“You have come. Ten years late... and one day too early.”' },
-      { id: 'veyra_bell_echo', floor: 85, kind: 'voice', icon: 'star',
+      { id: 'veyra_bell_echo', floor: 85, kind: 'voice', icon: 'loreBellEcho',
         title: 'เสียงระฆังจากอดีต', titleEn: 'A Bell from the Past',
         text: 'ท่ามกลางความเงียบ เสียงระฆังจางหายดังก้องมาจากที่ไกลมาก ไม่ใช่ของใบที่เวย์ร่าซ่อม แต่เป็นเสียงจากวันที่เวลายังเดิน\n“ทุกเช้า ข้าตีระฆังนี้ให้ผู้คนตื่น” เสียงของใครบางคนกระซิบ “วันนั้น ข้ายังไม่กลัวพรุ่งนี้เลย”',
         textEn: 'In the silence, a faint bell echoes from very far away, not Veyra’s, but one from a day when time still moved.\n“Every morning I rang this bell so people would wake,” someone whispers. “Back then, I was not afraid of tomorrow.”' },
-      { id: 'lamp_roll', floor: 97, kind: 'inscription', icon: 'tome',
+      { id: 'lamp_roll', floor: 97, kind: 'inscription', icon: 'loreLampRoll',
         title: 'บัญชีรายชื่อดวงไฟ', titleEn: 'The Roll of Lamps',
         text: 'ทางเดินสุดท้ายเรียงด้วยตะเกียงนับพันดวง ใต้แต่ละดวงมีชื่อสลักเล็ก ๆ ชื่อแรกคือชื่อของผู้จุดตะเกียง\nท้ายสุดมีช่องว่างช่องหนึ่ง ยังไม่มีชื่อ เหมือนรอใครสักคนเดินมาถึง',
         textEn: 'The final corridor is lined with a thousand lamps, each with a small name carved beneath. The first name is the Lamplighter’s.\nAt the very end, one slot stands empty, waiting for someone to arrive.' }

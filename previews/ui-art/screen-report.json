@@ -22,7 +22,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 37
+      "itemCount": 0
     },
     {
       "tag": "desktop",
@@ -118,7 +118,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 192
+      "itemCount": 193
     },
     {
       "tag": "desktop",
@@ -142,7 +142,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 18
+      "itemCount": 20
     },
     {
       "tag": "desktop",
@@ -190,7 +190,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 49
+      "itemCount": 50
     },
     {
       "tag": "desktop",
@@ -310,7 +310,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 15
+      "itemCount": 16
     },
     {
       "tag": "desktop",
@@ -370,7 +370,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 37
+      "itemCount": 0
     },
     {
       "tag": "mobile",
@@ -466,7 +466,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 192
+      "itemCount": 193
     },
     {
       "tag": "mobile",
@@ -490,7 +490,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 18
+      "itemCount": 20
     },
     {
       "tag": "mobile",
@@ -538,7 +538,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 49
+      "itemCount": 50
     },
     {
       "tag": "mobile",
@@ -658,7 +658,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 15
+      "itemCount": 16
     },
     {
       "tag": "mobile",
@@ -718,7 +718,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 37
+      "itemCount": 0
     },
     {
       "tag": "landscape",
@@ -814,7 +814,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 192
+      "itemCount": 193
     },
     {
       "tag": "landscape",
@@ -838,7 +838,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 18
+      "itemCount": 20
     },
     {
       "tag": "landscape",
@@ -886,7 +886,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 49
+      "itemCount": 50
     },
     {
       "tag": "landscape",
@@ -1006,7 +1006,7 @@
       "bestiaryArt": null,
       "pairIcons": null,
       "iconOverlaps": [],
-      "itemCount": 15
+      "itemCount": 16
     },
     {
       "tag": "landscape",

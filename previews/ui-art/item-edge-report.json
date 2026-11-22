@@ -420,6 +420,13 @@
     "bottom": 46
   },
   {
+    "id": "p_mp_large",
+    "left": 9,
+    "top": 4,
+    "right": 42,
+    "bottom": 46
+  },
+  {
     "id": "p_mp_greater",
     "left": 11,
     "top": 4,

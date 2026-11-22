@@ -171,7 +171,7 @@
   bind('relicOpportunist blessInsight',art.eye);
   bind('relicSwiftRecovery',function(){return art.heart()+small(plus(),7,8,.7);});
   bind('relicBreak',function(){return art.gem()+p('M15 3h3v8h-4v5h4v7h-3v-6h-4v-7h4Z',C.ink);});
-  bind('relicEcho',art.bell);
+  bind('relicEcho propDawnBell',art.bell);
   bind('settingsGear',art.gear);
   bind('save',art.save);
   bind('trash',function(){return p('M11 2h10v4h8v5h-3v19H6V11H3V6h8Z',C.ink)+r(12,3,8,3,C.steelDark)+r(4,7,24,3,C.steel)+r(5,7,21,1,C.steelLight)+r(7,11,18,18,C.steelDark)+r(8,12,15,16,C.steel)+r(10,13,2,13,C.steelLight)+r(15,13,2,13,C.steelDark)+r(20,13,2,13,C.steelDark);});
@@ -259,6 +259,24 @@
   bind('propCart',function(){return p('M2 9h26v13H2Z',C.ink)+r(3,10,24,10,C.wood)+r(4,11,22,2,C.woodLight)+r(4,16,22,2,C.woodDark)+r(6,9,2,12,C.gold)+r(22,9,2,12,C.gold)+r(26,17,5,3,C.woodLight)+p('M5 20h7v2h2v7h-2v2H5v-2H3v-7h2ZM19 20h7v2h2v7h-2v2h-7v-2h-2v-7h2Z',C.ink)+r(5,23,7,5,C.steel)+r(19,23,7,5,C.steel)+r(7,24,3,3,C.woodDark)+r(21,24,3,3,C.woodDark)+p('M7 9V4h10v5Z',C.goldDark)+r(8,5,8,2,C.goldLight)+r(18,5,6,4,C.redDark);});
   bind('propStarGate',function(){return p('M10 2h12v3h5v5h4v12h-4v5h-5v4H10v-4H5v-5H1V10h4V5h5Z',C.ink)+p('M11 3h10v3h5v5h3v10h-3v5h-5v3H11v-3H6v-5H3V11h3V6h5Z',C.goldDark)+p('M11 5h10v3h4v16h-4v3H11v-3H7V8h4Z',C.violetDark)+p('M11 8h1v17h-1ZM21 8h1v17h-1ZM8 11h17v1H8ZM8 21h17v1H8Z',C.violet)+p('M24 6l-5 12-13 8 7-13Z',C.ink)+p('M23 7l-6 9-4-3Z',C.goldWhite)+p('M13 14l4 3-9 7Z',C.gold)+r(14,14,4,4,C.goldLight)+r(15,15,2,2,C.white)+r(9,8,2,2,C.violetLight)+r(22,21,2,2,C.violetLight)+r(5,11,2,8,C.goldLight);});
   ['Blade','Staff'].forEach(function(kind){['keen','sanguine','sundering'].forEach(function(effect){bind('forge'+kind+effect,function(){var base=kind==='Blade'?art.sword():art.staff();var mark=effect==='keen'?art.target():effect==='sanguine'?art.drop().replace(/#274a73/g,C.redDark).replace(/#478ac1/g,C.red).replace(/#93d9eb/g,C.redLight):art.sword(true);return small(base,0,0,.84)+small(mark,15,15,.54);});});});
+  // New feature artwork: handbells, tools, four travelers, and real card suits.
+  art.handbell=function(){return p('M13 1h6v3h2v4h-3v5h5v4h3v6h4v5H19v3h-6v-3H2v-5h4v-6h3v-4h5V8h-3V4h2Z',C.ink)+r(14,2,4,5,C.wood)+r(14,2,2,4,C.woodLight)+r(14,8,4,6,C.goldDark)+r(14,9,2,4,C.goldLight)+p('M10 14h12v4h3v6h3v3H4v-3h3v-6h3Z',C.goldDark)+p('M11 15h10v4h2v5H8v-5h3Z',C.gold)+r(11,15,3,7,C.goldLight)+r(11,15,2,5,C.goldWhite)+r(4,25,24,2,C.goldLight)+r(14,28,4,2,C.gold)+p('M17 17h2v2h2v2h-2v2h-2v-2h-2v-2h2Z',C.goldWhite);};
+  art.lockpick=function(){return small(art.lock(),0,5,.76)+p('M22 4h8v4h-6v9l-7 7-3-3 7-7V7Z',C.ink)+p('M23 5h6v2h-6v9l-7 7-1-2 7-7V6Z',C.steelLight)+r(24,5,5,2,C.woodLight)+p('M19 26h11v4H17l-5-6 3-3Z',C.ink)+p('M20 27h9v2H18l-5-5 2-1Z',C.steel)+r(22,27,6,2,C.woodLight);};
+  art.cards=function(){return p('M1 5l13-4 8 23-13 5Z',C.ink)+p('M3 6l10-3 7 20-10 3Z',C.white)+p('M20 2l11 5-8 23-12-5Z',C.ink)+p('M21 4l8 4-7 19-9-3Z',C.goldWhite)+p('M9 4h15v27H9Z',C.ink)+r(10,5,13,25,C.white)+r(11,6,11,2,C.goldLight)+p('M13 13h3l1 2 1-2h3v5l-4 5-4-5Z',C.redDark)+r(13,13,2,2,C.redLight)+r(11,9,2,3,C.redDark)+r(20,25,2,3,C.redDark)+r(5,8,2,4,C.ink)+r(25,8,2,3,C.redDark);};
+  art.fourTravelers=function(){var a='';[[2,2,C.greenDark,C.green],[18,2,C.steelDark,C.steelLight],[2,18,C.violetDark,C.violet],[18,18,C.goldDark,C.goldLight]].forEach(function(t){var x=t[0],y=t[1];a+=r(x+3,y,7,8,C.ink)+r(x+4,y+1,5,5,C.woodLight)+r(x+3,y+6,7,2,t[2])+p('M'+x+' '+(y+12)+'v-3l3-2h7l3 2v3Z',C.ink)+r(x+1,y+9,11,3,t[3])+r(x+4,y+7,4,2,C.goldWhite)+r(x+4,y+2,5,1,t[2])+r(x+5,y+3,1,1,C.ink)+r(x+8,y+3,1,1,C.ink);});return a;};
+  bind('propDawnBell',art.handbell);
+  bind('miniLockpick achLocksmith',art.lockpick);
+  bind('miniCards achCardSharp',art.cards);
+  bind('achFourTravelers',art.fourTravelers);
+  bind('achDawnBell',function(){return sparkle(2,4,C.goldLight)+sparkle(25,7,C.goldWhite)+small(art.handbell(),3,2,.85);});
+  bind('miniForge',function(){return small(art.anvil(),5,12,.66)+p('M4 15h13v4H4Z',C.redDark)+r(5,15,11,2,C.redLight)+'<g transform="translate(10 3) rotate(20 8 8)">'+small(art.hammer(),0,0,.6)+'</g>'+sparkle(18,12,C.goldLight)+r(3,12,2,2,C.goldWhite);});
+  bind('achGoldenHammer',function(){return art.hammer().replace(/#475369/g,C.goldDark).replace(/#899db0/g,C.gold).replace(/#d0e1e8/g,C.goldWhite)+sparkle(23,19,C.goldLight)+sparkle(3,24,C.goldWhite);});
+  bind('loreBellEcho',function(){return small(art.handbell(),0,2,.8)+p('M24 8h2v3h2v10h-2v3h-2v-3h2V11h-2Z',C.gold)+p('M28 5h2v6h2v10h-2v6h-2v-6h2V11h-2Z',C.goldLight);});
+  bind('loreLampRoll',function(){return small(art.scroll(),0,0,.82)+small(art.lantern(),15,14,.5);});
+  bind('cardSuitHeart',function(){return art.heart();});
+  bind('cardSuitDiamond',function(){return p('M16 2l13 14-13 14L3 16Z',C.redDark)+p('M16 5l10 11-10 11L6 16Z',C.red)+p('M16 5v19L8 16Z',C.redLight);});
+  bind('cardSuitSpade',function(){return p('M16 1L3 15v7l4 4h6l-3 5h12l-3-5h6l4-4v-7Z',C.ink)+p('M16 4L5 16v5l3 3h5l3-4 3 4h5l3-3v-5Z',C.steelDark)+p('M15 6l-9 11v4h3v-5Z',C.steel)+r(14,24,4,5,C.steelDark);});
+  bind('cardSuitClub',function(){return p('M12 1h8l4 4v7h5l3 4v7l-4 4h-9l3 4H10l3-4H4l-4-4v-7l3-4h5V5Z',C.ink)+p('M13 3h6l3 3v5l-4 4h9l3 3v4l-3 3h-7l-4-5-4 5H5l-3-3v-4l3-3h9l-4-4V6Z',C.steelDark)+r(12,6,3,5,C.steel)+r(4,17,3,4,C.steel)+r(14,24,4,5,C.steelDark);});
   function render(name){
     if(!Object.prototype.hasOwnProperty.call(roles,name))return '';
     return '<svg xmlns="http://www.w3.org/2000/svg" class="pixel-sprite ui-emblem" data-art-style="fantasy-objects-32" viewBox="-2 -2 36 36" shape-rendering="crispEdges" aria-hidden="true">'+roles[name]()+'</svg>';

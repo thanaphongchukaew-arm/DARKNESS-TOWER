@@ -154,6 +154,57 @@
       "margin": 2
     },
     {
+      "key": "npcVeyra",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        4,
+        2,
+        74,
+        93
+      ],
+      "margin": 2
+    },
+    {
+      "key": "npcVeyraVigil",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        5,
+        2,
+        73,
+        93
+      ],
+      "margin": 2
+    },
+    {
+      "key": "npcVeyraDawn",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "alpha": [
+        0,
+        255
+      ],
+      "bounds": [
+        16,
+        2,
+        62,
+        93
+      ],
+      "margin": 2
+    },
+    {
       "key": "npcMerchant",
       "width": 80,
       "height": 96,
@@ -223,6 +274,11 @@
         },
         {
           "key": "npcLyra",
+          "w": 115.9140625,
+          "h": 138.453125
+        },
+        {
+          "key": "npcVeyra",
           "w": 115.9140625,
           "h": 138.453125
         }
@@ -393,6 +449,60 @@
     },
     {
       "tag": "desktop",
+      "name": "veyra-0",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcVeyra",
+          "w": 48.296875,
+          "h": 57.953125
+        },
+        {
+          "key": "npcVeyra",
+          "w": 193.7890625,
+          "h": 261.3671875
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "veyra-1",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcVeyra",
+          "w": 48.296875,
+          "h": 57.953125
+        },
+        {
+          "key": "npcVeyraVigil",
+          "w": 193.7890625,
+          "h": 261.3671875
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "veyra-2",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcVeyra",
+          "w": 48.296875,
+          "h": 57.953125
+        },
+        {
+          "key": "npcVeyraDawn",
+          "w": 193.7890625,
+          "h": 261.3671875
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
       "name": "travelers-met",
       "overflow": false,
       "npcs": [
@@ -407,11 +517,62 @@
           "h": 138.453125
         },
         {
-          "key": "npcLyra",
+          "key": "npcLyraAstral",
+          "w": 115.9140625,
+          "h": 138.453125
+        },
+        {
+          "key": "npcVeyraVigil",
           "w": 115.9140625,
           "h": 138.453125
         }
       ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "event-merchant",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcMerchant",
+          "w": 48.296875,
+          "h": 57.953125
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "event-sage",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcSage",
+          "w": 48.296875,
+          "h": 57.953125
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "event-gambler",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcGambler",
+          "w": 48.296875,
+          "h": 57.953125
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "desktop",
+      "name": "night-bazaar",
+      "overflow": false,
+      "npcs": [],
       "overlaps": 0
     },
     {
@@ -431,6 +592,11 @@
         },
         {
           "key": "npcLyra",
+          "w": 57.953125,
+          "h": 67.6171875
+        },
+        {
+          "key": "npcVeyra",
           "w": 57.953125,
           "h": 67.6171875
         }
@@ -561,6 +727,11 @@
           "key": "npcLyra",
           "w": 71.5,
           "h": 86.125
+        },
+        {
+          "key": "npcVeyra",
+          "w": 71.5,
+          "h": 86.125
         }
       ],
       "overlaps": 0
@@ -729,6 +900,60 @@
     },
     {
       "tag": "mobile",
+      "name": "veyra-0",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcVeyra",
+          "w": 48.75,
+          "h": 58.5
+        },
+        {
+          "key": "npcVeyra",
+          "w": 146.25,
+          "h": 175.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "veyra-1",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcVeyra",
+          "w": 48.75,
+          "h": 58.5
+        },
+        {
+          "key": "npcVeyraVigil",
+          "w": 146.25,
+          "h": 175.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "veyra-2",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcVeyra",
+          "w": 48.75,
+          "h": 58.5
+        },
+        {
+          "key": "npcVeyraDawn",
+          "w": 146.25,
+          "h": 175.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
       "name": "travelers-met",
       "overflow": false,
       "npcs": [
@@ -743,11 +968,62 @@
           "h": 86.125
         },
         {
-          "key": "npcLyra",
+          "key": "npcLyraAstral",
+          "w": 71.5,
+          "h": 86.125
+        },
+        {
+          "key": "npcVeyraVigil",
           "w": 71.5,
           "h": 86.125
         }
       ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "event-merchant",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcMerchant",
+          "w": 48.75,
+          "h": 58.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "event-sage",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcSage",
+          "w": 48.75,
+          "h": 58.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "event-gambler",
+      "overflow": false,
+      "npcs": [
+        {
+          "key": "npcGambler",
+          "w": 48.75,
+          "h": 58.5
+        }
+      ],
+      "overlaps": 0
+    },
+    {
+      "tag": "mobile",
+      "name": "night-bazaar",
+      "overflow": false,
+      "npcs": [],
       "overlaps": 0
     },
     {
@@ -767,6 +1043,11 @@
         },
         {
           "key": "npcLyra",
+          "w": 58.5,
+          "h": 68.25
+        },
+        {
+          "key": "npcVeyra",
           "w": 58.5,
           "h": 68.25
         }

@@ -793,16 +793,937 @@
       "ok": true,
       "width": 128,
       "height": 128
+    },
+    {
+      "src": "assets/pixel16/npcs/npcMira.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/npcs/npcMiraHurt.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/npcs/npcMiraLantern.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/npcs/npcOrin.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/npcs/npcOrinHurt.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/npcs/npcOrinStandard.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/npcs/npcLyra.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/npcs/npcLyraLost.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/npcs/npcLyraAstral.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/npcs/npcVeyra.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/npcs/npcVeyraVigil.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/npcs/npcVeyraDawn.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/npcs/npcMerchant.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/npcs/npcSage.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/npcs/npcGambler.png",
+      "ok": true,
+      "width": 80,
+      "height": 96
+    },
+    {
+      "src": "assets/pixel16/companions/emberFox.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/companions/dawnOwl.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/companions/stoneheartBear.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/companions/stormSprite.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
+    },
+    {
+      "src": "assets/pixel16/companions/sandScarab.png",
+      "ok": true,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/companions/frostHare.png",
+      "ok": true,
+      "width": 80,
+      "height": 64
+    },
+    {
+      "src": "assets/pixel16/companions/ironGolemCub.png",
+      "ok": true,
+      "width": 64,
+      "height": 80
     }
   ],
+  "routes": {
+    "classes": 29,
+    "monsters": 100,
+    "npcs": 15,
+    "companions": 7
+  },
   "originalNames": true,
   "battle": {
     "player": "assets/pixel16/classes/samurai.png",
     "enemies": [
-      "assets/pixel16/monsters/stone_golem.png"
+      "assets/pixel16/monsters/dark_bat.png"
     ]
   },
-  "cached": 132,
+  "cached": 154,
+  "contentHashes": [
+    {
+      "src": "assets/pixel16/classes/blade.png",
+      "network": "a0fd95df728d574dfdb99b2665f92504a2cb0d27fd17ccb2674b9d297c7d507f",
+      "cache": "a0fd95df728d574dfdb99b2665f92504a2cb0d27fd17ccb2674b9d297c7d507f"
+    },
+    {
+      "src": "assets/pixel16/classes/staffOrb.png",
+      "network": "4753415b07a44d185121c30bb908d21d80a822cc6338ef84b9930d9d7b84ad36",
+      "cache": "4753415b07a44d185121c30bb908d21d80a822cc6338ef84b9930d9d7b84ad36"
+    },
+    {
+      "src": "assets/pixel16/classes/radiantOrb.png",
+      "network": "035c66d19b29b16d0ab9caa3f8fed19b0ef9443244a15625d7711757dd4a3992",
+      "cache": "035c66d19b29b16d0ab9caa3f8fed19b0ef9443244a15625d7711757dd4a3992"
+    },
+    {
+      "src": "assets/pixel16/classes/berserker.png",
+      "network": "d7d187fd7bef3d87a2b6b8d33dcfcb5f2ee5614a22ed527ef39db85b0f92ab66",
+      "cache": "d7d187fd7bef3d87a2b6b8d33dcfcb5f2ee5614a22ed527ef39db85b0f92ab66"
+    },
+    {
+      "src": "assets/pixel16/classes/ranger.png",
+      "network": "d2a0105eca507a7d73fa1a647aed0818105fc4514b35cfd3b0e75252874afc6c",
+      "cache": "d2a0105eca507a7d73fa1a647aed0818105fc4514b35cfd3b0e75252874afc6c"
+    },
+    {
+      "src": "assets/pixel16/classes/necromancer.png",
+      "network": "e92960673ef7a44bdd457e17e4b68b2acb345e224e27826d2cb4e66661e685bc",
+      "cache": "e92960673ef7a44bdd457e17e4b68b2acb345e224e27826d2cb4e66661e685bc"
+    },
+    {
+      "src": "assets/pixel16/classes/monk.png",
+      "network": "f2c5bb5b748772abe4eec2f07b9e80dc31e00d0648cb80574f939f3acc48cf43",
+      "cache": "f2c5bb5b748772abe4eec2f07b9e80dc31e00d0648cb80574f939f3acc48cf43"
+    },
+    {
+      "src": "assets/pixel16/classes/paladin.png",
+      "network": "6bdf00209995614bbeb23d7a16a49d9dbc21cde41151b9f368151d6fda619044",
+      "cache": "6bdf00209995614bbeb23d7a16a49d9dbc21cde41151b9f368151d6fda619044"
+    },
+    {
+      "src": "assets/pixel16/classes/gunslinger.png",
+      "network": "711e7ba992554a2f23bd3e5686a2f5a2afa33c6c2b9a9a32276bf3210b712982",
+      "cache": "711e7ba992554a2f23bd3e5686a2f5a2afa33c6c2b9a9a32276bf3210b712982"
+    },
+    {
+      "src": "assets/pixel16/classes/druid.png",
+      "network": "e9831eabc41061774bc9d0c43c759840430d00b8e89d827b02d0e05fc3614319",
+      "cache": "e9831eabc41061774bc9d0c43c759840430d00b8e89d827b02d0e05fc3614319"
+    },
+    {
+      "src": "assets/pixel16/classes/alchemist.png",
+      "network": "db6b8f0f8ee15d3216d303a743436b656a5500134130dc7687e0ed19ac61dd9a",
+      "cache": "db6b8f0f8ee15d3216d303a743436b656a5500134130dc7687e0ed19ac61dd9a"
+    },
+    {
+      "src": "assets/pixel16/classes/samurai.png",
+      "network": "698040719568070b17f0c690aa7885805e52a228ae560a4564a94f90a069dec1",
+      "cache": "698040719568070b17f0c690aa7885805e52a228ae560a4564a94f90a069dec1"
+    },
+    {
+      "src": "assets/pixel16/classes/warlock.png",
+      "network": "750a6fd7b9cd9c1453d86450a4dc2839a1cc400da3d52bcf4b00c104b9b2235c",
+      "cache": "750a6fd7b9cd9c1453d86450a4dc2839a1cc400da3d52bcf4b00c104b9b2235c"
+    },
+    {
+      "src": "assets/pixel16/classes/battlemage.png",
+      "network": "5f0df8ac9022a60744f20fa2ddc46d46170f61ec9b48fa3b0705eeace2efaf1c",
+      "cache": "5f0df8ac9022a60744f20fa2ddc46d46170f61ec9b48fa3b0705eeace2efaf1c"
+    },
+    {
+      "src": "assets/pixel16/classes/frostOracle.png",
+      "network": "54264d5935eae24b00ec2546d41c1824666a6b37e3108405a6dce4ac92db32fa",
+      "cache": "54264d5935eae24b00ec2546d41c1824666a6b37e3108405a6dce4ac92db32fa"
+    },
+    {
+      "src": "assets/pixel16/classes/stormCaller.png",
+      "network": "bd0c1ba3ef31232dfd70ac91f6f6809a3c3c6c0ed6cbef2478e12bccaa3b3b3c",
+      "cache": "bd0c1ba3ef31232dfd70ac91f6f6809a3c3c6c0ed6cbef2478e12bccaa3b3b3c"
+    },
+    {
+      "src": "assets/pixel16/classes/shadowDancer.png",
+      "network": "855a0d78c07718274d25265560eba95fa98100a31067af1106c67b169caf5131",
+      "cache": "855a0d78c07718274d25265560eba95fa98100a31067af1106c67b169caf5131"
+    },
+    {
+      "src": "assets/pixel16/classes/bard.png",
+      "network": "fe95f1aea5a543bbd1ad530ed4c75a4944a135068765c556bf0c19241b266aea",
+      "cache": "fe95f1aea5a543bbd1ad530ed4c75a4944a135068765c556bf0c19241b266aea"
+    },
+    {
+      "src": "assets/pixel16/classes/beastmaster.png",
+      "network": "33fdb7955f65dbada0a1f90107fd780eb53a25534377c1c717f7966ed4a72ca6",
+      "cache": "33fdb7955f65dbada0a1f90107fd780eb53a25534377c1c717f7966ed4a72ca6"
+    },
+    {
+      "src": "assets/pixel16/classes/runeblade.png",
+      "network": "c21216a4bf21b39a6c91cc432ea06100fafa2b6580ea27bb160b21fd3843246a",
+      "cache": "c21216a4bf21b39a6c91cc432ea06100fafa2b6580ea27bb160b21fd3843246a"
+    },
+    {
+      "src": "assets/pixel16/classes/sharpshooter.png",
+      "network": "0790a2a2c728f6212171623b422c788ff81c9b35460e2a972737259be2c8118b",
+      "cache": "0790a2a2c728f6212171623b422c788ff81c9b35460e2a972737259be2c8118b"
+    },
+    {
+      "src": "assets/pixel16/classes/puppeteer.png",
+      "network": "c344eef7779f8dce2d461e75ad6aaf12cd40812c409bfd74a1e1e7796efdd5b1",
+      "cache": "c344eef7779f8dce2d461e75ad6aaf12cd40812c409bfd74a1e1e7796efdd5b1"
+    },
+    {
+      "src": "assets/pixel16/classes/tempestWitch.png",
+      "network": "a75636a2ed87687a2838e1e674de90c5aa2543fb6b91b3a57dd014c0bc47a2c1",
+      "cache": "a75636a2ed87687a2838e1e674de90c5aa2543fb6b91b3a57dd014c0bc47a2c1"
+    },
+    {
+      "src": "assets/pixel16/classes/chronomancer.png",
+      "network": "aa48dcacb1f8d1db541556f6cf8b4e63ca2e6b6c713c36844b0910e1cea176de",
+      "cache": "aa48dcacb1f8d1db541556f6cf8b4e63ca2e6b6c713c36844b0910e1cea176de"
+    },
+    {
+      "src": "assets/pixel16/classes/warlord.png",
+      "network": "5515084b956ce52802c3894fb6a3890d6f34d0104346ee211eff73170e97f173",
+      "cache": "5515084b956ce52802c3894fb6a3890d6f34d0104346ee211eff73170e97f173"
+    },
+    {
+      "src": "assets/pixel16/classes/shadowhunter.png",
+      "network": "849e4421b1630e4f4fe4c6f9480093f7ddbd3c17f34e65b87cc8125f2d6bffc6",
+      "cache": "849e4421b1630e4f4fe4c6f9480093f7ddbd3c17f34e65b87cc8125f2d6bffc6"
+    },
+    {
+      "src": "assets/pixel16/classes/executioner.png",
+      "network": "2958ccfd4caa7c8184c45ad92447abb08a9428b7171b7f32590bcd0bd1cde81c",
+      "cache": "2958ccfd4caa7c8184c45ad92447abb08a9428b7171b7f32590bcd0bd1cde81c"
+    },
+    {
+      "src": "assets/pixel16/classes/deathbringer.png",
+      "network": "cc3484cb9fb51563e065ab1591d806e5768ac9913b481f8f44ee2464637879fd",
+      "cache": "cc3484cb9fb51563e065ab1591d806e5768ac9913b481f8f44ee2464637879fd"
+    },
+    {
+      "src": "assets/pixel16/classes/vanguard.png",
+      "network": "a84094b175ce22b77c1434375469e611e843a3feb84433757e34cc32f421e144",
+      "cache": "a84094b175ce22b77c1434375469e611e843a3feb84433757e34cc32f421e144"
+    },
+    {
+      "src": "assets/pixel16/monsters/shadow_wolf.png",
+      "network": "4a05fe195b133717b88c78dea2d2ee4e2dfcbd7436673397f3062dc8f1a0858c",
+      "cache": "4a05fe195b133717b88c78dea2d2ee4e2dfcbd7436673397f3062dc8f1a0858c"
+    },
+    {
+      "src": "assets/pixel16/monsters/flame_imp.png",
+      "network": "651be25b97f0374fdd20375cb6b20df038d1e0840a3106c26fd81ca6ef8da254",
+      "cache": "651be25b97f0374fdd20375cb6b20df038d1e0840a3106c26fd81ca6ef8da254"
+    },
+    {
+      "src": "assets/pixel16/monsters/stone_golem.png",
+      "network": "07d1b163ce27d75fe6c2fc86c4b6819fc98bc12da8b38f97fb713f0a27082db0",
+      "cache": "07d1b163ce27d75fe6c2fc86c4b6819fc98bc12da8b38f97fb713f0a27082db0"
+    },
+    {
+      "src": "assets/pixel16/monsters/dark_bat.png",
+      "network": "4aedca74804937fbc989fa703f029a1008860df46f5783dcd41fc26ea7c815c8",
+      "cache": "4aedca74804937fbc989fa703f029a1008860df46f5783dcd41fc26ea7c815c8"
+    },
+    {
+      "src": "assets/pixel16/monsters/gust_sprite.png",
+      "network": "8b54f27119999729238dc8b9c59986467bf9ca90fcdb02d40b5a3d55c5cd6d67",
+      "cache": "8b54f27119999729238dc8b9c59986467bf9ca90fcdb02d40b5a3d55c5cd6d67"
+    },
+    {
+      "src": "assets/pixel16/monsters/giant_spider.png",
+      "network": "ff88842aadeee17331c8b227207b34d70228000ef095bf1db317cae8addf7dbe",
+      "cache": "ff88842aadeee17331c8b227207b34d70228000ef095bf1db317cae8addf7dbe"
+    },
+    {
+      "src": "assets/pixel16/monsters/bog_slime.png",
+      "network": "ea80b47411f0d750d9fa0db7376a927ff06bb3b49eaa02ab1b444d72adc66384",
+      "cache": "ea80b47411f0d750d9fa0db7376a927ff06bb3b49eaa02ab1b444d72adc66384"
+    },
+    {
+      "src": "assets/pixel16/monsters/forest_bandit.png",
+      "network": "d23b8d2aa0b31611a2b6da9eb1866074c7dc9a643cefe05fd9f4c4d5743fab2b",
+      "cache": "d23b8d2aa0b31611a2b6da9eb1866074c7dc9a643cefe05fd9f4c4d5743fab2b"
+    },
+    {
+      "src": "assets/pixel16/monsters/frost_knight.png",
+      "network": "dded751ab113694ac829640a64a2108b1d6085da7becb7fac5b1806d30938f69",
+      "cache": "dded751ab113694ac829640a64a2108b1d6085da7becb7fac5b1806d30938f69"
+    },
+    {
+      "src": "assets/pixel16/monsters/thunder_hawk.png",
+      "network": "41352bdb4562a2f2ac982d2f331156cef05f2b817fad182a8047cf1a41d28ec0",
+      "cache": "41352bdb4562a2f2ac982d2f331156cef05f2b817fad182a8047cf1a41d28ec0"
+    },
+    {
+      "src": "assets/pixel16/monsters/venom_wraith.png",
+      "network": "510079b4f91a5ace25f2c99379f1d4729677cbed49aa29e17055317427ef05a2",
+      "cache": "510079b4f91a5ace25f2c99379f1d4729677cbed49aa29e17055317427ef05a2"
+    },
+    {
+      "src": "assets/pixel16/monsters/iron_sentinel.png",
+      "network": "5b4b867fe90b79349f8b479bd19c06993565e57c76fb19541e5fdf31a2540544",
+      "cache": "5b4b867fe90b79349f8b479bd19c06993565e57c76fb19541e5fdf31a2540544"
+    },
+    {
+      "src": "assets/pixel16/monsters/storm_harpy.png",
+      "network": "daf6b2f64ba8004d27b085a2fe9c011d953a6587ba5e42518b0b34aed4943ad6",
+      "cache": "daf6b2f64ba8004d27b085a2fe9c011d953a6587ba5e42518b0b34aed4943ad6"
+    },
+    {
+      "src": "assets/pixel16/monsters/swamp_troll.png",
+      "network": "6d0fc4f2802ebf824474f6e138be26db3c76a32557403af3ce0e78b417a5d43b",
+      "cache": "6d0fc4f2802ebf824474f6e138be26db3c76a32557403af3ce0e78b417a5d43b"
+    },
+    {
+      "src": "assets/pixel16/monsters/crystal_golem.png",
+      "network": "eb9468698df1ce5939922beb720865e26e65283cda2ec36d10fb841936212d20",
+      "cache": "eb9468698df1ce5939922beb720865e26e65283cda2ec36d10fb841936212d20"
+    },
+    {
+      "src": "assets/pixel16/monsters/banshee.png",
+      "network": "fdab0adc565d731fe767b20f84d7974840708af9d73d2d632ae4c03700a349ae",
+      "cache": "fdab0adc565d731fe767b20f84d7974840708af9d73d2d632ae4c03700a349ae"
+    },
+    {
+      "src": "assets/pixel16/monsters/abyss_knight.png",
+      "network": "84f563dbd7845cb4d0e293287d1f4e196c45b50797514f6fc94a3b6db7111773",
+      "cache": "84f563dbd7845cb4d0e293287d1f4e196c45b50797514f6fc94a3b6db7111773"
+    },
+    {
+      "src": "assets/pixel16/monsters/inferno_beast.png",
+      "network": "09698743c24b204c3d9f2c83fa9f19ba64869742a9a2ff04e5b0e1b3208666af",
+      "cache": "09698743c24b204c3d9f2c83fa9f19ba64869742a9a2ff04e5b0e1b3208666af"
+    },
+    {
+      "src": "assets/pixel16/monsters/glacial_wyrm.png",
+      "network": "ad1e4bff87be9566f4f7c2a9d44f1349ead487f389c99b358f76109c5cd8f5bf",
+      "cache": "ad1e4bff87be9566f4f7c2a9d44f1349ead487f389c99b358f76109c5cd8f5bf"
+    },
+    {
+      "src": "assets/pixel16/monsters/thunder_revenant.png",
+      "network": "db83c4544d535b3f87668ccb463c922bceabff8a3bc7dd2e1f14627ad6e8d198",
+      "cache": "db83c4544d535b3f87668ccb463c922bceabff8a3bc7dd2e1f14627ad6e8d198"
+    },
+    {
+      "src": "assets/pixel16/monsters/void_sentinel.png",
+      "network": "4094c030e3f71eaa2d80dc9f489104cbfd9bb1f94b5f3da4f5110c41b08f1bce",
+      "cache": "4094c030e3f71eaa2d80dc9f489104cbfd9bb1f94b5f3da4f5110c41b08f1bce"
+    },
+    {
+      "src": "assets/pixel16/monsters/young_wyvern.png",
+      "network": "4854ae7523a8dbc1ec9bdef06178e44edfddb712d5943b4f207821253f1d7e42",
+      "cache": "4854ae7523a8dbc1ec9bdef06178e44edfddb712d5943b4f207821253f1d7e42"
+    },
+    {
+      "src": "assets/pixel16/monsters/imp_captain.png",
+      "network": "ea0bfadf664f46847156614902713c852bfcd4934d1d535b0c6cd916ec99a995",
+      "cache": "ea0bfadf664f46847156614902713c852bfcd4934d1d535b0c6cd916ec99a995"
+    },
+    {
+      "src": "assets/pixel16/monsters/bone_reaper.png",
+      "network": "f60943fea0c95d61b78f9482b55bf3698383cfe5c2017c066514a8c632d8eb84",
+      "cache": "f60943fea0c95d61b78f9482b55bf3698383cfe5c2017c066514a8c632d8eb84"
+    },
+    {
+      "src": "assets/pixel16/monsters/crimson_drake.png",
+      "network": "68f87233780da7c4227241b4368b7594da8fb4d0b291e5e14261c8208e0cc1ca",
+      "cache": "68f87233780da7c4227241b4368b7594da8fb4d0b291e5e14261c8208e0cc1ca"
+    },
+    {
+      "src": "assets/pixel16/monsters/venom_hydra.png",
+      "network": "2ce7db3a2a355eda47a2f1a1bed8472898b51fa4441e20b4c4b2d4b4d0c1e072",
+      "cache": "2ce7db3a2a355eda47a2f1a1bed8472898b51fa4441e20b4c4b2d4b4d0c1e072"
+    },
+    {
+      "src": "assets/pixel16/monsters/hell_hound.png",
+      "network": "05c80532c86b57029a209c3946ec5c06f18922a536c2e3b2484b247e01cfc9f4",
+      "cache": "05c80532c86b57029a209c3946ec5c06f18922a536c2e3b2484b247e01cfc9f4"
+    },
+    {
+      "src": "assets/pixel16/monsters/succubus.png",
+      "network": "3bdf56c64b17242f8077d6498226f846fedf46b3158c91822642d4008c2557f6",
+      "cache": "3bdf56c64b17242f8077d6498226f846fedf46b3158c91822642d4008c2557f6"
+    },
+    {
+      "src": "assets/pixel16/monsters/iron_wyrm.png",
+      "network": "b3db0fe165779f54657891fb68ad71d5f00fc74ce23d1c41230e4f92a5731177",
+      "cache": "b3db0fe165779f54657891fb68ad71d5f00fc74ce23d1c41230e4f92a5731177"
+    },
+    {
+      "src": "assets/pixel16/monsters/pit_fiend.png",
+      "network": "735d9c484747bd748806da542cc04134583a9f90c1889566fd21a02b87089705",
+      "cache": "735d9c484747bd748806da542cc04134583a9f90c1889566fd21a02b87089705"
+    },
+    {
+      "src": "assets/pixel16/monsters/ancient_wyrm.png",
+      "network": "d26844d5c8aa67e80a0a0255cb9f50ccace58febb904701d26e1459994394c7d",
+      "cache": "d26844d5c8aa67e80a0a0255cb9f50ccace58febb904701d26e1459994394c7d"
+    },
+    {
+      "src": "assets/pixel16/monsters/archdevil.png",
+      "network": "8479b56268478b1cd8ad301128ed6f476c9ae51a2526e6f49e54d56fc25eadd3",
+      "cache": "8479b56268478b1cd8ad301128ed6f476c9ae51a2526e6f49e54d56fc25eadd3"
+    },
+    {
+      "src": "assets/pixel16/monsters/doom_reaper.png",
+      "network": "4c869074ad0e10a36806dc65dae49cec5a840ca9b411f62f11dcbdf653587d43",
+      "cache": "4c869074ad0e10a36806dc65dae49cec5a840ca9b411f62f11dcbdf653587d43"
+    },
+    {
+      "src": "assets/pixel16/monsters/void_dragon.png",
+      "network": "d389d115f30ef34736370b1fffe589e46aa48ff27053f29c67081d61634f9fb8",
+      "cache": "d389d115f30ef34736370b1fffe589e46aa48ff27053f29c67081d61634f9fb8"
+    },
+    {
+      "src": "assets/pixel16/monsters/inferno_duke.png",
+      "network": "8b71340f0f2c6d4b99d86a1154bf12d3cc3531507e095a280ff8524775de66c3",
+      "cache": "8b71340f0f2c6d4b99d86a1154bf12d3cc3531507e095a280ff8524775de66c3"
+    },
+    {
+      "src": "assets/pixel16/monsters/storm_titan.png",
+      "network": "85be2223bd85c67576dadcabd829a9ab805d065be79151350648737a0a577369",
+      "cache": "85be2223bd85c67576dadcabd829a9ab805d065be79151350648737a0a577369"
+    },
+    {
+      "src": "assets/pixel16/monsters/crystal_wisp.png",
+      "network": "71a1d7d5a36a195045808bb9d09bbc8e78e816a753839dfda591ba464926ff24",
+      "cache": "71a1d7d5a36a195045808bb9d09bbc8e78e816a753839dfda591ba464926ff24"
+    },
+    {
+      "src": "assets/pixel16/monsters/prism_lynx.png",
+      "network": "0b47919d04513c70a0c368d82bb525ba77db8887eae4844f85b5ca493a32eeee",
+      "cache": "0b47919d04513c70a0c368d82bb525ba77db8887eae4844f85b5ca493a32eeee"
+    },
+    {
+      "src": "assets/pixel16/monsters/chime_wraith.png",
+      "network": "3f41cf9e2b22b51ebabcb053df3055d789da91528e736e747d37cdbcc252a255",
+      "cache": "3f41cf9e2b22b51ebabcb053df3055d789da91528e736e747d37cdbcc252a255"
+    },
+    {
+      "src": "assets/pixel16/monsters/geode_golem.png",
+      "network": "d71e999dc24b16b8191439911f56ef36f29d3c5a69ef5759a6a10aa5fddde7d8",
+      "cache": "d71e999dc24b16b8191439911f56ef36f29d3c5a69ef5759a6a10aa5fddde7d8"
+    },
+    {
+      "src": "assets/pixel16/monsters/drowned_revenant.png",
+      "network": "e20d50f7d5674dc6d11aaf6f1a34c405bd6abce475fc5e1894dcf07d7745670b",
+      "cache": "e20d50f7d5674dc6d11aaf6f1a34c405bd6abce475fc5e1894dcf07d7745670b"
+    },
+    {
+      "src": "assets/pixel16/monsters/abyssal_eel.png",
+      "network": "715bc06b6e0134b056be728ea48c00a92e4f94cfea1ad6c001eb8021e280ecd0",
+      "cache": "715bc06b6e0134b056be728ea48c00a92e4f94cfea1ad6c001eb8021e280ecd0"
+    },
+    {
+      "src": "assets/pixel16/monsters/tide_golem.png",
+      "network": "9cd60ea06cc31443b35987d9aba5ddecbc9b31537c865333e790d3d29b5e5c30",
+      "cache": "9cd60ea06cc31443b35987d9aba5ddecbc9b31537c865333e790d3d29b5e5c30"
+    },
+    {
+      "src": "assets/pixel16/monsters/siren_wraith.png",
+      "network": "36e3e77ff831edeb31a91301b1772f14caf98fcfd6a48923ef6c513857ebec0f",
+      "cache": "36e3e77ff831edeb31a91301b1772f14caf98fcfd6a48923ef6c513857ebec0f"
+    },
+    {
+      "src": "assets/pixel16/monsters/gale_falcon.png",
+      "network": "495b7704bd9b51231c2e7cd332049d426189a8a5d2f96066df2675103b536279",
+      "cache": "495b7704bd9b51231c2e7cd332049d426189a8a5d2f96066df2675103b536279"
+    },
+    {
+      "src": "assets/pixel16/monsters/thunder_cherub.png",
+      "network": "0c7e5e15f0e6f8b1347a9dbd9a96d2b26a4a128a366e1da908b83b719259a1c4",
+      "cache": "0c7e5e15f0e6f8b1347a9dbd9a96d2b26a4a128a366e1da908b83b719259a1c4"
+    },
+    {
+      "src": "assets/pixel16/monsters/storm_lancer.png",
+      "network": "31bb01ed594b0235a1050daa6f74b363f0d67e8e25d0283f981dc8890e809de4",
+      "cache": "31bb01ed594b0235a1050daa6f74b363f0d67e8e25d0283f981dc8890e809de4"
+    },
+    {
+      "src": "assets/pixel16/monsters/cloud_serpent.png",
+      "network": "0d259988f4b29be78697f647cd61e799cd3d6d38256803fb58b94771c932bcf9",
+      "cache": "0d259988f4b29be78697f647cd61e799cd3d6d38256803fb58b94771c932bcf9"
+    },
+    {
+      "src": "assets/pixel16/monsters/sand_wraith.png",
+      "network": "786b21ded6e0932848a739dbaa3bc8d9daaaea2ec87e7ea019a9d72d58e90f03",
+      "cache": "786b21ded6e0932848a739dbaa3bc8d9daaaea2ec87e7ea019a9d72d58e90f03"
+    },
+    {
+      "src": "assets/pixel16/monsters/bone_serpent.png",
+      "network": "e9f30abccdc850cc77644bf1c71d90161fa80f8b0e521c0b113129b0f7120d9c",
+      "cache": "e9f30abccdc850cc77644bf1c71d90161fa80f8b0e521c0b113129b0f7120d9c"
+    },
+    {
+      "src": "assets/pixel16/monsters/scarab_swarm.png",
+      "network": "fccb005615f6c7659f238e25e02f2bbe781e611129dfbcc45402502118469df8",
+      "cache": "fccb005615f6c7659f238e25e02f2bbe781e611129dfbcc45402502118469df8"
+    },
+    {
+      "src": "assets/pixel16/monsters/dust_djinn.png",
+      "network": "e4948cf718406b260f99e9cff26542cbf6fe36f3415ba2640d3d3734f8d8553f",
+      "cache": "e4948cf718406b260f99e9cff26542cbf6fe36f3415ba2640d3d3734f8d8553f"
+    },
+    {
+      "src": "assets/pixel16/monsters/magma_hound.png",
+      "network": "04a297335b27550f21b3b6c88631655f22f8b6582f366c4009d6edb88112add7",
+      "cache": "04a297335b27550f21b3b6c88631655f22f8b6582f366c4009d6edb88112add7"
+    },
+    {
+      "src": "assets/pixel16/monsters/cinder_golem.png",
+      "network": "cb6645b5074701fca89eb734ad2ad8a0b586c94589fedaa9fbbc5b326a7eec8c",
+      "cache": "cb6645b5074701fca89eb734ad2ad8a0b586c94589fedaa9fbbc5b326a7eec8c"
+    },
+    {
+      "src": "assets/pixel16/monsters/lava_serpent.png",
+      "network": "23d9b85f666f6c3d4a5ca3e743e148748f680de85a953715cc9d73ec878d55df",
+      "cache": "23d9b85f666f6c3d4a5ca3e743e148748f680de85a953715cc9d73ec878d55df"
+    },
+    {
+      "src": "assets/pixel16/monsters/pyroclast_bat.png",
+      "network": "bd953b35cc23602bb388301931b04a01ecdab071c35115fb5baff5b973f28e07",
+      "cache": "bd953b35cc23602bb388301931b04a01ecdab071c35115fb5baff5b973f28e07"
+    },
+    {
+      "src": "assets/pixel16/monsters/gear_sentinel.png",
+      "network": "6dbcd0219df5129aa5b2cf9b692827c8adba2eeea90929dcd922847c3f2737df",
+      "cache": "6dbcd0219df5129aa5b2cf9b692827c8adba2eeea90929dcd922847c3f2737df"
+    },
+    {
+      "src": "assets/pixel16/monsters/spark_hound.png",
+      "network": "589478bab16d0ef787fda512b8962caa4442da2326e6109259f7121924b0f669",
+      "cache": "589478bab16d0ef787fda512b8962caa4442da2326e6109259f7121924b0f669"
+    },
+    {
+      "src": "assets/pixel16/monsters/piston_golem.png",
+      "network": "30c44e698bc2e80ab21e027f3bf5072a8e06f657fd0fbc8b54f29d90e358eb3a",
+      "cache": "30c44e698bc2e80ab21e027f3bf5072a8e06f657fd0fbc8b54f29d90e358eb3a"
+    },
+    {
+      "src": "assets/pixel16/monsters/rotor_wraith.png",
+      "network": "3213b294f9c12e724f35ca5d6d98a9fd8e6892c1025cf2402fe94b337693ec14",
+      "cache": "3213b294f9c12e724f35ca5d6d98a9fd8e6892c1025cf2402fe94b337693ec14"
+    },
+    {
+      "src": "assets/pixel16/monsters/fungal_stalker.png",
+      "network": "738fe7b7161623a401b9b92b3f739cbe22071e886547fbab7a38575cc4f3f908",
+      "cache": "738fe7b7161623a401b9b92b3f739cbe22071e886547fbab7a38575cc4f3f908"
+    },
+    {
+      "src": "assets/pixel16/monsters/thorn_wraith.png",
+      "network": "46d582c8c2505d692c69e5275779feb07a6799969e7f338e77f0acbbb729b5e3",
+      "cache": "46d582c8c2505d692c69e5275779feb07a6799969e7f338e77f0acbbb729b5e3"
+    },
+    {
+      "src": "assets/pixel16/monsters/spore_bat.png",
+      "network": "bf244213e5395fe8c64bb779c17d0bfb2f3a07888b2fa3fcc8b7eb7edaa9b766",
+      "cache": "bf244213e5395fe8c64bb779c17d0bfb2f3a07888b2fa3fcc8b7eb7edaa9b766"
+    },
+    {
+      "src": "assets/pixel16/monsters/rootbound_golem.png",
+      "network": "c56e8dfd8944335f7dea967e0caa6521a675fc3bf28cca2f8f3260640d884c8e",
+      "cache": "c56e8dfd8944335f7dea967e0caa6521a675fc3bf28cca2f8f3260640d884c8e"
+    },
+    {
+      "src": "assets/pixel16/monsters/frost_spawn.png",
+      "network": "0ea41e52dab2e3646b49533d1faa2b569dc4f60efdb966cce5c03ab9a4a22bf6",
+      "cache": "0ea41e52dab2e3646b49533d1faa2b569dc4f60efdb966cce5c03ab9a4a22bf6"
+    },
+    {
+      "src": "assets/pixel16/monsters/glacial_wraith.png",
+      "network": "8e03dcebdaac119f92df55495a58518e34b8ebaaaea6b3e2c1581f8113d4e4c2",
+      "cache": "8e03dcebdaac119f92df55495a58518e34b8ebaaaea6b3e2c1581f8113d4e4c2"
+    },
+    {
+      "src": "assets/pixel16/monsters/rime_golem.png",
+      "network": "a6991cf1120f86e410c46fecc89eb8a2584fbcae4970eeb9d2834b10a9b02d3d",
+      "cache": "a6991cf1120f86e410c46fecc89eb8a2584fbcae4970eeb9d2834b10a9b02d3d"
+    },
+    {
+      "src": "assets/pixel16/monsters/frozen_harpy.png",
+      "network": "31aa805d77a3870c3517eb433637494e3660cd7b7be7d8337de4ba3e789d002e",
+      "cache": "31aa805d77a3870c3517eb433637494e3660cd7b7be7d8337de4ba3e789d002e"
+    },
+    {
+      "src": "assets/pixel16/monsters/star_wisp.png",
+      "network": "a79b3a43b9298be429f37d32e44e5671e67f70fed6f29da0eee61aefa629b79e",
+      "cache": "a79b3a43b9298be429f37d32e44e5671e67f70fed6f29da0eee61aefa629b79e"
+    },
+    {
+      "src": "assets/pixel16/monsters/void_serpent.png",
+      "network": "4e8117e7e294399537d8d20a6eeeebeaf36679f8b2b3c1f8a88e72f89d9937ed",
+      "cache": "4e8117e7e294399537d8d20a6eeeebeaf36679f8b2b3c1f8a88e72f89d9937ed"
+    },
+    {
+      "src": "assets/pixel16/monsters/nebula_golem.png",
+      "network": "5380b231903b30041e0ffa9a3c59a7039174fe14a8b7d508fee38d57ca3302a9",
+      "cache": "5380b231903b30041e0ffa9a3c59a7039174fe14a8b7d508fee38d57ca3302a9"
+    },
+    {
+      "src": "assets/pixel16/monsters/astral_wraith.png",
+      "network": "8570250ed20a52842c8c687a9a5d69dfa28ea405c12c35c693a7b7b6907613f8",
+      "cache": "8570250ed20a52842c8c687a9a5d69dfa28ea405c12c35c693a7b7b6907613f8"
+    },
+    {
+      "src": "assets/pixel16/monsters/chimeric_hound.png",
+      "network": "4a21604f159f533346224efbb30efb245d9b66812547e574a6cda734e2b2191f",
+      "cache": "4a21604f159f533346224efbb30efb245d9b66812547e574a6cda734e2b2191f"
+    },
+    {
+      "src": "assets/pixel16/monsters/chaos_golem.png",
+      "network": "c70b9433ef5c715fb4be8fe300e6c00d64447500d19646c8c23367b736fbae8b",
+      "cache": "c70b9433ef5c715fb4be8fe300e6c00d64447500d19646c8c23367b736fbae8b"
+    },
+    {
+      "src": "assets/pixel16/monsters/discord_wraith.png",
+      "network": "30856f46e958aced161201291ba7026b75f80e5806ad5115857da79e54abe342",
+      "cache": "30856f46e958aced161201291ba7026b75f80e5806ad5115857da79e54abe342"
+    },
+    {
+      "src": "assets/pixel16/monsters/flux_serpent.png",
+      "network": "1041b87317ca0ba9d58e59337e58be919764a15d93c0a93c15c517db5ea7807c",
+      "cache": "1041b87317ca0ba9d58e59337e58be919764a15d93c0a93c15c517db5ea7807c"
+    },
+    {
+      "src": "assets/pixel16/monsters/twilight_seraph.png",
+      "network": "125823220e39d0fa8cf893823a8d4cf3f57d136b9fae8479ff9f370abaa6abea",
+      "cache": "125823220e39d0fa8cf893823a8d4cf3f57d136b9fae8479ff9f370abaa6abea"
+    },
+    {
+      "src": "assets/pixel16/monsters/chrono_golem.png",
+      "network": "31a89a0eaf197ecb8f2aa808991f4f9b9727934c4167abeef145221c442d2d2e",
+      "cache": "31a89a0eaf197ecb8f2aa808991f4f9b9727934c4167abeef145221c442d2d2e"
+    },
+    {
+      "src": "assets/pixel16/monsters/sanctum_wraith.png",
+      "network": "3bead3ff5855241a4bb1837ab1b2aef2beac92f1f5b3c8a6d2e1bffff91cd905",
+      "cache": "3bead3ff5855241a4bb1837ab1b2aef2beac92f1f5b3c8a6d2e1bffff91cd905"
+    },
+    {
+      "src": "assets/pixel16/monsters/chrono_serpent.png",
+      "network": "fed4cbead220868118d37eb3f1852e325f54f333c6bc987960f6dbcba03eb68c",
+      "cache": "fed4cbead220868118d37eb3f1852e325f54f333c6bc987960f6dbcba03eb68c"
+    },
+    {
+      "src": "assets/pixel16/monsters/steel_golem.png",
+      "network": "b4e704154377d114cf3ad62052bcf8031e7d07b1aecfd99481733d0fd05185f6",
+      "cache": "b4e704154377d114cf3ad62052bcf8031e7d07b1aecfd99481733d0fd05185f6"
+    },
+    {
+      "src": "assets/pixel16/monsters/bat_queen.png",
+      "network": "546e6d93c796968c7c4e7de7111b5e9f6f26aa77b8e863803242bc121afd3bb6",
+      "cache": "546e6d93c796968c7c4e7de7111b5e9f6f26aa77b8e863803242bc121afd3bb6"
+    },
+    {
+      "src": "assets/pixel16/monsters/inferno_warden.png",
+      "network": "cd875d830a0b8c6d73dbe07073e0eb4556a1525b0cb802ed3223182249895159",
+      "cache": "cd875d830a0b8c6d73dbe07073e0eb4556a1525b0cb802ed3223182249895159"
+    },
+    {
+      "src": "assets/pixel16/monsters/wyvern_alpha.png",
+      "network": "c4445e7cf7dee496ed14ae318b13d1dc25bbd65e2a11b8bddb170156d019bd26",
+      "cache": "c4445e7cf7dee496ed14ae318b13d1dc25bbd65e2a11b8bddb170156d019bd26"
+    },
+    {
+      "src": "assets/pixel16/monsters/flame_overlord.png",
+      "network": "7e065fa2fbc0567428c01a36c51af709c236d365acd147e775bf3f50e08e285b",
+      "cache": "7e065fa2fbc0567428c01a36c51af709c236d365acd147e775bf3f50e08e285b"
+    },
+    {
+      "src": "assets/pixel16/monsters/glacial_tyrant.png",
+      "network": "75eeabef5e36ce46b28139a736b5d9af3bd1dfbd2ee2ff1c39cffefbab3478c5",
+      "cache": "75eeabef5e36ce46b28139a736b5d9af3bd1dfbd2ee2ff1c39cffefbab3478c5"
+    },
+    {
+      "src": "assets/pixel16/monsters/abyssal_matriarch.png",
+      "network": "dba884bc6b3c46b005badacfd56a83478385b833fb9ad9d4b3cc8182263d858a",
+      "cache": "dba884bc6b3c46b005badacfd56a83478385b833fb9ad9d4b3cc8182263d858a"
+    },
+    {
+      "src": "assets/pixel16/monsters/obsidian_dragon.png",
+      "network": "8e0deb0bf13554cc8d71287482cafdd3fb4de111bade9b141286c5b3f62ce577",
+      "cache": "8e0deb0bf13554cc8d71287482cafdd3fb4de111bade9b141286c5b3f62ce577"
+    },
+    {
+      "src": "assets/pixel16/monsters/choir_warden.png",
+      "network": "a047292a3e6088457d8a40ba6730c04036337256487e6667de3231ca3bfb923b",
+      "cache": "a047292a3e6088457d8a40ba6730c04036337256487e6667de3231ca3bfb923b"
+    },
+    {
+      "src": "assets/pixel16/monsters/leviathan_herald.png",
+      "network": "cbfb9c85234e5c7e4e8c3dc0fb2015ac647d4001f103ffa0ad5384744413afc7",
+      "cache": "cbfb9c85234e5c7e4e8c3dc0fb2015ac647d4001f103ffa0ad5384744413afc7"
+    },
+    {
+      "src": "assets/pixel16/monsters/tempest_marshal.png",
+      "network": "1533e8629794ae8baef8b5312d8a8624871842e5ac691b76ac3b89965bcefea6",
+      "cache": "1533e8629794ae8baef8b5312d8a8624871842e5ac691b76ac3b89965bcefea6"
+    },
+    {
+      "src": "assets/pixel16/monsters/pharaoh_ash.png",
+      "network": "5f646f2da9712cffc55c8746ea97b31686ace402d1ae50bc97471ebf80f75101",
+      "cache": "5f646f2da9712cffc55c8746ea97b31686ace402d1ae50bc97471ebf80f75101"
+    },
+    {
+      "src": "assets/pixel16/monsters/core_warden.png",
+      "network": "c6f294104ab500170744e7ab9033fa4a87002fa6f7406399533a1987ac413cb3",
+      "cache": "c6f294104ab500170744e7ab9033fa4a87002fa6f7406399533a1987ac413cb3"
+    },
+    {
+      "src": "assets/pixel16/monsters/grand_automaton.png",
+      "network": "8929bfdebbaba9ef3d7310271cff8ffd864124ffdfedb960a755c188fd514250",
+      "cache": "8929bfdebbaba9ef3d7310271cff8ffd864124ffdfedb960a755c188fd514250"
+    },
+    {
+      "src": "assets/pixel16/monsters/blight_heart.png",
+      "network": "1bab0a7867fb86f7a9d169c3241f0be96e10cf0b4fa5537af3f0e70259099199",
+      "cache": "1bab0a7867fb86f7a9d169c3241f0be96e10cf0b4fa5537af3f0e70259099199"
+    },
+    {
+      "src": "assets/pixel16/monsters/frost_sovereign.png",
+      "network": "7396f3832f3ae4ef796f928dd411d35eb271f0cb75eb47e923806193e6494310",
+      "cache": "7396f3832f3ae4ef796f928dd411d35eb271f0cb75eb47e923806193e6494310"
+    },
+    {
+      "src": "assets/pixel16/monsters/rift_warden.png",
+      "network": "7692346c19a93bd9f70b592f7b900c5b53989ba0774b04a42b83ac06603f7797",
+      "cache": "7692346c19a93bd9f70b592f7b900c5b53989ba0774b04a42b83ac06603f7797"
+    },
+    {
+      "src": "assets/pixel16/monsters/forge_master.png",
+      "network": "6a384ab182db4429240c57c0ba2b4747ab3dce58accc48065cd85c4d39e21963",
+      "cache": "6a384ab182db4429240c57c0ba2b4747ab3dce58accc48065cd85c4d39e21963"
+    },
+    {
+      "src": "assets/pixel16/monsters/timeless_herald.png",
+      "network": "fbf9d2aca5c09394c4302d8e12037e9f399a9a349bc2e1bd8ba2f8324bac7d7e",
+      "cache": "fbf9d2aca5c09394c4302d8e12037e9f399a9a349bc2e1bd8ba2f8324bac7d7e"
+    },
+    {
+      "src": "assets/pixel16/monsters/timeless_sovereign.png",
+      "network": "9215d9fa7ade269b3127de0a30758b22683f893f483e4f093e6b3c849de7844b",
+      "cache": "9215d9fa7ade269b3127de0a30758b22683f893f483e4f093e6b3c849de7844b"
+    },
+    {
+      "src": "assets/pixel16/monsters/timeless_sovereign-phase-2.png",
+      "network": "7addf54db3817038ecdfb66a674a2f3ac01ff1ef3b4a86acd754584c8d0d911e",
+      "cache": "7addf54db3817038ecdfb66a674a2f3ac01ff1ef3b4a86acd754584c8d0d911e"
+    },
+    {
+      "src": "assets/pixel16/monsters/timeless_sovereign-phase-3.png",
+      "network": "8c5edeef00fafb9d854a7ad7be9b5c5f6a4ede6e28385f65627692c00b387cb4",
+      "cache": "8c5edeef00fafb9d854a7ad7be9b5c5f6a4ede6e28385f65627692c00b387cb4"
+    },
+    {
+      "src": "assets/pixel16/monsters/timeless_sovereign-phase-4.png",
+      "network": "02ae43dac126cbf3644ff496f6cff441da1a358705fb48e209f7cbd9da436762",
+      "cache": "02ae43dac126cbf3644ff496f6cff441da1a358705fb48e209f7cbd9da436762"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcMira.png",
+      "network": "eb10336cc450ffe97354ec1975660abb57e08a3cb9a81b963c767254ce7ee170",
+      "cache": "eb10336cc450ffe97354ec1975660abb57e08a3cb9a81b963c767254ce7ee170"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcMiraHurt.png",
+      "network": "4664d2760a72c8dd08c711021dcf04205d6bf5265f5217050fadc97eb77e53d6",
+      "cache": "4664d2760a72c8dd08c711021dcf04205d6bf5265f5217050fadc97eb77e53d6"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcMiraLantern.png",
+      "network": "50549070636ad6ca4c5fa87a2ec33431f9e0fb7e5a6bff049337137d0775263c",
+      "cache": "50549070636ad6ca4c5fa87a2ec33431f9e0fb7e5a6bff049337137d0775263c"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcOrin.png",
+      "network": "bdf82cafc6a3339fad6919b6623a86094e47395009200e8f5bd31cc626458266",
+      "cache": "bdf82cafc6a3339fad6919b6623a86094e47395009200e8f5bd31cc626458266"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcOrinHurt.png",
+      "network": "a606d02ca5e072d8e68b2f4c9bbd40bd6b508b0365aef0bdfe5b7b309ef2d5b1",
+      "cache": "a606d02ca5e072d8e68b2f4c9bbd40bd6b508b0365aef0bdfe5b7b309ef2d5b1"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcOrinStandard.png",
+      "network": "4ee0a6741029cb2c8c5a7fa550d0162070c7da6c46f9fb6bf2edf22f9b2ca071",
+      "cache": "4ee0a6741029cb2c8c5a7fa550d0162070c7da6c46f9fb6bf2edf22f9b2ca071"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcLyra.png",
+      "network": "5798fe35e612449bdc4d787d2a6242bddd1a20f85c18be6789a60180506d378a",
+      "cache": "5798fe35e612449bdc4d787d2a6242bddd1a20f85c18be6789a60180506d378a"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcLyraLost.png",
+      "network": "db17c6d42dbfa9fed6c89d2edd9a2c7076e64f5c7ca7fe050f921754f2c7255a",
+      "cache": "db17c6d42dbfa9fed6c89d2edd9a2c7076e64f5c7ca7fe050f921754f2c7255a"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcLyraAstral.png",
+      "network": "5489b8bad30e6ac07274e00a3147766773042dbd04ad42b90dd63fb14a947338",
+      "cache": "5489b8bad30e6ac07274e00a3147766773042dbd04ad42b90dd63fb14a947338"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcVeyra.png",
+      "network": "760cc4e95190a5bf45d12451d36a29cf8d021b53cbbd008d6ce84d9998c20695",
+      "cache": "760cc4e95190a5bf45d12451d36a29cf8d021b53cbbd008d6ce84d9998c20695"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcVeyraVigil.png",
+      "network": "e008e5a14652698302b2a7f47228b66273fde28eb42553e32183c5aba85b12ab",
+      "cache": "e008e5a14652698302b2a7f47228b66273fde28eb42553e32183c5aba85b12ab"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcVeyraDawn.png",
+      "network": "7059846c72bcc8d90b014ec66139991888771696c6faf060dae108335b7efddf",
+      "cache": "7059846c72bcc8d90b014ec66139991888771696c6faf060dae108335b7efddf"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcMerchant.png",
+      "network": "32c45ce6d356c81d6b71aa4d3896ed4953a13a4aab3b98d45b8618d61e980781",
+      "cache": "32c45ce6d356c81d6b71aa4d3896ed4953a13a4aab3b98d45b8618d61e980781"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcSage.png",
+      "network": "bc6db4bba6eebddaed7b9fbcdeea64e360e650117a1207f974ad16f3cd70c0a4",
+      "cache": "bc6db4bba6eebddaed7b9fbcdeea64e360e650117a1207f974ad16f3cd70c0a4"
+    },
+    {
+      "src": "assets/pixel16/npcs/npcGambler.png",
+      "network": "827c781ad4deb27d90d94c96fdda0a0e77c4c53c19470eb494bcd067763b4759",
+      "cache": "827c781ad4deb27d90d94c96fdda0a0e77c4c53c19470eb494bcd067763b4759"
+    },
+    {
+      "src": "assets/pixel16/companions/emberFox.png",
+      "network": "c73dce4e56966891170bf97dc5acc2ebc0e29a9e2b4d8e96f09a5ac803b56bdf",
+      "cache": "c73dce4e56966891170bf97dc5acc2ebc0e29a9e2b4d8e96f09a5ac803b56bdf"
+    },
+    {
+      "src": "assets/pixel16/companions/dawnOwl.png",
+      "network": "315ba467220c3b6767a51a1dcb796ba978079beeb4ed5322f5755b5318e98e73",
+      "cache": "315ba467220c3b6767a51a1dcb796ba978079beeb4ed5322f5755b5318e98e73"
+    },
+    {
+      "src": "assets/pixel16/companions/stoneheartBear.png",
+      "network": "9ea14f0d7626ddc3d771edb0e711889019ccc0e50854c7f68b1bf35ceecd6b56",
+      "cache": "9ea14f0d7626ddc3d771edb0e711889019ccc0e50854c7f68b1bf35ceecd6b56"
+    },
+    {
+      "src": "assets/pixel16/companions/stormSprite.png",
+      "network": "e875c8ce57e38ca0d084d261fef5ec62b3412e2afe096c4bc39d42ec16803db9",
+      "cache": "e875c8ce57e38ca0d084d261fef5ec62b3412e2afe096c4bc39d42ec16803db9"
+    },
+    {
+      "src": "assets/pixel16/companions/sandScarab.png",
+      "network": "471ffbb3a15db8683305c8ecf4c923637798081ccf954b93eb8ff62728ac98c5",
+      "cache": "471ffbb3a15db8683305c8ecf4c923637798081ccf954b93eb8ff62728ac98c5"
+    },
+    {
+      "src": "assets/pixel16/companions/frostHare.png",
+      "network": "d51d99ebe58a6101658c60db6ccb3dda7275c9fcdb10c2e49baba66b8d8347e8",
+      "cache": "d51d99ebe58a6101658c60db6ccb3dda7275c9fcdb10c2e49baba66b8d8347e8"
+    },
+    {
+      "src": "assets/pixel16/companions/ironGolemCub.png",
+      "network": "088e71de79c3803990c04be9bcc495b5d53f3416b58f263fd23e5739d6203722",
+      "cache": "088e71de79c3803990c04be9bcc495b5d53f3416b58f263fd23e5739d6203722"
+    },
+    {
+      "src": "dist/game.min.js",
+      "network": "3ac236f3f1499e1ad8f54acbd90cd01b0c9e38efca7f595d9c448b7fda7a4289",
+      "cache": "3ac236f3f1499e1ad8f54acbd90cd01b0c9e38efca7f595d9c448b7fda7a4289"
+    },
+    {
+      "src": "css/polish.css",
+      "network": "feab730cfcfcf91722b53c341b9301328fbda280c7c6b6f26258e39aacba0bea",
+      "cache": "feab730cfcfcf91722b53c341b9301328fbda280c7c6b6f26258e39aacba0bea"
+    }
+  ],
+  "legacyCached": [],
   "offline": true,
   "mobile": {
     "overflow": false,

@@ -20,7 +20,7 @@
       "colors": 24,
       "sourceWidth": 1024,
       "sourceHeight": 1536,
-      "sourceMargin": 100,
+      "sourceMargin": 99,
       "palette": 24,
       "alpha": "binary"
     },
@@ -105,6 +105,42 @@
       "sourceWidth": 1199,
       "sourceHeight": 1312,
       "sourceMargin": 101,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "npcVeyra",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1240,
+      "sourceHeight": 1269,
+      "sourceMargin": 15,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "npcVeyraVigil",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1192,
+      "sourceHeight": 1320,
+      "sourceMargin": 78,
+      "palette": 24,
+      "alpha": "binary"
+    },
+    {
+      "id": "npcVeyraDawn",
+      "kind": "npcs",
+      "width": 80,
+      "height": 96,
+      "colors": 24,
+      "sourceWidth": 1129,
+      "sourceHeight": 1393,
+      "sourceMargin": 40,
       "palette": 24,
       "alpha": "binary"
     },

@@ -1,0 +1,1411 @@
+{
+  "views": [
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "credits",
+      "screen": "screen-credits",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "story-intro",
+      "screen": "screen-story",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "story-ending",
+      "screen": "screen-story",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "ascension",
+      "screen": "screen-ascension",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 12
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "waypoint-5",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 2
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "waypoint-10",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 5
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "waypoint-15",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 4
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "boss-confirm",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "talents",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 422.1484375,
+        "right": 1017.84375,
+        "top": 314.046875,
+        "bottom": 645.953125
+      },
+      "textFallback": [],
+      "icons": 3
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "routes",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 422.1484375,
+        "right": 1017.84375,
+        "top": 313.109375,
+        "bottom": 646.890625
+      },
+      "textFallback": [],
+      "icons": 4
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "item-detail",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 550.953125,
+        "right": 889.046875,
+        "top": 348.515625,
+        "bottom": 611.484375
+      },
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "equip-picker",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 414.1015625,
+        "right": 1025.8984375,
+        "top": 106.4765625,
+        "bottom": 853.515625
+      },
+      "textFallback": [],
+      "icons": 80
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "companions-locked",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 414.1015625,
+        "right": 1025.8984375,
+        "top": 106.4765625,
+        "bottom": 853.515625
+      },
+      "textFallback": [],
+      "icons": 14
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "companions-unlocked",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 414.1015625,
+        "right": 1025.8984375,
+        "top": 106.4765625,
+        "bottom": 853.515625
+      },
+      "textFallback": [],
+      "icons": 14
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "quest-claim",
+      "screen": "screen-quests",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 550.953125,
+        "right": 889.046875,
+        "top": 262.6484375,
+        "bottom": 697.3515625
+      },
+      "textFallback": [],
+      "icons": 5
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "name": "victory",
+      "screen": "screen-end",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 3
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "credits",
+      "screen": "screen-credits",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "story-intro",
+      "screen": "screen-story",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "story-ending",
+      "screen": "screen-story",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "ascension",
+      "screen": "screen-ascension",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 12
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "waypoint-5",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 2
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "waypoint-10",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 5
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "waypoint-15",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 4
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "boss-confirm",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "talents",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 422.1484375,
+        "right": 1017.84375,
+        "top": 313.96875,
+        "bottom": 646.03125
+      },
+      "textFallback": [],
+      "icons": 3
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "routes",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 422.1484375,
+        "right": 1017.84375,
+        "top": 293.8671875,
+        "bottom": 666.1328125
+      },
+      "textFallback": [],
+      "icons": 4
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "item-detail",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 550.953125,
+        "right": 889.046875,
+        "top": 348.515625,
+        "bottom": 611.484375
+      },
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "equip-picker",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 414.1015625,
+        "right": 1025.8984375,
+        "top": 106.4765625,
+        "bottom": 853.515625
+      },
+      "textFallback": [],
+      "icons": 80
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "companions-locked",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 414.1015625,
+        "right": 1025.8984375,
+        "top": 106.4765625,
+        "bottom": 853.515625
+      },
+      "textFallback": [],
+      "icons": 14
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "companions-unlocked",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 414.1015625,
+        "right": 1025.8984375,
+        "top": 106.4765625,
+        "bottom": 853.515625
+      },
+      "textFallback": [],
+      "icons": 14
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "quest-claim",
+      "screen": "screen-quests",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 550.953125,
+        "right": 889.046875,
+        "top": 262.6484375,
+        "bottom": 697.3515625
+      },
+      "textFallback": [],
+      "icons": 5
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "name": "victory",
+      "screen": "screen-end",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 3
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "credits",
+      "screen": "screen-credits",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "story-intro",
+      "screen": "screen-story",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "story-ending",
+      "screen": "screen-story",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "ascension",
+      "screen": "screen-ascension",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 12
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "waypoint-5",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 2
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "waypoint-10",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 5
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "waypoint-15",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 4
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "boss-confirm",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "talents",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 44.484375,
+        "right": 345.515625,
+        "top": 181.84375,
+        "bottom": 662.15625
+      },
+      "textFallback": [],
+      "icons": 3
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "routes",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 44.484375,
+        "right": 345.515625,
+        "top": 132.4140625,
+        "bottom": 711.5859375
+      },
+      "textFallback": [],
+      "icons": 4
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "item-detail",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 24.375,
+        "right": 365.625,
+        "top": 299.4765625,
+        "bottom": 544.515625
+      },
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "equip-picker",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 13,
+        "right": 377,
+        "top": 92.125,
+        "bottom": 751.875
+      },
+      "textFallback": [],
+      "icons": 80
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "companions-locked",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 46.0703125,
+        "right": 343.9296875,
+        "top": 92.125,
+        "bottom": 751.875
+      },
+      "textFallback": [],
+      "icons": 14
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "companions-unlocked",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 46.0703125,
+        "right": 343.9296875,
+        "top": 92.125,
+        "bottom": 751.875
+      },
+      "textFallback": [],
+      "icons": 14
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "quest-claim",
+      "screen": "screen-quests",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 24.375,
+        "right": 365.625,
+        "top": 210.390625,
+        "bottom": 633.609375
+      },
+      "textFallback": [],
+      "icons": 5
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "name": "victory",
+      "screen": "screen-end",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 3
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "credits",
+      "screen": "screen-credits",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "story-intro",
+      "screen": "screen-story",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "story-ending",
+      "screen": "screen-story",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "ascension",
+      "screen": "screen-ascension",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 12
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "waypoint-5",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 2
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "waypoint-10",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 5
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "waypoint-15",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 4
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "boss-confirm",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "talents",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 44.484375,
+        "right": 345.515625,
+        "top": 141.0546875,
+        "bottom": 702.9375
+      },
+      "textFallback": [],
+      "icons": 3
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "routes",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 44.484375,
+        "right": 345.515625,
+        "top": 113.4140625,
+        "bottom": 730.5859375
+      },
+      "textFallback": [],
+      "icons": 4
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "item-detail",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 24.375,
+        "right": 365.625,
+        "top": 299.4765625,
+        "bottom": 544.515625
+      },
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "equip-picker",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 13,
+        "right": 377,
+        "top": 92.125,
+        "bottom": 751.875
+      },
+      "textFallback": [],
+      "icons": 80
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "companions-locked",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 46.0703125,
+        "right": 343.9296875,
+        "top": 92.125,
+        "bottom": 751.875
+      },
+      "textFallback": [],
+      "icons": 14
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "companions-unlocked",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 46.0703125,
+        "right": 343.9296875,
+        "top": 92.125,
+        "bottom": 751.875
+      },
+      "textFallback": [],
+      "icons": 14
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "quest-claim",
+      "screen": "screen-quests",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 24.375,
+        "right": 365.625,
+        "top": 210.390625,
+        "bottom": 633.609375
+      },
+      "textFallback": [],
+      "icons": 5
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "name": "victory",
+      "screen": "screen-end",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 3
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "credits",
+      "screen": "screen-credits",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "story-intro",
+      "screen": "screen-story",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "story-ending",
+      "screen": "screen-story",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "ascension",
+      "screen": "screen-ascension",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 12
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "waypoint-5",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 2
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "waypoint-10",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 5
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "waypoint-15",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 4
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "boss-confirm",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "talents",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 78.421875,
+        "right": 765.578125,
+        "top": 32.03125,
+        "bottom": 357.96875
+      },
+      "textFallback": [],
+      "icons": 3
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "routes",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 78.421875,
+        "right": 765.578125,
+        "top": 32.03125,
+        "bottom": 357.96875
+      },
+      "textFallback": [],
+      "icons": 4
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "item-detail",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 226.9921875,
+        "right": 617,
+        "top": 55.25,
+        "bottom": 334.75
+      },
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "equip-picker",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 69.1328125,
+        "right": 774.8671875,
+        "top": 28.78125,
+        "bottom": 361.21875
+      },
+      "textFallback": [],
+      "icons": 80
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "companions-locked",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 69.1328125,
+        "right": 774.8671875,
+        "top": 28.78125,
+        "bottom": 361.21875
+      },
+      "textFallback": [],
+      "icons": 14
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "companions-unlocked",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 69.1328125,
+        "right": 774.8671875,
+        "top": 28.78125,
+        "bottom": 361.21875
+      },
+      "textFallback": [],
+      "icons": 14
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "quest-claim",
+      "screen": "screen-quests",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 226.9921875,
+        "right": 617,
+        "top": 37.6953125,
+        "bottom": 352.296875
+      },
+      "textFallback": [],
+      "icons": 5
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "name": "victory",
+      "screen": "screen-end",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 3
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "credits",
+      "screen": "screen-credits",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "story-intro",
+      "screen": "screen-story",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "story-ending",
+      "screen": "screen-story",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "ascension",
+      "screen": "screen-ascension",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 12
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "waypoint-5",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 2
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "waypoint-10",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 5
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "waypoint-15",
+      "screen": "screen-waypoint",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 4
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "boss-confirm",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "talents",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 78.421875,
+        "right": 765.578125,
+        "top": 32.03125,
+        "bottom": 357.96875
+      },
+      "textFallback": [],
+      "icons": 3
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "routes",
+      "screen": "screen-event",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 78.421875,
+        "right": 765.578125,
+        "top": 32.03125,
+        "bottom": 357.96875
+      },
+      "textFallback": [],
+      "icons": 4
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "item-detail",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 226.9921875,
+        "right": 617,
+        "top": 55.25,
+        "bottom": 334.75
+      },
+      "textFallback": [],
+      "icons": 1
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "equip-picker",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 69.1328125,
+        "right": 774.8671875,
+        "top": 28.78125,
+        "bottom": 361.21875
+      },
+      "textFallback": [],
+      "icons": 80
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "companions-locked",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 69.1328125,
+        "right": 774.8671875,
+        "top": 28.78125,
+        "bottom": 361.21875
+      },
+      "textFallback": [],
+      "icons": 14
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "companions-unlocked",
+      "screen": "screen-status",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 69.1328125,
+        "right": 774.8671875,
+        "top": 28.78125,
+        "bottom": 361.21875
+      },
+      "textFallback": [],
+      "icons": 14
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "quest-claim",
+      "screen": "screen-quests",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": {
+        "left": 226.9921875,
+        "right": 617,
+        "top": 37.6953125,
+        "bottom": 352.296875
+      },
+      "textFallback": [],
+      "icons": 5
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "name": "victory",
+      "screen": "screen-end",
+      "overflow": false,
+      "broken": 0,
+      "empty": 0,
+      "dialog": null,
+      "textFallback": [],
+      "icons": 3
+    }
+  ],
+  "interactions": [
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "visible": true,
+      "equipped": true,
+      "closed": true
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "visible": true,
+      "equipped": true,
+      "closed": true
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "visible": true,
+      "equipped": true,
+      "closed": true
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "visible": true,
+      "equipped": true,
+      "closed": true
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "visible": true,
+      "equipped": true,
+      "closed": true
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "visible": true,
+      "equipped": true,
+      "closed": true
+    }
+  ],
+  "errors": []
+}

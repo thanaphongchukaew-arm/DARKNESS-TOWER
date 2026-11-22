@@ -32,11 +32,11 @@ folder. Players can export/import everything from Settings.
 ## Art sources
 
 Full-size source art belongs in `art-source/` (git-ignored, never shipped).
-`assets/classes/*.webp` are 512px exports:
-
-```
-cwebp -q 88 -alpha_q 100 -resize 512 512 art-source/classes/NAME.png -o assets/classes/NAME.webp
-```
+Runtime portraits use the 16-bit PNGs in `assets/pixel16/{classes,monsters,npcs,companions}/`.
+UI symbols, item illustrations and handbook diagrams are authored in
+`js/ui-symbols.js`, `js/item-art.js` and `js/guide-art.js`, then bundled by `npm run build`.
+The old `assets/classes/*.webp` exports are retained only for the comparison preview;
+they are not used by the game, precached, or included in desktop packages.
 
 ## Desktop builds (Electron)
 

@@ -872,14 +872,14 @@
   }
 
   // ---- Checkpoints -------------------------------------------------------
-  // Every difficulty except Nightmare keeps a snapshot of the run each time a
-  // new 10-floor stretch begins (floors 11, 21, ... 91). A defeat sends the
-  // player back to that snapshot instead of ending the run; Nightmare stays
-  // true permadeath, which is what its class unlocks and Ascension reward.
+  // Checkpoints are currently disabled: every difficulty is permadeath. The
+  // snapshot plumbing below (a run copy at floors 11, 21, ... 91) is kept so
+  // checkpointsEnabled() can switch it back on per difficulty.
   var CHECKPOINT_INTERVAL = 10;
 
   function checkpointsEnabled(run) {
-    return !!run && run.difficulty !== 'nightmare';
+    // Permadeath on every difficulty: a defeat always ends the run and wipes the save.
+    return false;
   }
 
   function isCheckpointFloor(floor) {

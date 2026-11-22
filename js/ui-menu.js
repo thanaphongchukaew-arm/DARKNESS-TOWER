@@ -11,6 +11,9 @@
     if (id !== 'screen-battle' && window.Game.BattleUI && window.Game.BattleUI.cancelPlayback) window.Game.BattleUI.cancelPlayback();
     document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('active'); });
     document.getElementById(id).classList.add('active');
+    // Keep guide controls in its scrolling header, clear of illustrations and text.
+    var gear=document.getElementById('open-settings'),controls=document.querySelector('.top-right-controls');
+    if(gear&&controls){if(id==='screen-guide')document.querySelector('#screen-guide>.screen-header').appendChild(gear);else if(gear.parentNode!==controls)controls.insertBefore(gear,controls.firstChild);}
     if (window.Game.Tips) window.Game.Tips.onScreen(id);
     if (window.Game.Input) window.Game.Input.onScreen(id);
     if (window.Game.Audio) window.Game.Audio.playMusic(id === 'screen-battle' ? 'battle' : 'menu');
@@ -175,8 +178,7 @@
     { icon: 'towerSpire', key: 'Floors' }, { icon: 'doorway', key: 'Waypoint' },
     { icon: 'crownSkull', key: 'Boss' }, { icon: 'skullFire', key: 'Difficulty' }
   ];
-  // Random events, blessings/curses, companions, Ascension, and the Codex --
-  // one card each, same guideCardGrid renderer as the sections above.
+  // Quick-start cards, same guideCardGrid renderer as the sections below.
   var GUIDE_START = [
     { icon: 'crownSkull', key: 'Goal' }, { icon: 'towerSpire', key: 'Loop' },
     { icon: 'swordAttack', key: 'Turn' }, { icon: 'sparkles', key: 'Save' }
@@ -185,37 +187,54 @@
   var GUIDE_GROUPS = [
     { title: 'guideGroupBuildTitle', items: [
       { icon: 'talentRiposte', key: 'Talents' }, { icon: 'blessMight', key: 'Blessings' },
-      { icon: 'relicVampiricFang', key: 'Relics' }, { icon: 'workBench', key: 'Workshop' },
-      { icon: 'microNew', key: 'New' } ] },
+      { icon: 'relicVampiricFang', key: 'Relics' }, { icon: 'coin', key: 'Shop' },
+      { icon: 'workBench', key: 'Workshop' }, { icon: 'microNew', key: 'New' } ] },
     { title: 'guideGroupJourneyTitle', items: [
       { icon: 'routeExplore', key: 'Routes' }, { icon: 'eventShrine', key: 'Events' },
-      { icon: 'npcMira', key: 'Travelers' } ] },
+      { icon: 'npcMira', key: 'Travelers' }, { icon: 'tome', key: 'Lore' } ] },
     { title: 'guideGroupAlliesTitle', items: [
       { icon: 'companionSlot', key: 'Companions' }, { icon: 'sparkles', key: 'Bond' } ] },
     { title: 'guideGroupDangerTitle', items: [
       { icon: 'statusPoison', key: 'Ailments' }, { icon: 'skullFire', key: 'BossShift' } ] },
+    { title: 'guideGroupSideTitle', items: [
+      { icon: 'skullMark', key: 'Arena' }, { icon: 'scroll', key: 'Quests' },
+      { icon: 'miniCards', key: 'Minigames' } ] },
     { title: 'guideGroupMetaTitle', items: [
-      { icon: 'ascension', key: 'Ascension' }, { icon: 'codex', key: 'Codex' } ] }
+      { icon: 'ascension', key: 'Ascension' }, { icon: 'codex', key: 'Codex' },
+      { icon: 'trophy', key: 'Achievements' } ] }
   ];
-  var GUIDE_TIPS = ['guideTip1', 'guideTip2', 'guideTip3', 'guideTip4', 'guideTip5', 'guideTip6'];
+  var GUIDE_TIPS = ['guideTip1', 'guideTip2', 'guideTip3', 'guideTip4', 'guideTip5', 'guideTip6', 'guideTip7', 'guideTip8'];
 
   // Shared card renderer for every guide grid (icon + short label + one-line
   // description) -- prefix identifies the i18n key family, e.g. 'guideStat' + 'Hp' + 'Label'.
   function guideCardGrid(prefix, items) {
     return '<div class="guide-stat-grid">' + items.map(function (it) {
-      return '<div class="guide-stat-card">' + window.Game.Icons.item(it) +
+      return '<div class="guide-stat-card" data-guide-topic="' + prefix + it.key + '"><div class="guide-art-frame">' + window.Game.GuideArt.render(prefix + it.key) + '</div>' +
         '<div><div class="guide-stat-card-label">' + T(prefix + it.key + 'Label') + '</div>' +
         '<div class="guide-stat-card-desc">' + T(prefix + it.key + 'Desc') + '</div></div>' +
       '</div>';
     }).join('') + '</div>';
   }
 
+  function guideText(th,en){return window.Game.I18n.getLang()==='en'?en:th;}
+  function guideSequence(steps,cls){return '<div class="guide-sequence '+(cls||'')+'">'+steps.map(function(s,i){return '<div class="guide-sequence-step"><div class="guide-sequence-art">'+window.Game.GuideArt.render(s[0])+'</div><strong>'+s[1]+'</strong></div>'+(i<steps.length-1?'<span class="guide-sequence-arrow" aria-hidden="true">'+I('chevronRight')+'</span>':'');}).join('')+'</div>';}
+  function guideLoopFigure(){return '<figure class="guide-figure"><figcaption>'+guideText('วงจรการเล่นแต่ละชั้น','The loop on each floor')+'</figcaption>'+guideSequence([
+    ['guideCombatActions',guideText('ต่อสู้','Battle')],['guideReward',guideText('เลือกรางวัล','Choose a reward')],['guideFeatureWorkshop',guideText('เตรียมอุปกรณ์','Prepare gear')],['guideTowerFloors',guideText('ขึ้นชั้นถัดไป','Next floor')]
+  ])+'</figure>';}
+  function guideBattleFigures(){return '<div class="guide-meter-figures"><figure class="guide-figure guide-focus-figure"><figcaption>'+guideText('Focus: พลังของผู้เล่น','Focus: your power')+'</figcaption>'+guideSequence([
+    ['guideStatAtk',guideText('โจมตีโดน','Land hits')],['guideCombatFocus',guideText('Focus เต็ม','Fill Focus')],['guideOverdrive',guideText('ใช้ Overdrive ไม่เสีย MP','Overdrive costs no MP')]
+  ])+'</figure><figure class="guide-figure guide-break-figure"><figcaption>'+guideText('Break: เกราะของศัตรู','Break: enemy defenses')+'</figcaption>'+guideSequence([
+    ['guideStatAtk',guideText('โจมตีสะสม','Keep attacking')],['guideCombatBreak',guideText('แถบ Break เต็ม','Fill Break')],['guideBonusDamage',guideText('ศัตรูรับดาเมจเพิ่มในรอบนั้น','Enemy takes more damage this round')]
+  ])+'</figure></div><figure class="guide-figure"><figcaption>'+guideText('เสียหลักและโจมตีรวมพลัง','Stagger and Rally Strike')+'</figcaption>'+guideSequence([
+    ['element-fire',guideText('โจมตีธาตุที่ศัตรูทั่วไปแพ้','Hit a regular foe’s elemental weakness')],['guideCombatStagger',guideText('ศัตรูเสียหลัก ข้ามเทิร์น','Stagger: the foe skips its turn')],['guideCombatGroup',guideText('ทำให้ทุกตัวเสียหลักพร้อมกัน','Down every foe together')],['guideRally',guideText('ได้โจมตีรวมพลัง','Earn a Rally Strike')]
+  ])+'<p>'+guideText('บอสไม่เสียหลักเพราะโดนธาตุที่แพ้เพียงอย่างเดียว ส่วน Break เป็นอีกระบบหนึ่ง แยกจากการเสียหลัก','Weakness alone does not stagger a boss. Break and Stagger are separate systems.')+'</p></figure>';}
+
   function renderGuide() {
     var elementsHtml = GUIDE_ELEMENTS.map(function (el) {
-      return '<div class="element-card"><span class="el-tag el-' + el + '">' + I(el) + '</span><span class="element-card-name">' + window.Game.ElementName(el) + '</span></div>';
+      return '<div class="element-card"><div class="guide-element-art">' + window.Game.GuideArt.render('element-' + el) + '</div><span class="element-card-name">' + window.Game.ElementName(el) + '</span></div>';
     }).join('');
     var tipsHtml = GUIDE_TIPS.map(function (key) {
-      return '<div class="guide-tip-card">' + I('sparkles') + '<span>' + T(key) + '</span></div>';
+      return '<div class="guide-tip-card"><div class="guide-tip-art">' + window.Game.GuideArt.render(key) + '</div><span>' + T(key) + '</span></div>';
     }).join('');
 
     var groupsHtml = GUIDE_GROUPS.map(function (g) {
@@ -228,7 +247,7 @@
     document.getElementById('guide-content').innerHTML =
       '<div class="guide-section">' +
         '<h3>' + T('guideStartTitle') + '</h3>' +
-        guideCardGrid('guideStart', GUIDE_START) +
+        guideLoopFigure() + guideCardGrid('guideStart', GUIDE_START) +
       '</div>' +
       '<div class="guide-section">' +
         '<h3>' + T('guideStatsTitle') + '</h3>' +
@@ -241,7 +260,7 @@
       '</div>' +
       '<div class="guide-section">' +
         '<h3>' + T('guideCombatTitle') + '</h3>' +
-        guideCardGrid('guideCombat', GUIDE_COMBAT) +
+        guideBattleFigures() + guideCardGrid('guideCombat', GUIDE_COMBAT) +
       '</div>' +
       '<div class="guide-section">' +
         '<h3>' + T('guideTowerTitle') + '</h3>' +
@@ -322,14 +341,10 @@
     DIFFICULTY_ORDER.forEach(function (id) {
       svg += '<polyline class="dl-line dl-' + id + '" points="' + series[id].map(function (v, i) { return x(i + 1).toFixed(1) + ',' + y(v).toFixed(1); }).join(' ') + '"/>';
     });
-    for (var cp = 11; cp <= 91; cp += 10) {
-      var cx = x(cp), cy = H - padB + 4;
-      svg += '<path class="dl-cp" d="M' + cx.toFixed(1) + ' ' + (cy - 4) + 'L' + (cx + 4).toFixed(1) + ' ' + cy + 'L' + cx.toFixed(1) + ' ' + (cy + 4) + 'L' + (cx - 4).toFixed(1) + ' ' + cy + 'Z"/>';
-    }
     svg += '</svg>';
     var legend = DIFFICULTY_ORDER.map(function (id) {
       return '<span class="lg-' + id + '"><i></i>' + L(F.DIFFICULTY[id], 'name') + '</span>';
-    }).join('') + '<span class="lg-cp"><i></i>' + T('diffChartCp') + '</span>';
+    }).join('');
     return '<h3>' + T('diffChartTitle') + '</h3><p class="diff-chart-hint">' + T('diffChartHint') + '</p>' + svg + '<div class="diff-chart-legend">' + legend + '</div>';
   }
 
@@ -338,7 +353,7 @@
     var el = document.getElementById('difficulty-cards');
     el.innerHTML = DIFFICULTY_ORDER.map(function (id) {
       var d = F.DIFFICULTY[id];
-      var permadeath = id === 'nightmare';
+      var permadeath = true;
       return '<button class="select-card difficulty-card diff-' + id + '" data-id="' + id + '">' +
         '<div class="select-card-icon">' + I(DIFFICULTY_ICON[id]) + '</div>' +
         '<div class="select-card-title">' + L(d, 'name') + (id === 'normal' ? '<span class="stat-chip" style="margin-left:0.4rem">' + T('diffRecommended') + '</span>' : '') + '</div>' +

@@ -1,0 +1,1038 @@
+{
+  "views": [
+    {
+      "name": "th-forge",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": {
+        "left": 384,
+        "top": 273.8125,
+        "right": 896,
+        "bottom": 686.1796875,
+        "scrollHeight": 408,
+        "clientHeight": 408
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "th-lockpick",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": {
+        "left": 384,
+        "top": 273.8125,
+        "right": 896,
+        "bottom": 686.1796875,
+        "scrollHeight": 408,
+        "clientHeight": 408
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "th-cards-1",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": {
+        "left": 384,
+        "top": 212.6875,
+        "right": 896,
+        "bottom": 747.3046875,
+        "scrollHeight": 531,
+        "clientHeight": 531
+      },
+      "missing": false,
+      "cardRanks": [
+        "A"
+      ]
+    },
+    {
+      "name": "th-cards-10",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": {
+        "left": 384,
+        "top": 212.6875,
+        "right": 896,
+        "bottom": 747.3046875,
+        "scrollHeight": 531,
+        "clientHeight": 531
+      },
+      "missing": false,
+      "cardRanks": [
+        "10"
+      ]
+    },
+    {
+      "name": "th-cards-reveal",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": {
+        "left": 384,
+        "top": 212.6875,
+        "right": 896,
+        "bottom": 747.3046875,
+        "scrollHeight": 531,
+        "clientHeight": 531
+      },
+      "missing": false,
+      "cardRanks": [
+        "10",
+        "K"
+      ]
+    },
+    {
+      "name": "th-cards-13",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": {
+        "left": 384,
+        "top": 212.6875,
+        "right": 896,
+        "bottom": 747.3046875,
+        "scrollHeight": 531,
+        "clientHeight": 531
+      },
+      "missing": false,
+      "cardRanks": [
+        "K"
+      ]
+    },
+    {
+      "name": "en-forge",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": {
+        "left": 384,
+        "top": 238.1875,
+        "right": 896,
+        "bottom": 721.8046875,
+        "scrollHeight": 480,
+        "clientHeight": 480
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "en-lockpick",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": {
+        "left": 384,
+        "top": 250.0625,
+        "right": 896,
+        "bottom": 709.9296875,
+        "scrollHeight": 456,
+        "clientHeight": 456
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "en-cards-1",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": {
+        "left": 384,
+        "top": 188.9375,
+        "right": 896,
+        "bottom": 771.0546875,
+        "scrollHeight": 578,
+        "clientHeight": 578
+      },
+      "missing": false,
+      "cardRanks": [
+        "A"
+      ]
+    },
+    {
+      "name": "en-cards-10",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": {
+        "left": 384,
+        "top": 160.7421875,
+        "right": 896,
+        "bottom": 799.2578125,
+        "scrollHeight": 635,
+        "clientHeight": 635
+      },
+      "missing": false,
+      "cardRanks": [
+        "10"
+      ]
+    },
+    {
+      "name": "en-cards-reveal",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": {
+        "left": 384,
+        "top": 160.7421875,
+        "right": 896,
+        "bottom": 799.2578125,
+        "scrollHeight": 635,
+        "clientHeight": 635
+      },
+      "missing": false,
+      "cardRanks": [
+        "10",
+        "K"
+      ]
+    },
+    {
+      "name": "en-cards-13",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": {
+        "left": 384,
+        "top": 188.9375,
+        "right": 896,
+        "bottom": 771.0546875,
+        "scrollHeight": 578,
+        "clientHeight": 578
+      },
+      "missing": false,
+      "cardRanks": [
+        "K"
+      ]
+    },
+    {
+      "name": "forge-success-marks",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": {
+        "left": 384,
+        "top": 273.015625,
+        "right": 896,
+        "bottom": 686.984375,
+        "scrollHeight": 410,
+        "clientHeight": 410
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "lockpick-miss-mark",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": {
+        "left": 384,
+        "top": 273.015625,
+        "right": 896,
+        "bottom": 686.984375,
+        "scrollHeight": 410,
+        "clientHeight": 410
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "achievements-locked",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "achievements-unlocked",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "th-lore-veyra_bell_echo",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "th-lore-lamp_roll",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "en-lore-veyra_bell_echo",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "en-lore-lamp_roll",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "settings-switch",
+      "tag": "desktop",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "th-forge",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": {
+        "left": 16,
+        "top": 203.9375,
+        "right": 374,
+        "bottom": 640.0546875,
+        "scrollHeight": 432,
+        "clientHeight": 432
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "th-lockpick",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": {
+        "left": 16,
+        "top": 203.9375,
+        "right": 374,
+        "bottom": 640.0546875,
+        "scrollHeight": 432,
+        "clientHeight": 432
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "th-cards-1",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": {
+        "left": 16,
+        "top": 114.6171875,
+        "right": 374,
+        "bottom": 729.3828125,
+        "scrollHeight": 611,
+        "clientHeight": 611
+      },
+      "missing": false,
+      "cardRanks": [
+        "A"
+      ]
+    },
+    {
+      "name": "th-cards-10",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": {
+        "left": 16,
+        "top": 114.6171875,
+        "right": 374,
+        "bottom": 729.3828125,
+        "scrollHeight": 611,
+        "clientHeight": 611
+      },
+      "missing": false,
+      "cardRanks": [
+        "10"
+      ]
+    },
+    {
+      "name": "th-cards-reveal",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": {
+        "left": 16,
+        "top": 114.6171875,
+        "right": 374,
+        "bottom": 729.3828125,
+        "scrollHeight": 611,
+        "clientHeight": 611
+      },
+      "missing": false,
+      "cardRanks": [
+        "10",
+        "K"
+      ]
+    },
+    {
+      "name": "th-cards-13",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": {
+        "left": 16,
+        "top": 114.6171875,
+        "right": 374,
+        "bottom": 729.3828125,
+        "scrollHeight": 611,
+        "clientHeight": 611
+      },
+      "missing": false,
+      "cardRanks": [
+        "K"
+      ]
+    },
+    {
+      "name": "en-forge",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": {
+        "left": 16,
+        "top": 116.3671875,
+        "right": 374,
+        "bottom": 727.6328125,
+        "scrollHeight": 607,
+        "clientHeight": 607
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "en-lockpick",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": {
+        "left": 16,
+        "top": 140.1171875,
+        "right": 374,
+        "bottom": 703.8828125,
+        "scrollHeight": 560,
+        "clientHeight": 560
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "en-cards-1",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": {
+        "left": 16,
+        "top": 79.4609375,
+        "right": 374,
+        "bottom": 764.53125,
+        "scrollHeight": 681,
+        "clientHeight": 681
+      },
+      "missing": false,
+      "cardRanks": [
+        "A"
+      ]
+    },
+    {
+      "name": "en-cards-10",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": {
+        "left": 16,
+        "top": 79.4609375,
+        "right": 374,
+        "bottom": 764.53125,
+        "scrollHeight": 681,
+        "clientHeight": 681
+      },
+      "missing": false,
+      "cardRanks": [
+        "10"
+      ]
+    },
+    {
+      "name": "en-cards-reveal",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": {
+        "left": 16,
+        "top": 79.4609375,
+        "right": 374,
+        "bottom": 764.53125,
+        "scrollHeight": 681,
+        "clientHeight": 681
+      },
+      "missing": false,
+      "cardRanks": [
+        "10",
+        "K"
+      ]
+    },
+    {
+      "name": "en-cards-13",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": {
+        "left": 16,
+        "top": 79.4609375,
+        "right": 374,
+        "bottom": 764.53125,
+        "scrollHeight": 681,
+        "clientHeight": 681
+      },
+      "missing": false,
+      "cardRanks": [
+        "K"
+      ]
+    },
+    {
+      "name": "forge-success-marks",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": {
+        "left": 16,
+        "top": 203.140625,
+        "right": 374,
+        "bottom": 640.859375,
+        "scrollHeight": 434,
+        "clientHeight": 434
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "lockpick-miss-mark",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": {
+        "left": 16,
+        "top": 203.140625,
+        "right": 374,
+        "bottom": 640.859375,
+        "scrollHeight": 434,
+        "clientHeight": 434
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "achievements-locked",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "achievements-unlocked",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "th-lore-veyra_bell_echo",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "th-lore-lamp_roll",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "en-lore-veyra_bell_echo",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "en-lore-lamp_roll",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "settings-switch",
+      "tag": "mobile",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "th-forge",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": {
+        "left": 70,
+        "top": 58.4140625,
+        "right": 774,
+        "bottom": 331.578125,
+        "scrollHeight": 269,
+        "clientHeight": 269
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "th-lockpick",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": {
+        "left": 70,
+        "top": 58.4140625,
+        "right": 774,
+        "bottom": 331.578125,
+        "scrollHeight": 269,
+        "clientHeight": 269
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "th-cards-1",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": {
+        "left": 70,
+        "top": 44.890625,
+        "right": 774,
+        "bottom": 345.109375,
+        "scrollHeight": 296,
+        "clientHeight": 296
+      },
+      "missing": false,
+      "cardRanks": [
+        "A"
+      ]
+    },
+    {
+      "name": "th-cards-10",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": {
+        "left": 70,
+        "top": 16.6875,
+        "right": 774,
+        "bottom": 373.3046875,
+        "scrollHeight": 353,
+        "clientHeight": 353
+      },
+      "missing": false,
+      "cardRanks": [
+        "10"
+      ]
+    },
+    {
+      "name": "th-cards-reveal",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": {
+        "left": 70,
+        "top": 16.6875,
+        "right": 774,
+        "bottom": 373.3046875,
+        "scrollHeight": 353,
+        "clientHeight": 353
+      },
+      "missing": false,
+      "cardRanks": [
+        "10",
+        "K"
+      ]
+    },
+    {
+      "name": "th-cards-13",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": {
+        "left": 70,
+        "top": 44.890625,
+        "right": 774,
+        "bottom": 345.109375,
+        "scrollHeight": 296,
+        "clientHeight": 296
+      },
+      "missing": false,
+      "cardRanks": [
+        "K"
+      ]
+    },
+    {
+      "name": "en-forge",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": {
+        "left": 70,
+        "top": 34.6640625,
+        "right": 774,
+        "bottom": 355.328125,
+        "scrollHeight": 317,
+        "clientHeight": 317
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "en-lockpick",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": {
+        "left": 70,
+        "top": 46.5390625,
+        "right": 774,
+        "bottom": 343.453125,
+        "scrollHeight": 293,
+        "clientHeight": 293
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "en-cards-1",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": {
+        "left": 70,
+        "top": 16,
+        "right": 774,
+        "bottom": 374,
+        "scrollHeight": 376,
+        "clientHeight": 354
+      },
+      "missing": false,
+      "cardRanks": [
+        "A"
+      ]
+    },
+    {
+      "name": "en-cards-10",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": {
+        "left": 70,
+        "top": 16,
+        "right": 774,
+        "bottom": 374,
+        "scrollHeight": 376,
+        "clientHeight": 354
+      },
+      "missing": false,
+      "cardRanks": [
+        "10"
+      ]
+    },
+    {
+      "name": "en-cards-reveal",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": {
+        "left": 70,
+        "top": 16,
+        "right": 774,
+        "bottom": 374,
+        "scrollHeight": 376,
+        "clientHeight": 354
+      },
+      "missing": false,
+      "cardRanks": [
+        "10",
+        "K"
+      ]
+    },
+    {
+      "name": "en-cards-13",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": {
+        "left": 70,
+        "top": 16,
+        "right": 774,
+        "bottom": 374,
+        "scrollHeight": 376,
+        "clientHeight": 354
+      },
+      "missing": false,
+      "cardRanks": [
+        "K"
+      ]
+    },
+    {
+      "name": "forge-success-marks",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": {
+        "left": 70,
+        "top": 57.6171875,
+        "right": 774,
+        "bottom": 332.3828125,
+        "scrollHeight": 271,
+        "clientHeight": 271
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "lockpick-miss-mark",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": {
+        "left": 70,
+        "top": 57.6171875,
+        "right": 774,
+        "bottom": 332.3828125,
+        "scrollHeight": 271,
+        "clientHeight": 271
+      },
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "achievements-locked",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "achievements-unlocked",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "th-lore-veyra_bell_echo",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "th-lore-lamp_roll",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "en-lore-veyra_bell_echo",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "en-lore-lamp_roll",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    },
+    {
+      "name": "settings-switch",
+      "tag": "landscape",
+      "overflow": false,
+      "dialog": null,
+      "missing": false,
+      "cardRanks": []
+    }
+  ],
+  "edges": [
+    {
+      "key": "propDawnBell",
+      "edge": false,
+      "pixels": 412
+    },
+    {
+      "key": "miniForge",
+      "edge": false,
+      "pixels": 379
+    },
+    {
+      "key": "miniLockpick",
+      "edge": false,
+      "pixels": 484
+    },
+    {
+      "key": "miniCards",
+      "edge": false,
+      "pixels": 640
+    },
+    {
+      "key": "achDawnBell",
+      "edge": false,
+      "pixels": 352
+    },
+    {
+      "key": "achFourTravelers",
+      "edge": false,
+      "pixels": 440
+    },
+    {
+      "key": "achLocksmith",
+      "edge": false,
+      "pixels": 484
+    },
+    {
+      "key": "achGoldenHammer",
+      "edge": false,
+      "pixels": 369
+    },
+    {
+      "key": "achCardSharp",
+      "edge": false,
+      "pixels": 640
+    },
+    {
+      "key": "cardSuitHeart",
+      "edge": false,
+      "pixels": 513
+    },
+    {
+      "key": "cardSuitDiamond",
+      "edge": false,
+      "pixels": 392
+    },
+    {
+      "key": "cardSuitSpade",
+      "edge": false,
+      "pixels": 519
+    },
+    {
+      "key": "cardSuitClub",
+      "edge": false,
+      "pixels": 664
+    },
+    {
+      "key": "loreBellEcho",
+      "edge": false,
+      "pixels": 388
+    },
+    {
+      "key": "loreLampRoll",
+      "edge": false,
+      "pixels": 551
+    }
+  ],
+  "interactions": [
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "kind": "forge",
+      "escape": true
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "kind": "lockpick",
+      "escape": true
+    },
+    {
+      "tag": "desktop",
+      "lang": "th",
+      "reveal": true
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "kind": "forge",
+      "escape": true
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "kind": "lockpick",
+      "escape": true
+    },
+    {
+      "tag": "desktop",
+      "lang": "en",
+      "reveal": true
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "kind": "forge",
+      "escape": true
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "kind": "lockpick",
+      "escape": true
+    },
+    {
+      "tag": "mobile",
+      "lang": "th",
+      "reveal": true
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "kind": "forge",
+      "escape": true
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "kind": "lockpick",
+      "escape": true
+    },
+    {
+      "tag": "mobile",
+      "lang": "en",
+      "reveal": true
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "kind": "forge",
+      "escape": true
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "kind": "lockpick",
+      "escape": true
+    },
+    {
+      "tag": "landscape",
+      "lang": "th",
+      "reveal": true
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "kind": "forge",
+      "escape": true
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "kind": "lockpick",
+      "escape": true
+    },
+    {
+      "tag": "landscape",
+      "lang": "en",
+      "reveal": true
+    }
+  ],
+  "errors": []
+}

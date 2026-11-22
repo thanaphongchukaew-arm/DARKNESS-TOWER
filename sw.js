@@ -1,4 +1,4 @@
-const CACHE_NAME = 'darkness-tower-v65';
+const CACHE_NAME = 'darkness-tower-v70';
 
 const PRECACHE_URLS = [
   './assets/pixel16/npcs/npcMira.png',
@@ -170,35 +170,6 @@ const PRECACHE_URLS = [
   './assets/pixel16/monsters/timeless_sovereign-phase-3.png',
   './assets/pixel16/monsters/timeless_sovereign-phase-4.png',
 
-  './assets/classes/blade.webp',
-  './assets/classes/staffOrb.webp',
-  './assets/classes/radiantOrb.webp',
-  './assets/classes/berserker.webp',
-  './assets/classes/ranger.webp',
-  './assets/classes/necromancer.webp',
-  './assets/classes/monk.webp',
-  './assets/classes/paladin.webp',
-  './assets/classes/gunslinger.webp',
-  './assets/classes/druid.webp',
-  './assets/classes/alchemist.webp',
-  './assets/classes/samurai.webp',
-  './assets/classes/warlock.webp',
-  './assets/classes/battlemage.webp',
-  './assets/classes/frostOracle.webp',
-  './assets/classes/stormCaller.webp',
-  './assets/classes/shadowDancer.webp',
-  './assets/classes/bard.webp',
-  './assets/classes/beastmaster.webp',
-  './assets/classes/runeblade.webp',
-  './assets/classes/sharpshooter.webp',
-  './assets/classes/puppeteer.webp',
-  './assets/classes/tempestWitch.webp',
-  './assets/classes/chronomancer.webp',
-  './assets/classes/warlord.webp',
-  './assets/classes/shadowhunter.webp',
-  './assets/classes/executioner.webp',
-  './assets/classes/deathbringer.webp',
-  './assets/classes/vanguard.webp',
 
   './fonts/PixelifySans-400.ttf',
   './fonts/PixelifySans-700.ttf',

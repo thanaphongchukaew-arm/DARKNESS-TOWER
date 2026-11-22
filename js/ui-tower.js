@@ -171,11 +171,11 @@
       var cardsHtml = eventState.offers.map(function (o, idx) {
         var bought = eventState.purchased[o.id];
         var canAfford = (run.gold || 0) >= o.price;
-        var icon = o.kind === 'blessing' ? o.blessing.icon : o.item.icon;
+        var art = o.kind === 'blessing' ? I(o.blessing.icon) : window.Game.Icons.item(o.item);
         var name = o.kind === 'blessing' ? L(o.blessing, 'name') : L(o.item, 'name') + (o.qty > 1 ? ' x' + o.qty : '');
         var desc = o.kind === 'blessing' ? L(o.blessing, 'desc') : L(o.item, 'desc');
         return '<button class="select-card' + (bought ? ' locked' : '') + '" data-idx="' + idx + '"' + ((bought || !canAfford) ? ' disabled' : '') + '>' +
-          '<div class="select-card-icon">' + I(icon) + '</div>' +
+          '<div class="select-card-icon">' + art + '</div>' +
           '<div class="select-card-title">' + name + '</div>' +
           '<div class="select-card-desc">' + desc + '</div>' +
           '<div class="select-card-stats"><span class="stat-chip">' + (bought ? T('purchasedLabel') : (o.price + ' ' + T('goldLabel'))) + '</span></div>' +
@@ -259,7 +259,7 @@
         var MG = window.Game.Minigame;
         if (MG && MG.enabled()) {
           card.disabled = true;
-          MG.timing({ title: T('mgLockTitle'), hint: T('mgLockHint'), stops: 3, need: 2, speed: 1.0, zone: 0.22 }, function (r) { if (r.success) window.Game.State.setAchievementFlag('lockpicked'); openChest(r.success); });
+          MG.timing({ art: 'miniLockpick', title: T('mgLockTitle'), hint: T('mgLockHint'), stops: 3, need: 2, speed: 1.0, zone: 0.22 }, function (r) { if (r.success) window.Game.State.setAchievementFlag('lockpicked'); openChest(r.success); });
         } else openChest(false);
       };
     });
@@ -656,6 +656,7 @@
   }
 
   function renderEvent(eventId, floor) {
+    document.getElementById('event-body').classList.remove('npc-story-body');
     if (eventState.id !== eventId || eventState.floor !== floor) eventState = { id: null, floor: null };
     lastEvent = { id: eventId, floor: floor };
     var evDef = window.Game.Data.getEvent(eventId);
@@ -1519,7 +1520,7 @@
       '</button>';
     }).join('') : '<p class="empty-note">' + T('noEquipInInventory') + '</p>';
     var root = document.getElementById('modal-root');
-    root.innerHTML = '<div class="modal-box"><h3>' + T('chooseEquipTitle') + '</h3><div class="submenu-list">' + listHtml + '</div>' +
+    root.innerHTML = '<div class="modal-box equipment-picker"><h3>' + T('chooseEquipTitle') + '</h3><div class="submenu-list">' + listHtml + '</div>' +
       (currentId ? '<button class="btn-danger" id="unequip-btn">' + T('unequipBtn') + '</button>' : '') +
       '<button class="btn-ghost" id="modal-cancel">' + T('closeBtn') + '</button></div>';
     root.classList.remove('hidden');
