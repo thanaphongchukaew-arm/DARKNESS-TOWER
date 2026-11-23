@@ -1,0 +1,26 @@
+{
+ "label": "784a02c",
+ "classId": "cleric",
+ "run": {
+  "difficulty": "easy",
+  "classId": "cleric",
+  "level": 51,
+  "exp": 0,
+  "expNext": 23,
+  "currentFloor": 57,
+  "hp": 381,
+  "mp": 227,
+  "gold": 1260,
+  "waypointsSeen": {},
+  "equipment": {
+   "weapon": "w_rusty_blade",
+   "armor": "a_leather_vest",
+   "accessory": null
+  },
+  "inventory": {
+   "p_hp_small": 3,
+   "p_mp_small": 1
+  },
+  "bonusSkills": []
+ }
+}

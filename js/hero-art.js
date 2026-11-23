@@ -25,7 +25,7 @@
       if (build[10]) accents += '<path class="hero-runes" d="M29 137L42 132 54 139 67 132 80 139 93 132 106 139 119 132 132 137" fill="none" stroke="' + (build[10] === 'affliction' ? '#84e5a8' : '#b4edff') + '" stroke-width="2"/>';
       if (tint) accents += '<path class="hero-armament" d="M71 64L80 57 89 64 80 75Z" fill="' + tint.glow + '" stroke="' + tint.edge + '" stroke-width="2"/>';
       var illustration = G.ClassArt.render(cls.icon).replace('</svg>', accents + '</svg>');
-      return '<span class="hero-visual ' + (extraClass || '') + '" data-primary="' + (build[5] || 'base') + '" aria-hidden="true">' + illustration + '<span class="hero-slash"></span><span class="hero-ward"></span></span>';
+      return '<span class="hero-visual ' + (extraClass || '') + '" data-primary="' + (build[5] || 'base') + '" aria-hidden="true"><span class="hero-shadow"></span>' + illustration + '<span class="hero-slash"></span><span class="hero-ward"></span></span>';
     }
     if (!def) return G.Icons.get(cls.icon);
     var talents = run.talents || {}, primary = talents[5], scheme = schemes[primary];
@@ -51,7 +51,7 @@
     }
     if (talents[15] === 'overdrive_echo') layers += layer(['.C.','CHC','.C.'], { C: '#84cce8', H: '#e1ffff' }, 3, 6, 'hero-wisp');
     if (talents[15] === 'burning_wind') layers += layer(['..C..','.CHC.','CHHHC','.CHC.'], { C: '#e56a40', H: '#ffe7a4' }, 25, 22, 'hero-wisp');
-    return '<span class="hero-visual ' + (extraClass || '') + '" data-primary="' + (primary || 'base') + '" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" class="hero-art pixel-sprite" viewBox="0 0 32 32" shape-rendering="crispEdges">' + layers + '</svg><span class="hero-slash"></span><span class="hero-ward"></span></span>';
+    return '<span class="hero-visual ' + (extraClass || '') + '" data-primary="' + (primary || 'base') + '" aria-hidden="true"><span class="hero-shadow"></span><svg xmlns="http://www.w3.org/2000/svg" class="hero-art pixel-sprite" viewBox="0 0 32 32" shape-rendering="crispEdges">' + layers + '</svg><span class="hero-slash"></span><span class="hero-ward"></span></span>';
   }
   function animate(mode, target) {
     var hero = target || document.querySelector('#battle-player-panel .hero-visual');

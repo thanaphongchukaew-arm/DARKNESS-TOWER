@@ -387,7 +387,7 @@
       }
       art = '<span class="icon pixel-icon" aria-hidden="true"><svg class="pixel-sprite item-silhouette" data-shape="' + shape + '" viewBox="-1 -1 26 26" shape-rendering="crispEdges"><path fill="' + base + '" fill-rule="evenodd" stroke="#080b18" stroke-width="1" d="' + silhouette + '"/><path fill="#f3e6c3" d="' + detail[0] + '"/><path fill="' + (shape === 'hpFlask' || shape === 'mpFlask' ? '#edd6a3' : '#d8a351') + '" d="' + detail[1] + '"/>' + ornament(item) + '</svg></span>';
     }
-    return '<span class="item-art" data-item-id="' + String(item.id || '').replace(/[^a-zA-Z0-9_-]/g, '') + '" style="--item-tier-color:' + colors[tier - 1] + '">' + art + '<small>' + mark + '</small></span>';
+    return '<span class="item-art" data-item-id="' + String(item.id || '').replace(/[^a-zA-Z0-9_-]/g, '') + '" style="--item-tier-color:' + colors[tier - 1] + '">' + art + '<small aria-hidden="true" data-mark="' + String(mark).replace(/"/g, '') + '"></small></span>';
   }
 
   window.Game = window.Game || {};

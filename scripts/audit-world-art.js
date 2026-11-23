@@ -20,6 +20,7 @@ app.whenReady().then(async()=>{
   await run(`G.State.createRun('normal','blade');G.CodexUI.renderCodex();G.UI.showScreen('screen-codex');document.querySelector('#codex-tab-stories').click();`);await shot('travelers-unmet');
   for(const arc of await run('return G.Story.arcs.map(a=>a.id);'))for(let chapter=0;chapter<3;chapter++){
    await run(`G.State.createRun('normal','blade');const r=G.State.current,s=G.Story.ensure(r);G.Story.arcs.forEach(a=>s.people[a.id].chapter=3);s.people['${arc}'].chapter=${chapter};s.people['${arc}'].trust=3;const a=G.Story.arcs.find(a=>a.id==='${arc}');r.currentFloor=a.chapters[${chapter}].floor;r.gold=3000;G.StoryUI.maybe(r.currentFloor);`);
+   const interior=await run(`const el=document.querySelector('.npc-scene'),bg=getComputedStyle(el,'::before').backgroundImage,url=el.style.getPropertyValue('--tower-interior').slice(4,-1);const i=new Image();i.src=url;await i.decode();return bg.includes('/assets/pixel16/scenes/');`);if(!interior)throw Error('Missing NPC tower interior');
    await shot(arc+'-'+chapter);
    const bounds=await run(`const p=document.querySelector('.npc-portrait').getBoundingClientRect(),s=document.querySelector('.npc-scene').getBoundingClientRect();return {key:document.querySelector('#screen-event .npc-portrait [data-npc-art]')?.getAttribute('data-npc-art'),html:document.querySelector('#screen-event .npc-portrait').innerHTML.slice(0,320),inside:p.left>=s.left&&p.right<=s.right&&p.top>=s.top&&p.bottom<=s.bottom};`);if(!bounds.inside||!bounds.key)throw Error('Portrait clipped '+JSON.stringify(bounds));
   }

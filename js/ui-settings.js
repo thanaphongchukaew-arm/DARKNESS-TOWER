@@ -30,8 +30,86 @@
     return speed === 2 || speed === 4 ? speed : 1;
   }
 
-  function row(label, control) {
-    return '<div class="settings-row"><span class="settings-label">' + label + '</span><span class="settings-control">' + control + '</span></div>';
+  // helpKey: an i18n key whose text explains the option; shown under the label and as a tooltip.
+  function row(label, control, helpKey) {
+    var help = helpKey ? T(helpKey) : '';
+    return '<div class="settings-row"' + (help ? ' title="' + help.replace(/"/g, '&quot;') + '"' : '') + '><span class="settings-label">' + label +
+      (help ? '<small class="settings-help">' + help + '</small>' : '') + '</span><span class="settings-control">' + control + '</span></div>';
+  }
+
+  function fmtTime(sec) {
+    sec = Math.max(0, Math.floor(sec || 0));
+    var h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60);
+    return h ? h + 'h ' + m + 'm' : m + 'm';
+  }
+
+  function lowFx() { return !!window.Game.Save.readMeta().lowFx; }
+  function applyLowFx() { document.documentElement.classList.toggle('low-fx', lowFx()); }
+
+  // Counts time spent with the game visible, flushed to the meta store every 30s.
+  var playTimer = null;
+  function startPlayClock() {
+    if (playTimer) return;
+    playTimer = setInterval(function () {
+      if (document.hidden) return;
+      var meta = window.Game.Save.readMeta();
+      meta.playSeconds = (meta.playSeconds || 0) + 30;
+      window.Game.Save.writeMeta(meta);
+    }, 30000);
+  }
+
+  function statsHtml() {
+    var meta = window.Game.Save.readMeta();
+    function stat(k, v) { return '<div class="settings-stat"><span>' + T(k) + '</span><strong>' + v + '</strong></div>'; }
+    return '<div class="settings-stats">' +
+      stat('statPlaytime', fmtTime(meta.playSeconds)) +
+      stat('statRuns', meta.runsStarted || 0) +
+      stat('statWins', meta.runsWon || 0) +
+      stat('statLosses', meta.runsLost || 0) +
+      stat('statBestFloor', meta.bestFloorReached || 0) +
+      stat('statSurvival', meta.survivalBestWaves || 0) +
+    '</div>';
+  }
+
+  function healthHtml() {
+    var h = window.Game.Save.health(), lines = [], restore = '';
+    if (!h.storageOk) lines.push('<p class="settings-warn">' + T('healthStorage') + '</p>');
+    else if (h.lastWriteFailed) lines.push('<p class="settings-warn">' + T('healthWrite') + '</p>');
+    ['run', 'meta'].forEach(function (k) {
+      var slot = h[k];
+      if (slot.present && !slot.ok) {
+        lines.push('<p class="settings-warn">' + T(k === 'run' ? 'healthRunBad' : 'healthMetaBad') + '</p>');
+        if (slot.backup) restore += '<button class="btn-secondary" data-restore="' + k + '">' + T(k === 'run' ? 'healthRestoreRun' : 'healthRestoreMeta') + '</button>';
+      } else if (slot.corrupt) {
+        lines.push('<p class="settings-note">' + T(k === 'run' ? 'healthRunRestored' : 'healthMetaRestored') + '</p>');
+      }
+    });
+    if (!lines.length) lines.push('<p class="settings-ok">' + T('healthOk') + '</p>');
+    return lines.join('') + (restore ? '<div class="settings-actions">' + restore + '</div>' : '');
+  }
+
+  function swStatus(cb) {
+    if (!('serviceWorker' in navigator) || !/^https?:$/.test(location.protocol)) { cb('none'); return; }
+    navigator.serviceWorker.getRegistration().then(function (reg) { cb(reg && reg.active ? 'active' : 'none'); }, function () { cb('none'); });
+  }
+
+  // Update check = ask the service worker to re-fetch itself; clear = drop its caches and reload.
+  function checkUpdate() {
+    if (!('serviceWorker' in navigator)) { window.Game.UI.notice(T('sysNoSw'), 'warn'); return; }
+    navigator.serviceWorker.getRegistration().then(function (reg) {
+      if (!reg) { window.Game.UI.notice(T('sysNoSw'), 'warn'); return; }
+      return reg.update().then(function () {
+        window.Game.UI.notice(T(reg.waiting || reg.installing ? 'sysUpdateFound' : 'sysUpToDate'));
+        if (reg.waiting) reg.waiting.postMessage('skipWaiting');
+      });
+    }).catch(function () { window.Game.UI.notice(T('sysNoSw'), 'warn'); });
+  }
+
+  function clearCache() {
+    var jobs = [];
+    if (window.caches) jobs.push(caches.keys().then(function (keys) { return Promise.all(keys.map(function (k) { return caches.delete(k); })); }));
+    if (navigator.serviceWorker) jobs.push(navigator.serviceWorker.getRegistrations().then(function (regs) { return Promise.all(regs.map(function (r) { return r.unregister(); })); }));
+    Promise.all(jobs).then(function () { location.reload(); }, function () { window.Game.UI.notice(T('sysNoSw'), 'warn'); });
   }
 
   function toggleBtn(id, on) {
@@ -76,20 +154,22 @@
     var lang = window.Game.I18n.getLang();
     var html =
       '<div class="guide-section"><h3>' + T('setAudioTitle') + '</h3>' +
-        row(T('setMusicVol'), slider('set-music', A.getMusicVolume(), T('setMusicVol'))) +
-        row(T('setSfxVol'), slider('set-sfx', A.getSfxVolume(), T('setSfxVol'))) +
-        row(T('setMute'), toggleBtn('set-mute', A.isMuted())) +
+        row(T('setMusicVol'), slider('set-music', A.getMusicVolume(), T('setMusicVol')), 'helpMusic') +
+        row(T('setSfxVol'), slider('set-sfx', A.getSfxVolume(), T('setSfxVol')), 'helpSfx') +
+        row(T('setMute'), toggleBtn('set-mute', A.isMuted()), 'helpMute') +
       '</div>' +
       '<div class="guide-section"><h3>' + T('setDisplayTitle') + '</h3>' +
-        row(T('setLanguage'), '<button class="btn-secondary" id="set-lang">' + (lang === 'en' ? 'English' : 'ไทย') + '</button>') +
+        row(T('setLanguage'), '<button class="btn-secondary" id="set-lang">' + (lang === 'en' ? 'English' : 'ไทย') + '</button>', 'helpLang') +
         row(T('setBattleSpeed'), '<button class="btn-secondary" id="set-speed">×' + battleSpeed() + '</button>') +
-        (canFullscreen() ? row(T('setFullscreen'), toggleBtn('set-fullscreen', isFullscreen())) : '') +
-        row(T('setMinigames'), toggleBtn('set-minigames', window.Game.Minigame.enabled())) +
-        row(T('setHints'), toggleBtn('set-hints', Tips.enabled())) +
+        (canFullscreen() ? row(T('setFullscreen'), toggleBtn('set-fullscreen', isFullscreen()), 'helpFullscreen') : '') +
+        row(T('setMinigames'), toggleBtn('set-minigames', window.Game.Minigame.enabled()), 'helpMinigames') +
+        row(T('setLowFx'), toggleBtn('set-lowfx', lowFx()), 'helpLowFx') +
+        row(T('setHints'), toggleBtn('set-hints', Tips.enabled()), 'helpHints') +
         row('', '<button class="btn-ghost" id="set-hints-reset">' + T('setHintsReset') + '</button>') +
       '</div>' +
+      '<div class="guide-section"><h3>' + T('statsTitle') + '</h3>' + statsHtml() + '</div>' +
       '<div class="guide-section"><h3>' + T('setSaveTitle') + '</h3>' +
-        '<p>' + T('setSaveNote') + '</p>' +
+        '<p>' + T('setSaveNote') + '</p>' + healthHtml() +
         '<div class="settings-actions">' +
           '<button class="btn-secondary" id="set-export">' + T('setExport') + '</button>' +
           '<button class="btn-secondary" id="set-import">' + T('setImport') + '</button>' +
@@ -98,6 +178,13 @@
       '</div>' +
       '<div class="guide-section"><h3>' + T('setControlsTitle') + '</h3>' +
         '<p>' + T('setControlsKeys') + '</p><p>' + T('setControlsPad') + '</p>' +
+      '</div>' +
+      '<div class="guide-section"><h3>' + T('sysTitle') + '</h3>' +
+        '<p>' + T('sysVersion') + ': ' + ((document.getElementById('version-tag') || {}).textContent || '') + ' · <span id="sys-sw">…</span></p>' +
+        '<div class="settings-actions">' +
+          '<button class="btn-secondary" id="set-update">' + T('sysCheckUpdate') + '</button>' +
+          '<button class="btn-secondary" id="set-clearcache">' + T('sysClearCache') + '</button>' +
+        '</div>' +
       '</div>';
     document.getElementById('settings-content').innerHTML = html;
 
@@ -141,6 +228,34 @@
       SFX('ui_confirm');
       window.Game.Minigame.setEnabled(!window.Game.Minigame.enabled());
       renderSettings();
+    };
+    document.getElementById('set-lowfx').onclick = function () {
+      SFX('ui_confirm');
+      var meta = window.Game.Save.readMeta();
+      meta.lowFx = !meta.lowFx;
+      window.Game.Save.writeMeta(meta);
+      applyLowFx();
+      renderSettings();
+    };
+    Array.prototype.forEach.call(document.querySelectorAll('[data-restore]'), function (b) {
+      b.onclick = function () {
+        var which = b.getAttribute('data-restore');
+        window.Game.UI.confirmModal({
+          title: T('healthRestoreTitle'), message: T('healthRestoreMsg'), confirmLabel: T('healthRestoreBtn'), danger: true,
+          onConfirm: function () {
+            var ok = window.Game.Save.restoreBackup(which);
+            if (ok) window.Game.State.current = null;
+            window.Game.UI.notice(T(ok ? 'healthRestored' : 'setImportFail'), ok ? undefined : 'warn');
+            renderSettings();
+          }
+        });
+      };
+    });
+    swStatus(function (st) { var el = document.getElementById('sys-sw'); if (el) el.textContent = T(st === 'active' ? 'sysSwActive' : 'sysSwNone'); });
+    document.getElementById('set-update').onclick = function () { SFX('ui_confirm'); checkUpdate(); };
+    document.getElementById('set-clearcache').onclick = function () {
+      SFX('ui_confirm');
+      window.Game.UI.confirmModal({ title: T('sysClearTitle'), message: T('sysClearMsg'), confirmLabel: T('sysClearBtn'), onConfirm: clearCache });
     };
     document.getElementById('set-hints').onclick = function () {
       SFX('ui_confirm');
@@ -226,6 +341,8 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
+    applyLowFx();
+    startPlayClock();
     var g = document.getElementById('open-settings');
     if (!g) return;
     g.innerHTML = I('settingsGear');

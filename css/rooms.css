@@ -1,0 +1,52 @@
+/* 16-bit location interiors and practical dark-purple/gold panels. */
+.location-banner { position: relative; width: 100%; max-width: 1440px; height: clamp(180px,20vw,280px); min-height: 180px; flex: 0 0 auto; margin: 0 auto 6px; overflow: hidden; border: 2px solid #ad8950; background: #171323; box-shadow: inset 0 0 0 2px #33243c,0 4px 0 #090812; }
+.location-banner img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 58%; image-rendering: pixelated; }
+.location-banner::after { content: ''; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 0 2px #12101c88; }
+.location-preview { display: block; width: 100%; height: 130px; margin-bottom: 16px; overflow: hidden; border: 1px solid #ad8950; background: #171323; }
+.location-preview img { display: block; width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
+.room-screen > .screen-header { width: 100%; max-width: 1440px; margin-left: auto; margin-right: auto; }
+.room-screen .guide-section,.room-screen .craft-card,.room-screen .ws-card,.room-screen .ws-npc-card { background: #21192d; border-color: #8d7049; box-shadow: 3px 3px 0 #090811; }
+.room-screen .select-card,.room-screen .submenu-option { background: #2a2038; border-color: #68516e; }
+.room-screen .select-card:not(:disabled):hover,.room-screen .select-card:focus-visible { border-color: #e7c880; background: #34253e; }
+.room-screen .select-card-title,.room-screen .ws-card h3 { color: #f0e3c6; }
+.room-screen .guide-section > h3,.room-screen .ws-section-title,.room-screen .status-panel-title { color: #e4bf6e; }
+.room-screen .btn-primary,.room-screen .btn-secondary { border: 1px solid #a5814c; box-shadow: 2px 2px 0 #090811; }
+.room-screen .btn-primary { background: #482239; color: #f4d17e; }
+.room-screen .btn-secondary { background: #231d30; color: #eee1c8; }
+.room-screen .btn-primary:focus-visible,.room-screen .btn-secondary:focus-visible { outline: 2px solid #f1d899; outline-offset: 3px; }
+#screen-shop.room-screen #shop-content { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,300px),1fr)); }
+#screen-shop.room-screen #shop-content > .guide-section { padding: 0 10px 12px; min-width: 0; }
+#screen-shop.room-screen #shop-content > .guide-section > h3 { padding: 14px 10px; margin: 0 -10px 12px; border-bottom: 1px solid #ad8950; background: #2b2037; }
+#screen-shop.room-screen #shop-content .select-card { min-width: 0; }
+#screen-shop.room-screen .select-card-stats .stat-chip:first-child { color: #ecc570; }
+#screen-shop.room-screen .select-card:disabled .select-card-stats .stat-chip:first-child { color: #e8a79f; }
+#screen-shop.room-screen #shop-gold { color: #f2d27f; font-size: 1.2rem; margin-top: 4px; }
+#screen-shop.room-screen #shop-tabs { justify-content: center; gap: 12px; }
+#screen-shop.room-screen #shop-tabs > button { min-width: 160px; }
+#screen-shop.room-screen #shop-reset-note { margin-bottom: 0; }
+#screen-workshop.room-screen > .location-banner { max-width: 1440px; }
+#screen-status.room-screen .status-grid { max-width: 1440px; }
+@media (max-width: 800px) {
+ #screen-shop.room-screen #shop-content { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 560px) {
+ .location-banner { height: 144px; min-height: 144px; max-height: 144px; }
+ #screen-shop.room-screen #shop-content { grid-template-columns: minmax(0,1fr); }
+ #screen-shop.room-screen #shop-tabs > button { min-width: 0; flex: 1; }
+}
+.is-mobile .location-banner { height: 144px; min-height: 144px; max-height: 144px; }
+.is-mobile #screen-shop.room-screen #shop-content { grid-template-columns: minmax(0,1fr); }
+@media (orientation: landscape) {
+ .is-mobile .location-banner { height: 120px; min-height: 120px; max-height: 120px; }
+ .is-mobile #screen-shop.room-screen #shop-content { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (prefers-reduced-motion: reduce) { .location-banner { scroll-behavior: auto; } }
+.room-screen .btn-primary::before,.room-screen .btn-primary::after,.room-screen .btn-secondary::before,.room-screen .btn-secondary::after { content: none; }
+
+/* Results remain scrollable and keep the illustrated header above live actions. */
+#screen-end.room-screen,#screen-survival-summary.room-screen { justify-content: flex-start; }
+#screen-end.room-screen > .location-banner,#screen-survival-summary.room-screen > .location-banner { margin-top: 64px; margin-bottom: 20px; }
+#screen-end.room-screen .end-panel,#screen-survival-summary.room-screen .end-panel { padding: 20px; background: #21192d; border: 1px solid #8d7049; box-shadow: 3px 3px 0 #090811; }
+@media (max-width: 560px) {
+ #screen-end.room-screen > .location-banner,#screen-survival-summary.room-screen > .location-banner { margin-top: 8px; }
+}

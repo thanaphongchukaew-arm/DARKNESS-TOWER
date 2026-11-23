@@ -116,6 +116,46 @@
   function readCheckpoint() { return readSlot(CHECKPOINT_KEY); }
   function clearCheckpoint() { removeSlot(CHECKPOINT_KEY); }
 
+  // Where the player is right now (screen + any in-flight battle). Lives in
+  // sessionStorage on purpose: a page refresh keeps it, but closing the tab or
+  // the app drops it, so quitting mid-battle still counts as a retreat.
+  var VIEW_KEY = 'towerRPG_view_v1';
+  function writeView(view) {
+    try { sessionStorage.setItem(VIEW_KEY, JSON.stringify(view)); return true; } catch (e) { return false; }
+  }
+  function readView() {
+    try { return parse(sessionStorage.getItem(VIEW_KEY)); } catch (e) { return null; }
+  }
+  function clearView() {
+    try { sessionStorage.removeItem(VIEW_KEY); } catch (e) { /* ignore */ }
+  }
+
+  // Health of the three slots, for the Settings page: is each copy readable, is
+  // there a backup to fall back on, and did a bad write ever get set aside?
+  function slotHealth(key) {
+    var raw = rawGet(key), bak = rawGet(key + '_bak');
+    return {
+      present: raw != null,
+      ok: raw != null && !!parse(raw),
+      backup: bak != null && !!parse(bak),
+      corrupt: rawGet(key + '_corrupt') != null
+    };
+  }
+  function health() {
+    var storageOk = true;
+    try { localStorage.setItem('towerRPG_probe', '1'); localStorage.removeItem('towerRPG_probe'); } catch (e) { storageOk = false; }
+    return { storageOk: storageOk, lastWriteFailed: lastError != null, run: slotHealth(KEY), meta: slotHealth(META_KEY) };
+  }
+  // Puts the backup copy of a slot back in place (the bad copy is kept under _corrupt).
+  function restoreBackup(which) {
+    var key = which === 'meta' ? META_KEY : KEY;
+    var backup = parse(rawGet(key + '_bak'));
+    if (!backup) return false;
+    var current = rawGet(key);
+    if (current != null) rawSet(key + '_corrupt', current);
+    return rawSet(key, JSON.stringify(backup));
+  }
+
   // Everything a player needs to move to another browser or machine, as text.
   function exportAll() {
     return JSON.stringify({
@@ -149,7 +189,9 @@
     write: write, read: read, clear: clear, exists: exists,
     writeMeta: writeMeta, readMeta: readMeta,
     writeCheckpoint: writeCheckpoint, readCheckpoint: readCheckpoint, clearCheckpoint: clearCheckpoint,
+    writeView: writeView, readView: readView, clearView: clearView,
     exportAll: exportAll, importAll: importAll,
+    health: health, restoreBackup: restoreBackup,
     lastError: function () { return lastError; }
   };
 })();

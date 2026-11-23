@@ -795,6 +795,180 @@
       "height": 128
     },
     {
+      "src": "assets/pixel16/rooms/shop.png",
+      "ok": true,
+      "width": 640,
+      "height": 180
+    },
+    {
+      "src": "assets/pixel16/rooms/craft.png",
+      "ok": true,
+      "width": 640,
+      "height": 180
+    },
+    {
+      "src": "assets/pixel16/rooms/runes.png",
+      "ok": true,
+      "width": 640,
+      "height": 180
+    },
+    {
+      "src": "assets/pixel16/rooms/salvage.png",
+      "ok": true,
+      "width": 640,
+      "height": 180
+    },
+    {
+      "src": "assets/pixel16/rooms/forge.png",
+      "ok": true,
+      "width": 640,
+      "height": 180
+    },
+    {
+      "src": "assets/pixel16/rooms/travelers.png",
+      "ok": true,
+      "width": 640,
+      "height": 180
+    },
+    {
+      "src": "assets/pixel16/rooms/camp.png",
+      "ok": true,
+      "width": 640,
+      "height": 180
+    },
+    {
+      "src": "assets/pixel16/rooms/guild.png",
+      "ok": true,
+      "width": 640,
+      "height": 180
+    },
+    {
+      "src": "assets/pixel16/rooms/library.png",
+      "ok": true,
+      "width": 640,
+      "height": 180
+    },
+    {
+      "src": "assets/pixel16/rooms/armory.png",
+      "ok": true,
+      "width": 640,
+      "height": 180
+    },
+    {
+      "src": "assets/pixel16/rooms/arena.png",
+      "ok": true,
+      "width": 640,
+      "height": 180
+    },
+    {
+      "src": "assets/pixel16/rooms/vault.png",
+      "ok": true,
+      "width": 640,
+      "height": 180
+    },
+    {
+      "src": "assets/pixel16/scenes/moonlit-den.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/knight-ward.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/shadow-bastion.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/dragon-reach.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/infernal-gate.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/resonant-cavern.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/drowned-ruins.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/storm-citadel.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/bone-desert.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/molten-core.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/clockwork-bastion.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/nightgrove.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/frozen-abyss.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/astral-rift.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/chaos-forge.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/twilight-sanctum.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "src": "assets/pixel16/scenes/sovereign-throne.png",
+      "ok": true,
+      "width": 384,
+      "height": 256
+    },
+    {
       "src": "assets/pixel16/npcs/npcMira.png",
       "ok": true,
       "width": 80,
@@ -937,10 +1111,10 @@
   "battle": {
     "player": "assets/pixel16/classes/samurai.png",
     "enemies": [
-      "assets/pixel16/monsters/dark_bat.png"
+      "assets/pixel16/monsters/giant_spider.png"
     ]
   },
-  "cached": 154,
+  "cached": 183,
   "contentHashes": [
     {
       "src": "assets/pixel16/classes/blade.png",
@@ -1603,6 +1777,151 @@
       "cache": "02ae43dac126cbf3644ff496f6cff441da1a358705fb48e209f7cbd9da436762"
     },
     {
+      "src": "assets/pixel16/rooms/shop.png",
+      "network": "e3a5f96217beb0dcb9c71a6d058c51d0cc3fb37b2bed67dc29edac075ed72a36",
+      "cache": "e3a5f96217beb0dcb9c71a6d058c51d0cc3fb37b2bed67dc29edac075ed72a36"
+    },
+    {
+      "src": "assets/pixel16/rooms/craft.png",
+      "network": "5468474a56868833d040f187f885ec7cbf038d59a780a44bf79fb243e307acfc",
+      "cache": "5468474a56868833d040f187f885ec7cbf038d59a780a44bf79fb243e307acfc"
+    },
+    {
+      "src": "assets/pixel16/rooms/runes.png",
+      "network": "92eab538edd5f61b227f4d0bfc6fe737590bc5f8f26a074110ce7a224ff0dc93",
+      "cache": "92eab538edd5f61b227f4d0bfc6fe737590bc5f8f26a074110ce7a224ff0dc93"
+    },
+    {
+      "src": "assets/pixel16/rooms/salvage.png",
+      "network": "9a3851fe09a7e87a1fd9e790dad89b03aad3b588563a09fe3311c2f1a9db79f1",
+      "cache": "9a3851fe09a7e87a1fd9e790dad89b03aad3b588563a09fe3311c2f1a9db79f1"
+    },
+    {
+      "src": "assets/pixel16/rooms/forge.png",
+      "network": "79086ca7211810fe4ca8b02453ce04116bdfc05ac124e7de1443f6e5669d5849",
+      "cache": "79086ca7211810fe4ca8b02453ce04116bdfc05ac124e7de1443f6e5669d5849"
+    },
+    {
+      "src": "assets/pixel16/rooms/travelers.png",
+      "network": "31cf2f38314dad57e81c95c86bd5497e324c13c9adbb1ef220c3c66ba3876458",
+      "cache": "31cf2f38314dad57e81c95c86bd5497e324c13c9adbb1ef220c3c66ba3876458"
+    },
+    {
+      "src": "assets/pixel16/rooms/camp.png",
+      "network": "dd5c55ff00932aeaab7b6ddcb45af0b30974e0479d943d8cbff265af211428d1",
+      "cache": "dd5c55ff00932aeaab7b6ddcb45af0b30974e0479d943d8cbff265af211428d1"
+    },
+    {
+      "src": "assets/pixel16/rooms/guild.png",
+      "network": "fee27f452493664cc15b60938eb5c523cfa3824e182a51239ab69061437c0b3d",
+      "cache": "fee27f452493664cc15b60938eb5c523cfa3824e182a51239ab69061437c0b3d"
+    },
+    {
+      "src": "assets/pixel16/rooms/library.png",
+      "network": "7a2f7c649390ed8639298a04a4ea0ac9773a43903c3c9ea7441ad268468a90f1",
+      "cache": "7a2f7c649390ed8639298a04a4ea0ac9773a43903c3c9ea7441ad268468a90f1"
+    },
+    {
+      "src": "assets/pixel16/rooms/armory.png",
+      "network": "b2b43434a5dc12d3c919063e6002078c4084613686befdb4d206e8aa15d93eb4",
+      "cache": "b2b43434a5dc12d3c919063e6002078c4084613686befdb4d206e8aa15d93eb4"
+    },
+    {
+      "src": "assets/pixel16/rooms/arena.png",
+      "network": "7fbb802d660d3954146b64df8bc7216ae69b35399fb48bed33cd67ddfa452737",
+      "cache": "7fbb802d660d3954146b64df8bc7216ae69b35399fb48bed33cd67ddfa452737"
+    },
+    {
+      "src": "assets/pixel16/rooms/vault.png",
+      "network": "3eef4d385dc972a09cac27394d5237f3637b26d93aafc036906008d8386f4f01",
+      "cache": "3eef4d385dc972a09cac27394d5237f3637b26d93aafc036906008d8386f4f01"
+    },
+    {
+      "src": "assets/pixel16/scenes/moonlit-den.png",
+      "network": "dda3745450ea568308ffe60a6fa5f3c6f9b94c73ba7e948bdc4f51cc8b4dc30b",
+      "cache": "dda3745450ea568308ffe60a6fa5f3c6f9b94c73ba7e948bdc4f51cc8b4dc30b"
+    },
+    {
+      "src": "assets/pixel16/scenes/knight-ward.png",
+      "network": "3805beae283615d8810773d6e32b6d95c6cb2388ea918351e443a284147a3906",
+      "cache": "3805beae283615d8810773d6e32b6d95c6cb2388ea918351e443a284147a3906"
+    },
+    {
+      "src": "assets/pixel16/scenes/shadow-bastion.png",
+      "network": "a8ab9478f75aaf3bef3df7ee8edf34c2ad5fbfbd100e5f2a2d7182e5e251aeba",
+      "cache": "a8ab9478f75aaf3bef3df7ee8edf34c2ad5fbfbd100e5f2a2d7182e5e251aeba"
+    },
+    {
+      "src": "assets/pixel16/scenes/dragon-reach.png",
+      "network": "116833a395175d704649e044f655c00a9ff88f6618e7873d9fa0ce9fa0408c47",
+      "cache": "116833a395175d704649e044f655c00a9ff88f6618e7873d9fa0ce9fa0408c47"
+    },
+    {
+      "src": "assets/pixel16/scenes/infernal-gate.png",
+      "network": "6213292e9e37bab9aa0baa357f7af8795e61dbb3f683451ff1a90e2ea17453cc",
+      "cache": "6213292e9e37bab9aa0baa357f7af8795e61dbb3f683451ff1a90e2ea17453cc"
+    },
+    {
+      "src": "assets/pixel16/scenes/resonant-cavern.png",
+      "network": "61be0bb564f79f595b398f97eb5863e49598d60b4437b1842ca1f64d85e750b0",
+      "cache": "61be0bb564f79f595b398f97eb5863e49598d60b4437b1842ca1f64d85e750b0"
+    },
+    {
+      "src": "assets/pixel16/scenes/drowned-ruins.png",
+      "network": "add826adc59a0aad51cfd7a91ffe6ab848626968923817be7d293e685eb199e6",
+      "cache": "add826adc59a0aad51cfd7a91ffe6ab848626968923817be7d293e685eb199e6"
+    },
+    {
+      "src": "assets/pixel16/scenes/storm-citadel.png",
+      "network": "a75406d8a108264b262a76ef3824d541944c8451c5b12bb03a6183b4d8719f92",
+      "cache": "a75406d8a108264b262a76ef3824d541944c8451c5b12bb03a6183b4d8719f92"
+    },
+    {
+      "src": "assets/pixel16/scenes/bone-desert.png",
+      "network": "a0fd57ff21dedcb79a945a1ad6380418138dc009a3b595cb06399a95e021a20f",
+      "cache": "a0fd57ff21dedcb79a945a1ad6380418138dc009a3b595cb06399a95e021a20f"
+    },
+    {
+      "src": "assets/pixel16/scenes/molten-core.png",
+      "network": "1ac82ce81ae6e8fa4681a76f259bafbc0a0e687c7a987922d8a054c59271dc62",
+      "cache": "1ac82ce81ae6e8fa4681a76f259bafbc0a0e687c7a987922d8a054c59271dc62"
+    },
+    {
+      "src": "assets/pixel16/scenes/clockwork-bastion.png",
+      "network": "be9bfad6b3decad0813cfd877c3f67c96aa400dac727383846e7656cef27456c",
+      "cache": "be9bfad6b3decad0813cfd877c3f67c96aa400dac727383846e7656cef27456c"
+    },
+    {
+      "src": "assets/pixel16/scenes/nightgrove.png",
+      "network": "56e13ead8ef0386d2a77924b821c9d1856ae84571d79abaa4c2eb111f97237e7",
+      "cache": "56e13ead8ef0386d2a77924b821c9d1856ae84571d79abaa4c2eb111f97237e7"
+    },
+    {
+      "src": "assets/pixel16/scenes/frozen-abyss.png",
+      "network": "e97cd5155fa4c58eddda7d1a37f02e17ed1f736868481aecb4b39ca5d4871992",
+      "cache": "e97cd5155fa4c58eddda7d1a37f02e17ed1f736868481aecb4b39ca5d4871992"
+    },
+    {
+      "src": "assets/pixel16/scenes/astral-rift.png",
+      "network": "8407ca9757aa743ad67462df50f0e5cbd7bc87f985803b2414a1febbf32e5014",
+      "cache": "8407ca9757aa743ad67462df50f0e5cbd7bc87f985803b2414a1febbf32e5014"
+    },
+    {
+      "src": "assets/pixel16/scenes/chaos-forge.png",
+      "network": "30de827f0f26e61ffb384317b48c40d164c1e92dc327dd1b9bb0249b2c4ff7a7",
+      "cache": "30de827f0f26e61ffb384317b48c40d164c1e92dc327dd1b9bb0249b2c4ff7a7"
+    },
+    {
+      "src": "assets/pixel16/scenes/twilight-sanctum.png",
+      "network": "cd01067d9b265c9319966be5bbc038db91b259d23923604f95e7764b8f1de197",
+      "cache": "cd01067d9b265c9319966be5bbc038db91b259d23923604f95e7764b8f1de197"
+    },
+    {
+      "src": "assets/pixel16/scenes/sovereign-throne.png",
+      "network": "42bb9f37742d170f3006df6f0a5ff345b3520f4406e27a642e80fdbc2b142658",
+      "cache": "42bb9f37742d170f3006df6f0a5ff345b3520f4406e27a642e80fdbc2b142658"
+    },
+    {
       "src": "assets/pixel16/npcs/npcMira.png",
       "network": "eb10336cc450ffe97354ec1975660abb57e08a3cb9a81b963c767254ce7ee170",
       "cache": "eb10336cc450ffe97354ec1975660abb57e08a3cb9a81b963c767254ce7ee170"
@@ -1714,13 +2033,13 @@
     },
     {
       "src": "dist/game.min.js",
-      "network": "3ac236f3f1499e1ad8f54acbd90cd01b0c9e38efca7f595d9c448b7fda7a4289",
-      "cache": "3ac236f3f1499e1ad8f54acbd90cd01b0c9e38efca7f595d9c448b7fda7a4289"
+      "network": "f1639b98343a46953ed23a3379a4d2f2e2f119125c967d61003525aed1076171",
+      "cache": "f1639b98343a46953ed23a3379a4d2f2e2f119125c967d61003525aed1076171"
     },
     {
       "src": "css/polish.css",
-      "network": "feab730cfcfcf91722b53c341b9301328fbda280c7c6b6f26258e39aacba0bea",
-      "cache": "feab730cfcfcf91722b53c341b9301328fbda280c7c6b6f26258e39aacba0bea"
+      "network": "1abbf6a815f896ee34d815f11813309ae749f8d228e7bf63241bbb0b45f9839d",
+      "cache": "1abbf6a815f896ee34d815f11813309ae749f8d228e7bf63241bbb0b45f9839d"
     }
   ],
   "legacyCached": [],

@@ -1,0 +1,104 @@
+[
+  {
+    "key": "moonlit-den",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "knight-ward",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "shadow-bastion",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "dragon-reach",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "infernal-gate",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "resonant-cavern",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "drowned-ruins",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "storm-citadel",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "bone-desert",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "molten-core",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "clockwork-bastion",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "nightgrove",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "frozen-abyss",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "astral-rift",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "chaos-forge",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "twilight-sanctum",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  },
+  {
+    "key": "sovereign-throne",
+    "width": 384,
+    "height": 256,
+    "colors": 48
+  }
+]

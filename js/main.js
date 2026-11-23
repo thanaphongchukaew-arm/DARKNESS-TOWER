@@ -10,6 +10,8 @@
   function renderEnd() {
     if (!lastEnd) return;
     var victory = lastEnd.victory, checkpointFloor = lastEnd.checkpointFloor;
+    document.getElementById('screen-end').dataset.room = victory ? 'victory' : 'defeat';
+    window.Game.RoomUI.show('screen-end');
     var iconEl = document.getElementById('end-icon');
     var titleEl = document.getElementById('end-title');
     var msgEl = document.getElementById('end-message');
@@ -45,7 +47,7 @@
       S.recordDifficultyCleared(run.difficulty);
       if (run.difficulty === 'nightmare') S.recordAscensionClear(run.ascension || 0);
     }
-    if (run) window.Game.SystemsUI.summary(run, victory);
+    if (run) { S.bumpCounter(victory ? 'runsWon' : 'runsLost'); window.Game.SystemsUI.summary(run, victory); }
     var checkpointFloor = null;
     if (!victory && run) {
       // A defeat with a checkpoint puts the run straight back on it, so closing
@@ -165,8 +167,68 @@
     showErrorOverlay(event && event.reason);
   });
 
+  // ---- Refresh resume ----
+  // Every screen change records where the player is (sessionStorage, see
+  // Save.writeView) so a page refresh lands back on the same screen.
+  var RESUMABLE = ['screen-tower', 'screen-status', 'screen-shop', 'screen-craft', 'screen-quests',
+    'screen-codex', 'screen-reward', 'screen-waypoint', 'screen-event'];
+  var NEUTRAL = ['screen-settings', 'screen-guide', 'screen-credits'];
+
+  function rememberView(id) {
+    var G = window.Game, run = G.State && G.State.current;
+    if (!run) { G.Save.clearView(); return; }
+    if (NEUTRAL.indexOf(id) !== -1) return;
+    if (id === 'screen-battle') return; // written per turn by saveBattleView
+    if (RESUMABLE.indexOf(id) === -1 || (id === 'screen-event' && G.StoryUI.isActive())) { G.Save.clearView(); return; }
+    var view = G.TowerUI.viewState();
+    G.Save.writeView({ screen: id, waypoint: view.waypoint, event: view.event });
+  }
+
+  function saveBattleView(snap) {
+    snap.screen = 'screen-battle';
+    window.Game.Save.writeView(snap);
+  }
+
+  function clearBattleView() {
+    var v = window.Game.Save.readView();
+    if (v && v.screen === 'screen-battle') window.Game.Save.clearView();
+  }
+
+  // Returns true when a refresh was resumed in place.
+  // Captured at load: the first showScreen('screen-menu') below clears the stored view.
+  var bootView = window.Game.Save.readView();
+
+  function tryResume() {
+    var G = window.Game, view = bootView;
+    bootView = null;
+    if (view) G.Save.writeView(view);
+    if (!view || !G.Save.exists()) return false;
+    var run = view.screen === 'screen-battle' && view.run ? view.run : G.Save.read();
+    if (!run) return false;
+    try {
+      G.State.current = run;
+      G.State.normalizeEquipment(run);
+      G.State.normalizeRunExtras(run);
+      G.State.clampVitals(run);
+      if (view.screen === 'screen-battle') {
+        if (!view.battle || run.battleMark == null) throw new Error('stale battle view');
+        G.BattleUI.restoreBattle(view);
+        return true;
+      }
+      if (run.battleMark != null) { G.State.settleRetreat(run); G.State.saveNow(); }
+      if (!G.TowerUI.resumeView(view)) { if (G.TowerUI.resumePendingReward()) return true; G.TowerUI.renderTower(); G.UI.showScreen('screen-tower'); }
+      return true;
+    } catch (e) {
+      console.warn('[Resume] could not restore the previous screen:', e);
+      G.State.current = null;
+      G.Save.clearView();
+      return false;
+    }
+  }
+
   window.Game = window.Game || {};
   window.Game.Main = {
+    rememberView: rememberView, saveBattleView: saveBattleView, clearBattleView: clearBattleView, tryResume: tryResume,
     showEnd: showEnd,
     refreshAudioControls: function () { renderAudioControls(); },
     refreshEndScreen: refreshEndScreen,
@@ -179,6 +241,7 @@
     initLangToggle();
     window.Game.MenuUI.renderMainMenu();
     window.Game.UI.showScreen('screen-menu');
+    tryResume();
     var unlocked = false;
     function unlockOnce() {
       if (unlocked) return;

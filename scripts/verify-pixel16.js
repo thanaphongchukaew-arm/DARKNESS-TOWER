@@ -16,6 +16,8 @@ app.whenReady().then(async()=>{
  const report=await run(`
  const paths=Game.Data.classes.map(c=>'assets/pixel16/classes/'+c.icon+'.png').concat(Game.Data.getAllEnemyTemplates().map(e=>'assets/pixel16/monsters/'+e.id+'.png'));
  for(let phase=2;phase<=4;phase++)paths.push('assets/pixel16/monsters/timeless_sovereign-phase-'+phase+'.png');
+ paths.push(...Game.RoomUI.keys.map(k=>'assets/pixel16/rooms/'+k+'.png'));
+ paths.push(...Game.BattleScenes.keys.map(k=>'assets/pixel16/scenes/'+k+'.png'));
  paths.push(...Game.NPCArt.keys.map(k=>'assets/pixel16/npcs/'+k+'.png'),...Game.CompanionArt.keys.map(k=>'assets/pixel16/companions/'+k+'.png'));
  const routes={classes:Game.Data.classes.map(c=>({id:c.icon,html:Game.Icons.get(c.icon)})),monsters:Game.Data.getAllEnemyTemplates().map(e=>({id:e.id,html:Game.BattleArt.enemy(e)})),npcs:Game.NPCArt.keys.map(k=>({id:k,html:Game.Icons.get(k)})),companions:Game.CompanionArt.keys.map(k=>({id:k,html:Game.Icons.get(k)}))};
  for(const [kind,list]of Object.entries(routes))for(const entry of list)if(!entry.html.includes('assets/pixel16/'+kind+'/'+entry.id+'.png'))throw Error('Wrong artwork route: '+kind+'/'+entry.id);

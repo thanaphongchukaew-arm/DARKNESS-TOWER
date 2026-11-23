@@ -1,0 +1,122 @@
+[
+  {
+    "key": "arena",
+    "size": [
+      640,
+      180
+    ],
+    "colors": 48,
+    "bytes": 51344,
+    "sha256": "7fbb802d660d3954146b64df8bc7216ae69b35399fb48bed33cd67ddfa452737"
+  },
+  {
+    "key": "armory",
+    "size": [
+      640,
+      180
+    ],
+    "colors": 48,
+    "bytes": 50023,
+    "sha256": "b2b43434a5dc12d3c919063e6002078c4084613686befdb4d206e8aa15d93eb4"
+  },
+  {
+    "key": "camp",
+    "size": [
+      640,
+      180
+    ],
+    "colors": 48,
+    "bytes": 48608,
+    "sha256": "dd5c55ff00932aeaab7b6ddcb45af0b30974e0479d943d8cbff265af211428d1"
+  },
+  {
+    "key": "craft",
+    "size": [
+      640,
+      180
+    ],
+    "colors": 48,
+    "bytes": 50002,
+    "sha256": "5468474a56868833d040f187f885ec7cbf038d59a780a44bf79fb243e307acfc"
+  },
+  {
+    "key": "forge",
+    "size": [
+      640,
+      180
+    ],
+    "colors": 48,
+    "bytes": 51971,
+    "sha256": "79086ca7211810fe4ca8b02453ce04116bdfc05ac124e7de1443f6e5669d5849"
+  },
+  {
+    "key": "guild",
+    "size": [
+      640,
+      180
+    ],
+    "colors": 48,
+    "bytes": 132902,
+    "sha256": "0665f7c1cbe1827bdbaae4b465ee1479c8fd106d9da8cbd5957909818e5a5920"
+  },
+  {
+    "key": "library",
+    "size": [
+      640,
+      180
+    ],
+    "colors": 48,
+    "bytes": 48410,
+    "sha256": "7a2f7c649390ed8639298a04a4ea0ac9773a43903c3c9ea7441ad268468a90f1"
+  },
+  {
+    "key": "runes",
+    "size": [
+      640,
+      180
+    ],
+    "colors": 48,
+    "bytes": 48510,
+    "sha256": "92eab538edd5f61b227f4d0bfc6fe737590bc5f8f26a074110ce7a224ff0dc93"
+  },
+  {
+    "key": "salvage",
+    "size": [
+      640,
+      180
+    ],
+    "colors": 48,
+    "bytes": 47853,
+    "sha256": "9a3851fe09a7e87a1fd9e790dad89b03aad3b588563a09fe3311c2f1a9db79f1"
+  },
+  {
+    "key": "shop",
+    "size": [
+      640,
+      180
+    ],
+    "colors": 48,
+    "bytes": 43551,
+    "sha256": "e3a5f96217beb0dcb9c71a6d058c51d0cc3fb37b2bed67dc29edac075ed72a36"
+  },
+  {
+    "key": "travelers",
+    "size": [
+      640,
+      180
+    ],
+    "colors": 48,
+    "bytes": 52936,
+    "sha256": "31cf2f38314dad57e81c95c86bd5497e324c13c9adbb1ef220c3c66ba3876458"
+  },
+  {
+    "key": "vault",
+    "size": [
+      640,
+      180
+    ],
+    "colors": 48,
+    "bytes": 47632,
+    "sha256": "3eef4d385dc972a09cac27394d5237f3637b26d93aafc036906008d8386f4f01"
+  }
+]

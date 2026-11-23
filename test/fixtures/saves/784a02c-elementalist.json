@@ -1,0 +1,26 @@
+{
+ "label": "784a02c",
+ "classId": "elementalist",
+ "run": {
+  "difficulty": "hard",
+  "classId": "elementalist",
+  "level": 28,
+  "exp": 0,
+  "expNext": 23,
+  "currentFloor": 31,
+  "hp": 179,
+  "mp": 171,
+  "gold": 740,
+  "waypointsSeen": {},
+  "equipment": {
+   "weapon": "w_rusty_blade",
+   "armor": "a_leather_vest",
+   "accessory": null
+  },
+  "inventory": {
+   "p_hp_small": 1,
+   "p_mp_small": 1
+  },
+  "bonusSkills": []
+ }
+}

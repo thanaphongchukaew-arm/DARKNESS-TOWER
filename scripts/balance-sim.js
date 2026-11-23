@@ -22,6 +22,14 @@ const path = require('path');
 const { loadGame } = require(path.join(__dirname, '..', 'test', 'helpers', 'load-game.js'));
 
 const args = process.argv.slice(2);
+// --seed N makes a run reproducible (used by test/balance-regression.test.js).
+{
+  const si = args.indexOf('--seed');
+  if (si !== -1 && args[si + 1] != null) {
+    let st = Number(args[si + 1]) >>> 0;
+    Math.random = function () { st = (st + 0x6D2B79F5) >>> 0; let t = st; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  }
+}
 const mode = args[0] || 'curve';
 function opt(name, fallback) {
   const i = args.indexOf('--' + name);

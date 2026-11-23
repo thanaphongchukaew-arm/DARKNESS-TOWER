@@ -1,0 +1,52 @@
+{
+ "label": "de1a340",
+ "classId": "blade",
+ "run": {
+  "difficulty": "normal",
+  "classId": "blade",
+  "level": 7,
+  "exp": 0,
+  "expNext": 23,
+  "currentFloor": 8,
+  "hp": 101,
+  "mp": 29,
+  "gold": 280,
+  "waypointsSeen": {},
+  "equipment": {
+   "weapon": "w_rusty_blade",
+   "armor": "a_leather_vest",
+   "shoes": null,
+   "accessory1": null,
+   "accessory2": null
+  },
+  "inventory": {
+   "p_hp_small": 2,
+   "p_mp_small": 1,
+   "mat_beast_fang": 3,
+   "mat_spirit_dust": 3,
+   "mat_iron_shard": 3,
+   "mat_storm_core": 3
+  },
+  "bonusSkills": [],
+  "shopStock": null,
+  "stats": {
+   "enemiesDefeated": 0,
+   "battlesWon": 0,
+   "itemsCrafted": 0,
+   "goldEarned": 0,
+   "arenaWavesCleared": 0
+  },
+  "questsClaimed": {},
+  "elixirUnlockFloor": 1,
+  "blessings": [
+   "might"
+  ],
+  "curses": [],
+  "blessingRevived": false,
+  "relics": [],
+  "ascension": 0,
+  "companionId": null,
+  "eventsSeen": {},
+  "lastEventFloor": 0
+ }
+}

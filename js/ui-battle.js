@@ -164,18 +164,111 @@
     return document.querySelector('#battle-player-panel .player-portrait');
   }
 
-  function spawnFloatNumber(anchorEl, text, cls) {
+  var ELEMENT_COLORS = { fire: '#ffb070', ice: '#a8e8ff', elec: '#fff07a', wind: '#b8f7cf', dark: '#d2adff', light: '#fff6c4', almighty: '#ffffff' };
+  // Weight of a hit: bigger numbers for hits that take a bigger bite out of the target's max HP.
+  function numberOpts(ev, tinted) {
+    var ratio = ev.maxHp ? Math.max(0, ev.amount || 0) / ev.maxHp : 0;
+    return { scale: Math.min(1.85, 1 + ratio * 2.4), color: tinted ? ELEMENT_COLORS[ev.element] : '' };
+  }
+  function spawnFloatNumber(anchorEl, text, cls, opts) {
     if (!anchorEl) return;
     var num = document.createElement('div');
     num.className = 'dmg-number' + (cls ? ' ' + cls : '');
     num.textContent = text;
+    num.style.setProperty('--dx', (Math.random() * 28 - 14).toFixed(0) + 'px');
+    if (opts && opts.scale > 1) num.style.setProperty('--dmg-s', opts.scale.toFixed(2));
+    if (opts && opts.color) num.style.color = opts.color;
     anchorEl.appendChild(num);
     setTimeout(function () { if (num.parentNode) num.parentNode.removeChild(num); }, 900 / window.Game.SystemsUI.speed());
+  }
+
+  function motionOf(portrait) {
+    var art = portrait && portrait.querySelector('.enemy-art'), m = art && art.className.match(/motion-(\w+)/);
+    return m ? m[1] : 'breathe';
+  }
+  function ambienceOf(portrait) {
+    var art = portrait && portrait.querySelector('.enemy-art'), m = art && art.className.match(/amb-(\w+)/);
+    return m ? m[1] : 'dust';
+  }
+  // Dust kicked up at the monster's feet (landings, charges, entrances).
+  function spawnPuffs(portrait, n) {
+    if (!portrait || !portrait.isConnected) return;
+    for (var i = 0; i < n; i++) {
+      var puff = document.createElement('span');
+      puff.className = 'dust-puff';
+      puff.style.setProperty('--ox', (Math.random() * 40 - 20).toFixed(1) + 'cqmin');
+      puff.style.setProperty('--ps', (5 + Math.random() * 5).toFixed(1) + 'cqmin');
+      puff.style.setProperty('--pd', (Math.random() * .08).toFixed(2) + 's');
+      portrait.appendChild(puff);
+      setTimeout(function (node) { if (node.parentNode) node.parentNode.removeChild(node); }.bind(null, puff), 900);
+    }
+  }
+  // Element-flavoured burst when a monster falls.
+  function spawnDeathBurst(portrait) {
+    if (!portrait) return;
+    var kind = ambienceOf(portrait), i, n = 14;
+    for (i = 0; i < n; i++) {
+      var shard = document.createElement('span');
+      shard.className = 'death-shard ds-' + kind;
+      shard.style.setProperty('--a', (-170 + Math.random() * 160).toFixed(0) + 'deg');
+      shard.style.setProperty('--r', (14 + Math.random() * 30).toFixed(1) + 'cqmin');
+      shard.style.setProperty('--g', (8 + Math.random() * 16).toFixed(1) + 'cqmin');
+      shard.style.setProperty('--ds', (2 + Math.random() * 3.5).toFixed(1) + 'px');
+      shard.style.setProperty('--dd', (Math.random() * .12).toFixed(2) + 's');
+      portrait.appendChild(shard);
+      setTimeout(function (node) { if (node.parentNode) node.parentNode.removeChild(node); }.bind(null, shard), 1400);
+    }
+  }
+  // Slow "camera": only the room behind the fighters pushes in, so the UI never moves.
+  var cameraTimer = null;
+  function camera(kind, ms) {
+    var screenEl = document.getElementById('screen-battle');
+    if (!screenEl) return;
+    screenEl.classList.remove('cam-push', 'cam-overdrive', 'cam-slam');
+    void screenEl.offsetWidth;
+    screenEl.classList.add('cam-' + kind);
+    clearTimeout(cameraTimer);
+    cameraTimer = setTimeout(function () { screenEl.classList.remove('cam-push', 'cam-overdrive', 'cam-slam'); }, ms);
+  }
+  var introTimer = null;
+  function startIntro() {
+    var screenEl = document.getElementById('screen-battle');
+    if (!screenEl) return;
+    screenEl.classList.add('battle-intro');
+    clearTimeout(introTimer);
+    introTimer = setTimeout(function () { screenEl.classList.remove('battle-intro'); }, 2800);
+  }
+  function clearIntro() {
+    var screenEl = document.getElementById('screen-battle');
+    clearTimeout(introTimer); clearTimeout(cameraTimer);
+    if (screenEl) screenEl.classList.remove('battle-intro', 'cam-push', 'cam-overdrive', 'cam-slam');
+  }
+
+  // Enemy hit reaction: recoil + squash on the art, a pulse on the ground shadow, and a spark burst.
+  function reactEnemyHit(el, heavy) {
+    var cls = heavy ? 'is-hurt-heavy' : 'is-hurt', i, n = heavy ? 9 : 6, base = Math.random() * 60, now = Date.now();
+    // crits call flash then shake back-to-back: let the heavy reaction replace the light one
+    if (!heavy && now - (el._hurtAt || 0) < 40) return;
+    if (heavy) Array.prototype.forEach.call(el.querySelectorAll('.hit-spark'), function (node) { node.parentNode.removeChild(node); });
+    el._hurtAt = now;
+    el.classList.remove('is-hurt', 'is-hurt-heavy');
+    void el.offsetWidth;
+    el.classList.add(cls);
+    setTimeout(function () { el.classList.remove(cls); }, 520 / window.Game.SystemsUI.speed());
+    for (i = 0; i < n; i++) {
+      var spark = document.createElement('span');
+      spark.className = 'hit-spark' + (heavy ? ' hit-spark-heavy' : '');
+      spark.style.setProperty('--a', (base + i * (360 / n) + Math.random() * 20 - 10).toFixed(0) + 'deg');
+      spark.style.setProperty('--r', ((heavy ? 34 : 24) + Math.random() * 22).toFixed(0) + 'px');
+      el.appendChild(spark);
+      setTimeout(function (node) { if (node.parentNode) node.parentNode.removeChild(node); }.bind(null, spark), 600 / window.Game.SystemsUI.speed());
+    }
   }
 
   function flashEl(el, cls) {
     if (!el) return;
     var c = cls || 'hit-flash';
+    if (el.classList.contains('enemy-portrait') && (c === 'hit-flash' || c === 'hit-shake')) reactEnemyHit(el, c === 'hit-shake');
     el.classList.remove(c);
     void el.offsetWidth;
     el.classList.add(c);
@@ -286,7 +379,11 @@
         var acting = findEnemyByUid(ev.attackerUid);
         setBattleCue(window.Game.Systems.text('ตาศัตรู · ', 'Enemy turn · ') + (acting ? acting.name : ev.skillName), ev.attackerUid);
         var actor = getEnemyPortraitEl(ev.attackerUid);
-        if (actor) { actor.classList.remove('enemy-strike'); void actor.offsetWidth; actor.classList.add('enemy-strike'); battleLater(function () { actor.classList.remove('enemy-strike'); }, 700 / window.Game.SystemsUI.speed()); }
+        if (actor) { actor.classList.remove('enemy-strike'); void actor.offsetWidth; actor.classList.add('enemy-strike'); battleLater(function () { actor.classList.remove('enemy-strike'); }, 700 / window.Game.SystemsUI.speed());
+          var strikeMotion = motionOf(actor);
+          if (strikeMotion === 'heavy' || strikeMotion === 'squash' || strikeMotion === 'flap') battleLater(function () { spawnPuffs(actor, strikeMotion === 'heavy' ? 6 : 3); }, 340 / window.Game.SystemsUI.speed());
+          else if (strikeMotion === 'prowl') battleLater(function () { spawnPuffs(actor, 3); }, 150 / window.Game.SystemsUI.speed());
+        }
         break;
       }
       case 'skillUsed':
@@ -295,6 +392,7 @@
         var family = window.Game.VFXData.skill(ev.skillId, currentBattle.run.classId).family;
         window.Game.HeroArt.animate(ev.kind === 'attack' && ['slash','cross','cleave','thrust','claw','bite','punch','arrow','bullet'].indexOf(family) !== -1 ? 'attack' : 'cast');
         SFX('skill_cast');
+        camera('push', 1100 / window.Game.SystemsUI.speed());
         break;
       case 'guard':
         window.Game.HeroArt.animate('guard');
@@ -314,12 +412,12 @@
             setEnemyCardState(ev.targetUid, { downed: true });
             flashEl(ePortrait, 'hit-flash');
             flashEl(ePortrait, 'hit-shake');
-            spawnFloatNumber(ePortrait, ev.amount, 'dmg-crit');
+            spawnFloatNumber(ePortrait, ev.amount, 'dmg-crit', numberOpts(ev, false));
             shakeScreen(false);
           } else {
             SFX('attack');
             flashEl(ePortrait, 'hit-flash');
-            spawnFloatNumber(ePortrait, ev.amount, 'dmg-hp');
+            spawnFloatNumber(ePortrait, ev.amount, 'dmg-hp', numberOpts(ev, true));
           }
         } else {
           window.Game.HeroArt.animate('hurt');
@@ -331,13 +429,13 @@
             showToast(T('toastPlayerCrit'), 'weak');
             flashEl(pPortrait, 'hit-flash');
             flashEl(pPortrait, 'hit-shake');
-            spawnFloatNumber(pPortrait, ev.amount, 'dmg-weak');
+            spawnFloatNumber(pPortrait, ev.amount, 'dmg-weak', numberOpts(ev, false));
             shakeScreen(true);
           } else if (ev.amount) {
             SFX('player_hit');
             flashEl(pPortrait, 'hit-flash');
             flashEl(pPortrait, 'hit-shake');
-            spawnFloatNumber(pPortrait, ev.amount, 'dmg-hp');
+            spawnFloatNumber(pPortrait, ev.amount, 'dmg-hp', numberOpts(ev, false));
             shakeScreen(false);
           }
         }
@@ -345,6 +443,7 @@
       case 'defeated':
         SFX('defeated');
         setEnemyCardState(ev.targetUid, { dead: true });
+        spawnDeathBurst(getEnemyPortraitEl(ev.targetUid));
         break;
       case 'downed':
         SFX('downed');
@@ -390,6 +489,7 @@
       case 'overdriveUsed':
         SFX('overdrive_start');
         shakeScreen(true);
+        camera('overdrive', 1700 / window.Game.SystemsUI.speed());
         break;
       case 'allOutStart':
         SFX('allout_start');
@@ -412,7 +512,7 @@
       case 'bossPhaseChange': {
         var changing = findEnemyByUid(ev.targetUid);
         var portrait = changing && getEnemyPortraitEl(changing.uid);
-        if (portrait) { var ring = '<span class="enemy-ground-ring"></span>'; portrait.innerHTML = ring + window.Game.BattleArt.enemy(Object.assign({}, changing, { phase: ev.phase })); }
+        if (portrait) { var phased = Object.assign({}, changing, { phase: ev.phase }); portrait.innerHTML = window.Game.BattleArt.ring(phased) + window.Game.BattleArt.enemy(phased) + window.Game.BattleArt.fx(phased); }
         var phaseChip = changing && document.querySelector('#enemy-card-' + changing.uid + ' .boss-phase-chip');
         if (phaseChip) phaseChip.textContent = T('phaseChip', { n: ev.phase, max: changing.phasesData.length + 1 });
         SFX('boss_phase');
@@ -461,6 +561,7 @@
     var toast = document.getElementById('battle-toast'); if (toast) toast.classList.add('hidden');
     var prompt = document.getElementById('allout-modal'); if (prompt) { prompt.classList.add('hidden'); prompt.innerHTML = ''; }
     var entrance = document.getElementById('battle-entrance'); if (entrance) entrance.remove();
+    clearIntro();
     closeSubmenu();
     var caption = document.getElementById('battle-fx-caption');
     if (caption) caption.classList.remove('is-active');
@@ -516,7 +617,7 @@
 
   function enemyCardHtml(e) {
     var classes = ['enemy-card'];
-    if (!e.alive) classes.push('dead');
+    if (!e.alive) classes.push('dead', 'dead-done'); // dead-done: the fall animation already played, skip the replay
     if (e.downed) classes.push('downed');
     if (e.broken) classes.push('broken');
     if (e.isBoss) classes.push('boss');
@@ -542,7 +643,7 @@
     var breakPct = e.broken ? 100 : Math.min(100, Math.round(e.breakMeter / window.Game.Formulas.BREAK_THRESHOLD * 100));
     var breakBarHtml = e.alive ? '<div class="bar-row break-row"><div class="bar-track break-track"><div class="bar-fill break' + (e.broken ? ' full' : '') + '" id="enemy-break-' + e.uid + '" style="width:' + breakPct + '%"></div></div></div>' : '';
     return '<div class="' + classes.join(' ') + '" id="enemy-card-' + e.uid + '" data-uid="' + e.uid + '">' +
-      '<div class="enemy-portrait"><span class="enemy-ground-ring"></span>' + window.Game.BattleArt.enemy(e) + '</div><span class="enemy-role-label">' + window.Game.Systems.text({tank:'เกราะหนัก',caster:'เวทมนตร์',swift:'ว่องไว',striker:'โจมตี'}[window.Game.BattleArt.profile(e).role], {tank:'ARMORED',caster:'CASTER',swift:'SWIFT',striker:'STRIKER'}[window.Game.BattleArt.profile(e).role]) + '</span>' +
+      '<div class="enemy-portrait">' + window.Game.BattleArt.ring(e) + window.Game.BattleArt.enemy(e) + window.Game.BattleArt.fx(e) + '</div><span class="enemy-role-label">' + window.Game.Systems.text({tank:'เกราะหนัก',caster:'เวทมนตร์',swift:'ว่องไว',striker:'โจมตี'}[window.Game.BattleArt.profile(e).role], {tank:'ARMORED',caster:'CASTER',swift:'SWIFT',striker:'STRIKER'}[window.Game.BattleArt.profile(e).role]) + '</span>' +
       (e.downed && e.alive ? '<span class="enemy-downed-tag">' + T('downedTag') + '</span>' : '') +
       (e.broken && e.alive ? '<span class="enemy-broken-tag">' + T('brokenTag') + '</span>' : '') +
       '<div class="enemy-name">' + (e.elite ? 'ELITE · ' : '') + (e.champion ? T('championTag') + ' · ' : '') + e.name + (hasPhases ? '<span class="boss-phase-chip">' + T('phaseChip', { n: e.phase, max: e.phasesData.length + 1 }) + '</span>' : '') + '</div>' +
@@ -806,6 +907,28 @@
   // is the one chokepoint every "give control back to the player" path already
   // runs through, so correcting its disabled state here (after the blanket
   // enable/disable above) can't be forgotten at some call site.
+  // Start-of-turn snapshot (battle + run) so a page refresh can resume the fight.
+  function snapshotBattle() {
+    var b = currentBattle, copy = {};
+    Object.keys(b).forEach(function (k) { if (k !== 'run') copy[k] = b[k]; });
+    window.Game.Main.saveBattleView({ battle: copy, run: b.run, floor: currentFloor, isBoss: currentIsBoss, isReplay: currentIsReplay });
+  }
+
+  // Rebuilds the battle screen from a snapshot, on the player's turn.
+  function restoreBattle(snap) {
+    var b = snap.battle;
+    b.run = window.Game.State.current;
+    currentBattle = b; currentMode = 'tower';
+    currentFloor = snap.floor; currentIsBoss = !!snap.isBoss; currentIsReplay = !!snap.isReplay;
+    targetPickCallback = null;
+    applyBattleAmbience(currentFloor, currentIsBoss);
+    document.getElementById('battle-floor-label').textContent =
+      (currentIsBoss ? T('bossFloorTitle') : (T('floorLabel') + currentFloor)) + (currentIsReplay ? T('replaySuffix') : '');
+    document.getElementById('battle-home').innerHTML = I('home');
+    document.getElementById('battle-home').onclick = confirmLeaveBattle;
+    beginBattleScreen(true);
+  }
+
   function setActionsEnabled(enabled) {
     enabled = !!enabled && !document.getElementById('battle-entrance');
     setBattleCue(window.Game.Systems.text(enabled ? 'ตาของคุณ · เลือกคำสั่ง' : currentBattle && currentBattle.over ? 'การต่อสู้สิ้นสุด' : 'กำลังดำเนินการ…', enabled ? 'Your turn · choose a command' : currentBattle && currentBattle.over ? 'Battle finished' : 'Resolving…'), enabled ? 'player' : null);
@@ -815,6 +938,8 @@
       battleScreen.classList.toggle('player-turn', !!enabled);
       battleScreen.classList.toggle('player-waiting', !enabled && !!(currentBattle && !currentBattle.over));
     }
+    if (enabled && currentBattle && !currentBattle.over && currentMode === 'tower') snapshotBattle();
+    else if (currentBattle && currentBattle.over) window.Game.Main.clearBattleView();
     Array.prototype.forEach.call(document.querySelectorAll('#battle-actions button'), function (b) { b.disabled = !enabled; });
     var mpLabel = document.getElementById('skill-mp');
     if (mpLabel && currentBattle) mpLabel.textContent = currentBattle.run.mp + ' MP';
@@ -1081,11 +1206,7 @@
     };
   }
 
-  // Every tier (1-16, floors 1-99) recolors the shared backdrop pieces to match that
-  // zone's theme, escalating from a cool moonlit den up through molten/astral/chaos
-  // hues; floor 100 goes all the way to the final boss's own throne room, complete
-  // with its looming silhouette. Same flat pixel-art technique throughout (recolor via
-  // CSS filters + the existing PixelArt renderer), just a grander color story per tier.
+  // Each zone has its own enclosed tower interior; the final floor uses the throne room.
   var AMBIENCE_TIER_CLASSES = ['battle-tier-1', 'battle-tier-2', 'battle-tier-3', 'battle-tier-4', 'battle-tier-5',
     'battle-tier-6', 'battle-tier-7', 'battle-tier-8', 'battle-tier-9', 'battle-tier-10',
     'battle-tier-11', 'battle-tier-12', 'battle-tier-13', 'battle-tier-14', 'battle-tier-15', 'battle-tier-16'];
@@ -1097,6 +1218,7 @@
     var props = document.getElementById('battle-zone-props');
     if (!props && backdrop) { props = document.createElement('div'); props.id = 'battle-zone-props'; backdrop.appendChild(props); }
     var tierIndex = Math.min(15, Math.max(0, window.Game.Formulas.tierForFloor(floor) - 1));
+    window.Game.BattleScenes.apply(backdrop, tierIndex + 1, isBoss);
     if (props) { props.innerHTML = window.Game.BattleArt.zone(tierIndex + 1, isBoss); props.dataset.zone = tierIndex; }
     var silhouette = document.getElementById('battle-boss-silhouette');
     if (isBoss) {
@@ -1113,7 +1235,86 @@
   // Shared tail for both startBattle and startSurvivalWave: everything from here
   // on only cares about currentBattle's generic shape (enemies/player/AP/etc),
   // not which mode produced it.
-  function beginBattleScreen() {
+  // Desktop hero placement: the hero stands at the left edge of the arena, just above the lower
+  // block. Size and position come from the space that is actually free (height under the top bar,
+  // width left of the first enemy) so tall UI states or large enemy groups can never put the hero
+  // on top of the HUD or the enemies. Mobile keeps the hero inside its panel (no fitting needed).
+  var heroFitQueued = false, heroFitInstalled = false;
+  // If the enemy group is taller than the arena it was given (short windows, companion panel, long
+  // log, big groups) the cards spill over the HUD. Shrink the whole group to what actually fits.
+  function fitEnemies() {
+    var box = document.getElementById('battle-enemies');
+    if (!box) return;
+    box.style.zoom = '';
+    var cards = box.querySelectorAll('.enemy-card');
+    box.classList.toggle('crowded', cards.length >= 4);   // lets CSS narrow the cards so a big group keeps a bigger zoom
+    if (!cards.length || box.clientHeight < 8) return;
+    var hud = [], top = document.querySelector('#screen-battle .battle-topbar');
+    if (top) hud = Array.prototype.slice.call(top.querySelectorAll('#battle-home, #battle-floor-label, #battle-turn-order'));
+    function fits() {
+      var br = box.getBoundingClientRect();
+      for (var i = 0; i < cards.length; i++) {
+        var r = cards[i].getBoundingClientRect();
+        if (r.width < 1) continue;
+        if (r.top < br.top - 1 || r.bottom > br.bottom + 1) return false;
+        for (var j = 0; j < hud.length; j++) {
+          var h = hud[j].getBoundingClientRect();
+          if (h.width > 1 && Math.min(r.right, h.right) - Math.max(r.left, h.left) > 2 && Math.min(r.bottom, h.bottom) - Math.max(r.top, h.top) > 2) return false;
+        }
+      }
+      return true;
+    }
+    // Zooming re-flows the wrap, so walk down until the whole group really fits.
+    for (var z = 0.95; z >= 0.3; z -= 0.05) {
+      if (fits()) return;
+      box.style.zoom = String(Math.round(z * 100) / 100);
+    }
+  }
+  function fitHero() {
+    var screen = document.getElementById('screen-battle');
+    if (!screen) return;
+    fitEnemies();
+    var lower = screen.querySelector('.battle-lower'), top = screen.querySelector('.battle-topbar');
+    if (document.documentElement.classList.contains('is-mobile') || !lower || !top || !screen.classList.contains('active')) {
+      screen.style.removeProperty('--hero-size'); screen.style.removeProperty('--hero-left'); return;
+    }
+    var lr = lower.getBoundingClientRect(), tr = top.getBoundingClientRect();
+    var base = window.innerWidth <= 1250 ? 195 : 286, margin = 8;
+    var freeH = lr.top - 4 - (tr.bottom + 4);
+    var freeW = base, cards = screen.querySelectorAll('#battle-enemies .enemy-card');
+    for (var i = 0; i < cards.length; i++) {
+      var r = cards[i].getBoundingClientRect();
+      if (r.width > 1 && r.height > 1) freeW = Math.min(freeW, r.left - margin - 4);
+    }
+    var size = Math.max(72, Math.min(base, freeH, freeW));
+    screen.style.setProperty('--hero-size', Math.floor(size) + 'px');
+    // Wide landscape: two stage zones. The hero is centred in the left zone (monsters get the right).
+    var left = margin;
+    if (window.matchMedia('(min-width: 900px) and (min-aspect-ratio: 1/1)').matches) left = Math.max(margin, window.innerWidth * 0.24 - size / 2);
+    screen.style.setProperty('--hero-left', Math.round(left - lr.left) + 'px');
+  }
+  function queueHeroFit() {
+    if (heroFitQueued) return;
+    heroFitQueued = true;
+    requestAnimationFrame(function () { heroFitQueued = false; fitHero(); });
+  }
+  function installHeroFit() {
+    if (heroFitInstalled) return;
+    heroFitInstalled = true;
+    window.addEventListener('resize', queueHeroFit);
+    var screen = document.getElementById('screen-battle');
+    if (window.ResizeObserver) {
+      var ro = new ResizeObserver(queueHeroFit);
+      ro.observe(screen.querySelector('.battle-lower')); ro.observe(document.getElementById('battle-enemies')); ro.observe(screen.querySelector('.battle-topbar'));
+    }
+    if (window.MutationObserver) {
+      new MutationObserver(queueHeroFit).observe(document.getElementById('battle-enemies'), { childList: true, subtree: true });
+      new MutationObserver(queueHeroFit).observe(screen, { attributes: true, attributeFilter: ['class'] });
+    }
+    document.addEventListener('toggle', queueHeroFit, true);
+  }
+
+  function beginBattleScreen(resume) {
     cancelPlayback();
     var resetScreen = document.getElementById('screen-battle');
     if (resetScreen) resetScreen.classList.remove('battle-won', 'battle-lost', 'hero-levelup');
@@ -1121,15 +1322,26 @@
     document.getElementById('battle-log').innerHTML = '';recentHistory=[];var historyPanel=document.getElementById('battle-recent-history');if(!historyPanel){historyPanel=document.createElement('details');historyPanel.id='battle-recent-history';historyPanel.className='micro-history';document.getElementById('battle-log').after(historyPanel);}historyPanel.innerHTML='<summary>'+I('microHistory')+window.Game.Systems.text('การกระทำล่าสุด 10 รายการ','Last 10 actions')+'</summary><ol></ol>';
     window.Game.UI.showScreen('screen-battle');
     if (window.Game.Audio) window.Game.Audio.playBattleMusic(currentIsBoss);
+    if (!resume) startIntro();
     renderEnemies(currentBattle);
+    if (!resume) Array.prototype.forEach.call(document.querySelectorAll('#battle-enemies .enemy-portrait'), function (portrait, index) {
+      var entering = motionOf(portrait);
+      if (entering !== 'float' && entering !== 'flap') battleLater(function () { spawnPuffs(portrait, portrait.closest('.boss') ? 8 : 4); }, (1150 + index * 140) / window.Game.SystemsUI.speed());
+    });
     renderPlayerPanel(currentBattle);
     renderCompanionPanel(currentBattle);
     renderTurnOrder(currentBattle);
     renderActions();
+    installHeroFit(); fitHero();
     setActionsEnabled(false);
     // Always seed the log with an intro line -- otherwise the panel sits
     // completely blank until the first action resolves, which reads as a
     // rendering glitch rather than an empty dialogue box.
+    if (resume) {
+      logLine(window.Game.Systems.text('กลับเข้าสู่การต่อสู้', 'Battle resumed'), 'log-new');
+      setActionsEnabled(!currentBattle.over && currentBattle.playerAP > 0 && !currentBattle.awaitingAllOut);
+      return;
+    }
     if (currentBattle.enemies.length === 1) {
       logLine(T('logBattleStart', { name: currentBattle.enemies[0].name }), 'log-new');
     } else {
@@ -1141,7 +1353,7 @@
     entrance.setAttribute('role', 'status');
     entrance.textContent = boss ? boss.name : document.getElementById('battle-floor-label').textContent;
     resetScreen.appendChild(entrance);
-    if (boss) { SFX('boss_phase'); shakeScreen(true); }
+    if (boss) { SFX('boss_phase'); shakeScreen(true); battleLater(function () { camera('slam', 1300); shakeScreen(true); }, 1050 / window.Game.SystemsUI.speed()); }
     else SFX('ui_confirm');
     battleLater(function () { entrance.remove(); }, 1400 / window.Game.SystemsUI.speed());
     battleLater(function () {
@@ -1346,5 +1558,5 @@
   }
 
   window.Game = window.Game || {};
-  window.Game.BattleUI = { cancelPlayback: cancelPlayback, isPlayingEffects: function () { return playbackBusy || !!document.getElementById('battle-entrance'); }, startBattle: startBattle, startSurvivalSession: startSurvivalSession, refreshActiveScreen: refreshActiveScreen };
+  window.Game.BattleUI = { cancelPlayback: cancelPlayback, isPlayingEffects: function () { return playbackBusy || !!document.getElementById('battle-entrance'); }, startBattle: startBattle, restoreBattle: restoreBattle, startSurvivalSession: startSurvivalSession, refreshActiveScreen: refreshActiveScreen };
 })();

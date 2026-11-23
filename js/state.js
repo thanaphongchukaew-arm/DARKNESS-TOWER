@@ -169,6 +169,9 @@
   }
 
   function spendGold(run, amount) {
+    // Only a real, non-negative amount can be spent: NaN would poison run.gold for good and a
+    // negative "price" would mint gold.
+    if (typeof amount !== 'number' || !isFinite(amount) || amount < 0) return false;
     if ((run.gold || 0) < amount) return false;
     run.gold -= amount;
     return true;
@@ -181,6 +184,7 @@
   function sellItem(run, itemId, qty) {
     deps();
     qty = qty || 1;
+    if (typeof qty !== 'number' || !isFinite(qty) || qty < 1 || Math.floor(qty) !== qty) return 0;
     if ((run.inventory[itemId] || 0) < qty) return 0;
     var item = D.getItem(itemId);
     if (!item) return 0;
@@ -217,6 +221,7 @@
    */
   function createRun(difficultyId, classId, ascension) {
     deps();
+    bumpCounter('runsStarted');
     var cls = D.getClass(classId);
     var diff = F.DIFFICULTY[difficultyId] || F.DIFFICULTY.normal;
     var level = 1;
@@ -273,10 +278,17 @@
   // touched one of these systems yet) won't have these fields -- fill them in on
   // load instead of requiring a one-time migration pass, mirroring normalizeEquipment.
   function normalizeRunExtras(run) {
-    if (!run.blessings) run.blessings = [];
-    if (!run.curses) run.curses = [];
-    if (!run.relics) run.relics = [];
-    if (!run.bonusSkills) run.bonusSkills = [];
+    // Core fields: a damaged or hand-edited save can be missing these or hold the wrong type. Repair
+    // them here (runs on every load) instead of letting the first screen that touches them crash.
+    if (!run.inventory || typeof run.inventory !== 'object' || Array.isArray(run.inventory)) run.inventory = {};
+    if (typeof run.level !== 'number' || !isFinite(run.level) || run.level < 1) run.level = 1;
+    run.level = Math.floor(run.level);
+    if (typeof run.exp !== 'number' || !isFinite(run.exp) || run.exp < 0) run.exp = 0;
+    if (typeof run.gold !== 'number' || !isFinite(run.gold) || run.gold < 0) run.gold = 0;
+    ['blessings', 'curses', 'relics', 'bonusSkills'].forEach(function (k) { if (!Array.isArray(run[k])) run[k] = []; });
+    if (!run.eventsSeen || typeof run.eventsSeen !== 'object' || Array.isArray(run.eventsSeen)) run.eventsSeen = {};
+    if (typeof run.mp !== 'number' || !isFinite(run.mp)) run.mp = getMaxMp(run);
+    if (typeof run.hp !== 'number' || !isFinite(run.hp)) run.hp = getMaxHp(run);
     if (run.blessingRevived == null) run.blessingRevived = false;
     if (run.ascension == null) run.ascension = 0;
     if (run.companionId === undefined) run.companionId = null;
@@ -845,6 +857,15 @@
     window.Game.Save.writeMeta(meta);
   }
 
+  // Lifetime counters for the Settings stats card (runs started / won / lost).
+  function bumpCounter(name) {
+    try {
+      var meta = window.Game.Save.readMeta();
+      meta[name] = (meta[name] || 0) + 1;
+      window.Game.Save.writeMeta(meta);
+    } catch (e) { /* storage unavailable */ }
+  }
+
   function recordSurvivalWaves(waves) {
     var meta = window.Game.Save.readMeta();
     if ((meta.survivalBestWaves || 0) >= waves) return;
@@ -960,6 +981,7 @@
     elixirAvailable: elixirAvailable,
     spendElixir: spendElixir,
     createRun: createRun,
+    bumpCounter: bumpCounter,
     getTotalStats: getTotalStats,
     getMaxHp: getMaxHp,
     getMaxMp: getMaxMp,

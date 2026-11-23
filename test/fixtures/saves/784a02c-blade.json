@@ -1,0 +1,26 @@
+{
+ "label": "784a02c",
+ "classId": "blade",
+ "run": {
+  "difficulty": "normal",
+  "classId": "blade",
+  "level": 7,
+  "exp": 0,
+  "expNext": 23,
+  "currentFloor": 8,
+  "hp": 101,
+  "mp": 29,
+  "gold": 280,
+  "waypointsSeen": {},
+  "equipment": {
+   "weapon": "w_rusty_blade",
+   "armor": "a_leather_vest",
+   "accessory": null
+  },
+  "inventory": {
+   "p_hp_small": 2,
+   "p_mp_small": 1
+  },
+  "bonusSkills": []
+ }
+}

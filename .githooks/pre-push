@@ -1,0 +1,9 @@
+#!/bin/sh
+# Runs before every `git push`. Install once with: npm run hooks:install
+# Skip in an emergency with: git push --no-verify
+set -e
+echo "[pre-push] lint + unit/fuzz/economy tests + dist/sw guards"
+npm run lint --silent
+npm test --silent
+echo "[pre-push] smoke + layout (quick)"
+npm run smoke --silent

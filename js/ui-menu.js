@@ -7,13 +7,26 @@
   function T(key, vars) { return window.Game.I18n.t(key, vars); }
   function L(obj, field) { return window.Game.I18n.L(obj, field); }
 
+  // Section titles (h3) sit directly under the level-1 screen title, so announce them as level 2
+  // (otherwise screen readers hear a skipped heading level). Content is re-rendered often, so watch for new ones.
+  (function () {
+    function fix(root) { if (root.nodeType !== 1) return; var lv = { H3: '2', H4: '3' }; if (lv[root.tagName] && !root.hasAttribute('aria-level')) root.setAttribute('aria-level', lv[root.tagName]); var hs = root.querySelectorAll ? root.querySelectorAll('h3:not([aria-level]), h4:not([aria-level])') : []; for (var i = 0; i < hs.length; i++) hs[i].setAttribute('aria-level', lv[hs[i].tagName]); }
+    if (window.MutationObserver && document.body) new MutationObserver(function (list) { for (var i = 0; i < list.length; i++) for (var j = 0; j < list[i].addedNodes.length; j++) fix(list[i].addedNodes[j]); }).observe(document.body, { childList: true, subtree: true });
+    fix(document.body || document.documentElement);
+  })();
+
   function showScreen(id) {
     if (id !== 'screen-battle' && window.Game.BattleUI && window.Game.BattleUI.cancelPlayback) window.Game.BattleUI.cancelPlayback();
     document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('active'); });
     document.getElementById(id).classList.add('active');
+    if (window.Game.RoomUI) window.Game.RoomUI.show(id);
+    // Every screen needs exactly one level-1 heading for assistive tech; the title is an h2 visually.
+    var screenEl = document.getElementById(id), titleEl = screenEl.querySelector('h1, .screen-header h2, h2') || (id === 'screen-battle' ? document.getElementById('battle-floor-label') : null);
+    if (titleEl && titleEl.tagName !== 'H1') { titleEl.setAttribute('role', 'heading'); titleEl.setAttribute('aria-level', '1'); }
     // Keep guide controls in its scrolling header, clear of illustrations and text.
     var gear=document.getElementById('open-settings'),controls=document.querySelector('.top-right-controls');
     if(gear&&controls){if(id==='screen-guide')document.querySelector('#screen-guide>.screen-header').appendChild(gear);else if(gear.parentNode!==controls)controls.insertBefore(gear,controls.firstChild);}
+    if (window.Game.Main && window.Game.Main.rememberView) window.Game.Main.rememberView(id);
     if (window.Game.Tips) window.Game.Tips.onScreen(id);
     if (window.Game.Input) window.Game.Input.onScreen(id);
     if (window.Game.Audio) window.Game.Audio.playMusic(id === 'screen-battle' ? 'battle' : 'menu');

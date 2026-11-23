@@ -5,7 +5,7 @@
   function profile(enemy) {
     var template = G.Data.getEnemyTemplate(enemy.templateId || enemy.id) || {}, stats = template.baseStats || enemy, id = enemy.templateId || enemy.id || enemy.icon || '';
     var role = /golem|knight|guard|colossus|titan|sentinel|tortoise|juggernaut/.test(id) ? 'tank' : /mage|witch|oracle|seer|lich|priest|shaman|sorcer|timeless_sovereign|timeless_herald/.test(id) || stats.mag > stats.atk * 1.2 ? 'caster' : /wolf|bat|harpy|spider|assassin|hawk|raptor|stalker/.test(id) || stats.spd > Math.max(stats.def, 1) * 1.8 ? 'swift' : 'striker';
-    var motion = /slime|ooze|jelly/.test(id) ? 'squash' : /ghost|wraith|spirit|sprite|elemental|bat|harpy|wisp|seraph/.test(id) ? 'float' : role === 'tank' ? 'heavy' : role === 'swift' ? 'prowl' : 'breathe';
+    var motion = /slime|ooze|jelly/.test(id) ? 'squash' : /ghost|wraith|spirit|sprite|elemental|bat|harpy|wisp|seraph|banshee|djinn|cherub|falcon|hawk/.test(id) ? 'float' : /serpent|eel|wyrm|hydra/.test(id) ? 'coil' : /wyvern|dragon|drake/.test(id) ? 'flap' : /hound|lynx|spider|beast|stalker|wolf/.test(id) ? 'prowl' : role === 'tank' ? 'heavy' : role === 'swift' ? 'prowl' : 'breathe';
     if (enemy.isBoss) motion = 'breathe';
     return { role: role, motion: motion };
   }
@@ -34,7 +34,7 @@
       if (enemy.isBoss) body += '<path d="M20 8L21 2 27 6 32 1 37 6 43 2 44 8" fill="#c99d59" stroke="#302339"/><path d="M15 55L24 59H40L49 55" fill="none" stroke="' + ['#c99d59','#8de7e0','#ee92bf','#fff1b2'][phase - 1] + '" stroke-width="2"/>';
     }
     if (enemy.champion || enemy.elite) body += '<g class="champion-crest" fill="#ffda86" stroke="#69472f"><path d="M3 6L7 2 11 6 7 10ZM53 6L57 2 61 6 57 10Z"/><path d="M4 13V20M60 13V20"/></g>';
-    return '<span class="enemy-art icon motion-' + p.motion + ' role-' + p.role + ' phase-' + phase + '" data-phase="' + phase + '">' + svg(body, 'enemy-illustration') + '</span>';
+    return '<span class="enemy-art icon motion-' + p.motion + ' amb-' + ambienceFor(enemy)[1] + ' role-' + p.role + ' phase-' + phase + '" data-phase="' + phase + '">' + svg(body, 'enemy-illustration') + '</span>';
   }
   var props = {
     roots: '<path d="M5 61L14 40 11 27 17 32 20 49 29 59M15 47L27 36 32 20 34 37 27 49 41 55M34 59L46 43 48 22 52 30 51 48 60 61" fill="#384b3d" stroke="#1b2930" stroke-width="3"/>',
@@ -84,5 +84,45 @@
       document.querySelectorAll('.status-chip.is-open').forEach(function (chip) { if (chip !== event.target) chip.classList.remove('is-open'); });
     });
   }
-  G.BattleArt = { profile: profile, enemy: enemy, zone: zone, status: status, chip: chip };
+    function ring(e) { return '<span class="enemy-ground-ring ring-' + profile(e).motion + '"' + (G.MonsterArt ? G.MonsterArt.ground(e) : '') + '></span>'; }
+  // Ambient particles by monster family: embers, snow, sparks, spores... Deterministic per monster id.
+  var ambience = [
+    [/sand|dust|scarab|djinn/, 'sand', 5], [/flame|inferno|magma|lava|cinder|pyroclast|ash|crimson|hell|forge|obsidian/, 'embers', 6],
+    [/frost|glacial|rime|frozen|ice/, 'snow', 6], [/thunder|storm|spark|tempest/, 'sparks', 4],
+    [/tide|drowned|siren|abyssal|leviathan|eel/, 'drops', 5], [/bog|venom|spore|fungal|swamp|thorn|rootbound|blight|hydra|slime/, 'spores', 5],
+    [/gust|cloud|gale|harpy|falcon|hawk/, 'wind', 4],
+    [/seraph|sanctum|chrono|timeless|choir|star|nebula|chaos|flux|discord|astral|prism|wisp|cherub|twilight|chime/, 'holy', 5],
+    [/wraith|banshee|revenant|reaper|void|shadow|doom|abyss|archdevil|succubus|bat|imp|pit|duke|dragon|wolf/, 'shade', 5],
+    [/./, 'dust', 3]
+  ];
+  function ambienceFor(e) {
+    var id = e.templateId || e.id || '', i;
+    for (i = 0; i < ambience.length; i++) if (ambience[i][0].test(id)) return ambience[i];
+    return ambience[ambience.length - 1];
+  }
+  function seedOf(id) { var seed = 7, i; for (i = 0; i < id.length; i++) seed = (seed * 31 + id.charCodeAt(i)) % 2147483647; return seed; }
+  function particles(seed, n, tMin, tSpan) {
+    var out = '', i, t;
+    function rnd() { seed = (seed * 48271) % 2147483647; return seed / 2147483647; }
+    for (i = 0; i < n; i++) {
+      t = tMin + rnd() * tSpan;
+      out += '<i style="--x:' + (8 + rnd() * 84).toFixed(0) + '%;--y:' + (rnd() * 30).toFixed(0) + '%;--s:' + (2 + rnd() * 2).toFixed(1) + 'px;--t:' + t.toFixed(2) + 's;--d:-' + (rnd() * t).toFixed(2) + 's;--dx:' + ((rnd() - .5) * 22).toFixed(0) + 'px"></i>';
+    }
+    return out;
+  }
+  // Ambient particles (by family), status particles (poison/burn/silence) and Break stars share one field
+  // sized to the monster. Everything is deterministic per monster id.
+  function fx(e) {
+    if (!G.MonsterArt || !G.MonsterArt.has(e)) return '';
+    var amb = ambienceFor(e), seed = seedOf(e.templateId || e.id || ''), ground = G.MonsterArt.ground(e), out;
+    out = '<span class="enemy-fx fx-' + amb[1] + '"' + ground + '>' + particles(seed, amb[2], 2.6, 2.6) + '</span>';
+    var status = '';
+    (e.ailments || []).forEach(function (a, idx) {
+      if (a.id === 'poison' || a.id === 'burn' || a.id === 'silence') status += '<b class="st-' + a.id + '">' + particles(seed + 101 * (idx + 1), a.id === 'silence' ? 3 : 5, 1.6, 1.4) + '</b>';
+    });
+    if (status) out += '<span class="enemy-fx fx-status"' + ground + '>' + status + '</span>';
+    out += '<span class="enemy-fx fx-break"' + ground + '><i></i><i></i><i></i></span>';
+    return out;
+  }
+  G.BattleArt = { ring: ring, fx: fx, profile: profile, enemy: enemy, zone: zone, status: status, chip: chip };
 })();

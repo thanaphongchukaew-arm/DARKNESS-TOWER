@@ -162,6 +162,8 @@
   function renderMerchantEvent(floor, stateId) {
     var run = window.Game.State.current;
     stateId = stateId || 'merchant';
+    document.getElementById('screen-event').dataset.room = 'shop';
+    window.Game.RoomUI.show('screen-event', 'shop');
     if (eventState.id !== stateId || eventState.floor !== floor) {
       eventState = { id: stateId, floor: floor, offers: generateMerchantOffers(run, floor), purchased: {} };
     }
@@ -656,6 +658,8 @@
   }
 
   function renderEvent(eventId, floor) {
+    document.getElementById('screen-event').dataset.room = window.Game.RoomUI.eventRoom(eventId);
+    window.Game.RoomUI.show('screen-event');
     document.getElementById('event-body').classList.remove('npc-story-body');
     if (eventState.id !== eventId || eventState.floor !== floor) eventState = { id: null, floor: null };
     lastEvent = { id: eventId, floor: floor };
@@ -749,7 +753,7 @@
       SFX('ui_confirm');
       window.Game.MenuUI.confirmModal({
         title: T('survivalIntroTitle'),
-        message: T('survivalIntroMsg'),
+        message: window.Game.RoomUI.preview('arena') + T('survivalIntroMsg'),
         confirmLabel: T('survivalIntroConfirmBtn'),
         onConfirm: function () { window.Game.BattleUI.startSurvivalSession(); }
       });
@@ -1121,6 +1125,7 @@
       waypointState = { type: type, floor: floor, run: run, stock: null, purchased: null, choices: null };
     }
     lastWaypoint = { type: type, floor: floor };
+    document.getElementById('screen-waypoint').dataset.room = { rest: 'camp', shop: 'shop', treasure: 'vault' }[type];
     var meta = WAYPOINT_META[type];
     document.getElementById('waypoint-icon').innerHTML = I(meta.icon);
     document.getElementById('waypoint-title').textContent = T(meta.titleKey);
@@ -1667,7 +1672,7 @@
         return (a.tier || 0) - (b.tier || 0) || L(a, 'name').localeCompare(L(b, 'name'));
       });
       var tilesHtml = items.map(function (it) {
-        return '<button class="inv-tile" data-id="' + it.id + '" aria-label="' + L(it, 'name') + '" data-tip="' + L(it, 'name') + ' — ' + L(it, 'desc') + '">' +
+        return '<button class="inv-tile" data-id="' + it.id + '" aria-label="x' + run.inventory[it.id] + ' ' + L(it, 'name') + '" data-tip="' + L(it, 'name') + ' — ' + L(it, 'desc') + '">' +
           '<div class="inv-tile-icon">' + window.Game.Icons.item(it) + '</div>' +
           '<span class="inv-tile-qty">x' + run.inventory[it.id] + '</span></button>';
       }).join('');
@@ -1692,6 +1697,26 @@
   }
 
   // Re-render whichever of these screens is currently active, called after a language switch.
+  // Re-opens the screen a refresh interrupted. Returns false when it cannot, so
+  // the caller falls back to the tower map.
+  function resumeView(view) {
+    var UI = window.Game.UI;
+    if (view.screen === 'screen-reward') return resumePendingReward();
+    if (view.screen === 'screen-waypoint' && view.waypoint && view.waypoint.type) {
+      renderWaypoint(view.waypoint.type, view.waypoint.floor); UI.showScreen('screen-waypoint'); return true;
+    }
+    if (view.screen === 'screen-event' && view.event && view.event.id) {
+      renderEvent(view.event.id, view.event.floor); UI.showScreen('screen-event'); return true;
+    }
+    var openers = {
+      'screen-status': renderStatus, 'screen-craft': renderCraft, 'screen-quests': renderQuests,
+      'screen-shop': function () { shopMode = 'buy'; renderShop(); },
+      'screen-codex': function () { window.Game.CodexUI.renderCodex(); }
+    };
+    if (openers[view.screen]) { openers[view.screen](); UI.showScreen(view.screen); return true; }
+    return false;
+  }
+
   function refreshActiveScreen() {
     var active = document.querySelector('.screen.active');
     if (!active) return;
@@ -1714,6 +1739,8 @@
     renderReward: renderReward,
     queueReward: queueReward,
     resumePendingReward: resumePendingReward,
+    viewState: function () { return { waypoint: lastWaypoint, event: lastEvent }; },
+    resumeView: resumeView,
     renderStatus: renderStatus,
     renderShop: renderShop,
     renderCraft: renderCraft,

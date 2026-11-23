@@ -1,0 +1,146 @@
+[
+  {
+    "key": "shop",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "craft",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "runes",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "salvage",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "forge",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "travelers",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "camp",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "guild",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "library",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "armory",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "arena",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "vault",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "shortcut",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "shrine",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "spring",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "battlefield",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "gambler",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "altar",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "victory",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "defeat",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "idol",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "hoard",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "starfall",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  },
+  {
+    "key": "ruined-library",
+    "width": 640,
+    "height": 180,
+    "colors": 48
+  }
+]

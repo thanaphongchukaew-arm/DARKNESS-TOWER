@@ -1,0 +1,950 @@
+{
+  "views": [
+    {
+      "tag": "desktop",
+      "floor": 1,
+      "scene": "moonlit-den",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/bog_slime.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 11,
+      "scene": "knight-ward",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/banshee.png",
+        "assets/pixel16/monsters/frost_knight.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 21,
+      "scene": "shadow-bastion",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/abyss_knight.png",
+        "assets/pixel16/monsters/abyss_knight.png",
+        "assets/pixel16/monsters/glacial_wyrm.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 31,
+      "scene": "dragon-reach",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/venom_hydra.png",
+        "assets/pixel16/monsters/hell_hound.png",
+        "assets/pixel16/monsters/pit_fiend.png",
+        "assets/pixel16/monsters/crimson_drake.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 41,
+      "scene": "infernal-gate",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/inferno_duke.png",
+        "assets/pixel16/monsters/archdevil.png",
+        "assets/pixel16/monsters/doom_reaper.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 45,
+      "scene": "resonant-cavern",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/choir_warden.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 50,
+      "scene": "drowned-ruins",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/leviathan_herald.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 55,
+      "scene": "storm-citadel",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/tempest_marshal.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 60,
+      "scene": "bone-desert",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/pharaoh_ash.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 65,
+      "scene": "molten-core",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/core_warden.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 70,
+      "scene": "clockwork-bastion",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/grand_automaton.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 75,
+      "scene": "nightgrove",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/blight_heart.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 80,
+      "scene": "frozen-abyss",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/frost_sovereign.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 85,
+      "scene": "astral-rift",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/rift_warden.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 90,
+      "scene": "chaos-forge",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/forge_master.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 95,
+      "scene": "twilight-sanctum",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/timeless_herald.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "desktop",
+      "floor": 100,
+      "scene": "sovereign-throne",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/timeless_sovereign.png",
+        "assets/pixel16/monsters/timeless_sovereign.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 1,
+      "scene": "moonlit-den",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/giant_spider.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 11,
+      "scene": "knight-ward",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/frost_knight.png",
+        "assets/pixel16/monsters/frost_knight.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 21,
+      "scene": "shadow-bastion",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/imp_captain.png",
+        "assets/pixel16/monsters/thunder_revenant.png",
+        "assets/pixel16/monsters/void_sentinel.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 31,
+      "scene": "dragon-reach",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/pit_fiend.png",
+        "assets/pixel16/monsters/iron_wyrm.png",
+        "assets/pixel16/monsters/crimson_drake.png",
+        "assets/pixel16/monsters/hell_hound.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 41,
+      "scene": "infernal-gate",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/archdevil.png",
+        "assets/pixel16/monsters/storm_titan.png",
+        "assets/pixel16/monsters/archdevil.png",
+        "assets/pixel16/monsters/storm_titan.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 45,
+      "scene": "resonant-cavern",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/choir_warden.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 50,
+      "scene": "drowned-ruins",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/leviathan_herald.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 55,
+      "scene": "storm-citadel",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/tempest_marshal.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 60,
+      "scene": "bone-desert",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/pharaoh_ash.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 65,
+      "scene": "molten-core",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/core_warden.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 70,
+      "scene": "clockwork-bastion",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/grand_automaton.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 75,
+      "scene": "nightgrove",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/blight_heart.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 80,
+      "scene": "frozen-abyss",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/frost_sovereign.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 85,
+      "scene": "astral-rift",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/rift_warden.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 90,
+      "scene": "chaos-forge",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/forge_master.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 95,
+      "scene": "twilight-sanctum",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/timeless_herald.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "mobile",
+      "floor": 100,
+      "scene": "sovereign-throne",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/timeless_sovereign.png",
+        "assets/pixel16/monsters/timeless_sovereign.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 1,
+      "scene": "moonlit-den",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/flame_imp.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 11,
+      "scene": "knight-ward",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/frost_knight.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 21,
+      "scene": "shadow-bastion",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/inferno_beast.png",
+        "assets/pixel16/monsters/inferno_beast.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 31,
+      "scene": "dragon-reach",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/crimson_drake.png",
+        "assets/pixel16/monsters/crimson_drake.png",
+        "assets/pixel16/monsters/pit_fiend.png",
+        "assets/pixel16/monsters/pit_fiend.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 41,
+      "scene": "infernal-gate",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/void_dragon.png",
+        "assets/pixel16/monsters/ancient_wyrm.png",
+        "assets/pixel16/monsters/doom_reaper.png",
+        "assets/pixel16/monsters/void_dragon.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 45,
+      "scene": "resonant-cavern",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/choir_warden.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 50,
+      "scene": "drowned-ruins",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/leviathan_herald.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 55,
+      "scene": "storm-citadel",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/tempest_marshal.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 60,
+      "scene": "bone-desert",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/pharaoh_ash.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 65,
+      "scene": "molten-core",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/core_warden.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 70,
+      "scene": "clockwork-bastion",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/grand_automaton.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 75,
+      "scene": "nightgrove",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/blight_heart.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 80,
+      "scene": "frozen-abyss",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/frost_sovereign.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 85,
+      "scene": "astral-rift",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/rift_warden.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 90,
+      "scene": "chaos-forge",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/forge_master.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 95,
+      "scene": "twilight-sanctum",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/timeless_herald.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    },
+    {
+      "tag": "landscape",
+      "floor": 100,
+      "scene": "sovereign-throne",
+      "overflow": false,
+      "legacy": 0,
+      "covered": true,
+      "loaded": true,
+      "fit": "cover",
+      "natural": [
+        384,
+        256
+      ],
+      "images": [
+        "assets/pixel16/monsters/timeless_sovereign.png",
+        "assets/pixel16/monsters/timeless_sovereign.png",
+        "assets/pixel16/classes/blade.png"
+      ]
+    }
+  ],
+  "errors": []
+}

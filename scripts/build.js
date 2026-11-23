@@ -8,7 +8,8 @@ const fs = require('fs');
 const path = require('path');
 const { minify } = require('terser');
 
-const ROOT = path.join(__dirname, '..');
+// BUILD_ROOT lets tests point the build at a throwaway copy of the sources.
+const ROOT = process.env.BUILD_ROOT || path.join(__dirname, '..');
 const OUT_FILE = path.join(ROOT, 'dist', 'game.min.js');
 
 // Load order matters: later files reference window.Game.* set up by earlier ones.
@@ -59,6 +60,7 @@ const FILES = [
   'js/hero-art.js',
   'js/monster-art.js',
   'js/battle-art.js',
+  'js/battle-scenes.js',
   'js/battle-engine.js',
   'js/workshop-battle.js',
   'js/vfx-renderer.js',
@@ -66,6 +68,7 @@ const FILES = [
   'js/input.js',
   'js/tips.js',
   'js/guide-art.js',
+  'js/room-ui.js',
   'js/ui-menu.js',
   'js/minigame.js',
   'js/ui-tower.js',
@@ -93,6 +96,14 @@ async function build() {
   });
   if (result.error) throw result.error;
 
+  // `--check` writes nothing: it fails when dist/game.min.js is not what the current sources produce
+  // (someone edited js/ and forgot `npm run build`, so players would get stale code).
+  if (process.argv.includes('--check')) {
+    const current = fs.existsSync(OUT_FILE) ? fs.readFileSync(OUT_FILE, 'utf8') : null;
+    if (current !== result.code) { console.error('dist/game.min.js is STALE: run `npm run build`.'); process.exit(1); }
+    console.log('dist/game.min.js is up to date (' + result.code.length + ' bytes)');
+    return;
+  }
   fs.mkdirSync(path.dirname(OUT_FILE), { recursive: true });
   fs.writeFileSync(OUT_FILE, result.code);
   console.log('Built ' + path.relative(ROOT, OUT_FILE) + ' (' + result.code.length + ' bytes)');

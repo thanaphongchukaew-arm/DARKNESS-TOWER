@@ -1,0 +1,172 @@
+[
+  {
+    "key": "astral-rift",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 92470
+  },
+  {
+    "key": "bone-desert",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 74817
+  },
+  {
+    "key": "chaos-forge",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 75919
+  },
+  {
+    "key": "clockwork-bastion",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 73513
+  },
+  {
+    "key": "dragon-reach",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 68415
+  },
+  {
+    "key": "drowned-ruins",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 75188
+  },
+  {
+    "key": "frozen-abyss",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 90824
+  },
+  {
+    "key": "infernal-gate",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 67798
+  },
+  {
+    "key": "knight-ward",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 82641
+  },
+  {
+    "key": "molten-core",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 60370
+  },
+  {
+    "key": "moonlit-den",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 81082
+  },
+  {
+    "key": "nightgrove",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 88241
+  },
+  {
+    "key": "resonant-cavern",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 68649
+  },
+  {
+    "key": "shadow-bastion",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 88907
+  },
+  {
+    "key": "sovereign-throne",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 78487
+  },
+  {
+    "key": "storm-citadel",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 64101
+  },
+  {
+    "key": "twilight-sanctum",
+    "size": [
+      384,
+      256
+    ],
+    "colors": 48,
+    "opaque": true,
+    "bytes": 80880
+  }
+]

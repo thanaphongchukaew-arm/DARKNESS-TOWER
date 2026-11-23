@@ -5,7 +5,7 @@
   function I(id) { return G.Icons.get(id); }
   function escape(value) { return String(value || '').replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function scene(event) {
-    return '<div class="npc-scene" style="--npc-color:' + event.arc.color + '"><span class="npc-scene-stars"></span><span class="npc-prop">' + I(event.chapter.prop) + '</span><span class="npc-portrait">' + I(event.chapter.icon) + '</span><span class="npc-scene-ground"></span><span class="npc-scene-name">' + L(event.arc, 'name') + '</span></div>';
+    return '<div class="npc-scene" style="--npc-color:' + event.arc.color + ';--tower-interior:url(' + new URL(G.BattleScenes.urlForFloor(event.floor), document.baseURI).href + ')"><span class="npc-scene-stars"></span><span class="npc-prop">' + I(event.chapter.prop) + '</span><span class="npc-portrait">' + I(event.chapter.icon) + '</span><span class="npc-scene-ground"></span><span class="npc-scene-name">' + L(event.arc, 'name') + '</span></div>';
   }
   function clueHtml(chapter) {
     return chapter.clue ? '<p class="story-clue"><strong>' + X.text('สิ่งที่ได้รู้', 'What you learned') + '</strong> ' + L(chapter, 'clue') + '</p>' : '';
@@ -15,7 +15,12 @@
   };
   function paragraphs(text) { return String(text).split('\n').map(function (line) { return '<p>' + escape(line) + '</p>'; }).join(''); }
   // A lore fragment is a single read-only scene: no choices, one continue button.
+  function clearEventRoom() {
+    document.getElementById('screen-event').dataset.room = '';
+    G.RoomUI.show('screen-event');
+  }
   function renderLore(fragment) {
+    clearEventRoom();
     var run = G.State.current, progress = Story.loreProgress(run), label = LORE_LABEL[fragment.kind] || LORE_LABEL.letter;
     lastView = { lore: fragment };
     document.getElementById('event-body').classList.remove('npc-story-body');
@@ -33,6 +38,7 @@
     G.UI.showScreen('screen-event');
   }
   function render(event, resolved) {
+    clearEventRoom();
     document.getElementById('event-body').classList.add('npc-story-body');
     lastView = { event: event, resolved: resolved || null };
     var run = G.State.current, state = Story.ensure(run).people[event.arc.id];
@@ -98,5 +104,5 @@
         (arc.id === 'orin' && story.orinRounds ? '<p class="journal-oath">' + X.text('คำสัตย์: ช่วยโจมตีบอส ', 'Oath: aids boss fights for ') + story.orinRounds + X.text(' รอบแรก', ' opening rounds') + '</p>' : '') + '</div></article>';
     }).join('') + loreArchive(run, story) + '</div>';
   }
-  G.StoryUI = { maybe: maybe, refresh: refresh, journal: journal, scene: scene };
+  G.StoryUI = { isActive: function () { return !!lastView; }, maybe: maybe, refresh: refresh, journal: journal, scene: scene };
 })();

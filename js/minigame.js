@@ -41,6 +41,18 @@
   // Total gold paid back (stake included) for a winning guess.
   function hiLoPayout(bet, mult) { return Math.round(bet * mult); }
 
+  // First time a mini-game kind is played, explain it (and what skipping/disabling does) in the overlay.
+  function intro(kind) {
+    try {
+      var meta = G.Save.readMeta();
+      meta.mgIntroSeen = meta.mgIntroSeen || {};
+      if (meta.mgIntroSeen[kind]) return '';
+      meta.mgIntroSeen[kind] = true;
+      G.Save.writeMeta(meta);
+      return '<p class="minigame-intro">' + G.I18n.t(kind === 'cards' ? 'mgIntroCards' : 'mgIntroTiming') + '</p>';
+    } catch (e) { return ''; }
+  }
+
   // ---- Overlay plumbing ----
   var root = null, cleanup = null;
   function open(html) {
@@ -125,7 +137,7 @@
       return '<button class="btn-primary" data-mg="' + key + '"' + (o.available ? '' : ' disabled') + '>' + label + (o.available ? ' ×' + o.mult.toFixed(2) : '') + '</button>';
     }
     var el = open(
-      scene('miniCards') + '<h3>' + opts.title + '</h3><p class="minigame-hint">' + X('ไพ่ใบถัดไปจะสูงหรือต่ำกว่า? เสมอถือว่าแพ้ ยิ่งเสี่ยงยิ่งได้คูณสูง', 'Will the next card be higher or lower? A tie loses; riskier guesses pay more.') + '</p>' +
+      scene('miniCards') + '<h3>' + opts.title + '</h3><p class="minigame-hint">' + X('ไพ่ใบถัดไปจะสูงหรือต่ำกว่า? เสมอถือว่าแพ้ ยิ่งเสี่ยงยิ่งได้คูณสูง', 'Will the next card be higher or lower? A tie loses; riskier guesses pay more.') + '</p>' + intro('cards') +
       '<div class="minigame-cards"><span class="minigame-card" aria-label="' + card + '">' + cardArt(card) + '</span><span class="minigame-card back" id="mg-hidden" aria-label="' + X('ไพ่คว่ำ', 'Hidden card') + '">' + cardBack() + '</span></div>' +
       '<p class="minigame-status" aria-live="polite">' + X('เดิมพัน ', 'Stake ') + opts.bet + '</p>' +
       '<div class="minigame-actions"><button class="btn-ghost" data-mg="skip">' + X('ข้าม (โยนเหรียญ)', 'Skip (coin flip)') + '</button>' +

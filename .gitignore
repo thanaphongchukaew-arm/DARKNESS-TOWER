@@ -4,3 +4,7 @@ node_modules/
 .DS_Store
 release/
 art-source/
+
+# failure screenshots written by the layout audits
+previews/battle-layout/
+previews/screens-layout/

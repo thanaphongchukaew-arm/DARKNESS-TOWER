@@ -158,8 +158,8 @@
       "dialog": {
         "left": 414.1015625,
         "right": 1025.8984375,
-        "top": 106.4765625,
-        "bottom": 853.515625
+        "top": 103.2578125,
+        "bottom": 856.734375
       },
       "textFallback": [],
       "icons": 80
@@ -175,8 +175,8 @@
       "dialog": {
         "left": 414.1015625,
         "right": 1025.8984375,
-        "top": 106.4765625,
-        "bottom": 853.515625
+        "top": 103.2578125,
+        "bottom": 856.734375
       },
       "textFallback": [],
       "icons": 14
@@ -192,8 +192,8 @@
       "dialog": {
         "left": 414.1015625,
         "right": 1025.8984375,
-        "top": 106.4765625,
-        "bottom": 853.515625
+        "top": 103.2578125,
+        "bottom": 856.734375
       },
       "textFallback": [],
       "icons": 14
@@ -385,8 +385,8 @@
       "dialog": {
         "left": 414.1015625,
         "right": 1025.8984375,
-        "top": 106.4765625,
-        "bottom": 853.515625
+        "top": 103.2578125,
+        "bottom": 856.734375
       },
       "textFallback": [],
       "icons": 80
@@ -402,8 +402,8 @@
       "dialog": {
         "left": 414.1015625,
         "right": 1025.8984375,
-        "top": 106.4765625,
-        "bottom": 853.515625
+        "top": 103.2578125,
+        "bottom": 856.734375
       },
       "textFallback": [],
       "icons": 14
@@ -419,8 +419,8 @@
       "dialog": {
         "left": 414.1015625,
         "right": 1025.8984375,
-        "top": 106.4765625,
-        "bottom": 853.515625
+        "top": 103.2578125,
+        "bottom": 856.734375
       },
       "textFallback": [],
       "icons": 14
@@ -612,8 +612,8 @@
       "dialog": {
         "left": 13,
         "right": 377,
-        "top": 92.125,
-        "bottom": 751.875
+        "top": 88.875,
+        "bottom": 755.125
       },
       "textFallback": [],
       "icons": 80
@@ -629,8 +629,8 @@
       "dialog": {
         "left": 46.0703125,
         "right": 343.9296875,
-        "top": 92.125,
-        "bottom": 751.875
+        "top": 88.875,
+        "bottom": 755.125
       },
       "textFallback": [],
       "icons": 14
@@ -646,8 +646,8 @@
       "dialog": {
         "left": 46.0703125,
         "right": 343.9296875,
-        "top": 92.125,
-        "bottom": 751.875
+        "top": 88.875,
+        "bottom": 755.125
       },
       "textFallback": [],
       "icons": 14
@@ -805,8 +805,8 @@
       "dialog": {
         "left": 44.484375,
         "right": 345.515625,
-        "top": 113.4140625,
-        "bottom": 730.5859375
+        "top": 88.875,
+        "bottom": 755.125
       },
       "textFallback": [],
       "icons": 4
@@ -839,8 +839,8 @@
       "dialog": {
         "left": 13,
         "right": 377,
-        "top": 92.125,
-        "bottom": 751.875
+        "top": 88.875,
+        "bottom": 755.125
       },
       "textFallback": [],
       "icons": 80
@@ -856,8 +856,8 @@
       "dialog": {
         "left": 46.0703125,
         "right": 343.9296875,
-        "top": 92.125,
-        "bottom": 751.875
+        "top": 88.875,
+        "bottom": 755.125
       },
       "textFallback": [],
       "icons": 14
@@ -873,8 +873,8 @@
       "dialog": {
         "left": 46.0703125,
         "right": 343.9296875,
-        "top": 92.125,
-        "bottom": 751.875
+        "top": 88.875,
+        "bottom": 755.125
       },
       "textFallback": [],
       "icons": 14
@@ -1015,8 +1015,8 @@
       "dialog": {
         "left": 78.421875,
         "right": 765.578125,
-        "top": 32.03125,
-        "bottom": 357.96875
+        "top": 25.0625,
+        "bottom": 364.9296875
       },
       "textFallback": [],
       "icons": 3
@@ -1032,8 +1032,8 @@
       "dialog": {
         "left": 78.421875,
         "right": 765.578125,
-        "top": 32.03125,
-        "bottom": 357.96875
+        "top": 25.0625,
+        "bottom": 364.9296875
       },
       "textFallback": [],
       "icons": 4
@@ -1066,8 +1066,8 @@
       "dialog": {
         "left": 69.1328125,
         "right": 774.8671875,
-        "top": 28.78125,
-        "bottom": 361.21875
+        "top": 25.0625,
+        "bottom": 364.9296875
       },
       "textFallback": [],
       "icons": 80
@@ -1083,8 +1083,8 @@
       "dialog": {
         "left": 69.1328125,
         "right": 774.8671875,
-        "top": 28.78125,
-        "bottom": 361.21875
+        "top": 25.0625,
+        "bottom": 364.9296875
       },
       "textFallback": [],
       "icons": 14
@@ -1100,8 +1100,8 @@
       "dialog": {
         "left": 69.1328125,
         "right": 774.8671875,
-        "top": 28.78125,
-        "bottom": 361.21875
+        "top": 25.0625,
+        "bottom": 364.9296875
       },
       "textFallback": [],
       "icons": 14
@@ -1242,8 +1242,8 @@
       "dialog": {
         "left": 78.421875,
         "right": 765.578125,
-        "top": 32.03125,
-        "bottom": 357.96875
+        "top": 25.0625,
+        "bottom": 364.9296875
       },
       "textFallback": [],
       "icons": 3
@@ -1259,8 +1259,8 @@
       "dialog": {
         "left": 78.421875,
         "right": 765.578125,
-        "top": 32.03125,
-        "bottom": 357.96875
+        "top": 25.0625,
+        "bottom": 364.9296875
       },
       "textFallback": [],
       "icons": 4
@@ -1293,8 +1293,8 @@
       "dialog": {
         "left": 69.1328125,
         "right": 774.8671875,
-        "top": 28.78125,
-        "bottom": 361.21875
+        "top": 25.0625,
+        "bottom": 364.9296875
       },
       "textFallback": [],
       "icons": 80
@@ -1310,8 +1310,8 @@
       "dialog": {
         "left": 69.1328125,
         "right": 774.8671875,
-        "top": 28.78125,
-        "bottom": 361.21875
+        "top": 25.0625,
+        "bottom": 364.9296875
       },
       "textFallback": [],
       "icons": 14
@@ -1327,8 +1327,8 @@
       "dialog": {
         "left": 69.1328125,
         "right": 774.8671875,
-        "top": 28.78125,
-        "bottom": 361.21875
+        "top": 25.0625,
+        "bottom": 364.9296875
       },
       "textFallback": [],
       "icons": 14

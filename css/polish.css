@@ -674,3 +674,83 @@ body, button, input, select { font-variant-ligatures: none; font-feature-setting
 .is-mobile .tactical-modal .tactical-art,.is-mobile .tactical-modal .talent-hero-preview { grid-column: 1; grid-row: 1 / 3; align-self: center; }
 .is-mobile .tactical-modal .tactical-choice > strong { grid-column: 2; grid-row: 1; }
 .is-mobile .tactical-modal .tactical-choice > span:last-child { grid-column: 2; grid-row: 2; }
+
+/* Environmental pixel scenery replaces tiled walls, floor grids and icon props. */
+#screen-battle .battle-backdrop.has-scenery > :not(.battle-scenery) { display: none; }
+#screen-battle .battle-backdrop.has-scenery::before { background: linear-gradient(180deg,#090b1410 0%,#090b1426 48%,#090b1480 100%); }
+#screen-battle .battle-backdrop.has-scenery::after { display: none; }
+.battle-scenery { position: absolute; inset: 0; background: #161724; }
+.battle-scene-art { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+#screen-battle .battle-ground-strip { background: transparent; }
+#screen-battle .battle-backdrop.has-scenery ~ .battle-enemies .enemy-ground-ring { opacity: .6; }
+/* Preserve the authored pixel grid at every aspect ratio; never stretch a room. */
+.battle-scene-art { object-fit: cover; object-position: 50% 50%; }
+#screen-battle .battle-backdrop.has-scenery::before { background: linear-gradient(180deg,#080a1620 0%,#080a1626 42%,#080a1659 65%,#080a168c 100%); }
+@media (max-aspect-ratio: 3/4) {
+ .battle-scene-art { object-position: 50% 38%; }
+}
+/* Story scenes remain within the same tower, including the opening and ending. */
+#screen-story { background-image: linear-gradient(180deg,#0a08166b,#080611ad 65%,#040409e6),url('../assets/pixel16/scenes/moonlit-den.png'); image-rendering: pixelated; }
+#screen-story.story-ending { background-image: linear-gradient(180deg,#0a08165c,#080611a3 65%,#040409e6),url('../assets/pixel16/scenes/twilight-sanctum.png'); }
+.npc-scene::before { background-image: linear-gradient(#14101a55,#14101a66),var(--tower-interior); background-size: cover; background-position: center; image-rendering: pixelated; opacity: 1; }
+.npc-scene-ground { background: linear-gradient(transparent,#14111bd9); border-top: none; }
+.ws-camp-scene { background-image: linear-gradient(#171320cf,#171320e6),url('../assets/pixel16/scenes/moonlit-den.png'); background-size: cover; background-position: center 65%; image-rendering: pixelated; }
+/* Move the room's floor up to the combatants' feet; keep architecture behind them. */
+#screen-battle .battle-scenery { background: #191824; }
+#screen-battle .battle-scenery > .battle-scene-art { position: absolute; top: -24%; }
+#screen-battle .battle-scenery::after { content: ''; position: absolute; inset: 62% 0 0; background: linear-gradient(transparent 0%,#191824 42%); }
+
+/* Hero stands in the arena, just above the whole lower block (log, panel, actions),
+   never overlapping the HUD. Anchored to .battle-lower at every desktop size. */
+html:not(.is-mobile) #screen-battle .battle-lower { position: relative; }
+html:not(.is-mobile) #screen-battle #battle-player-panel { position: static; }
+html:not(.is-mobile) #screen-battle #battle-player-panel .player-portrait { left: var(--hero-left, 0.5rem); bottom: calc(100% + 0.25rem); }
+/* --hero-size / --hero-left are set by fitHero() in ui-battle.js from the free space in the arena. */
+html:not(.is-mobile) #screen-battle #battle-player-panel .player-portrait,
+html:not(.is-mobile) #screen-battle #battle-player-panel .player-portrait .hero-visual { width: var(--hero-size, 286px); height: var(--hero-size, 286px); }
+@media (max-width: 1250px) {
+  html:not(.is-mobile) #screen-battle #battle-player-panel .player-portrait,
+  html:not(.is-mobile) #screen-battle #battle-player-panel .player-portrait .hero-visual { width: var(--hero-size, 195px); height: var(--hero-size, 195px); }
+}
+
+/* Two stage zones on wide landscape desktops: hero on the left of the arena, monsters on the right
+   (classic JRPG staging). Both sides can never collide; portrait/narrow/mobile keep the stacked layout. */
+@media (min-width: 900px) and (min-aspect-ratio: 1/1) {
+  html:not(.is-mobile) #screen-battle .battle-enemies { margin-left: 46%; margin-right: 2%; width: auto; max-width: none; gap: 0.5rem; }
+  html:not(.is-mobile) #screen-battle .enemy-card { min-width: 0; width: clamp(104px, 11vw, 200px); }
+}
+
+/* The expanded action history scrolls instead of growing without limit and pushing the arena up. */
+.micro-history[open] ol { max-height: 6.5rem; overflow-y: auto; }
+.is-mobile .micro-history[open] ol { max-height: 3.4rem; }
+
+/* Phones with a companion show 6 actions: two rows of three so labels never collide. */
+.is-mobile #screen-battle .battle-actions:has(> :nth-child(6)) { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.is-mobile #screen-battle .battle-actions button { min-width: 0; overflow: hidden; }
+
+/* Short phones (e.g. 360x640): compact the lower HUD so the arena keeps room for the enemies. */
+@media (max-height: 720px) {
+  .is-mobile #screen-battle .companion-portrait { width: 40px; height: 40px; flex: 0 0 40px; }
+  .is-mobile #screen-battle .companion-portrait .icon { width: 36px; height: 36px; }
+  .is-mobile #screen-battle .battle-companion-panel { padding: 0.2rem 0.5rem; }
+  .is-mobile #screen-battle .battle-log { height: 2.4rem; }
+  .is-mobile #screen-battle .micro-history { margin: 0.1rem 0.6rem; padding: 0.2rem 0.5rem; }
+  .is-mobile #screen-battle .battle-player-panel { padding: 0.15rem 0.5rem; }
+  .is-mobile #screen-battle .battle-actions:has(> :nth-child(6)) { padding: 0.15rem; gap: 0.2rem; }
+  .is-mobile #screen-battle .battle-actions:has(> :nth-child(6)) button { height: 2.1rem; flex-direction: row; gap: 0.25rem; font-size: 0.78rem; }
+}
+
+/* Dialogs never outgrow the window: the box scrolls inside itself so its buttons stay reachable. */
+.modal-overlay > .modal-box { max-height: calc(100dvh - 1.5rem); max-height: calc(100vh - 1.5rem); overflow-y: auto; box-sizing: border-box; }
+@supports (height: 100dvh) { .modal-overlay > .modal-box { max-height: calc(100dvh - 1.5rem); } }
+
+/* Big enemy groups on phones: narrower cards and art so the group needs less shrinking to fit. */
+.is-mobile #screen-battle #battle-enemies.crowded .enemy-card { min-width: 0; }
+.is-mobile #screen-battle #battle-enemies.crowded .enemy-card:not(.boss) .enemy-portrait,
+.is-mobile #screen-battle #battle-enemies.crowded .enemy-card:not(.boss) .enemy-portrait > .enemy-art { width: 76px; height: 68px; }
+
+/* Accessibility: text contrast (WCAG AA 4.5:1) on dimmed/locked rows and on the red primary button. */
+.floor-row.locked { opacity: 0.74; }
+.btn-primary { color: #f04040; }
+/* The tier badge text is drawn by CSS so it is not part of a button's visible label (keeps accessible names matching). */
+.item-art small[data-mark]::after { content: attr(data-mark); }
