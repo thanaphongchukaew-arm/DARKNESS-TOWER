@@ -272,3 +272,9 @@ html:not(.is-mobile) #screen-battle.player-turn #battle-player-panel .hero-visua
   .enemy-card.dead .enemy-art { animation: none !important; opacity: .2; }
   #screen-battle .dmg-number { animation-name: dmg-float; }
 }
+
+/* ---------- Stage balance (wide desktop): hero a touch higher and further in, monsters a touch lower ---------- */
+@media (min-width: 900px) and (min-aspect-ratio: 1/1) {
+  html:not(.is-mobile) #screen-battle #battle-player-panel .player-portrait { bottom: calc(100% + 0.25rem + 28px); }
+  html:not(.is-mobile) #screen-battle .battle-enemies { margin-left: 43%; padding-top: 3.2rem; }
+}

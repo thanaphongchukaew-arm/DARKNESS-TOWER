@@ -213,13 +213,13 @@
   };
   // Silhouette height (viewBox units, 64 = full card) by monster family; first match wins.
   var sizeRules = [
-    [/bat$|^flame_imp|wisp|scarab|cherub|sprite/, 28],
-    [/slime/, 30],
-    [/spider|wolf|lynx|falcon|hawk|harpy|stalker|eel|spark_hound/, 38],
-    [/hell_hound|magma_hound|chimeric_hound/, 46],
-    [/wraith|banshee|djinn|seraph|spawn|bandit|imp_captain|revenant|succubus|lancer|knight|reaper/, 50],
-    [/golem|sentinel|troll|beast|pit_fiend|duke/, 58],
-    [/serpent|wyrm|drake|wyvern|hydra|dragon|titan|archdevil/, 66]
+    [/bat$|^flame_imp|wisp|scarab|cherub|sprite/, 44],
+    [/slime/, 46],
+    [/spider|wolf|lynx|falcon|hawk|harpy|stalker|eel|spark_hound/, 56],
+    [/hell_hound|magma_hound|chimeric_hound/, 64],
+    [/wraith|banshee|djinn|seraph|spawn|bandit|imp_captain|revenant|succubus|lancer|knight|reaper/, 68],
+    [/golem|sentinel|troll|beast|pit_fiend|duke/, 76],
+    [/serpent|wyrm|drake|wyvern|hydra|dragon|titan|archdevil/, 84]
   ];
   var flyers = /bat$|wisp|sprite|harpy|falcon|hawk|cherub|wraith|banshee|djinn|seraph|wyvern/;
   function layout(id) {
@@ -229,11 +229,11 @@
     if (Math.max(w, h) >= 96) k = 60 / Math.max(w, h);
     else {
       for (var i = 0; i < sizeRules.length; i++) if (sizeRules[i][0].test(id)) { H = sizeRules[i][1]; break; }
-      k = Math.min((H || 50) / bh, 72 / bw);
+      k = Math.min((H || 68) / bh, 84 / bw);
     }
     var lift = flying ? 6 : 0, sw = bw * k;
     return { k: k, w: w * k, h: h * k, x: 32 - (m[2] + bw / 2) * k, y: 61 - lift - m[5] * k, lift: lift,
-             gw: Math.min(72, sw * (flying ? 0.5 : 0.85)), go: flying ? 0.5 : 0.85, sw: Math.min(sw, 72), sh: Math.min(bh * k + lift, 80) };
+             gw: Math.min(84, sw * (flying ? 0.5 : 0.85)), go: flying ? 0.5 : 0.85, sw: Math.min(sw, 84), sh: Math.min(bh * k + lift, 96) };
   }
   function idOf(enemy) { return enemy.templateId || enemy.id || ''; }
   function has(enemy) { return Object.prototype.hasOwnProperty.call(known, typeof enemy === 'string' ? enemy : idOf(enemy)); }

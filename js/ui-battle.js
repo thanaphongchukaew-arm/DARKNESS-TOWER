@@ -1279,8 +1279,8 @@
       screen.style.removeProperty('--hero-size'); screen.style.removeProperty('--hero-left'); return;
     }
     var lr = lower.getBoundingClientRect(), tr = top.getBoundingClientRect();
-    var base = window.innerWidth <= 1250 ? 195 : 286, margin = 8;
-    var freeH = lr.top - 4 - (tr.bottom + 4);
+    var base = window.innerWidth <= 1250 ? 180 : 256, margin = 8;
+    var freeH = lr.top - 4 - (tr.bottom + 4) - 28; // 28px: the hero is lifted off the log so its feet sit closer to the monsters' ground
     var freeW = base, cards = screen.querySelectorAll('#battle-enemies .enemy-card');
     for (var i = 0; i < cards.length; i++) {
       var r = cards[i].getBoundingClientRect();
@@ -1290,7 +1290,7 @@
     screen.style.setProperty('--hero-size', Math.floor(size) + 'px');
     // Wide landscape: two stage zones. The hero is centred in the left zone (monsters get the right).
     var left = margin;
-    if (window.matchMedia('(min-width: 900px) and (min-aspect-ratio: 1/1)').matches) left = Math.max(margin, window.innerWidth * 0.24 - size / 2);
+    if (window.matchMedia('(min-width: 900px) and (min-aspect-ratio: 1/1)').matches) left = Math.max(margin, window.innerWidth * 0.27 - size / 2);
     screen.style.setProperty('--hero-left', Math.round(left - lr.left) + 'px');
   }
   function queueHeroFit() {
