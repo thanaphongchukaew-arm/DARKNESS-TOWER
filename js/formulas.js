@@ -6,11 +6,16 @@
   // ui-menu.js's startNightmareRun) -- easy/normal/hard stay defined here
   // because tests and other formulas (enemyStatScale, etc.) still reference
   // them, and each step keeps the same ~1.3x jump in statMult/rewardMult.
+  // Nightmare ramps 1.22 -> 1.5: raised when every class got its signature mechanic (class-mech*.js)
+  // and again when player hits got +20% and stagger got rarer; the 29-class balance-bot average
+  // death floor sits around 70. The extra
+  // ramps in from floor 1 (earlyStatMult) to rampFloor, because the mechanics pay off mid-game
+  // and a level-1 caster could not survive the full multiplier on floor 1.
   var DIFFICULTY = {
     easy: { id: 'easy', name: 'ง่าย', nameEn: 'Easy', statMult: 0.8, rewardMult: 1.1, startPotions: 3 },
     normal: { id: 'normal', name: 'ปกติ', nameEn: 'Normal', statMult: 1.0, rewardMult: 1.0, startPotions: 2 },
     hard: { id: 'hard', name: 'ยาก', nameEn: 'Hard', statMult: 1.14, rewardMult: 1.1, startPotions: 1 },
-    nightmare: { id: 'nightmare', name: 'ฝันร้าย', nameEn: 'Nightmare', statMult: 1.22, rewardMult: 1.0, startPotions: 1 }
+    nightmare: { id: 'nightmare', name: 'ฝันร้าย', nameEn: 'Nightmare', statMult: 1.5, earlyStatMult: 1.22, rampFloor: 30, rewardMult: 1.0, startPotions: 1 }
   };
 
   function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
@@ -101,16 +106,23 @@
     return a[a.length - 1][1];
   }
 
+  function difficultyMult(diff, floor) {
+    if (diff.earlyStatMult == null || floor == null) return diff.statMult;
+    var t = clamp((floor - 1) / Math.max(1, (diff.rampFloor || 1) - 1), 0, 1);
+    return diff.earlyStatMult + (diff.statMult - diff.earlyStatMult) * t;
+  }
   function enemyStatScale(floor, difficultyId) {
     var diff = DIFFICULTY[difficultyId] || DIFFICULTY.normal;
-    return floorScale(floor) * diff.statMult;
+    return floorScale(floor) * difficultyMult(diff, floor);
   }
 
   // Mini-bosses and the final boss fight alone, so their authored stats get
   // their own offence/health tuning on top of the floor curve (see
   // battle-engine.js's buildMiniBossActor/buildBossActor).
   var REGULAR_TUNING = { hp: 1.9, offense: 1.7, defense: 1.0, groupOffensePow: 0.6 };
-  var MINIBOSS_TUNING = { hp: 2.2, offense: 1.25, defense: 1.0 };
+  // Mini-bosses used to be beaten mostly through stagger + All-Out; with stagger rarer they were a
+  // wall on floor 10, so they are a little softer now (hp 2.2 -> 1.6, offense 1.25 -> 1.15).
+  var MINIBOSS_TUNING = { hp: 1.6, offense: 1.15, defense: 1.0 };
   var FINAL_BOSS_TUNING = { hp: 0.72, offense: 0.74, defense: 1.0 };
   function tuneBossStats(stats, tuning) {
     stats.hp = Math.max(1, round(stats.hp * tuning.hp));
@@ -225,6 +237,11 @@
   // Global damage scale-down so fights last ~2x as many turns without touching
   // relative balance (crit multiplier, etc).
   var GLOBAL_DAMAGE_MULT = 0.5;
+  // Player attack/skill hits only (battle-engine playerHitMult): raised so damage comes from
+  // your own hits, not from waiting on stagger and the All-Out.
+  var PLAYER_DAMAGE_MULT = 1.2;
+  // All-Out Attack base multiplier (x(ALL_OUT_BASE + 0.12 per enemy)).
+  var ALL_OUT_BASE = 1.1;
   var ALMIGHTY_FACTOR = 0.7;
 
   function critChance(luk) {
@@ -241,15 +258,37 @@
   var FOCUS_CRIT_BONUS = 8;
   var OVERDRIVE_POWER = 1.6;
 
-  // Break (see battle-engine.js): an enemy-only meter built by taking hits from any
-  // source (player attacks/skills, Overdrive, companion), capped at BREAK_THRESHOLD.
-  // A full meter flags the enemy 'broken' for the rest of the round -- a bonus-damage
-  // window. Deliberately separate from the crit-triggered 'downed' (skip-turn/All-Out)
-  // mechanic so the two never fight over the same flag; an enemy can be downed,
-  // broken, both, or neither at once.
+  // Break / Stagger (see battle-engine.js's applyBreak): every hit on an enemy adds
+  // Break equal to its skill power x BREAK_PER_POWER (a basic Attack adds 16). A critical
+  // hit adds x1.5, striking the elemental weakness x1.25, and a hit that lands on every
+  // enemy at once only x0.6 per target. A full bar staggers the enemy: it is knocked
+  // down (skips its next action) and takes x1.3 damage until the round ends. A full bar
+  // is the ONLY way to knock an enemy down -- crits and weakness hits just fill it faster.
+  // Tougher foes have a longer bar (breakMax).
   var BREAK_THRESHOLD = 100;
-  var BREAK_PER_HIT = 25;
+  var BREAK_PER_POWER = 16;
+  var BREAK_PER_HIT = BREAK_PER_POWER;   // a basic Attack's worth, for callers that need one figure
+  var BREAK_CRIT_MULT = 1.5;
+  var BREAK_WEAK_MULT = 1.25;
+  var BREAK_AOE_MULT = 0.6;
   var BREAK_DAMAGE_MULT = 1.3;
+  // Computed from the actor's flags rather than stored on it: fights resume from a JSON
+  // snapshot that never re-runs createBattle, so a stored field would be missing there.
+  function breakMax(enemy) {
+    if (!enemy) return BREAK_THRESHOLD;
+    if (enemy.isBoss) return 160;
+    if (enemy.champion || enemy.elite) return 130;
+    return BREAK_THRESHOLD;
+  }
+  // Break one hit adds. opts: { power, crit, weak, aoe, flat }
+  function breakAmount(opts) {
+    opts = opts || {};
+    var v = opts.flat != null ? opts.flat : BREAK_PER_POWER * (opts.power != null ? opts.power : 1);
+    if (opts.crit) v *= BREAK_CRIT_MULT;
+    if (opts.weak) v *= BREAK_WEAK_MULT;
+    if (opts.aoe) v *= BREAK_AOE_MULT;
+    return Math.max(1, round(v));
+  }
 
   function computeDamage(opts) {
     // opts: { element, power, atkStat, magStat, defStat, resStat, isCrit }
@@ -258,13 +297,14 @@
     // damage when defence pulls ahead nor explodes when it falls behind -- equal
     // stats always mean half damage, at every point of the tower. Almighty
     // ignores defences entirely and takes a fixed factor instead.
-    // `scaleStat: 'atk'` lets an elemental technique run off ATK (martial classes).
+    // `scaleStat: 'atk'` lets an elemental technique run off ATK (martial classes);
+    // `scaleStat: 'mag'` lets a physical blow run off MAG (the Druid's beast forms).
     var raw, offense, defense;
     if (opts.element === 'almighty') {
       raw = Math.max(opts.atkStat, opts.magStat) * opts.power * ALMIGHTY_FACTOR;
     } else {
       var physical = opts.element === 'phys';
-      offense = Math.max(0, (physical || opts.scaleStat === 'atk') ? opts.atkStat : opts.magStat);
+      offense = Math.max(0, opts.scaleStat === 'mag' ? opts.magStat : (physical || opts.scaleStat === 'atk') ? opts.atkStat : opts.magStat);
       defense = Math.max(0, physical ? opts.defStat : opts.resStat);
       raw = offense > 0 ? offense * opts.power * offense / (offense + defense) : 0;
     }
@@ -278,10 +318,29 @@
 
   // Gold dropped per defeated enemy, derived from its EXP reward so no extra
   // per-enemy data is needed.
-  // Diminishing above ~300 EXP per enemy: a flat 50% gave ~96,000 gold per run against roughly
-  // 20,000 worth of things to buy, so gold stopped mattering from floor 45 on.
+  // Diminishing above ~250 EXP per enemy. With /600 an immortal bot still earned ~85,000 gold per
+  // run and spent ~11,000 of it (nothing left to buy after floor 45); /250 roughly halves the late
+  // game; the 0.6 rate keeps floors 1-20 where they were (~100 EXP pays the same).
+  var GOLD_EXP_KNEE = 250;
   function goldForExp(exp) {
-    return Math.max(1, round(exp * 0.5 / (1 + exp / 600)));
+    return Math.max(1, round(exp * 0.6 / (1 + exp / GOLD_EXP_KNEE)));
+  }
+
+  // Gold from tower events (idol, gamble, coin purse...). Grows with the floor but much slower
+  // than it used to (220 + 30 x floor paid ~2,900 at floor 90). `scale` sets the event's size.
+  function eventGold(floor, scale) {
+    return Math.max(1, round((150 + (floor || 1) * 12) * (scale || 1)));
+  }
+
+  // Equipment enhancement (State.enhanceSlot): each slot can be forged +1..+ENHANCE_MAX. Every
+  // level adds ENHANCE_STEP of the equipped item's stats (at least +1 per stat). It stays with
+  // the slot when you swap gear, so it is the late-game gold sink -- the price grows with the square.
+  var ENHANCE_MAX = 10;
+  var ENHANCE_STEP = 0.05;
+  function enhanceCost(level) { return 100 * Math.pow(level + 1, 2); }
+  function enhanceStat(value, level) {
+    if (!level || !value) return value;
+    return value + Math.sign(value) * Math.ceil(Math.abs(value) * ENHANCE_STEP * level);
   }
 
   // Shop price for an item, based on its tier and kind -- unless the item defines
@@ -334,6 +393,7 @@
     tierForFloor: tierForFloor,
     itemTierForFloor: itemTierForFloor,
     enemyStatScale: enemyStatScale,
+    difficultyMult: difficultyMult,
     floorScale: floorScale,
     FLOOR_SCALE_ANCHORS: FLOOR_SCALE_ANCHORS,
     REGULAR_TUNING: REGULAR_TUNING,
@@ -356,8 +416,15 @@
     scaleStatsBlock: scaleStatsBlock,
     SPD_SCALE_SHARE: SPD_SCALE_SHARE,
     critChance: critChance,
+    PLAYER_DAMAGE_MULT: PLAYER_DAMAGE_MULT,
+    ALL_OUT_BASE: ALL_OUT_BASE,
     computeDamage: computeDamage,
     goldForExp: goldForExp,
+    eventGold: eventGold,
+    ENHANCE_MAX: ENHANCE_MAX,
+    ENHANCE_STEP: ENHANCE_STEP,
+    enhanceCost: enhanceCost,
+    enhanceStat: enhanceStat,
     shopPrice: shopPrice,
     sellPrice: sellPrice,
     FOCUS_MAX: FOCUS_MAX,
@@ -366,6 +433,12 @@
     OVERDRIVE_POWER: OVERDRIVE_POWER,
     BREAK_THRESHOLD: BREAK_THRESHOLD,
     BREAK_PER_HIT: BREAK_PER_HIT,
-    BREAK_DAMAGE_MULT: BREAK_DAMAGE_MULT
+    BREAK_PER_POWER: BREAK_PER_POWER,
+    BREAK_CRIT_MULT: BREAK_CRIT_MULT,
+    BREAK_WEAK_MULT: BREAK_WEAK_MULT,
+    BREAK_AOE_MULT: BREAK_AOE_MULT,
+    BREAK_DAMAGE_MULT: BREAK_DAMAGE_MULT,
+    breakMax: breakMax,
+    breakAmount: breakAmount
   };
 })();

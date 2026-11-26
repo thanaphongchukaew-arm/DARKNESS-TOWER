@@ -70,19 +70,32 @@
   }
 
   function renderCodex() {
+    var inHideout = !window.Game.State.current && window.Game.HideoutUI.preparation();
+    if (inHideout && codexMode === 'stories') codexMode = 'bestiary';
     document.getElementById('codex-header-title').textContent = T('codexScreenTitle');
     document.getElementById('codex-note').textContent = codexMode === 'stories' ? window.Game.Systems.text('การตัดสินใจและคำสัญญาในการเดินทางครั้งนี้', 'Choices and promises from this journey') : T(codexMode === 'bestiary' ? 'bestiaryNote' : 'achievementsNote');
     document.getElementById('codex-back').innerHTML = I('back');
-    document.getElementById('codex-back').onclick = function () { SFX('ui_back'); window.Game.TowerUI.renderTower(); window.Game.UI.showScreen('screen-tower'); };
+    document.getElementById('codex-back').onclick = function () {
+      SFX('ui_back');
+      if (inHideout) window.Game.HideoutUI.open();
+      else { window.Game.TowerUI.renderTower(); window.Game.UI.showScreen('screen-tower'); }
+    };
     document.getElementById('codex-tabs').innerHTML =
       '<button class="' + (codexMode === 'bestiary' ? 'btn-primary' : 'btn-secondary') + '" id="codex-tab-bestiary">' + T('bestiaryTabBtn') + '</button>' +
       '<button class="' + (codexMode === 'achievements' ? 'btn-primary' : 'btn-secondary') + '" id="codex-tab-achievements">' + T('achievementsTabBtn') + '</button>' +
-      '<button class="' + (codexMode === 'stories' ? 'btn-primary' : 'btn-secondary') + '" id="codex-tab-stories">' + window.Game.Systems.text('ผู้ร่วมทาง', 'Travelers') + '</button>';
+      (inHideout ? '' : '<button class="' + (codexMode === 'stories' ? 'btn-primary' : 'btn-secondary') + '" id="codex-tab-stories">' + window.Game.Systems.text('ผู้ร่วมทาง', 'Travelers') + '</button>');
     document.getElementById('codex-tab-bestiary').onclick = function () { SFX('ui_confirm'); codexMode = 'bestiary'; renderCodex(); };
     document.getElementById('codex-tab-achievements').onclick = function () { SFX('ui_confirm'); codexMode = 'achievements'; renderCodex(); };
-    document.getElementById('codex-tab-stories').onclick = function () { SFX('ui_confirm'); codexMode = 'stories'; renderCodex(); };
+    if (!inHideout) document.getElementById('codex-tab-stories').onclick = function () { SFX('ui_confirm'); codexMode = 'stories'; renderCodex(); };
     if (codexMode === 'stories') document.getElementById('codex-content').innerHTML = window.Game.StoryUI.journal();
     else if (codexMode === 'bestiary') renderBestiaryTab(); else renderAchievementsTab();
+  }
+
+  function openBestiary() {
+    codexMode = 'bestiary';
+    renderCodex();
+    window.Game.UI.showScreen('screen-codex');
+    window.scrollTo(0, 0);
   }
 
   function refreshActiveScreen() {
@@ -91,5 +104,5 @@
   }
 
   window.Game = window.Game || {};
-  window.Game.CodexUI = { renderCodex: renderCodex, refreshActiveScreen: refreshActiveScreen };
+  window.Game.CodexUI = { renderCodex: renderCodex, openBestiary: openBestiary, refreshActiveScreen: refreshActiveScreen };
 })();

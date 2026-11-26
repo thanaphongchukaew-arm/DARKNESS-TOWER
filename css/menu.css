@@ -564,3 +564,28 @@
   pointer-events: none;
   user-select: none;
 }
+
+/* ---- Attribute panel (STR/DEX/INT/END/LUK, see attributes.js) ---- */
+.attr-title { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+.attr-points { font-size: 0.78rem; letter-spacing: 0; text-transform: none; color: var(--text-muted); }
+.attr-points.has-points { color: var(--break-color); font-weight: 800; }
+.attr-row .stat-row-label { flex-wrap: wrap; row-gap: 0; }
+.attr-row .stat-row-label span { min-width: 2.6rem; font-weight: 700; color: var(--text-primary, inherit); }
+.attr-gives { font-size: 0.68rem; color: var(--text-muted); flex-basis: 100%; padding-left: 1.6rem; }
+.attr-row .stat-row-value { display: flex; align-items: center; gap: 0.35rem; white-space: nowrap; }
+.attr-free { font-size: 0.7rem; color: var(--break-color); font-weight: 600; }
+.attr-plus { min-width: 1.9rem; min-height: 1.9rem; padding: 0 0.4rem; font-weight: 800; line-height: 1; }
+.attr-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0.6rem 0 0.2rem; }
+.attr-actions:empty { display: none; }
+.attr-hint { margin: 0.3rem 0 0.9rem; font-size: 0.72rem; }
+#tower-status-btn.has-attr-points { box-shadow: 0 0 0 2px var(--break-color); animation: attr-points-pulse 1.4s ease-in-out infinite; }
+@keyframes attr-points-pulse { 50% { box-shadow: 0 0 0 2px var(--break-color), 0 0 14px var(--break-color); } }
+@media (prefers-reduced-motion: reduce) { #tower-status-btn.has-attr-points { animation: none; } }
+
+/* ---- Equipment enhancement (State.enhanceSlot) ---- */
+.enhance-level { color: var(--break-color); font-weight: 800; }
+.enhance-btn { margin-top: 0.4rem; padding: 0.2rem 0.6rem; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.3rem; }
+.enhance-btn svg, .enhance-btn img { width: 0.9rem; height: 0.9rem; }
+.enhance-max { display: inline-block; margin-top: 0.35rem; font-size: 0.72rem; color: var(--break-color); }
+.attr-plan { color: var(--break-color); font-weight: 800; }
+.attr-row.attr-planned .stat-row-label span { color: var(--break-color); }

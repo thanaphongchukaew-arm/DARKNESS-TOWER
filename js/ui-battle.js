@@ -58,6 +58,7 @@
       case 'riposte': return { text: ev.message, cls: 'log-crit' };
       case 'storySupport': return { text: window.Game.Systems.text('โอรินช่วยเปิดทาง! ', 'Orin clears the way! ') + ev.targetName + ' −' + ev.amount, cls: 'log-crit' };
       case 'combo': return { text: ev.message, cls: 'log-heal' };
+      case 'classMech': return { text: ev.message, cls: ev.tone === 'crit' ? 'log-crit' : ev.tone === 'weak' ? 'log-weak' : 'log-heal' };
       case 'affinity': return { text: ev.targetName + ' · ' + window.Game.Systems.text(ev.weak ? 'จุดอ่อน ×1.5' : 'ต้านทาน ×0.65', ev.weak ? 'WEAK ×1.5' : 'RESIST ×0.65'), cls: ev.weak ? 'log-crit' : '' };
       case 'ailment': return { text: ev.targetName + ' · ' + window.Game.Systems.text('ติดสถานะ ', 'Inflicted: ') + window.Game.Systems.text({ poison: 'พิษ', burn: 'ไหม้', silence: 'ใบ้' }[ev.id], ev.id), cls: 'log-weak' };
       case 'ailmentDamage': return { text: ev.targetName + ' · ' + ev.id + ' −' + ev.amount, cls: 'log-weak' };
@@ -122,6 +123,8 @@
 
   function updateEnemyBarByUid(uid, hp, maxHp) {
     if (!uid) return;
+    var hpText = document.getElementById('enemy-hptext-' + uid);
+    if (hpText) hpText.textContent = Math.max(0, hp) + '/' + maxHp;
     var enemy = findEnemyByUid(uid);
     if (enemy && enemy.phasesData && enemy.phasesData.length) {
       var pts = hpSegmentBreakpoints(enemy);
@@ -145,12 +148,28 @@
   // (each hit/companionHit/allOutHit event carries its own post-hit values, exactly
   // like hpAfter does) rather than reading live current state, so a multi-hit skill's
   // bar fills incrementally per hit instead of jumping to its final value early.
+  // Bar length per enemy (bosses and champions stagger slower -- see Formulas.breakMax).
+  function breakMaxFor(uid) {
+    return window.Game.Formulas.breakMax(findEnemyByUid(uid));
+  }
+  // The bar shows the enemy's remaining poise: full at the start, draining with every hit,
+  // empty when it is staggered.
+  function poisePct(breakMeter, max, broken) {
+    return broken ? 0 : Math.max(0, 100 - Math.min(100, Math.round(breakMeter / max * 100)));
+  }
+  function poiseLabel(meter, max, broken) {
+    var left = broken ? 0 : Math.max(0, max - meter);
+    return window.Game.Systems.text('ความมั่นคงเหลือ ', 'Poise left ') + left + '/' + max + window.Game.Systems.text(' (หมดแล้วล้ม)', ' (staggers at 0)');
+  }
   function refreshBreakBar(uid, breakMeter, broken) {
     if (!uid) return;
     var bar = document.getElementById('enemy-break-' + uid);
     if (bar) {
-      var pct = broken ? 100 : Math.min(100, Math.round(breakMeter / window.Game.Formulas.BREAK_THRESHOLD * 100));
-      bar.style.width = pct + '%';
+      var max = breakMaxFor(uid);
+      bar.style.width = poisePct(breakMeter, max, broken) + '%';
+      bar.closest('.break-row').dataset.tip = poiseLabel(breakMeter, max, broken);
+      bar.classList.toggle('full', !!broken);
+      if (bar.parentNode) bar.parentNode.classList.toggle('staggered', !!broken);
     }
     setEnemyCardState(uid, { broken: broken });
   }
@@ -170,11 +189,26 @@
     var ratio = ev.maxHp ? Math.max(0, ev.amount || 0) / ev.maxHp : 0;
     return { scale: Math.min(1.85, 1 + ratio * 2.4), color: tinted ? ELEMENT_COLORS[ev.element] : '' };
   }
+  // Small labels at the top right of a damage number: CRIT, WEAK ▲ (struck a weakness),
+  // RESIST ▼ (the target resisted the element).
+  function hitTags(ev) {
+    var tags = [];
+    if (ev.isCrit) tags.push({ cls: 'tag-crit', text: 'CRIT' });
+    if (ev.affinity === 'weak') tags.push({ cls: 'tag-weak', text: 'WEAK ▲' });
+    if (ev.affinity === 'resist') tags.push({ cls: 'tag-resist', text: 'RESIST ▼' });
+    return tags;
+  }
   function spawnFloatNumber(anchorEl, text, cls, opts) {
     if (!anchorEl) return;
     var num = document.createElement('div');
     num.className = 'dmg-number' + (cls ? ' ' + cls : '');
     num.textContent = text;
+    if (opts && opts.tags && opts.tags.length) {
+      var box = document.createElement('span');
+      box.className = 'dmg-tags';
+      opts.tags.forEach(function (t) { var s = document.createElement('span'); s.className = 'dmg-tag ' + t.cls; s.textContent = t.text; box.appendChild(s); });
+      num.appendChild(box);
+    }
     num.style.setProperty('--dx', (Math.random() * 28 - 14).toFixed(0) + 'px');
     if (opts && opts.scale > 1) num.style.setProperty('--dmg-s', opts.scale.toFixed(2));
     if (opts && opts.color) num.style.color = opts.color;
@@ -285,50 +319,15 @@
     setTimeout(function () { el.classList.remove(c); }, 450 / window.Game.SystemsUI.speed());
   }
 
-  // Toggling just the CSS class left the "Staggered!" text tag out of sync -- it's built
-  // into enemyCardHtml() but this function patches an existing card in place rather than
-  // re-rendering it, so the tag element itself has to be added/removed here too.
   function setEnemyCardState(uid, opts) {
     if (!uid) return;
     var card = document.getElementById('enemy-card-' + uid);
     if (!card) return;
-    if (opts.downed) {
-      card.classList.add('downed');
-      if (!card.querySelector('.enemy-downed-tag')) {
-        var tag = document.createElement('span');
-        tag.className = 'enemy-downed-tag';
-        tag.textContent = T('downedTag');
-        var portrait = card.querySelector('.enemy-portrait');
-        card.insertBefore(tag, portrait ? portrait.nextSibling : card.firstChild);
-      }
-    }
-    if (opts.downed === false) {
-      card.classList.remove('downed');
-      var existingTag = card.querySelector('.enemy-downed-tag');
-      if (existingTag) existingTag.remove();
-    }
-    if (opts.broken) {
-      card.classList.add('broken');
-      if (!card.querySelector('.enemy-broken-tag')) {
-        var brokenTag = document.createElement('span');
-        brokenTag.className = 'enemy-broken-tag';
-        brokenTag.textContent = T('brokenTag');
-        var brokenPortrait = card.querySelector('.enemy-portrait');
-        card.insertBefore(brokenTag, brokenPortrait ? brokenPortrait.nextSibling : card.firstChild);
-      }
-    }
-    if (opts.broken === false) {
-      card.classList.remove('broken');
-      var existingBrokenTag = card.querySelector('.enemy-broken-tag');
-      if (existingBrokenTag) existingBrokenTag.remove();
-    }
+    if (opts.downed != null) card.classList.toggle('downed', opts.downed);
+    if (opts.broken != null) card.classList.toggle('broken', opts.broken);
     if (opts.dead) {
       card.classList.add('dead');
       card.classList.remove('downed', 'broken', 'targetable', 'is-acting');
-      var deadTag = card.querySelector('.enemy-downed-tag');
-      if (deadTag) deadTag.remove();
-      var deadBrokenTag = card.querySelector('.enemy-broken-tag');
-      if (deadBrokenTag) deadBrokenTag.remove();
     }
   }
 
@@ -406,18 +405,18 @@
           var ePortrait = getEnemyPortraitEl(ev.targetUid);
           if (ev.hpAfter != null && ev.maxHp != null) updateEnemyBarByUid(ev.targetUid, ev.hpAfter, ev.maxHp);
           refreshBreakBar(ev.targetUid, ev.breakMeter, ev.broken);
+          var tagOpts = numberOpts(ev, !ev.isCrit && ev.affinity !== 'resist');
+          tagOpts.tags = hitTags(ev);
           if (ev.isCrit) {
             SFX('hit_crit');
-            showToast(T('toastCrit'), '');
-            setEnemyCardState(ev.targetUid, { downed: true });
             flashEl(ePortrait, 'hit-flash');
             flashEl(ePortrait, 'hit-shake');
-            spawnFloatNumber(ePortrait, ev.amount, 'dmg-crit', numberOpts(ev, false));
+            spawnFloatNumber(ePortrait, ev.amount, 'dmg-crit', tagOpts);
             shakeScreen(false);
           } else {
             SFX('attack');
             flashEl(ePortrait, 'hit-flash');
-            spawnFloatNumber(ePortrait, ev.amount, 'dmg-hp', numberOpts(ev, true));
+            spawnFloatNumber(ePortrait, ev.amount, ev.affinity === 'resist' ? 'dmg-hp dmg-resisted' : 'dmg-hp', tagOpts);
           }
         } else {
           window.Game.HeroArt.animate('hurt');
@@ -533,6 +532,9 @@
         spawnFloatNumber(cPortrait, ev.amount, ev.isCrit ? 'dmg-crit' : 'dmg-hp');
         break;
       }
+      case 'classMech':
+        if (ev.tone === 'crit') showToast(ev.message, '');
+        break;
       case 'companionHeal':
         SFX('heal');
         updatePlayerBarsDirect(ev.hpAfter, ev.maxHp);
@@ -640,21 +642,29 @@
     } else {
       hpBarHtml = '<div class="bar-row" style="width:100%"><div class="bar-track"><div class="bar-fill hp" id="enemy-hp-' + e.uid + '" style="width:' + hpPct + '%"></div></div></div>';
     }
-    var breakPct = e.broken ? 100 : Math.min(100, Math.round(e.breakMeter / window.Game.Formulas.BREAK_THRESHOLD * 100));
-    var breakBarHtml = e.alive ? '<div class="bar-row break-row"><div class="bar-track break-track"><div class="bar-fill break' + (e.broken ? ' full' : '') + '" id="enemy-break-' + e.uid + '" style="width:' + breakPct + '%"></div></div></div>' : '';
+    var breakMax = window.Game.Formulas.breakMax(e);
+    var breakPct = poisePct(e.breakMeter, breakMax, e.broken);
+    var breakBarHtml = '<div class="bar-row break-row" data-tip="' + poiseLabel(e.breakMeter, breakMax, e.broken) + '"><div class="bar-track break-track' + (e.broken ? ' staggered' : '') + '"><div class="bar-fill break' + (e.broken ? ' full' : '') + '" id="enemy-break-' + e.uid + '" style="width:' + breakPct + '%"></div></div></div>';
+    var role = window.Game.BattleArt.profile(e).role;
+    var roleLabel = window.Game.Systems.text({tank:'เกราะหนัก',caster:'เวทมนตร์',swift:'ว่องไว',striker:'โจมตี'}[role], {tank:'ARMORED',caster:'CASTER',swift:'SWIFT',striker:'STRIKER'}[role]);
+    var name = (e.elite ? 'ELITE · ' : '') + (e.champion ? T('championTag') + ' · ' : '') + e.name;
+    var phase = hasPhases ? '<span class="boss-phase-chip">' + T('phaseChip', { n: e.phase, max: e.phasesData.length + 1 }) + '</span>' : '';
     return '<div class="' + classes.join(' ') + '" id="enemy-card-' + e.uid + '" data-uid="' + e.uid + '">' +
-      '<div class="enemy-portrait">' + window.Game.BattleArt.ring(e) + window.Game.BattleArt.enemy(e) + window.Game.BattleArt.fx(e) + '</div><span class="enemy-role-label">' + window.Game.Systems.text({tank:'เกราะหนัก',caster:'เวทมนตร์',swift:'ว่องไว',striker:'โจมตี'}[window.Game.BattleArt.profile(e).role], {tank:'ARMORED',caster:'CASTER',swift:'SWIFT',striker:'STRIKER'}[window.Game.BattleArt.profile(e).role]) + '</span>' +
-      (e.downed && e.alive ? '<span class="enemy-downed-tag">' + T('downedTag') + '</span>' : '') +
-      (e.broken && e.alive ? '<span class="enemy-broken-tag">' + T('brokenTag') + '</span>' : '') +
-      '<div class="enemy-name">' + (e.elite ? 'ELITE · ' : '') + (e.champion ? T('championTag') + ' · ' : '') + e.name + (hasPhases ? '<span class="boss-phase-chip">' + T('phaseChip', { n: e.phase, max: e.phasesData.length + 1 }) + '</span>' : '') + '</div>' +
-      hpBarHtml +
-      breakBarHtml + window.Game.Systems.affinities(window.Game.Data.getEnemyTemplate(e.templateId), false, e) + window.Game.SystemsUI.ailments(e.ailments) + window.Game.BattleFX.modifiers(e.debuffs) +
-    '</div>';
+      '<div class="enemy-portrait">' + window.Game.BattleArt.ring(e) + window.Game.BattleArt.enemy(e) + window.Game.BattleArt.fx(e) + '</div>' +
+      '<div class="enemy-hud">' +
+        '<div class="enemy-meta"><span class="enemy-role-label">' + roleLabel + '</span>' + phase +
+        '<span class="enemy-downed-tag">' + T('downedTag') + '</span><span class="enemy-broken-tag">' + T('brokenTag') + '</span></div>' +
+        '<div class="enemy-name-slot"><div class="enemy-name">' + name + '</div></div>' +
+        '<div class="enemy-health">' + hpBarHtml + '<div class="enemy-hp-text" id="enemy-hptext-' + e.uid + '">' + Math.max(0, e.hp) + '/' + e.maxHp + '</div></div>' +
+        breakBarHtml + window.Game.Systems.affinities(window.Game.Data.getEnemyTemplate(e.templateId), false, e) +
+        '<div class="enemy-effects">' + window.Game.SystemsUI.ailments(e.ailments) + window.Game.BattleFX.modifiers(e.debuffs) + '</div>' +
+      '</div></div>';
   }
 
   function renderEnemies(battle) {
     var el = document.getElementById('battle-enemies');
     el.innerHTML = battle.enemies.map(enemyCardHtml).join('');
+    el.querySelectorAll('.enemy-name').forEach(function (name) { name.title = name.textContent; });
     if (targetPickCallback) {
       Array.prototype.forEach.call(el.querySelectorAll('.enemy-card.targetable'), function (card) {
         card.setAttribute('role', 'button'); card.tabIndex = 0; card.setAttribute('aria-label', window.Game.Systems.text('เลือกเป้าหมาย ', 'Target ') + card.querySelector('.enemy-name').textContent);
@@ -767,6 +777,17 @@
     return c;
   }
 
+  // Signature mechanic readout (class-mech.js): bullets, stance, corpses/skeletons, form.
+  function classGaugeHtml(battle) {
+    var g = window.Game.ClassMech.gauge(battle);
+    if (!g) return '';
+    var info = window.Game.ClassMech.info(battle.run.classId);
+    var pips = '';
+    if (g.pips) { pips = '<span class="mech-pips" aria-hidden="true">'; for (var i = 0; i < g.pips.max; i++) pips += '<span class="mech-pip' + (i < g.pips.filled ? ' filled' : '') + '"></span>'; pips += '</span>'; }
+    return '<div class="class-mech-row' + (g.active ? ' is-active' : '') + '" title="' + String(L(info, 'desc')).replace(/"/g, '&quot;') + '">' + I(g.icon) +
+      '<span class="mech-label">' + g.label + '</span>' + pips + '<span class="mech-value">' + g.value + '</span></div>';
+  }
+
   function renderPlayerPanel(battle) {
     var statusHost = document.getElementById('player-ailments');
     if (!statusHost) { statusHost = document.createElement('div'); statusHost.id = 'player-ailments'; document.getElementById('battle-actions').before(statusHost); }
@@ -785,6 +806,7 @@
         '<div class="bar-row">' + I('heart') + '<div class="bar-track"><div class="bar-fill hp" id="player-hp-bar" style="width:' + hpPct + '%"></div></div><span id="player-hp-text">' + run.hp + '/' + battle.player.maxHp + '</span></div>' +
         '<div class="bar-row">' + I('drop') + '<div class="bar-track"><div class="bar-fill mp" id="player-mp-bar" style="width:' + mpPct + '%"></div></div><span id="player-mp-text">' + run.mp + '/' + battle.player.maxMp + '</span></div>' +
         '<div class="bar-row">' + I('star') + '<div class="bar-track"><div class="bar-fill focus' + (focusPct >= 100 ? ' full' : '') + '" id="player-focus-bar" style="width:' + focusPct + '%"></div></div></div>' +
+        classGaugeHtml(battle) +
         blessingBadgesHtml(run) + window.Game.WorkshopUI.battleBadges(run,battle) +
       '</div>';
   }
@@ -834,23 +856,60 @@
     document.querySelectorAll('#battle-actions button').forEach(function (button) { button.classList.remove('is-selected'); button.setAttribute('aria-expanded', 'false'); });
   }
 
+  // "4 MP", "12 HP", "2 bullets" lines for the skill menu (a cost-free command reads "Free").
+  function costLabel(cost) {
+    var parts = [];
+    if (cost.mp > 0) parts.push(cost.mp + ' MP');
+    if (cost.hp > 0) parts.push(cost.hp + ' HP');
+    if (cost.ammo > 0) parts.push(cost.ammo + window.Game.Systems.text(' นัด', cost.ammo > 1 ? ' bullets' : ' bullet'));
+    if (cost.res && cost.res.amount > 0) parts.push(cost.res.amount + ' ' + window.Game.Systems.text(cost.res.th, cost.res.en));
+    return parts.length ? parts.join('<br>') : T('freeLabel');
+  }
+
+  // New skills, rank-ups and the next unlock after a level-up (see State.levelUpNews).
+  function logLevelUpNews(lvlRes) {
+    var run = window.Game.State.current;
+    if (!run || lvlRes.from == null) return;
+    var news = window.Game.State.levelUpNews(run, lvlRes.from);
+    news.learned.forEach(function (sk) { logLine(T('logNewSkill', { name: L(sk, 'name') }), 'log-crit'); });
+    news.ranked.forEach(function (r) { logLine(T('logSkillRank', { name: L(r.skill, 'name'), rank: RANK_NAMES[r.rank] }), 'log-heal'); });
+    if (news.learned.length && news.next) logLine(T('logNextSkill', { name: L(news.next, 'name'), level: news.next.minLevel }), '');
+    if (news.learned.length) showToast(T('logNewSkill', { name: L(news.learned[0], 'name') }), '');
+  }
+  // Unassigned attribute points: a log line now, and a toast once the level-up fanfare has played.
+  function remindAttrPoints() {
+    var left = window.Game.Attributes.unspent(window.Game.State.current);
+    if (!left) return;
+    logLine(T('logAttrPoints', { n: left }), 'log-heal');
+    battleLater(function () { showToast(T('toastAttrPoints', { n: left }), ''); }, 1600 / window.Game.SystemsUI.speed());
+  }
+  var RANK_NAMES = ['', 'I', 'II', 'III'];
+  function rankTag(skill, level) {
+    var D = window.Game.Data, r = D.skillRank(skill, level);
+    if (!r) return '';
+    var next = D.nextRankLevel(skill, level);
+    var tip = window.Game.Systems.text('แรงค์ ' + RANK_NAMES[r] + ' (พลัง x' + D.RANK_MULT[r - 1] + ')' + (next ? ' · แรงค์ถัดไปที่ Lv ' + next : ' · แรงค์สูงสุด'), 'Rank ' + RANK_NAMES[r] + ' (power x' + D.RANK_MULT[r - 1] + ')' + (next ? ' · next rank at Lv ' + next : ' · max rank'));
+    return ' <span class="rank-tag rank-' + r + '" data-tip="' + tip + '">' + RANK_NAMES[r] + '</span>';
+  }
+
   function openSkillMenu() {
     closeSubmenu();
     var command = document.getElementById('act-skill'); command.classList.add('is-selected'); command.setAttribute('aria-expanded', 'true');
     var battle = currentBattle;
     window.Game.Micro.ensure(battle.run);
     var favorites = window.Game.Systems.ensure(battle.run).favoriteSkills;
-    var skills = battle.player.skills.filter(function (s) { return s.id !== 'attack'; }).sort(function (a, b) { return Number(favorites.indexOf(b.id) !== -1) - Number(favorites.indexOf(a.id) !== -1); });
+    // Class commands first, then pinned favourites.
+    var skills = battle.player.skills.filter(function (s) { return s.id !== 'attack'; }).sort(function (a, b) { return Number(b.kind === 'mech') - Number(a.kind === 'mech') || Number(favorites.indexOf(b.id) !== -1) - Number(favorites.indexOf(a.id) !== -1); });
     var root = document.getElementById('battle-submenu');
     var itemsHtml = skills.length ? skills.map(function (s) {
-      var hpCostAmt = s.hpCost ? Math.round(battle.player.maxHp * s.hpCost) : 0;
-      var silenced = s.element !== 'phys' && battle.run.ailments.some(function (a) { return a.id === 'silence'; });
-      var reason = silenced ? window.Game.Systems.text('ติดสถานะใบ้', 'Silenced') : battle.run.mp < s.cost ? window.Game.Systems.text('MP ไม่พอ', 'Not enough MP') : hpCostAmt > 0 && battle.run.hp <= hpCostAmt ? window.Game.Systems.text('HP ไม่พอ', 'Not enough HP') : s.kind === 'heal' && battle.run.hp >= battle.player.maxHp ? window.Game.Systems.text('HP เต็มแล้ว', 'HP is full') : '';
+      // Cost and availability come from the engine, so the menu can never disagree with what a cast does.
+      var cost = window.Game.BattleEngine.skillCost(battle, s);
+      var reason = window.Game.BattleEngine.skillBlockReason(battle, s) || '';
       var disabled = !!reason;
       return '<div class="skill-row"><button type="button" class="skill-favorite" data-favorite="' + s.id + '" aria-pressed="' + (favorites.indexOf(s.id) !== -1) + '" aria-label="' + window.Game.Systems.text('ปักหมุดทักษะ', 'Pin skill') + '">' + (favorites.indexOf(s.id) !== -1 ? '★' : '☆') + '</button><button class="submenu-option" ' + (disabled ? 'disabled' : '') + ' data-id="' + s.id + '">' +
         '<div class="submenu-option-icon">' + I(s.icon) + '</div>' +
-        '<div class="submenu-option-info"><div class="submenu-option-name">' + L(s, 'name') + (window.Game.Micro.seen(battle.run,'skills',s.id)?'':window.Game.Micro.badge()) + ' <span class="el-tag el-' + s.element + '">' + EN(s.element) + '</span></div><div class="submenu-option-desc">' + L(s, 'desc') + '</div>' + (reason ? '<small class="action-unavailable">' + reason + '</small>' : '') + '</div>' +
-        '<div class="submenu-option-cost">' + (s.cost > 0 ? s.cost + ' MP' : hpCostAmt > 0 ? '' : T('freeLabel')) + (hpCostAmt > 0 ? (s.cost > 0 ? '<br>' : '') + hpCostAmt + ' HP' : '') + '</div>' +
+        '<div class="submenu-option-info"><div class="submenu-option-name">' + L(s, 'name') + rankTag(s, battle.run.level) + (window.Game.Micro.seen(battle.run,'skills',s.id)?'':window.Game.Micro.badge()) + ' <span class="el-tag el-' + s.element + '">' + EN(s.element) + '</span></div><div class="submenu-option-desc">' + L(s, 'desc') + '</div>' + (reason ? '<small class="action-unavailable">' + reason + '</small>' : '') + '</div>' +
+        '<div class="submenu-option-cost">' + costLabel(cost) + '</div>' +
       '</button></div>';
     }).join('') : '<p class="empty-note">' + T('noMoreSkills') + '</p>';
     root.innerHTML = '<div class="submenu-header"><h3>' + T('selectSkillTitle') + '</h3><button class="btn-icon" id="submenu-close">' + I('close') + '</button></div>' +
@@ -1077,6 +1136,7 @@
     var run = window.Game.State.current;
     window.Game.State.clearBattleMark(run);
     window.Game.Workshop.recordClear(run,battle,currentIsReplay);
+    if (!currentIsReplay) window.Game.Mastery.recordClear(run, battle.floor);
     // Replaying an already-cleared floor still pays out EXP/gold/materials,
     // just at 40% of a first clear's rate, and Nightmare's own rewardMult
     // (Formulas.DIFFICULTY.nightmare) always applies on top.
@@ -1122,7 +1182,7 @@
       if (bondResult.leveled) battleLater(function () { window.Game.BondUI.showLevelUp(bondResult); }, 900 / window.Game.SystemsUI.speed());
     }
     if (lvlRes.leveledUp) {
-      logLine(T('logLevelUp', { level: lvlRes.level }), 'log-crit');
+      logLine(T('logLevelUp', { level: lvlRes.level }), 'log-crit'); logLevelUpNews(lvlRes); remindAttrPoints();
       battleLater(function () { SFX('level_up'); heroLevelUpFx(); }, 450 / window.Game.SystemsUI.speed());
     }
     if (currentIsReplay) {
@@ -1305,10 +1365,10 @@
     var screen = document.getElementById('screen-battle');
     if (window.ResizeObserver) {
       var ro = new ResizeObserver(queueHeroFit);
-      ro.observe(screen.querySelector('.battle-lower')); ro.observe(document.getElementById('battle-enemies')); ro.observe(screen.querySelector('.battle-topbar'));
+      ro.observe(screen.querySelector('.battle-lower')); ro.observe(screen); ro.observe(screen.querySelector('.battle-topbar'));
     }
     if (window.MutationObserver) {
-      new MutationObserver(queueHeroFit).observe(document.getElementById('battle-enemies'), { childList: true, subtree: true });
+      new MutationObserver(queueHeroFit).observe(document.getElementById('battle-enemies'), { childList: true });
       new MutationObserver(queueHeroFit).observe(screen, { attributes: true, attributeFilter: ['class'] });
     }
     document.addEventListener('toggle', queueHeroFit, true);
@@ -1466,7 +1526,7 @@
         logLine(T('logMaterialGained', { name: L(mat, 'name'), qty: d.qty }), 'log-heal');
       });
       if (lvlRes.leveledUp) {
-        logLine(T('logLevelUp', { level: lvlRes.level }), 'log-crit');
+        logLine(T('logLevelUp', { level: lvlRes.level }), 'log-crit'); logLevelUpNews(lvlRes); remindAttrPoints();
         battleLater(function () { SFX('level_up'); heroLevelUpFx(); }, 450 / window.Game.SystemsUI.speed());
       }
       survivalSession.wavesCleared += 1;

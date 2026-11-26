@@ -129,7 +129,7 @@ button.floor-fold:hover { background: rgba(72, 160, 88, 0.2); }
 .difficulty-card.selected, .difficulty-card:hover { border-color: var(--accent-gold); }
 
 /* ---- 7. Boss health: one wide bar, one section per phase, big name ---- */
-#screen-battle .enemy-card.boss { min-width: min(420px, 94%); gap: 0.45rem; }
+#screen-battle .enemy-card.boss { min-width: min(420px, 94%); }
 .enemy-card.boss .enemy-name {
   font-size: 1.1rem;
   color: var(--accent-gold);
@@ -137,8 +137,6 @@ button.floor-fold:hover { background: rgba(72, 160, 88, 0.2); }
   text-shadow: 0 2px 0 rgba(0, 0, 0, 0.7);
   position: relative;
   z-index: 2;
-  margin-top: 0.7rem;
-  padding: 0.1rem 0.7rem;
   background: rgba(6, 7, 15, 0.7);
 }
 .boss-phase-chip {
@@ -162,7 +160,7 @@ button.floor-fold:hover { background: rgba(72, 160, 88, 0.2); }
   height: 1.05rem;
   border-color: rgba(232, 192, 80, 0.55);
 }
-.enemy-card.boss .break-track { height: 0.4rem; }
+.enemy-card.boss .break-track { height: 0.55rem; }
 
 /* ---- Phones ---- */
 .is-mobile .tower-header-right.tower-nav { gap: 0.35rem; }
@@ -202,10 +200,8 @@ body, button, input, select { font-variant-ligatures: none; font-feature-setting
 .battle-backdrop .tower-wall { background-size: 96px 48px; }
 .battle-backdrop .tower-floor { opacity: .65; }
 .battle-boss-throne .battle-boss-silhouette { opacity: .12; }
-#screen-battle .enemy-card.boss { gap: .55rem; }
 #screen-battle .enemy-card.boss .enemy-portrait { width: 196px; height: 200px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 #screen-battle .enemy-card.boss .enemy-portrait .icon { width: 168px; height: 180px; flex-shrink: 0; }
-#screen-battle .enemy-card.boss .enemy-name { margin-top: .3rem; line-height: 1.6; max-width: 100%; overflow-wrap: anywhere; }
 
 /* Commands: focus, choice, availability and costs remain visibly distinct. */
 #battle-actions button { min-height: 64px; border-width: 2px; transition: background .15s, border-color .15s; }
@@ -541,9 +537,6 @@ body, button, input, select { font-variant-ligatures: none; font-feature-setting
   .is-mobile #screen-battle #battle-home { width: 2.8rem; height: 2.8rem; }
   .is-mobile #screen-battle #battle-home .icon, .is-mobile #screen-battle #battle-home svg, .is-mobile #screen-battle #battle-home img { width: 1.9rem; height: 1.9rem; font-size: 1.9rem; }
   .is-mobile #screen-battle #battle-actions button { min-height: 2.6rem; height: 2.6rem; }
-  .is-mobile #screen-battle .ailment-row:empty, .is-mobile #screen-battle .combat-modifiers:empty { display: none; }
-  .is-mobile #screen-battle .enemy-card .affinity-row, .is-mobile #screen-battle .enemy-card .ailment-row, .is-mobile #screen-battle .enemy-card .combat-modifiers { margin-top: 2px; }
-  .is-mobile #screen-battle .enemy-card:not(.boss) .enemy-portrait, .is-mobile #screen-battle .enemy-card:not(.boss) .enemy-portrait > .enemy-art { width: 72px; height: 62px; }
 }
 
 /* ---- Mini-games (js/minigame.js) ---- */

@@ -54,6 +54,8 @@
   bind(skillFamilies, 'puppet', 'marionette_strike|severed_strings|puppet_shackles|dance_of_marionettes|final_curtain_call|demon_marionette');
   bind(skillFamilies, 'temporal', 'haste_field|temporal_lock|accelerated_moment|end_of_days|temporal_fracture|crushing_timeline|temporal_step');
   bind(skillFamilies, 'wave', 'saltwater_curse|maelstrom_focus');
+  // Class commands and form moves (class-mech.js, class-mech-classes.js) name their family on the skill.
+  (window.Game.Data.skills || []).forEach(function (sk) { if (sk.vfxFamily) bind(skillFamilies, sk.vfxFamily, sk.id); });
 
   bind(enemyFamilies, 'bite', "Rending Bite|Frost Fang|Blood Drain Bite|Venom Bite|Venom Fang|Hellfire Bite|Iron Jaw Crush|Crystal Fang Bite|Voltaic Bite|Bone Fang Strike|Mandible Crush|Molten Fang Bite|Heat-Draining Bite|Voltaic Fang|Rootfang Bite|Nightfall Bite|Deep Freeze Bite|Void-Devouring Bite|Chimeric Flame Fang|Flux-Warped Bite|Time-Eroding Bite|Queen's Blood Drain|Frozen Bite|Abyssal Maw Crush");
   bind(enemyFamilies, 'claw', 'Claw Swipe|Swooping Claw|Sharp Leg Strike|Lightning Peck|Talon Storm|Talon Rend|Blazing Claw|Primeval Claw|Diving Talon|Gale Talon Dive|Rapid Peck|Frostbite Talon|Chaotic Claw Rend|Alpha Talon|Obsidian Claw|Abyssal Frost Claw');

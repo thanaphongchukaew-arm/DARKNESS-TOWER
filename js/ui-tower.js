@@ -11,6 +11,84 @@
     return '<div class="stat-row"><div class="stat-row-label">' + I(icon) + '<span>' + label + '</span></div><div class="stat-row-value">' + value + '</div></div>';
   }
 
+  // Attribute panel (STR/DEX/INT/END/LUK, see attributes.js): totals and what each point gives.
+  // + / − only plan points (attrPending, never saved); nothing is spent until Confirm, and spent
+  // points are permanent (there is no reset). Auto plans the class's way, then waits for Confirm.
+  var ATTR_INFO = {
+    str: { icon: 'swordAttack', th: '+1 ATK, +0.15 DEF', en: '+1 ATK, +0.15 DEF' },
+    dex: { icon: 'wind', th: '+0.5 SPD, +0.3 ATK, +คริ', en: '+0.5 SPD, +0.3 ATK, +crit' },
+    int: { icon: 'magicBurst', th: '+1 MAG, +1.2 MP, +0.3 RES', en: '+1 MAG, +1.2 MP, +0.3 RES' },
+    end: { icon: 'heart', th: '+1.8 HP, +0.2 DEF, +0.15 RES', en: '+1.8 HP, +0.2 DEF, +0.15 RES' },
+    lck: { icon: 'star', th: '+คริติคอล, +0.1 SPD', en: '+crit chance, +0.1 SPD' }
+  };
+  var attrPending = null;   // { run, plan: { str: n, ... } } -- planned, not yet spent
+  function pendingPlan(run) {
+    if (!attrPending || attrPending.run !== run) attrPending = { run: run, plan: { str: 0, dex: 0, int: 0, end: 0, lck: 0 } };
+    return attrPending.plan;
+  }
+  function pendingTotal(run) { var p = pendingPlan(run), n = 0; Object.keys(p).forEach(function (k) { n += p[k]; }); return n; }
+  // A copy of the run with the planned points applied, for the stat preview.
+  function previewRun(run) {
+    var p = pendingPlan(run), attr = {};
+    Object.keys(window.Game.Attributes.ensure(run)).forEach(function (k) { attr[k] = run.attr[k] + (p[k] || 0); });
+    return Object.assign({}, run, { attr: attr });
+  }
+  function attrPanelHtml(run) {
+    var A = window.Game.Attributes, X = window.Game.Systems, S = window.Game.State;
+    var totals = S.getAttributes(run), free = A.ensure(run), plan = pendingPlan(run), planned = pendingTotal(run);
+    var left = A.unspent(run) - planned;
+    var rows = A.KEYS.map(function (k) {
+      var info = ATTR_INFO[k];
+      return '<div class="stat-row attr-row' + (plan[k] ? ' attr-planned' : '') + '" data-tip="' + X.text(info.th, info.en) + '">' +
+        '<div class="stat-row-label">' + I(info.icon) + '<span>' + A.LABEL[k] + '</span><small class="attr-gives">' + X.text(info.th, info.en) + '</small></div>' +
+        '<div class="stat-row-value">' +
+          (plan[k] ? ' <button class="btn-secondary attr-plus" data-attr-minus="' + k + '" aria-label="−1 ' + A.LABEL[k] + '">−</button>' : '') +
+          totals[k] + (plan[k] ? ' <b class="attr-plan">+' + plan[k] + '</b>' : '') + (free[k] ? ' <small class="attr-free">(+' + free[k] + ')</small>' : '') +
+          (left > 0 ? ' <button class="btn-secondary attr-plus" data-attr-plus="' + k + '" aria-label="+1 ' + A.LABEL[k] + '">+</button>' : '') +
+        '</div></div>';
+    }).join('');
+    return '<div class="status-panel-title attr-title">' + X.text('ค่าพลัง', 'Attributes') +
+      '<span class="attr-points' + (left > 0 ? ' has-points' : '') + '">' + X.text('แต้มคงเหลือ ', 'Points left ') + left + '</span></div>' +
+      rows +
+      '<div class="attr-actions">' +
+        (planned ? '<button class="btn-primary" id="attr-confirm-btn">' + X.text('ยืนยันลงแต้ม (' + planned + ')', 'Confirm (' + planned + ')') + '</button>' +
+          '<button class="btn-secondary" id="attr-cancel-btn">' + X.text('ยกเลิก', 'Cancel') + '</button>' : '') +
+        (left > 0 ? '<button class="btn-secondary" id="attr-auto-btn">' + X.text('วางแผนอัตโนมัติ', 'Plan automatically') + '</button>' : '') +
+      '</div>' +
+      '<p class="reward-sub attr-hint">' + (planned ? X.text('ลงแต้มแล้วเปลี่ยนคืนไม่ได้ ตรวจค่าต่อสู้ด้านล่างก่อนยืนยัน', 'Spent points are permanent. Check the combat stats below before you confirm.') :
+        X.text('เลเวลอัปได้ ' + A.FREE_PER_LEVEL + ' แต้มให้ลงเอง (คลาสลงให้อีก ' + A.AUTO_PER_LEVEL + ' แต้ม)', 'Each level gives ' + A.FREE_PER_LEVEL + ' points to assign (your class adds ' + A.AUTO_PER_LEVEL + ' more itself)')) + '</p>';
+  }
+  function bindAttrPanel(run) {
+    var S = window.Game.State, A = window.Game.Attributes, plan = pendingPlan(run);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-attr-plus]'), function (btn) {
+      btn.onclick = function () {
+        if (A.unspent(run) - pendingTotal(run) <= 0) return;
+        SFX('ui_confirm'); plan[btn.getAttribute('data-attr-plus')] += 1; renderStatus();
+      };
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-attr-minus]'), function (btn) {
+      btn.onclick = function () { var k = btn.getAttribute('data-attr-minus'); if (plan[k] > 0) { SFX('ui_back'); plan[k] -= 1; renderStatus(); } };
+    });
+    var auto = document.getElementById('attr-auto-btn');
+    if (auto) auto.onclick = function () {
+      // Plan the remaining points the class's way on a copy; nothing is spent until Confirm.
+      SFX('ui_confirm');
+      var copy = previewRun(run);
+      A.autoAllocate(copy);
+      A.KEYS.forEach(function (k) { plan[k] = copy.attr[k] - run.attr[k]; });
+      renderStatus();
+    };
+    var confirm = document.getElementById('attr-confirm-btn');
+    if (confirm) confirm.onclick = function () {
+      SFX('item_get');
+      A.KEYS.forEach(function (k) { if (plan[k] > 0) S.spendAttribute(run, k, plan[k]); });
+      attrPending = null;
+      S.saveNow(); renderStatus();
+    };
+    var cancel = document.getElementById('attr-cancel-btn');
+    if (cancel) cancel.onclick = function () { SFX('ui_back'); attrPending = null; renderStatus(); };
+  }
+
   // Slots available for each equippable item kind, in fill order. Accessory
   // has two slots since the player can carry two accessories at once.
   var SLOTS_FOR_KIND = { weapon: ['weapon'], armor: ['armor'], shoes: ['shoes'], accessory: ['accessory1', 'accessory2'] };
@@ -701,8 +779,52 @@
   // Floor a checkpoint was just taken on; announced by the next renderTower.
   var checkpointNotice = null;
 
+  function isBossFloor(floor) {
+    return floor === 100 || !!window.Game.Data.getMiniBoss(floor);
+  }
+
+  // Miniboss/final-boss floors are a one-way commitment (no waypoint pause
+  // to back out at once it's already been seen, and floor 100 never has one
+  // at all) -- ask first so a stray click doesn't throw the player in
+  // unprepared, with the option to back out and hit the shop/craft first.
+  function startBattleMaybeConfirm(floor, isReplay) {
+    var D = window.Game.Data;
+    if (!isBossFloor(floor)) {
+      window.Game.BattleUI.startBattle(floor, floor === 100, isReplay);
+      return;
+    }
+    var bossTemplate = floor === 100 ? D.boss : D.getMiniBoss(floor);
+    window.Game.MenuUI.confirmModal({
+      title: T('confirmBossTitle'),
+      message: T('confirmBossMsg', { name: L(bossTemplate, 'name') }),
+      confirmLabel: T('confirmBossFightBtn'),
+      cancelLabel: T('confirmBossPrepareBtn'),
+      onConfirm: function () { window.Game.BattleUI.startBattle(floor, floor === 100, isReplay); }
+    });
+  }
+
+  // Shared by the current-floor row and the jump button below: enters that
+  // floor's waypoint (if it has one still unseen) or straight into battle.
+  function enterFloor(floor) {
+    var run = window.Game.State.current;
+    SFX('floor_select');
+    var waypointType = getWaypointForFloor(floor);
+    run.waypointsSeen = run.waypointsSeen || {};
+    if (waypointType && !run.waypointsSeen[floor]) {
+      renderWaypoint(waypointType, floor);
+      window.Game.UI.showScreen('screen-waypoint');
+      return;
+    }
+    window.Game.SystemsUI.talentPrompt(function () {
+      window.Game.SystemsUI.routePrompt(floor, function () {
+        maybeTriggerEvent(floor, function () { startBattleMaybeConfirm(floor, false); });
+      });
+    });
+  }
+
   function renderTower() {
     var run = window.Game.State.current;
+    attrPending = null;   // an unconfirmed attribute plan is dropped when you leave Status
     if (checkpointNotice != null) {
       window.Game.UI.notice(T('checkpointSaved', { floor: checkpointNotice }));
       if (window.Game.Tips) window.Game.Tips.show('tipCheckpoint');
@@ -729,7 +851,9 @@
         '<div class="bar-row">' + I('drop') + '<div class="bar-track"><div class="bar-fill mp" style="width:' + mpPct + '%"></div></div><span>' + run.mp + '/' + maxMp + '</span></div>' +
       '</div>';
 
-    document.getElementById('tower-status-btn').textContent = T('statusEquip');
+    var attrLeft = window.Game.Attributes.unspent(run);
+    document.getElementById('tower-status-btn').textContent = T('statusEquip') + (attrLeft ? ' (+' + attrLeft + ')' : '');
+    document.getElementById('tower-status-btn').classList.toggle('has-attr-points', attrLeft > 0);
     document.getElementById('tower-status-btn').onclick = function () {
       SFX('ui_confirm');
       renderStatus();
@@ -783,47 +907,6 @@
       window.Game.UI.showScreen('screen-menu');
     };
     document.getElementById('tower-title').textContent = T('towerTitle');
-
-    function isBossFloor(floor) {
-      return floor === 100 || !!D.getMiniBoss(floor);
-    }
-
-    // Miniboss/final-boss floors are a one-way commitment (no waypoint pause
-    // to back out at once it's already been seen, and floor 100 never has one
-    // at all) -- ask first so a stray click doesn't throw the player in
-    // unprepared, with the option to back out and hit the shop/craft first.
-    function startBattleMaybeConfirm(floor, isReplay) {
-      if (!isBossFloor(floor)) {
-        window.Game.BattleUI.startBattle(floor, floor === 100, isReplay);
-        return;
-      }
-      var bossTemplate = floor === 100 ? D.boss : D.getMiniBoss(floor);
-      window.Game.MenuUI.confirmModal({
-        title: T('confirmBossTitle'),
-        message: T('confirmBossMsg', { name: L(bossTemplate, 'name') }),
-        confirmLabel: T('confirmBossFightBtn'),
-        cancelLabel: T('confirmBossPrepareBtn'),
-        onConfirm: function () { window.Game.BattleUI.startBattle(floor, floor === 100, isReplay); }
-      });
-    }
-
-    // Shared by the current-floor row and the jump button below: enters that
-    // floor's waypoint (if it has one still unseen) or straight into battle.
-    function enterFloor(floor) {
-      SFX('floor_select');
-      var waypointType = getWaypointForFloor(floor);
-      run.waypointsSeen = run.waypointsSeen || {};
-      if (waypointType && !run.waypointsSeen[floor]) {
-        renderWaypoint(waypointType, floor);
-        window.Game.UI.showScreen('screen-waypoint');
-        return;
-      }
-      window.Game.SystemsUI.talentPrompt(function () {
-        window.Game.SystemsUI.routePrompt(floor, function () {
-          maybeTriggerEvent(floor, function () { startBattleMaybeConfirm(floor, false); });
-        });
-      });
-    }
 
     var jumpBtn = document.getElementById('tower-jump-current');
     jumpBtn.innerHTML = I('enterFloor') + '<span>' + T('towerJumpCurrent') + '</span>';
@@ -1598,6 +1681,9 @@
     var S = window.Game.State, D = window.Game.Data;
     var total = S.getTotalStats(run);
     var maxHp = total.hp, maxMp = total.mp;
+    // While attribute points are only planned, show what Confirm would change.
+    var preview = pendingTotal(run) ? S.getTotalStats(previewRun(run)) : null;
+    function pv(key, text) { return preview && preview[key] !== total[key] ? text + ' <b class="attr-plan">→ ' + preview[key] + '</b>' : text; }
 
     document.getElementById('status-header-title').textContent = T('statusScreenTitle');
 
@@ -1617,14 +1703,17 @@
       '<div class="hero-build-preview">' + window.Game.HeroArt.render(run) + '<div class="hero-preview-actions"><button class="btn-secondary" data-hero-motion="attack">' + window.Game.Systems.text('ลองโจมตี', 'Attack pose') + '</button><button class="btn-secondary" data-hero-motion="guard">' + window.Game.Systems.text('ลองตั้งรับ', 'Guard pose') + '</button></div></div>' +
       '<div class="status-panel-title">' + T('statusPanelTitle') + '</div>' +
       (equippedTitle ? '<p class="reward-sub" style="margin:0 0 .6rem">' + L(equippedTitle, 'title') + '</p>' : '') +
-      statRow('heart', 'HP', run.hp + '/' + maxHp) +
-      statRow('drop', 'MP', run.mp + '/' + maxMp) +
-      statRow('swordAttack', 'ATK', total.atk) +
-      statRow('magicBurst', 'MAG', total.mag) +
-      statRow('shieldGuard', 'DEF', total.def) +
-      statRow('sparkles', 'RES', total.res) +
-      statRow('wind', 'SPD', total.spd) +
-      statRow('star', 'LUK', total.luk) +
+      attrPanelHtml(run) +
+      '<div class="status-panel-title">' + window.Game.Systems.text('ค่าต่อสู้', 'Combat stats') + '</div>' +
+      statRow('coin', T('goldLabel'), run.gold) +
+      statRow('heart', 'HP', pv('hp', run.hp + '/' + maxHp)) +
+      statRow('drop', 'MP', pv('mp', run.mp + '/' + maxMp)) +
+      statRow('swordAttack', 'ATK', pv('atk', total.atk)) +
+      statRow('magicBurst', 'MAG', pv('mag', total.mag)) +
+      statRow('shieldGuard', 'DEF', pv('def', total.def)) +
+      statRow('sparkles', 'RES', pv('res', total.res)) +
+      statRow('wind', 'SPD', pv('spd', total.spd)) +
+      statRow('star', 'CRIT', Math.round(window.Game.Formulas.critChance(total.luk) * 100) + '%' + (preview && preview.luk !== total.luk ? ' <b class="attr-plan">→ ' + Math.round(window.Game.Formulas.critChance(preview.luk) * 100) + '%</b>' : '')) +
       '<div class="bar-row" style="margin-top:.6rem">' + I('gem') + '<div class="bar-track"><div class="bar-fill exp" style="width:' + Math.round(run.exp / run.expNext * 100) + '%"></div></div><span>' + run.exp + '/' + run.expNext + '</span></div>' +
       (blessingChips ? '<div class="select-card-stats" style="margin-top:.6rem">' + blessingChips + '</div>' : '');
 
@@ -1632,11 +1721,18 @@
     function slotHtml(slot, label) {
       var id = run.equipment[slot];
       var item = id ? D.getItem(id) : null;
+      // Enhancement (State.enhanceSlot): +N stays with the slot; the button forges the next level.
+      var X = window.Game.Systems, lv = S.enhanceLevel(run, slot), price = S.enhancePrice(run, slot);
+      var enhanceHtml = item ? (price == null
+        ? '<span class="enhance-max">' + X.text('ตีบวกสูงสุดแล้ว', 'Fully forged') + '</span>'
+        : '<button class="btn-secondary enhance-btn" data-enhance="' + slot + '"' + (run.gold < price ? ' disabled' : '') + ' data-tip="' + X.text('ค่าพลังของชิ้นที่ใส่ช่องนี้ +' + Math.round(window.Game.Formulas.ENHANCE_STEP * 100) + '% ต่อขั้น ติดอยู่กับช่อง เปลี่ยนอุปกรณ์ก็ไม่หาย', 'The item in this slot gets +' + Math.round(window.Game.Formulas.ENHANCE_STEP * 100) + '% stats per level. It stays with the slot when you swap gear.') + '">' +
+            X.text('ตีบวก +' + (lv + 1), 'Forge +' + (lv + 1)) + ' · ' + price + ' ' + I('coin') + '</button>') : '';
       return '<div class="equip-slot" data-slot="' + slot + '">' +
         '<div class="equip-slot-icon">' + (item ? window.Game.Icons.item(item) : I(SLOT_DEFAULT_ICON[slot])) + '</div>' +
         '<div class="equip-slot-info">' +
-          '<div class="equip-slot-name">' + label + (item ? ': ' + L(item, 'name') : '') + '</div>' +
+          '<div class="equip-slot-name">' + label + (lv ? ' <span class="enhance-level">+' + lv + '</span>' : '') + (item ? ': ' + L(item, 'name') : '') + '</div>' +
           '<div class="equip-slot-desc">' + (item ? L(item, 'desc') : T('emptySlot')) + '</div>' +
+          enhanceHtml +
         '</div>' +
       '</div>';
     }
@@ -1648,6 +1744,7 @@
         '<div class="equip-slot-desc">' + (comp ? L(comp, 'desc') : T('emptySlot')) + '</div>' +
       '</div>' +
     '</div>';
+    bindAttrPanel(run);
     var equipEl = document.getElementById('status-equipment');
     equipEl.innerHTML = '<div class="status-panel-title">' + T('equipPanelTitle') + '</div>' +
       slotHtml('weapon', T('weaponLabel')) + slotHtml('armor', T('armorLabel')) + slotHtml('shoes', T('shoesLabel')) +
@@ -1655,6 +1752,13 @@
       companionRowHtml;
     Array.prototype.forEach.call(equipEl.querySelectorAll('.equip-slot[data-slot]'), function (row) {
       row.onclick = function () { SFX('ui_confirm'); openEquipPicker(row.getAttribute('data-slot')); };
+    });
+    Array.prototype.forEach.call(equipEl.querySelectorAll('[data-enhance]'), function (btn) {
+      btn.onclick = function (event) {
+        event.stopPropagation();
+        if (!S.enhanceSlot(run, btn.getAttribute('data-enhance'))) { SFX('ui_cancel'); return; }
+        SFX('item_get'); S.saveNow(); renderStatus();
+      };
     });
     document.getElementById('companion-slot').onclick = function () { SFX('ui_confirm'); openCompanionPicker(); };
 
@@ -1736,6 +1840,7 @@
   window.Game = window.Game || {};
   window.Game.TowerUI = {
     renderTower: renderTower,
+    enterFloor: enterFloor,
     renderReward: renderReward,
     queueReward: queueReward,
     resumePendingReward: resumePendingReward,

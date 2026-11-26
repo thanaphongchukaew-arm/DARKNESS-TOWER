@@ -63,7 +63,7 @@
   function escape(value) { return String(value).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function chip(id, label, description, turns, extraClass) {
     var duration = G.Systems.text('เหลือ ' + turns + ' เทิร์น', turns + ' turns remaining');
-    return '<button type="button" class="status-chip ' + (extraClass || '') + '" aria-label="' + escape(label + ': ' + description + ' · ' + duration) + '">' + status(id) + '<span>' + escape(label) + '</span><b class="status-turns">' + escape(turns) + '</b><span class="status-tip" aria-hidden="true">' + escape(description + ' · ' + duration) + '</span></button>';
+    return '<button type="button" class="status-chip ' + (extraClass || '') + '" aria-label="' + escape(label + ': ' + description + ' · ' + duration) + '">' + status(id) + '<span>' + escape(label) + '</span><b class="status-turns">' + escape(turns) + '</b><span class="status-tip" aria-hidden="true">' + escape(label + ' · ' + description + ' · ' + duration) + '</span></button>';
   }
   // Explicit tap support also works on browsers that do not focus tapped buttons.
   if (typeof document !== 'undefined') {

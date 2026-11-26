@@ -110,8 +110,7 @@
       var tEff = h.effectiveStats(target, target.debuffs);
       var hit = h.resolveHit(playerEff, tEff, 'almighty', F.OVERDRIVE_POWER * 0.8 * m);
       var start = events.length;
-      target.breakMeter += 25;
-      var dmg = h.applyBreak(target, hit.amount, events);
+      var dmg = h.applyBreak(target, hit.amount, events, F.breakAmount({ power: 3, crit: hit.isCrit }));
       h.breakCombo(battle, events, start);
       target.hp = Math.max(0, target.hp - dmg);
       events.push({ type: 'companionHit', companionId: comp.id, companionName: comp.name, targetUid: target.uid, targetName: target.name, isCrit: hit.isCrit, amount: dmg, hpAfter: target.hp, maxHp: target.maxHp, breakMeter: target.breakMeter, broken: target.broken });

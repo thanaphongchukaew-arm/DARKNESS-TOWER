@@ -72,6 +72,7 @@
   function L(obj, field) { return window.Game.I18n.L(obj, field); }
 
   function X() { return window.Game.Systems; }
+  function CM() { return window.Game.ClassMech; }
 
   // ---- Perks: the talents (systems.js) and relics (data-relics.js) that are
   // plain multipliers or per-round trickles, gathered here so each battle hook
@@ -86,7 +87,7 @@
 
   // Multiplier on one of the player's own hits. `skill` is null for Overdrive.
   function playerHitMult(battle, enemy, skill, element) {
-    var run = battle.run, mult = 1;
+    var run = battle.run, mult = F().PLAYER_DAMAGE_MULT;
     var elemental = element !== 'phys' && element !== 'almighty';
     if (X().has(run, 'executioner_edge') && enemy.hp <= enemy.maxHp * 0.35) mult *= 1.25;
     if (X().has(run, 'weapon_mastery') && skill && (skill.id === 'attack' || skill.scaleStat === 'atk')) mult *= 1.25;
@@ -125,17 +126,19 @@
     events.push({ type: 'ailment', id: id, targetName: who, targetUid: targetUid || 'player', targetSide: targetUid && targetUid !== 'player' ? 'enemy' : 'player' });
   }
 
-  function elementalHit(battle, enemy, element, amount, events) {
+  // `info` (optional) gets .weak / .resist = true when the hit struck a weakness / resistance, so the
+  // caller can scale that hit's Break (see Formulas.breakAmount).
+  function elementalHit(battle, enemy, element, amount, events, info) {
     var template = D().getEnemyTemplate(enemy.templateId);
-    X().discover(enemy, element);
+    if (template) X().discover(enemy, element);
     var weakEl = enemy.weakEl || (template && template.weak), resistEl = enemy.resistEl || (template && template.resist);
     if (template && element === weakEl) {
       amount = Math.round(amount * (X().has(battle.run, 'tactician') ? 1.75 : 1.5));
-      enemy.breakMeter += 15;
+      if (info) info.weak = true;
       events.push({ type: 'affinity', weak: true, element: element, targetName: enemy.name });
-      if (!enemy.isBoss) knockDown(enemy, events);
     } else if (template && element === resistEl) {
       amount = Math.max(1, Math.round(amount * 0.65));
+      if (info) info.resist = true;
       events.push({ type: 'affinity', weak: false, element: element, targetName: enemy.name });
     }
     if (element === 'wind' && enemy.ailments.some(function (a) { return a.id === 'burn'; })) {
@@ -225,6 +228,8 @@
       var keys = b.stat === 'atkmag' ? ['atk', 'mag'] : b.stat === 'defres' ? ['def', 'res'] : [b.stat];
       keys.forEach(function (k) { if (eff[k] != null) eff[k] = eff[k] * (1 + b.amount); });
     });
+    // Druid shapeshift (see class-mech.js): a form's stat change, stored as plain data on the actor.
+    if (actor.formMods) Object.keys(actor.formMods).forEach(function (k) { if (eff[k] != null) eff[k] = eff[k] * (1 + actor.formMods[k]); });
     Object.keys(eff).forEach(function (k) { eff[k] = Math.max(0, Math.round(eff[k])); });
     return eff;
   }
@@ -246,8 +251,8 @@
   }
 
   // Knockdown: a downed enemy skips its next action, and when every living enemy
-  // is down at once the player earns the group finisher. Causes: a critical hit,
-  // striking a regular enemy's elemental weakness, or filling its Break meter.
+  // is down at once the player earns the group finisher. The only cause is filling
+  // its Break (stagger) meter -- crits and weakness hits just fill it faster.
   // An enemy that was down last round is `steady` and cannot be floored again
   // straight away, so no single trick can lock a foe out of the fight.
   function knockDown(enemy, events) {
@@ -257,8 +262,8 @@
     return true;
   }
 
-  function resolveHit(attackerEff, defenderEff, element, power, scaleStat) {
-    var isCrit = Math.random() < F().critChance(attackerEff.luk);
+  function resolveHit(attackerEff, defenderEff, element, power, scaleStat, forceCrit) {
+    var isCrit = forceCrit ? true : Math.random() < F().critChance(attackerEff.luk);
     var amount = F().computeDamage({
       element: element, power: power, scaleStat: scaleStat,
       atkStat: attackerEff.atk, magStat: attackerEff.mag,
@@ -282,11 +287,11 @@
    * @param {Array} events - pushed to in place if this hit crosses the break threshold
    * @returns {number} the actual damage to apply, after any break multiplier
    */
-  function applyBreak(enemy, rawAmount, events) {
+  function applyBreak(enemy, rawAmount, events, breakAdd) {
     var amount = enemy.broken ? Math.round(rawAmount * F().BREAK_DAMAGE_MULT) : rawAmount;
     if (enemy.alive) {
-      enemy.breakMeter += F().BREAK_PER_HIT;
-      if (enemy.breakMeter >= F().BREAK_THRESHOLD) {
+      enemy.breakMeter += breakAdd != null ? breakAdd : F().BREAK_PER_HIT;
+      if (enemy.breakMeter >= F().breakMax(enemy)) {
         enemy.breakMeter = 0;
         if (!enemy.broken) {
           enemy.broken = true;
@@ -568,13 +573,38 @@
     };
   }
 
+  // What a skill costs this battle: MP (a Gunslinger pays half on gun skills), HP (blood magic)
+  // and the class resource (bullets). One place, so the engine and the skill menu agree.
+  function skillCost(battle, skill) {
+    var c = CM().cost(battle, skill);
+    return { mp: c.mp, hp: skill.hpCost ? Math.round(battle.player.maxHp * skill.hpCost) : 0, ammo: c.ammo, res: c.res };
+  }
+
+  // Why a skill cannot be used right now (localised), or null when it can.
+  function skillBlockReason(battle, skill) {
+    var run = battle.run, cost = skillCost(battle, skill);
+    if (skill.element !== 'phys' && (run.ailments || []).some(function (a) { return a.id === 'silence'; })) return X().text('ติดสถานะใบ้', 'Silenced');
+    if (run.mp < cost.mp) return X().text('MP ไม่พอ', 'Not enough MP');
+    if (cost.hp > 0 && run.hp <= cost.hp) return X().text('HP ไม่พอ', 'Not enough HP');
+    if (skill.kind === 'heal' && run.hp >= battle.player.maxHp) return X().text('HP เต็มแล้ว', 'HP is full');
+    return CM().blockReason(battle, skill);
+  }
+
+  // Engine context handed to class-mech.js hooks that deal damage.
+  function mechCtx() {
+    return { applyBreak: applyBreak, breakCombo: breakCombo, effectiveStats: effectiveStats, playerOffenseEff: playerOffenseEff, checkBossPhase: checkBossPhase, bossEvent: bossEvent, checkBattleEnd: checkBattleEnd, applyStatMod: applyStatMod, addAilment: addAilment, knockDown: knockDown };
+  }
+
+  // power = skill power x its rank (see Data.skillRank); basePower (no rank) sets the hit's Break,
+  // so stagger stays tuned to the move itself.
   function buildPlayerHits(skill, battle, targetIndex) {
+    var rankMult = D().skillPowerMult(skill, battle.run.level);
     if (skill.target === 'allEnemies') {
       var out = [];
       battle.enemies.forEach(function (e, i) {
         if (!e.alive) return;
         var el = skill.randomElement ? skill.randomElement[Math.floor(Math.random() * skill.randomElement.length)] : skill.element;
-        out.push({ targetIndex: i, element: el, power: skill.power });
+        out.push({ targetIndex: i, element: el, power: skill.power * rankMult, basePower: skill.power });
       });
       return out;
     }
@@ -583,7 +613,8 @@
     var res = [];
     for (var i = 0; i < hitsCount; i++) {
       var el = skill.randomElement ? skill.randomElement[Math.floor(Math.random() * skill.randomElement.length)] : skill.element;
-      res.push({ targetIndex: targetIndex, element: el, power: skill.power * (skill.id === 'attack' && i > 0 ? 0.4 : 1) });
+      var p = skill.power * (skill.id === 'attack' && i > 0 ? 0.4 : 1);
+      res.push({ targetIndex: targetIndex, element: el, power: p * rankMult, basePower: p });
     }
     return res;
   }
@@ -610,6 +641,7 @@
       battle.player.focus = Math.min(F().FOCUS_MAX, battle.player.focus + guardFocus);
       battle.playerAP = 0;
       events.push({ type: 'guard' });
+      CM().onGuard(battle, events);
       if (X().has(run, 'arcane_ward')) {
         var wardMp = Math.min(6, battle.player.maxMp - run.mp);
         if (wardMp > 0) { run.mp += wardMp; events.push({ type: 'resourceGain', resource: 'mp', amount: wardMp, mpAfter: run.mp, maxMp: battle.player.maxMp }); }
@@ -642,10 +674,9 @@
       var odHit = resolveHit(odEff, odTargetEff, 'almighty', F().OVERDRIVE_POWER * playerHitMult(battle, odTarget, null, 'almighty'));
       var odBreakStart = events.length;
       odTarget.breakMeter += (window.Game.Workshop.battleEffects(battle).break || 0) + relicSum(run, 'bonusBreak');
-      var odDmg = applyBreak(odTarget, Math.round(odHit.amount * window.Game.Workshop.damageMult(battle,odTarget,'almighty',odHit.isCrit)), events);
+      var odDmg = applyBreak(odTarget, Math.round(odHit.amount * window.Game.Workshop.damageMult(battle,odTarget,'almighty',odHit.isCrit)), events, F().breakAmount({ power: 2.5, crit: odHit.isCrit }));
       breakCombo(battle, events, odBreakStart);
       odTarget.hp = Math.max(0, odTarget.hp - odDmg);
-      if (odHit.isCrit) knockDown(odTarget, events);
       events.push({ type: 'hit', skillId: 'overdrive', sourceSide: 'player', sourceClassId: run.classId, targetSide: 'enemy', targetUid: odTarget.uid, targetName: odTarget.name, element: 'almighty', isCrit: odHit.isCrit, amount: odDmg, hpAfter: odTarget.hp, maxHp: odTarget.maxHp, breakMeter: odTarget.breakMeter, broken: odTarget.broken });
       if (odTarget.hp <= 0) {
         odTarget.alive = false;
@@ -662,24 +693,27 @@
     } else if (action.kind === 'item') {
       var itemDef = D().getItem(action.itemId);
       if (!itemDef || !itemDef.battleUsable) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
+      var hpBeforeItem = run.hp;
       var itemRes = S().useConsumable(run, action.itemId);
       if (!itemRes.ok) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
       events.push({ type: 'itemUsed', itemId: action.itemId, result: itemRes, hpAfter: run.hp, mpAfter: run.mp, maxHp: battle.player.maxHp, maxMp: battle.player.maxMp });
       battle.playerAP -= 1;
+      if (CM().afterItem(battle, itemDef, Math.max(0, run.hp - hpBeforeItem), events, mechCtx())) battle.playerAP = Math.min(battle.playerAP + 1, 4);
     } else if (action.kind === 'attack' || action.kind === 'skill') {
       var skillId = action.kind === 'attack' ? 'attack' : action.skillId;
       var skill = D().getSkill(skillId);
       // Blood-magic skills (Deathbringer) pay with a slice of max HP instead of/alongside
       // MP -- must always leave the caster with at least 1 HP, so this can never be a
       // free suicide (checkBattleEnd only ever fires from *damage*, not from this cost).
-      var hpCostAmt = skill && skill.hpCost ? Math.round(battle.player.maxHp * skill.hpCost) : 0;
-      if (!skill || (skill.element !== 'phys' && (run.ailments || []).some(function (a) { return a.id === 'silence'; })) || run.mp < skill.cost || (hpCostAmt > 0 && run.hp <= hpCostAmt) || (skill.kind === 'heal' && run.hp >= battle.player.maxHp)) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
+      if (!skill || skillBlockReason(battle, skill)) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
+      var cost = skillCost(battle, skill), hpCostAmt = cost.hp;
       // validate the target *before* spending MP/HP, so an invalid/stale target can't waste resources
       if (skill.target === 'singleEnemy') {
         var checkTgt = battle.enemies[action.targetIndex];
         if (!checkTgt || !checkTgt.alive) { events.push({ type: 'invalid' }); return { events: events, battleOver: false, playerAP: battle.playerAP }; }
       }
-      run.mp -= skill.cost;
+      run.mp -= cost.mp;
+      CM().pay(battle, skill);
       events.push({ type: 'skillUsed', skillId: skill.id, sourceClassId: run.classId, kind: skill.kind, target: skill.target, name: L(skill, 'name'), element: skill.element });
       if (hpCostAmt > 0) {
         run.hp -= hpCostAmt;
@@ -692,10 +726,16 @@
       var swiftRecovery = D().getRelic('swift_recovery');
       var healMult = (swiftRecovery && S().hasRelic(run, 'swift_recovery')) ? (1 + swiftRecovery.healBoostPct) : 1;
 
-      if (skill.kind === 'heal') {
-        var healAmt = Math.min(battle.player.maxHp - run.hp, Math.round(battle.player.maxHp * skill.power * healMult));
+      if (skill.kind === 'mech') {
+        // Class command (see class-mech.js): Sheathe, Reload, Raise Dead, Shapeshift...
+        battle.playerAP -= 1;
+        if (CM().perform(battle, skill, events, mechCtx(), action.targetIndex)) battle.playerAP = Math.min(battle.playerAP + 1, 4);
+      } else if (skill.kind === 'heal') {
+        var healFull = Math.round(battle.player.maxHp * skill.power * D().skillPowerMult(skill, run.level) * healMult);
+        var healAmt = Math.min(battle.player.maxHp - run.hp, healFull);
         run.hp = Math.min(battle.player.maxHp, run.hp + healAmt);
         events.push({ type: 'heal', skillId: skill.id, side: 'player', amount: healAmt, hpAfter: run.hp, maxHp: battle.player.maxHp });
+        CM().afterHeal(battle, skill, Math.max(0, healFull - healAmt), events);
         battle.playerAP -= 1;
       } else if (skill.kind === 'buffSelf') {
         applyStatMod(battle.player.buffs, skill.stat, skill.amount, 3);
@@ -726,7 +766,22 @@
         }
         battle.playerAP -= 1;
       } else if (skill.kind === 'attack') {
+        var mods = CM().beforeAttack(battle, skill, events) || {};
         var hits = buildPlayerHits(skill, battle, action.targetIndex);
+        if (mods.basicHits) {
+          hits = [];
+          for (var bh = 0; bh < mods.basicHits.hits; bh++) hits.push({ targetIndex: action.targetIndex, element: 'phys', power: mods.basicHits.power });
+        }
+        // A class rule can turn this attack into one that hits every enemy (mods.aoe = power per
+        // target) or add bonus hits (mods.extraHits). `hitTarget` is what break and VFX read.
+        var hitTarget = skill.target;
+        if (mods.aoe && skill.target === 'singleEnemy') {
+          var aoeFirst = hits[0] || { element: skill.element, power: skill.power, basePower: skill.power };
+          hits = [];
+          battle.enemies.forEach(function (e, i) { if (e.alive) hits.push({ targetIndex: i, element: aoeFirst.element, power: aoeFirst.power * mods.aoe, basePower: aoeFirst.basePower }); });
+          hitTarget = 'allEnemies';
+        }
+        if (mods.extraHits) mods.extraHits.forEach(function (x) { hits.push({ targetIndex: action.targetIndex, element: x.element, power: x.power, basePower: x.power, scaleStat: x.scaleStat }); });
         var playerEff = playerOffenseEff(battle);
         hits.forEach(function (h, hitIndex) {
           var enemy = battle.enemies[h.targetIndex];
@@ -747,8 +802,11 @@
           if (opportunist && S().hasRelic(run, 'opportunist') && enemy.hp <= enemy.maxHp * opportunist.executeThreshold) {
             hitPower = hitPower * (1 + opportunist.executeBonus);
           }
-          hitPower = hitPower * playerHitMult(battle, enemy, skill, h.element);
-          var hit = resolveHit(playerEff, enemyEff, h.element, hitPower, skill.scaleStat);
+          hitPower = hitPower * playerHitMult(battle, enemy, skill, h.element) * (mods.powerMult || 1);
+          // Class rules that make one enemy take more from you (Ranger's mark, Warlock's hex):
+          // player attack/skill hits only, never companion, Overdrive or All-Out.
+          hitPower = hitPower * CM().targetMult(battle, enemy);
+          var hit = resolveHit(playerEff, enemyEff, h.element, hitPower, h.scaleStat || mods.scaleStat || skill.scaleStat, mods.forceCrit);
           // Focus (see formulas.js): every landed attack hit builds the player's
           // Overdrive gauge, crits building it faster -- gained on the raw hit,
           // not the break-boosted amount, so it can't be inflated by breaking.
@@ -756,16 +814,19 @@
           battle.player.focus = Math.min(F().FOCUS_MAX, battle.player.focus + F().FOCUS_PER_HIT + (hit.isCrit ? F().FOCUS_CRIT_BONUS : 0) + (window.Game.Workshop.battleEffects(battle).focus || 0));
           if (focusBefore < F().FOCUS_MAX && battle.player.focus >= F().FOCUS_MAX) events.push({ type: 'focusReady' });
           var breakStart = events.length;
-          var elementalAmount = Math.round(elementalHit(battle, enemy, h.element, hit.amount, events) * window.Game.Workshop.damageMult(battle,enemy,h.element,hit.isCrit));
+          var affinity = {};
+          var elementalAmount = Math.round(elementalHit(battle, enemy, h.element, hit.amount, events, affinity) * window.Game.Workshop.damageMult(battle,enemy,h.element,hit.isCrit));
+          var hitBreak = F().breakAmount({ power: skill.breakPower != null ? skill.breakPower : (h.basePower != null ? h.basePower : h.power), crit: hit.isCrit, weak: affinity.weak, aoe: hitTarget === 'allEnemies' });
+          if (mods.breakMult) hitBreak = Math.round(hitBreak * mods.breakMult);
           enemy.breakMeter += (window.Game.Workshop.battleEffects(battle).break || 0) + relicSum(run, 'bonusBreak');
-          var dmgAmt = applyBreak(enemy, elementalAmount, events);
+          var dmgAmt = applyBreak(enemy, elementalAmount, events, hitBreak);
           breakCombo(battle, events, breakStart);
           if (h.element === 'fire' && (X().has(run, 'burning_wind') || Math.random() < 0.3)) addAilment(enemy.ailments, 'burn', 3, enemy.isBoss, events, enemy.name, enemy.uid);
+          if (mods.poisonChance && Math.random() < mods.poisonChance) addAilment(enemy.ailments, 'poison', 3, enemy.isBoss, events, enemy.name, enemy.uid);
           if (skill.id === 'attack' && X().has(run, 'affliction')) addAilment(enemy.ailments, 'poison', 3, enemy.isBoss, events, enemy.name, enemy.uid);
           if (h.element === 'dark' && Math.random() < 0.2) addAilment(enemy.ailments, 'silence', 2, enemy.isBoss, events, enemy.name, enemy.uid);
           enemy.hp = Math.max(0, enemy.hp - dmgAmt);
-          if (hit.isCrit) knockDown(enemy, events);
-          events.push({ type: 'hit', skillId: skill.id, sourceSide: 'player', sourceClassId: run.classId, hitIndex: hitIndex, target: skill.target, targetSide: 'enemy', targetUid: enemy.uid, targetName: enemy.name, element: h.element, isCrit: hit.isCrit, amount: dmgAmt, hpAfter: enemy.hp, maxHp: enemy.maxHp, breakMeter: enemy.breakMeter, broken: enemy.broken });
+          events.push({ type: 'hit', skillId: skill.id, sourceSide: 'player', sourceClassId: run.classId, hitIndex: hitIndex, target: hitTarget, targetSide: 'enemy', targetUid: enemy.uid, targetName: enemy.name, element: h.element, isCrit: hit.isCrit, affinity: affinity.weak ? 'weak' : affinity.resist ? 'resist' : null, amount: dmgAmt, hpAfter: enemy.hp, maxHp: enemy.maxHp, breakMeter: enemy.breakMeter, broken: enemy.broken });
           var runeLeech=window.Game.Workshop.battleEffects(battle).leech || 0;
           if (runeLeech && dmgAmt>0) { var leeched=Math.min(battle.player.maxHp-run.hp,Math.round(dmgAmt*runeLeech)); run.hp+=leeched; if(leeched) events.push({type:'heal',vfxHeal:'drain',side:'player',amount:leeched,hpAfter:run.hp,maxHp:battle.player.maxHp}); }
           if (skill.drainSelf && dmgAmt > 0) {
@@ -796,6 +857,7 @@
             var phaseMsg = checkBossPhase(enemy);
             if (phaseMsg) events.push(bossEvent(phaseMsg));
           }
+          CM().onHit(battle, skill, enemy, { element: h.element, isCrit: hit.isCrit, amount: dmgAmt }, events, mechCtx());
         });
         battle.playerAP -= 1;
         // Relentless talent: a kill refunds an action point, once per round.
@@ -818,6 +880,10 @@
     }
 
     checkBattleEnd(battle, events);
+    // Class rules that react to what you just did (combo counters, resets...). Only valid
+    // actions reach here: every rejected action returned early above.
+    CM().afterAction(battle, action.kind, action.kind === 'attack' ? D().getSkill('attack') : action.kind === 'skill' ? D().getSkill(action.skillId) : null, events, mechCtx());
+    CM().sweep(battle, events);
     if (!battle.over) {
       var living = battle.enemies.filter(function (e) { return e.alive; });
       if (living.length && living.every(function (e) { return e.downed; })) {
@@ -844,12 +910,12 @@
     }
     var living = battle.enemies.filter(function (e) { return e.alive; });
     var playerEff = playerOffenseEff(battle);
-    var per = Math.max(1, Math.round((playerEff.atk * 0.9 + playerEff.mag * 0.5) * (1.5 + 0.12 * living.length) * (0.95 + Math.random() * 0.15) * (X().has(battle.run, 'rally_master') ? 1.5 : 1)));
+    var per = Math.max(1, Math.round((playerEff.atk * 0.9 + playerEff.mag * 0.5) * (F().ALL_OUT_BASE + 0.12 * living.length) * (0.95 + Math.random() * 0.15) * (X().has(battle.run, 'rally_master') ? 1.5 : 1)));
     events.push({ type: 'allOutStart' });
     living.forEach(function (e) {
       var allBreakStart = events.length;
       e.breakMeter += window.Game.Workshop.battleEffects(battle).break || 0;
-      var perDmg = applyBreak(e, Math.round(per * window.Game.Workshop.damageMult(battle,e,'almighty',false)), events);
+      var perDmg = applyBreak(e, Math.round(per * window.Game.Workshop.damageMult(battle,e,'almighty',false)), events, F().breakAmount({ power: 1 }));
       breakCombo(battle, events, allBreakStart);
       e.hp = Math.max(0, e.hp - perDmg);
       e.downed = false;
@@ -863,6 +929,7 @@
     });
     battle.playerAP = 0;
     checkBattleEnd(battle, events);
+    CM().sweep(battle, events);
     return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP };
   }
 
@@ -880,6 +947,7 @@
   function startNextRound(battle, events) {
     battle.round += 1;
     if (events) roundRegen(battle, events);
+    CM().roundStart(battle, events, mechCtx());
     if (X().has(battle.run, 'quickstep')) battle.tempo = (battle.tempo || 0) + 0.25;
     battle.enemies.forEach(function (e) { if (e.alive) { e.steady = !!e.downed; e.downed = false; e.broken = false; } tickBuffs(e.debuffs); });
     tickBuffs(battle.player.buffs);
@@ -937,6 +1005,11 @@
           heldRelics(battle.run, 'firstHitPct').forEach(function (r) { dmg = Math.round(dmg * r.firstHitPct); });
         }
         dmg = Math.max(1, dmg);
+        // Class mechanics (see class-mech.js): a Samurai's stance softens the blow, a
+        // Necromancer's skeleton may take it instead.
+        var mechHit = CM().incoming(battle, enemy, dmg, events, mechCtx());
+        if (mechHit.absorbed) { if (battle.over || !enemy.alive) break; continue; }
+        dmg = mechHit.dmg;
         battle.run.hp = Math.max(0, battle.run.hp - dmg);
         battle.run.lastDamage = { name: enemy.name + ' · ' + L(atk, 'name'), amount: dmg };
         if (!silenced && atk.element === 'fire' && Math.random() < 0.25) addAilment(battle.run.ailments, 'burn', 3, false, events, battle.player.name);
@@ -973,7 +1046,7 @@
           battle.riposteUsed = true;
           var counter = F().computeDamage({ element: 'almighty', power: 0.75, atkStat: playerEff.atk, magStat: playerEff.mag, defStat: 0, resStat: 0, isCrit: false });
           var counterStart = events.length;
-          counter = applyBreak(enemy, counter, events);
+          counter = applyBreak(enemy, counter, events, F().breakAmount({ power: 0.75 }));
           enemy.hp = Math.max(0, enemy.hp - counter);
           if (!enemy.hp) enemy.alive = false;
           breakCombo(battle, events, counterStart);
@@ -983,11 +1056,13 @@
           if (counterPhase) events.push(bossEvent(counterPhase));
           checkBattleEnd(battle, events);
         }
+        CM().afterIncoming(battle, enemy, events, mechCtx(), dmg);
         if (battle.over || !enemy.alive) break;
       }
       if (battle.over) break;
     }
     if (!battle.over) { tickAilments(battle, battle.player, true, events); checkBattleEnd(battle, events); }
+    CM().sweep(battle, events);
     battle.player.guarding = false;
     if (!battle.over) startNextRound(battle, events);
     return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP, round: battle.round };
@@ -1012,7 +1087,7 @@
     var target = battle.enemies.find(function (e) { return e.alive && e.isBoss; });
     var eff = playerOffenseEff(battle), start = events.length;
     var damage = F().computeDamage({ element: 'almighty', power: 0.65, atkStat: eff.atk, magStat: eff.mag, defStat: 0, resStat: 0, isCrit: false });
-    damage = applyBreak(target, damage, events);
+    damage = applyBreak(target, damage, events, F().breakAmount({ power: 0.65 }));
     target.hp = Math.max(0, target.hp - damage);
     if (!target.hp) target.alive = false;
     breakCombo(battle, events, start);
@@ -1025,6 +1100,12 @@
   function runCompanionPhase(battle, echo) {
     var events = [];
     if (!battle.over && !echo) runStorySupport(battle, events);
+    // Necromancer skeletons act once per round, with or without a companion.
+    if (!battle.over && !echo && battle.minionRound !== battle.round) {
+      battle.minionRound = battle.round;
+      CM().minionPhase(battle, events, mechCtx());
+    }
+    CM().sweep(battle, events);
     if (battle.over || !battle.companion) {
       return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP };
     }
@@ -1060,11 +1141,9 @@
           defStat: targetEff.def * (comp.id === 'sand_scarab' ? 0.5 : 1), resStat: targetEff.res, isCrit: isCrit
         });
         var compStart = events.length;
-        if (comp.id === 'ember_fox') target.breakMeter += 15;
-        var compDmg = applyBreak(target, amount, events);
+        var compDmg = applyBreak(target, amount, events, F().breakAmount({ power: def.power, crit: isCrit }) + (comp.id === 'ember_fox' ? 8 : 0));
         breakCombo(battle, events, compStart);
         target.hp = Math.max(0, target.hp - compDmg);
-        if (isCrit) knockDown(target, events);
         events.push({ type: 'companionHit', companionId: comp.id, companionName: comp.name, targetUid: target.uid, targetName: target.name, isCrit: isCrit, amount: compDmg, hpAfter: target.hp, maxHp: target.maxHp, breakMeter: target.breakMeter, broken: target.broken });
         if (target.hp <= 0) {
           target.alive = false;
@@ -1090,6 +1169,7 @@
       events.push({ type: 'companionBuff', companionId: comp.id, companionName: comp.name, stats: def.buffStats, amount: def.buffAmount });
     }
     checkBattleEnd(battle, events);
+    CM().sweep(battle, events);
     return { events: events, battleOver: battle.over, victory: battle.victory, playerAP: battle.playerAP };
   }
 
@@ -1149,6 +1229,8 @@
     getExpReward: getExpReward,
     getGoldReward: getGoldReward,
     getMaterialDrops: getMaterialDrops,
-    effectiveStats: effectiveStats
+    effectiveStats: effectiveStats,
+    skillCost: skillCost,
+    skillBlockReason: skillBlockReason
   };
 })();

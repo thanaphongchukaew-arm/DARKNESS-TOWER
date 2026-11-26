@@ -407,11 +407,13 @@ button:disabled {
   50% { filter: brightness(1.5); box-shadow: 0 0 12px var(--focus-color); }
 }
 
+/* Stagger bar: yellow, so it never reads as the red HP bar or the blue MP bar. */
 .bar-fill.break {
-  background: linear-gradient(90deg, #8a4a10, var(--break-color));
+  background: linear-gradient(90deg, #a07c00, var(--break-color));
 }
 
 .bar-fill.break.full {
+  background: var(--break-color);
   animation: bar-full-pulse 0.9s ease-in-out infinite;
 }
 

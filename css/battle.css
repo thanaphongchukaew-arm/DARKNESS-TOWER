@@ -814,14 +814,16 @@
   letter-spacing: 0.05em;
 }
 
-/* Break meter: a slim bar under the HP bar, filling as the enemy takes hits.
-   Deliberately thinner than the HP bar so it reads as a secondary gauge. */
+/* Stagger (Break) meter: a yellow bar under the HP bar that drains as the enemy takes hits.
+   Thinner than the HP bar so it reads as a secondary gauge. */
 .break-row {
+  width: 100%;
   margin-top: -0.1rem;
 }
 
 .break-track {
-  height: 0.28rem;
+  height: 0.5rem;
+  background: rgba(255, 216, 58, 0.12);
 }
 
 /* ---- Lower area ---- */
@@ -1235,3 +1237,46 @@
 @keyframes battle-arrival { 0% { opacity: 0; transform: scale(1.08); } 20%,75% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
 .enemy-card.boss .enemy-portrait .icon { width: clamp(100px,14vw,160px); height: clamp(100px,14vw,160px); }
 @media(prefers-reduced-motion: reduce) { .battle-backdrop::after,.battle-entrance { animation: none; } #screen-battle.screen-shake-strong,#screen-battle.screen-shake { animation: none; } }
+
+/* Class signature mechanic readout (class-mech.js): bullets, stance, skeletons, form. */
+.class-mech-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  padding: 0.15rem 0.4rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm, 6px);
+  background: rgba(0, 0, 0, 0.18);
+}
+.class-mech-row .icon,
+.class-mech-row svg,
+.class-mech-row img { width: 1.05rem; height: 1.05rem; flex: 0 0 auto; }
+.class-mech-row .mech-label { font-weight: 700; color: var(--accent-gold); white-space: nowrap; }
+.class-mech-row .mech-value { margin-left: auto; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.class-mech-row.is-active { border-color: var(--accent-gold); box-shadow: 0 0 8px rgba(255, 200, 80, 0.25); }
+.mech-pips { display: inline-flex; gap: 2px; }
+.mech-pip { width: 6px; height: 10px; border-radius: 2px; background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.18); }
+.mech-pip.filled { background: var(--accent-gold); border-color: var(--accent-gold); }
+
+/* Skill rank (Data.skillRank): I / II / III next to the skill name. */
+.rank-tag { display: inline-block; min-width: 1.3em; padding: 0 0.3em; margin-left: 0.3em; font-size: 0.68em; font-weight: 800; text-align: center; border: 1px solid currentColor; vertical-align: middle; }
+.rank-tag.rank-1 { color: var(--text-muted); }
+.rank-tag.rank-2 { color: #8fd3ff; }
+.rank-tag.rank-3 { color: var(--break-color); }
+
+/* Staggered: the poise bar is empty, so the track itself flashes. */
+.break-track.staggered { box-shadow: 0 0 0 1px var(--break-color), 0 0 8px var(--break-color); animation: poise-broken 0.9s ease-in-out infinite; }
+@keyframes poise-broken { 50% { box-shadow: 0 0 0 1px var(--break-color), 0 0 16px var(--break-color); } }
+@media (prefers-reduced-motion: reduce) { .break-track.staggered { animation: none; } }
+
+/* Damage-number labels: CRIT / WEAK ▲ / RESIST ▼ at the top right of the number. */
+#screen-battle .dmg-number.dmg-crit { color: #ff3030; font-size: calc(1.75rem * var(--dmg-s, 1)); text-shadow: 0 0 10px rgba(255, 30, 30, .75), 0 0 6px rgba(0, 0, 0, .95), 0 2px 3px rgba(0, 0, 0, .8); }
+#screen-battle .dmg-number.dmg-resisted { color: #9aa6b8; font-size: calc(0.9rem * var(--dmg-s, 1)); }
+.dmg-tags { position: absolute; left: 100%; bottom: 72%; display: flex; flex-direction: column; align-items: flex-start; gap: 1px; margin-left: 2px; }
+.dmg-tag { font-family: var(--font-body, sans-serif); font-size: 0.55rem; font-weight: 900; letter-spacing: .04em; line-height: 1; padding: 1px 3px; border-radius: 2px; text-shadow: none; white-space: nowrap; }
+.dmg-tag.tag-crit { color: #fff; background: #d81e1e; }
+.dmg-tag.tag-weak { color: #ff4d4d; background: rgba(40, 0, 0, .8); border: 1px solid #ff4d4d; }
+.dmg-tag.tag-resist { color: #b8c2d0; background: rgba(20, 24, 32, .85); border: 1px solid #6b7686; }

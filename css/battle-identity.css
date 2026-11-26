@@ -1,6 +1,70 @@
 /* Enemy silhouette, motion, readable intent, and native illustrated set dressing. */
 .enemy-card { position: relative; }
-.enemy-portrait { isolation: isolate; }
+.enemy-portrait { isolation: isolate; max-width: 100%; }
+/* Reserve the same HUD space for every name and combat state. Nothing in these
+   tracks may change the size of the sprite or the enemy group's fit. */
+#screen-battle .enemy-card { flex: 0 0 auto; gap: .15rem; }
+@media (orientation: portrait) {
+  .is-mobile #screen-battle .enemy-card:not(.boss) { width: clamp(104px, 24%, 180px); }
+}
+.enemy-hud {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 1.15rem 2.1rem 1rem .38rem 1.15rem 1.25rem;
+  gap: .13rem;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+}
+.enemy-meta { display: flex; align-items: center; justify-content: center; gap: .15rem; min-width: 0; white-space: nowrap; }
+.enemy-meta > span { overflow: hidden; text-overflow: ellipsis; padding-inline: .22rem; }
+.enemy-meta .boss-phase-chip { margin: 0; }
+.enemy-meta .enemy-role-label { min-width: 0; }
+.enemy-meta .enemy-downed-tag, .enemy-meta .enemy-broken-tag { display: none; flex: 0 0 auto; letter-spacing: 0; }
+.enemy-card.downed:not(.dead) .enemy-downed-tag,
+.enemy-card.broken:not(.downed):not(.dead) .enemy-broken-tag { display: inline-block; }
+.enemy-name-slot { display: grid; place-items: center; min-width: 0; }
+#screen-battle .enemy-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  max-width: 100%;
+  max-height: 2.1rem;
+  line-height: 1.05rem;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+.enemy-health { position: relative; width: 100%; height: 100%; }
+#screen-battle .enemy-health .bar-row, #screen-battle .enemy-health .bar-track { height: 100%; }
+.enemy-hp-text {
+  position: absolute;
+  inset: 0 .3rem 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #ffe0e0;
+  font: 700 .67rem/1rem var(--font-body, sans-serif);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  text-shadow: 1px 1px #180a11, -1px -1px #180a11;
+  pointer-events: none;
+}
+.enemy-hud .break-row, .enemy-card.boss .enemy-hud .break-track, .enemy-hud .break-track { height: 100%; margin: 0; }
+.enemy-card.dead .enemy-hp-text, .enemy-card.dead .break-row { visibility: hidden; }
+#screen-battle .enemy-hud .affinity-row,
+.enemy-effects { min-width: 0; height: 100%; overflow: auto hidden; scrollbar-width: none; }
+#screen-battle .enemy-hud .affinity-row { margin: 0; gap: .15rem; align-items: center; justify-content: safe center; }
+#screen-battle .enemy-hud .affinity-row > span { flex: 0 0 auto; gap: .12rem; padding: 0 .2rem; }
+.enemy-hud .affinity-row .icon { width: .75rem; height: .75rem; }
+.enemy-effects { display: flex; align-items: center; justify-content: safe center; gap: .15rem; }
+.enemy-effects .ailment-row, .enemy-effects .combat-modifiers { flex: 0 0 auto; flex-wrap: nowrap; gap: .15rem; margin: 0; }
+.enemy-effects > :empty { display: none; }
+.enemy-effects .status-chip { position: static; gap: .15rem; padding: 0 .18rem; font-size: .65rem; white-space: nowrap; }
+.enemy-effects .status-chip > span:not(.status-tip) { display: none; }
+.enemy-effects .status-illustration { width: .75rem; height: .75rem; flex-basis: .75rem; }
+.enemy-effects .status-chip:focus-visible { outline-offset: -2px; }
+.enemy-effects .status-tip { left: 50%; bottom: 1.45rem; transform: translateX(-50%); }
+.enemy-card:has(.status-chip:hover, .status-chip:focus, .status-chip.is-open) { z-index: 7; }
 .enemy-art { position: relative; display: block; width: 100%; height: 100%; z-index: 1; transform-origin: center bottom; }
 .enemy-art > .enemy-illustration { display: block; width: 100%; height: 100%; overflow: visible; transform-origin: 50% 88%; }
 .enemy-role-label { font: 500 .61rem/1.4 'Chakra Petch',sans-serif; letter-spacing: .08em; color: #b3c5ce; padding: 1px 7px; background: #101322bb; border-bottom: 1px solid #69798a66; }
@@ -77,11 +141,10 @@
 }
 @media(max-height: 500px) and (orientation: landscape) {
   .is-mobile #screen-battle .enemy-card.boss { display: grid; grid-template-columns: 110px minmax(0,1fr); width: min(470px,95%); gap: .12rem .6rem; align-items: center; }
-  .is-mobile #screen-battle .enemy-card.boss > :not(.enemy-portrait) { grid-column: 2; }
-  .is-mobile #screen-battle .enemy-card.boss > .enemy-portrait { grid-column: 1; grid-row: 1 / span 7; width: 110px; height: 118px; }
+  .is-mobile #screen-battle .enemy-card.boss > .enemy-hud { grid-column: 2; }
+  .is-mobile #screen-battle .enemy-card.boss > .enemy-portrait { grid-column: 1; grid-row: 1; width: 110px; height: 118px; }
   .is-mobile #screen-battle .enemy-card.boss .enemy-portrait > .enemy-art { width: 105px; height: 112px; }
   .is-mobile #screen-battle .enemy-card.boss .enemy-name { margin: 0; font-size: .82rem; }
-  .is-mobile #screen-battle .enemy-card.boss .enemy-role-label { justify-self: start; }
 }
 .status-chip.is-open .status-tip { display: block; }
 @media(max-height: 500px) and (orientation: landscape) {
@@ -89,6 +152,8 @@
   .is-mobile #screen-battle .enemy-card:not(.boss) .enemy-portrait { width: 90px; height: 80px; }
   .is-mobile #screen-battle .enemy-card:not(.boss) .enemy-portrait > .enemy-art { width: 90px; height: 80px; }
   .is-mobile #screen-battle .enemy-card:not(.boss) .enemy-name { font-size: .75rem; }
+  .is-mobile .enemy-card:not(.boss) .enemy-hud { grid-template-rows: 1rem 1.05rem 1rem .38rem 1.05rem 1.15rem; }
+  .is-mobile #screen-battle .enemy-card:not(.boss) .enemy-name { -webkit-line-clamp: 1; }
 }
 #codex-content .enemy-art { width: 80px; height: 80px; margin: 0 auto; }
 #codex-content .enemy-art > svg,.battle-boss-silhouette .enemy-art > svg { animation: none; }

@@ -107,7 +107,7 @@
       choices: [
         { id: 'gem', icon: 'gem', name: 'หยิบอัญมณี', nameEn: 'Take the gem', desc: 'ได้ทองก้อนโตและวัตถุดิบโซน 4 ชิ้น แต่ติดคำสาปสุ่ม 1 อย่าง', descEn: 'Gain a large sum of gold and 4 zone materials, but suffer a random curse.',
           effect: function (run, floor) {
-            var D = window.Game.Data, gold = 220 + floor * 30, gemMat = zoneMaterial(floor);
+            var D = window.Game.Data, gold = window.Game.Formulas.eventGold(floor, 1.5), gemMat = zoneMaterial(floor);
             S().addGold(run, gold);
             if (gemMat) S().addItem(run, gemMat.id, 4);
             var open = D.curses.filter(function (c) { return (run.curses || []).indexOf(c.id) === -1; });
@@ -159,7 +159,7 @@
       choices: [
         { id: 'sneak', icon: 'coin', name: 'ย่องเข้าไปหยิบ', nameEn: 'Sneak in', desc: 'โอกาส 55% ได้ทองและยา 3 ขวด ถ้าพลาดเสีย HP 25% ของค่าสูงสุด', descEn: '55% chance of gold and 3 potions. Fail and you lose 25% of max HP.',
           effect: function (run, floor) {
-            if (Math.random() < 0.55) { var gold = 150 + floor * 22, p = bestPotion(floor); S().addGold(run, gold); if (p) S().addItem(run, p.id, 3); return { th: 'สำเร็จ! ได้รับทอง ' + gold + (p ? ' และ ' + p.name + ' ×3' : ''), en: 'Success! Gained ' + gold + ' gold' + (p ? ' and ' + nameOf(p, true) + ' ×3.' : '.') }; }
+            if (Math.random() < 0.55) { var gold = window.Game.Formulas.eventGold(floor, 1.2), p = bestPotion(floor); S().addGold(run, gold); if (p) S().addItem(run, p.id, 3); return { th: 'สำเร็จ! ได้รับทอง ' + gold + (p ? ' และ ' + p.name + ' ×3' : ''), en: 'Success! Gained ' + gold + ' gold' + (p ? ' and ' + nameOf(p, true) + ' ×3.' : '.') }; }
             var dmg = hurt(run, 0.25); return { th: 'มันตื่น! คุณหนีออกมาได้แต่เสีย HP ' + dmg, en: 'It wakes! You escape, but lose ' + dmg + ' HP.', danger: true };
           } },
         leave
@@ -170,7 +170,7 @@
         { id: 'absorb', icon: 'sparkles', name: 'ดูดซับพลัง', nameEn: 'Absorb it', desc: 'LUK +3 และ MP สูงสุด +6 ตลอดการเดินทาง', descEn: 'Run-long +3 LUK and +6 max MP.',
           effect: function (run) { S().addStatBoost(run, 'luk', 3); S().addStatBoost(run, 'mp', 6); return { th: 'LUK +3 และ MP สูงสุด +6', en: 'LUK +3 and max MP +6' }; } },
         { id: 'sell', icon: 'coin', name: 'เก็บไปขาย', nameEn: 'Take it to sell', desc: 'ได้ทองทันที', descEn: 'Gain gold right away.',
-          effect: function (run, floor) { var gold = 120 + floor * 26; S().addGold(run, gold); return { th: 'ได้รับทอง ' + gold, en: 'Gained ' + gold + ' gold.' }; } }
+          effect: function (run, floor) { var gold = window.Game.Formulas.eventGold(floor, 1.2); S().addGold(run, gold); return { th: 'ได้รับทอง ' + gold, en: 'Gained ' + gold + ' gold.' }; } }
       ] }
   ];
   choiceEvents.forEach(function (e) { e.choiceEvent = true; events.push(e); });

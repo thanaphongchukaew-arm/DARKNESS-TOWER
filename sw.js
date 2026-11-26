@@ -1,8 +1,9 @@
-// shipped-files-hash: 049462609d504534290f
-const CACHE_NAME = 'darkness-tower-v80';
+// shipped-files-hash: 4a7aec6cc5aab0013ea0
+const CACHE_NAME = 'darkness-tower-v100';
 
 const PRECACHE_URLS = [
   './css/rooms.css',
+  './assets/pixel16/rooms/hideout.png',
   './assets/pixel16/rooms/shop.png',
   './assets/pixel16/rooms/craft.png',
   './assets/pixel16/rooms/runes.png',

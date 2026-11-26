@@ -221,7 +221,6 @@
    */
   function createRun(difficultyId, classId, ascension) {
     deps();
-    bumpCounter('runsStarted');
     var cls = D.getClass(classId);
     var diff = F.DIFFICULTY[difficultyId] || F.DIFFICULTY.normal;
     var level = 1;
@@ -238,6 +237,8 @@
       gold: 0,
       waypointsSeen: {},
       equipment: { weapon: null, armor: null, shoes: null, accessory1: null, accessory2: null },
+      // Free attribute points spent so far (see attributes.js).
+      attr: { str: 0, dex: 0, int: 0, end: 0, lck: 0 },
       inventory: {},
       bonusSkills: [],
       shopStock: null,
@@ -269,6 +270,9 @@
     };
     addItem(run, 'p_hp_small', diff.startPotions);
     addItem(run, 'p_mp_small', 1);
+    var number = bumpCounter('runsStarted');
+    run.masteryAttempt = Date.now().toString(36) + ':' + number;
+    run.masteryPerk = window.Game.Mastery.equipped(classId);
     window.Game.State.current = run;
     recordFloorReached(1);
     return run;
@@ -294,6 +298,12 @@
     if (run.companionId === undefined) run.companionId = null;
     if (!run.eventsSeen) run.eventsSeen = {};
     if (run.lastEventFloor == null) run.lastEventFloor = 0;
+    // Saves from before attributes existed: spend the points they already earned the class's
+    // way, so their stats match what they had (see attributes.js).
+    if (!run.enhance || typeof run.enhance !== 'object' || Array.isArray(run.enhance)) run.enhance = {};
+    EQUIP_SLOTS.forEach(function (slot) { run.enhance[slot] = enhanceLevel(run, slot); });
+    if (!run.attr) { window.Game.Attributes.ensure(run); window.Game.Attributes.autoAllocate(run); }
+    else window.Game.Attributes.ensure(run);
     return run;
   }
 
@@ -315,14 +325,52 @@
       if (!id) return;
       var item = D.getItem(id);
       if (!item || !item.statBonus) return;
+      var lv = enhanceLevel(run, slot);
       Object.keys(item.statBonus).forEach(function (k) {
-        total[k] = (total[k] || 0) + item.statBonus[k];
+        total[k] = (total[k] || 0) + F.enhanceStat(item.statBonus[k], lv);
       });
     });
     return total;
   }
 
+  // Equipment enhancement: run.enhance = { weapon: 0..ENHANCE_MAX, ... }, kept per SLOT (it stays
+  // when you swap gear). See Formulas.enhanceCost / enhanceStat.
+  function enhanceLevel(run, slot) {
+    var e = run.enhance;
+    return e && typeof e[slot] === 'number' && isFinite(e[slot]) ? Math.max(0, Math.min(F.ENHANCE_MAX, Math.floor(e[slot]))) : 0;
+  }
+  /** Gold price of the next +1 for this slot, or null if it is maxed or empty. */
+  function enhancePrice(run, slot) {
+    deps();
+    if (EQUIP_SLOTS.indexOf(slot) === -1 || !run.equipment[slot]) return null;
+    var lv = enhanceLevel(run, slot);
+    return lv >= F.ENHANCE_MAX ? null : F.enhanceCost(lv);
+  }
+  /** Forge this slot one level up, paying gold. @returns {boolean} */
+  function enhanceSlot(run, slot) {
+    var price = enhancePrice(run, slot);
+    if (price == null || !spendGold(run, price)) return false;
+    run.enhance = run.enhance || {};
+    run.enhance[slot] = enhanceLevel(run, slot) + 1;
+    clampVitals(run);
+    return true;
+  }
+
   var STAT_KEYS = ['hp', 'mp', 'atk', 'mag', 'def', 'res', 'spd', 'luk'];
+
+  /** The run's attribute totals (class start + class auto + free + accessories/events). @param {Run} run */
+  function getAttributes(run) {
+    var A = window.Game.Attributes, bonus = getEquipmentBonus(run), boosts = run.statBoosts || {}, extra = {};
+    A.KEYS.forEach(function (k) { extra[k] = (bonus[k] || 0) + (boosts[k] || 0); });
+    return A.totals(run, extra);
+  }
+
+  /** Spend one free attribute point (or n). Keeps HP/MP in range. @returns {boolean} */
+  function spendAttribute(run, key, n) {
+    var ok = window.Game.Attributes.spend(run, key, n);
+    if (ok) clampVitals(run);
+    return ok;
+  }
 
   /**
    * Class base stats at the run's level, plus equipment bonuses and any
@@ -332,17 +380,17 @@
    */
   function getTotalStats(run) {
     deps();
-    var cls = D.getClass(run.classId) || D.classes[0];
-    var base = F.playerStatsAtLevel(cls, run.level);
+    var A = window.Game.Attributes;
     var bonus = getEquipmentBonus(run);
-    var total = {};
-    Object.keys(base).forEach(function (k) { total[k] = base[k] + (bonus[k] || 0); });
     // Flat, run-long training bonuses granted by tower events (see addStatBoost).
     var boosts = run.statBoosts || {};
-    Object.keys(boosts).forEach(function (k) { total[k] = (total[k] || 0) + boosts[k]; });
+    // Attribute bonuses (accessories, events) feed the attributes; everything else is a flat stat.
+    var extraAttr = {};
+    A.KEYS.forEach(function (k) { extraAttr[k] = (bonus[k] || 0) + (boosts[k] || 0); });
+    var base = A.derivedStats(run, extraAttr);
+    var total = {};
     STAT_KEYS.forEach(function (k) {
-      if (total[k] == null) total[k] = bonus[k] || 0;
-      total[k] = F.round(total[k] * blessingStatMult(run, k));
+      total[k] = Math.max(1, F.round((base[k] + (bonus[k] || 0) + (boosts[k] || 0)) * blessingStatMult(run, k)));
     });
     // Blood-altar bargains (see ui-tower's eventBloodAltar) permanently shave max HP for the run.
     if (run.maxHpPenalty > 0) total.hp = Math.max(1, F.round(total.hp * (1 - run.maxHpPenalty)));
@@ -693,7 +741,7 @@
   function addExp(run, amount) {
     deps();
     run.exp += amount;
-    var leveledUp = false;
+    var leveledUp = false, from = run.level;
     while (run.exp >= run.expNext) {
       run.exp -= run.expNext;
       run.level += 1;
@@ -709,7 +757,24 @@
     } else {
       clampVitals(run);
     }
-    return { leveledUp: leveledUp, level: run.level };
+    return { leveledUp: leveledUp, level: run.level, from: from };
+  }
+
+  /**
+   * What a level-up from `from` to the run's current level brought: newly learned skills and
+   * skills that reached a new rank (see Data.skillRank). For the level-up log.
+   */
+  function levelUpNews(run, from) {
+    deps();
+    var learned = [], ranked = [];
+    D.getLearnedSkills(run.classId, run.level).forEach(function (s) {
+      if (s.id === 'attack') return;
+      if (s.minLevel > from) learned.push(s);
+      else if (D.skillRank(s, run.level) > D.skillRank(s, from)) ranked.push({ skill: s, rank: D.skillRank(s, run.level) });
+    });
+    var next = D.skills.filter(function (s) { return D.isSkillAllowedForClass(s, run.classId) && s.minLevel > run.level; })
+      .sort(function (a, b) { return a.minLevel - b.minLevel; })[0] || null;
+    return { learned: learned, ranked: ranked, next: next };
   }
 
   function learnedSkills(run) {
@@ -863,7 +928,8 @@
       var meta = window.Game.Save.readMeta();
       meta[name] = (meta[name] || 0) + 1;
       window.Game.Save.writeMeta(meta);
-    } catch (e) { /* storage unavailable */ }
+      return meta[name];
+    } catch (e) { return 0; }
   }
 
   function recordSurvivalWaves(waves) {
@@ -983,6 +1049,12 @@
     createRun: createRun,
     bumpCounter: bumpCounter,
     getTotalStats: getTotalStats,
+    getAttributes: getAttributes,
+    enhanceLevel: enhanceLevel,
+    enhancePrice: enhancePrice,
+    enhanceSlot: enhanceSlot,
+    levelUpNews: levelUpNews,
+    spendAttribute: spendAttribute,
     getMaxHp: getMaxHp,
     getMaxMp: getMaxMp,
     clampVitals: clampVitals,

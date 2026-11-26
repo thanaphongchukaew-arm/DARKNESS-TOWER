@@ -9,21 +9,21 @@
   var items = [
     // ---- Weapons (boost atk & mag a bit) ----
     { id: 'w_rusty_blade', name: 'ดาบสนิมกร้าน', nameEn: 'Rusty Blade', kind: 'weapon', tier: 1, icon: 'weaponSlot', statBonus: { atk: 3 }, desc: '+3 ATK', descEn: '+3 ATK' },
-    { id: 'w_hunting_blade', name: 'ดาบนักล่า', nameEn: 'Hunting Blade', kind: 'weapon', tier: 1, icon: 'weaponSlot', statBonus: { atk: 5, luk: 1 }, desc: '+5 ATK, +1 LUK', descEn: '+5 ATK, +1 LUK' },
+    { id: 'w_hunting_blade', name: 'ดาบนักล่า', nameEn: 'Hunting Blade', kind: 'weapon', tier: 1, icon: 'weaponSlot', statBonus: { atk: 5, lck: 2 }, desc: '+5 ATK, +2 LUK', descEn: '+5 ATK, +2 LUK' },
     { id: 'w_apprentice_wand', name: 'คทาศิษย์เวท', nameEn: 'Apprentice Wand', kind: 'weapon', tier: 1, icon: 'weaponSlotMag', statBonus: { mag: 5 }, desc: '+5 MAG', descEn: '+5 MAG' },
     { id: 'w_knight_sword', name: 'ดาบอัศวิน', nameEn: 'Knight Sword', kind: 'weapon', tier: 2, icon: 'weaponSlot', statBonus: { atk: 8, def: 2 }, desc: '+8 ATK, +2 DEF', descEn: '+8 ATK, +2 DEF' },
     { id: 'w_arcane_staff', name: 'คทาอาคม', nameEn: 'Arcane Staff', kind: 'weapon', tier: 2, icon: 'weaponSlotMag', statBonus: { mag: 9, res: 2 }, desc: '+9 MAG, +2 RES', descEn: '+9 MAG, +2 RES' },
     { id: 'w_storm_glaive', name: 'ทวนวายุ', nameEn: 'Storm Glaive', kind: 'weapon', tier: 2, icon: 'weaponSlot', statBonus: { atk: 6, spd: 3 }, desc: '+6 ATK, +3 SPD', descEn: '+6 ATK, +3 SPD' },
-    { id: 'w_soul_edge', name: 'ดาบกลืนวิญญาณ', nameEn: 'Soulrend Blade', kind: 'weapon', tier: 3, icon: 'weaponSlot', statBonus: { atk: 13, luk: 2 }, desc: '+13 ATK, +2 LUK', descEn: '+13 ATK, +2 LUK' },
+    { id: 'w_soul_edge', name: 'ดาบกลืนวิญญาณ', nameEn: 'Soulrend Blade', kind: 'weapon', tier: 3, icon: 'weaponSlot', statBonus: { atk: 13, lck: 3 }, desc: '+13 ATK, +3 LUK', descEn: '+13 ATK, +3 LUK' },
     { id: 'w_grand_grimoire', name: 'คัมภีร์มหาเวท', nameEn: 'Grand Grimoire', kind: 'weapon', tier: 3, icon: 'weaponSlotMag', statBonus: { mag: 14, mp: 6 }, desc: '+14 MAG, +6 MP', descEn: '+14 MAG, +6 MP' },
-    { id: 'w_dragonfang_blade', name: 'ดาบเขี้ยวมังกร', nameEn: 'Dragonfang Blade', kind: 'weapon', tier: 4, icon: 'weaponSlot', statBonus: { atk: 21, luk: 3 }, desc: '+21 ATK, +3 LUK', descEn: '+21 ATK, +3 LUK' },
+    { id: 'w_dragonfang_blade', name: 'ดาบเขี้ยวมังกร', nameEn: 'Dragonfang Blade', kind: 'weapon', tier: 4, icon: 'weaponSlot', statBonus: { atk: 21, lck: 5 }, desc: '+21 ATK, +5 LUK', descEn: '+21 ATK, +5 LUK' },
     { id: 'w_infernal_scepter', name: 'คทาอเวจี', nameEn: 'Infernal Scepter', kind: 'weapon', tier: 4, icon: 'weaponSlotMag', statBonus: { mag: 22, mp: 8 }, desc: '+22 MAG, +8 MP', descEn: '+22 MAG, +8 MP' },
     { id: 'w_tempest_lance', name: 'หอกพายุทมิฬ', nameEn: 'Stormdark Lance', kind: 'weapon', tier: 4, icon: 'weaponSlot', statBonus: { atk: 16, spd: 5 }, desc: '+16 ATK, +5 SPD', descEn: '+16 ATK, +5 SPD' },
-    { id: 'w_voidforged_blade', name: 'ดาบหลอมความว่าง', nameEn: 'Voidforged Blade', kind: 'weapon', tier: 5, icon: 'weaponSlot', statBonus: { atk: 34, luk: 4 }, desc: '+34 ATK, +4 LUK', descEn: '+34 ATK, +4 LUK' },
+    { id: 'w_voidforged_blade', name: 'ดาบหลอมความว่าง', nameEn: 'Voidforged Blade', kind: 'weapon', tier: 5, icon: 'weaponSlot', statBonus: { atk: 34, lck: 7 }, desc: '+34 ATK, +7 LUK', descEn: '+34 ATK, +7 LUK' },
     { id: 'w_archdemon_tome', name: 'คัมภีร์จอมเดวิล', nameEn: 'Archdevil Tome', kind: 'weapon', tier: 5, icon: 'weaponSlotMag', statBonus: { mag: 35, mp: 12 }, desc: '+35 MAG, +12 MP', descEn: '+35 MAG, +12 MP' },
-    { id: 'w_resonant_edge', name: 'ดาบก้องกังวาน', nameEn: 'Resonant Edge', kind: 'weapon', tier: 6, icon: 'weaponSlot', statBonus: { atk: 46, luk: 5 }, desc: '+46 ATK, +5 LUK', descEn: '+46 ATK, +5 LUK' },
+    { id: 'w_resonant_edge', name: 'ดาบก้องกังวาน', nameEn: 'Resonant Edge', kind: 'weapon', tier: 6, icon: 'weaponSlot', statBonus: { atk: 46, lck: 8 }, desc: '+46 ATK, +8 LUK', descEn: '+46 ATK, +8 LUK' },
     { id: 'w_choral_staff', name: 'คทาบทสวด', nameEn: 'Choral Staff', kind: 'weapon', tier: 6, icon: 'weaponSlotMag', statBonus: { mag: 48, mp: 16 }, desc: '+48 MAG, +16 MP', descEn: '+48 MAG, +16 MP' },
-    { id: 'w_sovereign_fang', name: 'ดาบเขี้ยวอธิราช', nameEn: 'Sovereign Fang', kind: 'weapon', tier: 7, icon: 'weaponSlot', statBonus: { atk: 62, luk: 6 }, desc: '+62 ATK, +6 LUK', descEn: '+62 ATK, +6 LUK' },
+    { id: 'w_sovereign_fang', name: 'ดาบเขี้ยวอธิราช', nameEn: 'Sovereign Fang', kind: 'weapon', tier: 7, icon: 'weaponSlot', statBonus: { atk: 62, lck: 10 }, desc: '+62 ATK, +10 LUK', descEn: '+62 ATK, +10 LUK' },
     { id: 'w_eternity_tome', name: 'คัมภีร์นิรันดร์', nameEn: 'Tome of Eternity', kind: 'weapon', tier: 7, icon: 'weaponSlotMag', statBonus: { mag: 65, mp: 22 }, desc: '+65 MAG, +22 MP', descEn: '+65 MAG, +22 MP' },
 
     // ---- Armor (boost def/res/hp) ----
@@ -44,27 +44,27 @@
 
     // ---- Shoes ----
     { id: 'c_swift_boots', name: 'รองเท้าวิ่งไว', nameEn: 'Swift Boots', kind: 'shoes', tier: 1, icon: 'shoesSlot', statBonus: { spd: 4 }, desc: '+4 SPD', descEn: '+4 SPD' },
-    { id: 's_wind_treads', name: 'รองเท้าลมกรด', nameEn: 'Wind Treads', kind: 'shoes', tier: 2, icon: 'shoesSlot', statBonus: { spd: 7, luk: 1 }, desc: '+7 SPD, +1 LUK', descEn: '+7 SPD, +1 LUK' },
-    { id: 's_gale_striders', name: 'รองเท้าไล่ลม', nameEn: 'Gale Striders', kind: 'shoes', tier: 3, icon: 'shoesSlot', statBonus: { spd: 12, luk: 2 }, desc: '+12 SPD, +2 LUK', descEn: '+12 SPD, +2 LUK' },
-    { id: 's_tempest_boots', name: 'รองเท้าพายุทมิฬ', nameEn: 'Tempest Boots', kind: 'shoes', tier: 4, icon: 'shoesSlot', statBonus: { spd: 18, luk: 3 }, desc: '+18 SPD, +3 LUK', descEn: '+18 SPD, +3 LUK' },
-    { id: 's_stormgod_sabatons', name: 'รองเท้าเทพอัสนี', nameEn: "Stormgod's Sabatons", kind: 'shoes', tier: 5, icon: 'shoesSlot', statBonus: { spd: 26, luk: 4 }, desc: '+26 SPD, +4 LUK', descEn: '+26 SPD, +4 LUK' },
-    { id: 's_resonant_striders', name: 'รองเท้าก้องกังวาน', nameEn: 'Resonant Striders', kind: 'shoes', tier: 6, icon: 'shoesSlot', statBonus: { spd: 34, luk: 5 }, desc: '+34 SPD, +5 LUK', descEn: '+34 SPD, +5 LUK' },
-    { id: 's_boundless_striders', name: 'รองเท้าไร้ขอบเขต', nameEn: 'Boundless Striders', kind: 'shoes', tier: 7, icon: 'shoesSlot', statBonus: { spd: 46, luk: 7 }, desc: '+46 SPD, +7 LUK', descEn: '+46 SPD, +7 LUK' },
+    { id: 's_wind_treads', name: 'รองเท้าลมกรด', nameEn: 'Wind Treads', kind: 'shoes', tier: 2, icon: 'shoesSlot', statBonus: { spd: 7, lck: 2 }, desc: '+7 SPD, +2 LUK', descEn: '+7 SPD, +2 LUK' },
+    { id: 's_gale_striders', name: 'รองเท้าไล่ลม', nameEn: 'Gale Striders', kind: 'shoes', tier: 3, icon: 'shoesSlot', statBonus: { spd: 12, lck: 3 }, desc: '+12 SPD, +3 LUK', descEn: '+12 SPD, +3 LUK' },
+    { id: 's_tempest_boots', name: 'รองเท้าพายุทมิฬ', nameEn: 'Tempest Boots', kind: 'shoes', tier: 4, icon: 'shoesSlot', statBonus: { spd: 18, lck: 5 }, desc: '+18 SPD, +5 LUK', descEn: '+18 SPD, +5 LUK' },
+    { id: 's_stormgod_sabatons', name: 'รองเท้าเทพอัสนี', nameEn: "Stormgod's Sabatons", kind: 'shoes', tier: 5, icon: 'shoesSlot', statBonus: { spd: 26, lck: 7 }, desc: '+26 SPD, +7 LUK', descEn: '+26 SPD, +7 LUK' },
+    { id: 's_resonant_striders', name: 'รองเท้าก้องกังวาน', nameEn: 'Resonant Striders', kind: 'shoes', tier: 6, icon: 'shoesSlot', statBonus: { spd: 34, lck: 8 }, desc: '+34 SPD, +8 LUK', descEn: '+34 SPD, +8 LUK' },
+    { id: 's_boundless_striders', name: 'รองเท้าไร้ขอบเขต', nameEn: 'Boundless Striders', kind: 'shoes', tier: 7, icon: 'shoesSlot', statBonus: { spd: 46, lck: 12 }, desc: '+46 SPD, +12 LUK', descEn: '+46 SPD, +12 LUK' },
 
     // ---- Accessories ----
-    { id: 'c_lucky_charm', name: 'เครื่องรางนำโชค', nameEn: 'Lucky Charm', kind: 'accessory', tier: 1, icon: 'accessorySlot', statBonus: { luk: 4 }, desc: '+4 LUK', descEn: '+4 LUK' },
-    { id: 'c_focus_ring', name: 'แหวนสมาธิ', nameEn: 'Focus Ring', kind: 'accessory', tier: 2, icon: 'accessorySlot', statBonus: { atk: 3, mag: 3 }, desc: '+3 ATK, +3 MAG', descEn: '+3 ATK, +3 MAG' },
-    { id: 'c_guardian_amulet', name: 'เครื่องรางผู้พิทักษ์', nameEn: 'Guardian Amulet', kind: 'accessory', tier: 2, icon: 'accessorySlot', statBonus: { def: 3, res: 3 }, desc: '+3 DEF, +3 RES', descEn: '+3 DEF, +3 RES' },
-    { id: 'c_sovereign_crest', name: 'ตราอธิราช', nameEn: 'Sovereign Crest', kind: 'accessory', tier: 3, icon: 'accessorySlot', statBonus: { atk: 5, mag: 5, luk: 3 }, desc: '+5 ATK, +5 MAG, +3 LUK', descEn: '+5 ATK, +5 MAG, +3 LUK' },
+    { id: 'c_lucky_charm', name: 'เครื่องรางนำโชค', nameEn: 'Lucky Charm', kind: 'accessory', tier: 1, icon: 'accessorySlot', statBonus: { lck: 7 }, desc: '+7 LUK', descEn: '+7 LUK' },
+    { id: 'c_focus_ring', name: 'แหวนสมาธิ', nameEn: 'Focus Ring', kind: 'accessory', tier: 2, icon: 'accessorySlot', statBonus: { str: 3, int: 3 }, desc: '+3 STR, +3 INT', descEn: '+3 STR, +3 INT' },
+    { id: 'c_guardian_amulet', name: 'เครื่องรางผู้พิทักษ์', nameEn: 'Guardian Amulet', kind: 'accessory', tier: 2, icon: 'accessorySlot', statBonus: { end: 5 }, desc: '+5 END', descEn: '+5 END' },
+    { id: 'c_sovereign_crest', name: 'ตราอธิราช', nameEn: 'Sovereign Crest', kind: 'accessory', tier: 3, icon: 'accessorySlot', statBonus: { str: 5, int: 5, lck: 5 }, desc: '+5 STR, +5 INT, +5 LUK', descEn: '+5 STR, +5 INT, +5 LUK' },
     { id: 'c_spire_heart', name: 'หัวใจแห่งหอคอย', nameEn: 'Heart of the Spire', kind: 'accessory', tier: 3, icon: 'accessorySlot', statBonus: { hp: 20, mp: 15, spd: 3 }, desc: '+20 HP, +15 MP, +3 SPD', descEn: '+20 HP, +15 MP, +3 SPD' },
-    { id: 'c_wyrmscale_ring', name: 'แหวนเกล็ดไวเวิร์น', nameEn: 'Wyrmscale Ring', kind: 'accessory', tier: 4, icon: 'accessorySlot', statBonus: { atk: 8, mag: 8 }, desc: '+8 ATK, +8 MAG', descEn: '+8 ATK, +8 MAG' },
-    { id: 'c_infernal_pact', name: 'พันธสัญญาอเวจี', nameEn: 'Infernal Pact', kind: 'accessory', tier: 4, icon: 'accessorySlot', statBonus: { def: 8, res: 8 }, desc: '+8 DEF, +8 RES', descEn: '+8 DEF, +8 RES' },
-    { id: 'c_demonlord_crown', name: 'มงกุฎจอมมาร', nameEn: "Demon Lord's Crown", kind: 'accessory', tier: 5, icon: 'accessorySlot', statBonus: { atk: 12, mag: 12, luk: 5 }, desc: '+12 ATK, +12 MAG, +5 LUK', descEn: '+12 ATK, +12 MAG, +5 LUK' },
+    { id: 'c_wyrmscale_ring', name: 'แหวนเกล็ดไวเวิร์น', nameEn: 'Wyrmscale Ring', kind: 'accessory', tier: 4, icon: 'accessorySlot', statBonus: { str: 8, int: 8 }, desc: '+8 STR, +8 INT', descEn: '+8 STR, +8 INT' },
+    { id: 'c_infernal_pact', name: 'พันธสัญญาอเวจี', nameEn: 'Infernal Pact', kind: 'accessory', tier: 4, icon: 'accessorySlot', statBonus: { end: 14 }, desc: '+14 END', descEn: '+14 END' },
+    { id: 'c_demonlord_crown', name: 'มงกุฎจอมมาร', nameEn: "Demon Lord's Crown", kind: 'accessory', tier: 5, icon: 'accessorySlot', statBonus: { str: 12, int: 12, lck: 8 }, desc: '+12 STR, +12 INT, +8 LUK', descEn: '+12 STR, +12 INT, +8 LUK' },
     { id: 'c_heart_of_abyss', name: 'หัวใจอเวจี', nameEn: 'Heart of the Abyss', kind: 'accessory', tier: 5, icon: 'accessorySlot', statBonus: { hp: 40, mp: 30, spd: 5 }, desc: '+40 HP, +30 MP, +5 SPD', descEn: '+40 HP, +30 MP, +5 SPD' },
-    { id: 'c_prism_band', name: 'แหวนปริซึม', nameEn: 'Prism Band', kind: 'accessory', tier: 6, icon: 'accessorySlot', statBonus: { atk: 16, mag: 16 }, desc: '+16 ATK, +16 MAG', descEn: '+16 ATK, +16 MAG' },
-    { id: 'c_wardens_seal', name: 'ตราผู้เฝ้าผลึก', nameEn: "Warden's Crystal Seal", kind: 'accessory', tier: 6, icon: 'accessorySlot', statBonus: { def: 11, res: 11 }, desc: '+11 DEF, +11 RES', descEn: '+11 DEF, +11 RES' },
-    { id: 'c_infinity_loop', name: 'วงแหวนนิรันดร์', nameEn: 'Infinity Loop', kind: 'accessory', tier: 7, icon: 'accessorySlot', statBonus: { atk: 22, mag: 22 }, desc: '+22 ATK, +22 MAG', descEn: '+22 ATK, +22 MAG' },
-    { id: 'c_absolute_ward', name: 'เครื่องรางพิทักษ์สมบูรณ์', nameEn: 'Absolute Ward', kind: 'accessory', tier: 7, icon: 'accessorySlot', statBonus: { def: 15, res: 15 }, desc: '+15 DEF, +15 RES', descEn: '+15 DEF, +15 RES' },
+    { id: 'c_prism_band', name: 'แหวนปริซึม', nameEn: 'Prism Band', kind: 'accessory', tier: 6, icon: 'accessorySlot', statBonus: { str: 16, int: 16 }, desc: '+16 STR, +16 INT', descEn: '+16 STR, +16 INT' },
+    { id: 'c_wardens_seal', name: 'ตราผู้เฝ้าผลึก', nameEn: "Warden's Crystal Seal", kind: 'accessory', tier: 6, icon: 'accessorySlot', statBonus: { end: 19 }, desc: '+19 END', descEn: '+19 END' },
+    { id: 'c_infinity_loop', name: 'วงแหวนนิรันดร์', nameEn: 'Infinity Loop', kind: 'accessory', tier: 7, icon: 'accessorySlot', statBonus: { str: 22, int: 22 }, desc: '+22 STR, +22 INT', descEn: '+22 STR, +22 INT' },
+    { id: 'c_absolute_ward', name: 'เครื่องรางพิทักษ์สมบูรณ์', nameEn: 'Absolute Ward', kind: 'accessory', tier: 7, icon: 'accessorySlot', statBonus: { end: 26 }, desc: '+26 END', descEn: '+26 END' },
 
     // ---- Consumables ----
     { id: 'p_hp_small', name: 'ยาฟื้นฟู HP เล็ก', nameEn: 'Small HP Potion', kind: 'consumable', tier: 1, icon: 'potion', effect: { type: 'healHp', amount: 30 }, desc: 'ฟื้นฟู 30 HP', descEn: 'Restores 30 HP', battleUsable: true },
@@ -114,24 +114,24 @@
     // outclassing the next tier you're about to reach. Tiers 8-9 have no
     // higher shop tier to reference, so they're scaled up from the tier-7
     // shop ceiling instead. ----
-    { id: 'w_craft_fangblade', name: 'ดาบเขี้ยวเงา', nameEn: 'Shadowfang Blade', kind: 'weapon', tier: 1, icon: 'weaponSlot', craftOnly: true, statBonus: { atk: 9, luk: 3 }, desc: '+9 ATK, +3 LUK', descEn: '+9 ATK, +3 LUK' },
+    { id: 'w_craft_fangblade', name: 'ดาบเขี้ยวเงา', nameEn: 'Shadowfang Blade', kind: 'weapon', tier: 1, icon: 'weaponSlot', craftOnly: true, statBonus: { atk: 9, lck: 5 }, desc: '+9 ATK, +5 LUK', descEn: '+9 ATK, +5 LUK' },
     { id: 'a_craft_ironward', name: 'เกราะหลอมพายุ', nameEn: 'Stormforged Plate', kind: 'armor', tier: 2, icon: 'armorSlot', craftOnly: true, statBonus: { def: 11, hp: 24 }, desc: '+11 DEF, +24 HP', descEn: '+11 DEF, +24 HP' },
-    { id: 's_craft_wyvernstride', name: 'รองเท้าเกล็ดไวเวิร์น', nameEn: 'Wyvernscale Striders', kind: 'shoes', tier: 3, icon: 'shoesSlot', craftOnly: true, statBonus: { spd: 19, luk: 4 }, desc: '+19 SPD, +4 LUK', descEn: '+19 SPD, +4 LUK' },
-    { id: 'c_craft_dragonfangring', name: 'แหวนตราเขี้ยวมังกร', nameEn: 'Dragonfang Signet', kind: 'accessory', tier: 4, icon: 'accessorySlot', craftOnly: true, statBonus: { atk: 13, mag: 13 }, desc: '+13 ATK, +13 MAG', descEn: '+13 ATK, +13 MAG' },
-    { id: 'w_craft_voidreaver', name: 'ดาบเก็บเกี่ยวความว่าง', nameEn: 'Voidreaver Blade', kind: 'weapon', tier: 5, icon: 'weaponSlot', craftOnly: true, statBonus: { atk: 47, luk: 6 }, desc: '+47 ATK, +6 LUK', descEn: '+47 ATK, +6 LUK' },
+    { id: 's_craft_wyvernstride', name: 'รองเท้าเกล็ดไวเวิร์น', nameEn: 'Wyvernscale Striders', kind: 'shoes', tier: 3, icon: 'shoesSlot', craftOnly: true, statBonus: { spd: 19, lck: 7 }, desc: '+19 SPD, +7 LUK', descEn: '+19 SPD, +7 LUK' },
+    { id: 'c_craft_dragonfangring', name: 'แหวนตราเขี้ยวมังกร', nameEn: 'Dragonfang Signet', kind: 'accessory', tier: 4, icon: 'accessorySlot', craftOnly: true, statBonus: { str: 13, int: 13 }, desc: '+13 STR, +13 INT', descEn: '+13 STR, +13 INT' },
+    { id: 'w_craft_voidreaver', name: 'ดาบเก็บเกี่ยวความว่าง', nameEn: 'Voidreaver Blade', kind: 'weapon', tier: 5, icon: 'weaponSlot', craftOnly: true, statBonus: { atk: 47, lck: 10 }, desc: '+47 ATK, +10 LUK', descEn: '+47 ATK, +10 LUK' },
     { id: 'a_craft_resonant_bulwark', name: 'เกราะปราการก้องกังวาน', nameEn: 'Resonant Bulwark', kind: 'armor', tier: 6, icon: 'armorSlot', craftOnly: true, statBonus: { def: 44, hp: 120 }, desc: '+44 DEF, +120 HP', descEn: '+44 DEF, +120 HP' },
-    { id: 's_craft_undertow_striders', name: 'รองเท้ากระแสใต้บาดาล', nameEn: 'Undertow Striders', kind: 'shoes', tier: 7, icon: 'shoesSlot', craftOnly: true, statBonus: { spd: 64, luk: 10 }, desc: '+64 SPD, +10 LUK', descEn: '+64 SPD, +10 LUK' },
-    { id: 'c_craft_stormcaller_band', name: 'แหวนเรียกพายุ', nameEn: "Stormcaller's Band", kind: 'accessory', tier: 8, icon: 'accessorySlot', craftOnly: true, statBonus: { atk: 32, mag: 32 }, desc: '+32 ATK, +32 MAG', descEn: '+32 ATK, +32 MAG' },
-    { id: 'w_craft_desert_sovereign', name: 'ดาบอธิราชทะเลทราย', nameEn: 'Desert Sovereign Blade', kind: 'weapon', tier: 9, icon: 'weaponSlot', craftOnly: true, statBonus: { atk: 98, luk: 10 }, desc: '+98 ATK, +10 LUK', descEn: '+98 ATK, +10 LUK' },
+    { id: 's_craft_undertow_striders', name: 'รองเท้ากระแสใต้บาดาล', nameEn: 'Undertow Striders', kind: 'shoes', tier: 7, icon: 'shoesSlot', craftOnly: true, statBonus: { spd: 64, lck: 17 }, desc: '+64 SPD, +17 LUK', descEn: '+64 SPD, +17 LUK' },
+    { id: 'c_craft_stormcaller_band', name: 'แหวนเรียกพายุ', nameEn: "Stormcaller's Band", kind: 'accessory', tier: 8, icon: 'accessorySlot', craftOnly: true, statBonus: { str: 32, int: 32 }, desc: '+32 STR, +32 INT', descEn: '+32 STR, +32 INT' },
+    { id: 'w_craft_desert_sovereign', name: 'ดาบอธิราชทะเลทราย', nameEn: 'Desert Sovereign Blade', kind: 'weapon', tier: 9, icon: 'weaponSlot', craftOnly: true, statBonus: { atk: 98, lck: 17 }, desc: '+98 ATK, +17 LUK', descEn: '+98 ATK, +17 LUK' },
 
     // ---- Quest-exclusive rewards (see data-quests.js) -- questOnly keeps them out
     // of the shop and every reward/treasure pool (getItemsByKindTier and the shop/
     // waypoint/reward-pool filters all exclude questOnly explicitly), same as
     // craftOnly does for the crafting bench's own equipment above. Claiming the
     // quest that grants one is their only source. ----
-    { id: 'c_quest_novice_badge', name: 'ตราผู้เริ่มต้น', nameEn: "Novice's Badge", kind: 'accessory', tier: 2, icon: 'accessorySlot', questOnly: true, statBonus: { atk: 3, mag: 3, def: 2, res: 2 }, desc: '+3 ATK, +3 MAG, +2 DEF, +2 RES (รางวัลภารกิจเท่านั้น)', descEn: '+3 ATK, +3 MAG, +2 DEF, +2 RES (quest reward only)' },
-    { id: 'c_quest_veteran_medal', name: 'เหรียญทหารผ่านศึก', nameEn: "Veteran's Medal", kind: 'accessory', tier: 4, icon: 'accessorySlot', questOnly: true, statBonus: { atk: 7, mag: 7, def: 5, res: 5, luk: 3 }, desc: '+7 ATK, +7 MAG, +5 DEF, +5 RES, +3 LUK (รางวัลภารกิจเท่านั้น)', descEn: '+7 ATK, +7 MAG, +5 DEF, +5 RES, +3 LUK (quest reward only)' },
-    { id: 'c_quest_sovereign_relic', name: 'โบราณวัตถุแห่งอธิราชไร้กาล', nameEn: 'Relic of the Timeless Sovereign', kind: 'accessory', tier: 7, icon: 'accessorySlot', questOnly: true, statBonus: { atk: 18, mag: 18, def: 12, res: 12, spd: 8, luk: 8 }, desc: '+18 ATK, +18 MAG, +12 DEF, +12 RES, +8 SPD, +8 LUK (รางวัลภารกิจเท่านั้น)', descEn: '+18 ATK, +18 MAG, +12 DEF, +12 RES, +8 SPD, +8 LUK (quest reward only)' }
+    { id: 'c_quest_novice_badge', name: 'ตราผู้เริ่มต้น', nameEn: "Novice's Badge", kind: 'accessory', tier: 2, icon: 'accessorySlot', questOnly: true, statBonus: { str: 3, int: 3, end: 3 }, desc: '+3 STR, +3 INT, +3 END (รางวัลภารกิจเท่านั้น)', descEn: '+3 STR, +3 INT, +3 END (quest reward only)' },
+    { id: 'c_quest_veteran_medal', name: 'เหรียญทหารผ่านศึก', nameEn: "Veteran's Medal", kind: 'accessory', tier: 4, icon: 'accessorySlot', questOnly: true, statBonus: { str: 7, int: 7, end: 9, lck: 5 }, desc: '+7 STR, +7 INT, +9 END, +5 LUK (รางวัลภารกิจเท่านั้น)', descEn: '+7 STR, +7 INT, +9 END, +5 LUK (quest reward only)' },
+    { id: 'c_quest_sovereign_relic', name: 'โบราณวัตถุแห่งอธิราชไร้กาล', nameEn: 'Relic of the Timeless Sovereign', kind: 'accessory', tier: 7, icon: 'accessorySlot', questOnly: true, statBonus: { str: 18, int: 18, end: 20, spd: 8, lck: 13 }, desc: '+18 STR, +18 INT, +20 END, +8 SPD, +13 LUK (รางวัลภารกิจเท่านั้น)', descEn: '+18 STR, +18 INT, +20 END, +8 SPD, +13 LUK (quest reward only)' }
   ];
 
   window.Game = window.Game || {};

@@ -10,6 +10,7 @@
   function renderEnd() {
     if (!lastEnd) return;
     var victory = lastEnd.victory, checkpointFloor = lastEnd.checkpointFloor;
+    var returnToHideout = !checkpointFloor && window.Game.HideoutUI.preparation();
     document.getElementById('screen-end').dataset.room = victory ? 'victory' : 'defeat';
     window.Game.RoomUI.show('screen-end');
     var iconEl = document.getElementById('end-icon');
@@ -19,11 +20,12 @@
     iconEl.innerHTML = window.Game.Icons.get(victory ? 'trophy' : 'skull', 'icon-xl');
     iconEl.style.color = victory ? 'var(--accent-gold)' : 'var(--danger)';
     titleEl.textContent = T(victory ? 'victoryTitle' : 'defeatTitle');
-    msgEl.textContent = victory ? T('victoryMsg') : checkpointFloor ? T('defeatCheckpointMsg', { floor: checkpointFloor }) : T('defeatMsg');
+    msgEl.textContent = victory ? T('victoryMsg') : checkpointFloor ? T('defeatCheckpointMsg', { floor: checkpointFloor }) : T(returnToHideout ? 'hideoutDefeat' : 'defeatMsg');
     actionsEl.innerHTML =
       (checkpointFloor ? '<button class="btn-primary" id="end-checkpoint-btn">' + T('continueFromCheckpoint', { floor: checkpointFloor }) + '</button>' : '') +
-      '<button class="' + (checkpointFloor ? 'btn-secondary' : 'btn-primary') + '" id="end-menu-btn">' + T('backToMenu') + '</button>';
+      '<button class="' + (checkpointFloor ? 'btn-secondary' : 'btn-primary') + '" id="end-menu-btn">' + T(returnToHideout ? 'hideoutReturn' : 'backToMenu') + '</button>';
     document.getElementById('end-menu-btn').onclick = function () {
+      if (returnToHideout) { window.Game.HideoutUI.open(); return; }
       window.Game.MenuUI.renderMainMenu();
       window.Game.UI.showScreen('screen-menu');
     };
@@ -47,7 +49,7 @@
       S.recordDifficultyCleared(run.difficulty);
       if (run.difficulty === 'nightmare') S.recordAscensionClear(run.ascension || 0);
     }
-    if (run) { S.bumpCounter(victory ? 'runsWon' : 'runsLost'); window.Game.SystemsUI.summary(run, victory); }
+
     var checkpointFloor = null;
     if (!victory && run) {
       // A defeat with a checkpoint puts the run straight back on it, so closing
@@ -56,7 +58,15 @@
       var restored = S.restoreCheckpoint();
       if (restored) checkpointFloor = restored.currentFloor;
     }
-    if (!checkpointFloor) S.clearRun();
+    if (run) {
+      S.bumpCounter(victory ? 'runsWon' : 'runsLost');
+      var reward = checkpointFloor ? null : window.Game.Mastery.settle(run, victory);
+      window.Game.SystemsUI.summary(run, victory, reward);
+    }
+    if (!checkpointFloor) {
+      if (run) window.Game.HideoutUI.prepare(run.difficulty, run.ascension, !victory);
+      S.clearRun();
+    }
     lastEnd = { victory: !!victory, checkpointFloor: checkpointFloor };
     renderEnd();
     window.Game.UI.showScreen('screen-end');
@@ -68,7 +78,7 @@
     if (!active || active.id !== 'screen-end') return;
     renderEnd();
     var lastRun = window.Game.Save.readMeta().lastRun;
-    if (lastRun && lastRun.currentFloor) window.Game.SystemsUI.summary(lastRun, lastEnd.victory);
+    if (lastRun && lastRun.currentFloor) window.Game.SystemsUI.summary(lastRun, lastEnd.victory, lastRun.masteryReward);
   }
 
   var renderAudioControls = function () {};

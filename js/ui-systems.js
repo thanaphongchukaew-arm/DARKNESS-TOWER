@@ -44,7 +44,7 @@
     var after = G.State.getTotalStats(copy);
     var deltas = Object.keys(after).filter(function (key) { return before[key] !== after[key]; }).map(function (key) {
       var delta = after[key] - before[key];
-      return '<span class="' + (delta > 0 ? 'stat-up' : 'stat-down') + '">' + key.toUpperCase() + ' ' + before[key] + ' → ' + after[key] + ' (' + (delta > 0 ? '+' : '') + delta + ')</span>';
+      return '<span class="' + (delta > 0 ? 'stat-up' : 'stat-down') + '">' + (key === 'luk' ? 'CRIT' : key.toUpperCase()) + ' ' + before[key] + ' → ' + after[key] + ' (' + (delta > 0 ? '+' : '') + delta + ')</span>';
     });
     return '<div class="equip-compare"><small>' + X.text('เทียบกับ ', 'Compared with ') + (old ? L(old, 'name') : X.text('ช่องว่าง', 'empty slot')) + '</small>' + (deltas.join('') || X.text('ค่าสถานะเท่าเดิม', 'Same stats')) + (item.combo ? '<span>' + L(item, 'desc') + '</span>' : '') + '</div>';
   }
@@ -57,7 +57,7 @@
     button.textContent = X.text('ความเร็ว ', 'Speed ') + '×' + preferences();
     button.onclick = function () { var meta = G.Save.readMeta(); meta.battleSpeed = preferences() === 1 ? 2 : preferences() === 2 ? 4 : 1; G.Save.writeMeta(meta); speedControl(); };
   }
-  function summary(run, victory) {
+  function summary(run, victory, masteryReward) {
     var old = document.getElementById('run-summary'); if (old) old.remove();
     var panel = document.createElement('div'); panel.id = 'run-summary'; panel.className = 'run-summary';
     var cls = G.Data.getClass(run.classId);
@@ -66,8 +66,13 @@
       '<div class="summary-gear">' + Object.keys(run.equipment).map(function (slot) { var item = G.Data.getItem(run.equipment[slot]); return '<span>' + (item ? window.Game.Icons.item(item) + escape(L(item, 'name')) : '—') + '</span>'; }).join('') + '</div><div class="summary-talents">' + X.talents.filter(function (t) { return X.has(run, t.id); }).map(function (t) { return '<span>' + I(t.icon) + L(t, 'name') + '</span>'; }).join('') + '</div>';
     var micro=G.Micro.ensure(run).stats,topSkill=G.Micro.top(micro.skills),topRune=G.Micro.top(micro.runes);
     panel.innerHTML+='<div class="micro-run-stats"><h4>'+I('microTrophy')+X.text('ช่วงเวลาน่าจดจำ','Run highlights')+'</h4><div><span>'+X.text('ดาเมจสูงสุด','Highest hit')+' <b>'+(micro.maxHit||0)+'</b></span><span>'+X.text('ทำ Break','Breaks')+' <b>'+(micro.breaks||0)+'</b></span><span>'+I('microCombo')+X.text('คอมโบ','Combos')+' <b>'+(micro.combos||0)+'</b></span><span>'+X.text('สกิลใช้บ่อย','Most-used skill')+' <b>'+(topSkill?escape(L(G.Data.getSkill(topSkill),'name'))+' ×'+micro.skills[topSkill]:'—')+'</b></span><span>'+X.text('รูนที่ทำงานบ่อย','Most-triggered rune')+' <b>'+(topRune?escape(L(G.Data.getItem(topRune),'name'))+' ×'+micro.runes[topRune]:'—')+'</b></span></div></div>';
+    if (masteryReward) {
+      panel.innerHTML += '<div class="mastery-reward"><h4>' + G.I18n.t('masteryRewardTitle') + '</h4><p>' +
+        G.I18n.t('masteryRunXP', { xp: masteryReward.xp, total: masteryReward.totalXP }) + ' · ' +
+        G.I18n.t('masteryRunCoins', { coins: masteryReward.coins }) + '</p></div>';
+    }
     document.getElementById('end-actions').before(panel);
-    var meta = G.Save.readMeta(); meta.lastRun = { victory: victory, classId: run.classId, level: run.level, floor: run.currentFloor, currentFloor: run.currentFloor, stats: run.stats || {}, relics: run.relics || [], companionId: run.companionId || null, lastDamage: run.lastDamage || null, equipment: run.equipment, talents: run.talents || {}, micro: run.micro || null }; G.Save.writeMeta(meta);
+    var meta = G.Save.readMeta(); meta.lastRun = { masteryReward: masteryReward || null, victory: victory, classId: run.classId, level: run.level, floor: run.currentFloor, currentFloor: run.currentFloor, stats: run.stats || {}, relics: run.relics || [], companionId: run.companionId || null, lastDamage: run.lastDamage || null, equipment: run.equipment, talents: run.talents || {}, micro: run.micro || null }; G.Save.writeMeta(meta);
   }
   G.SystemsUI = { talentPrompt: talentPrompt, routePrompt: routePrompt, ailments: ailments, comparison: comparison, speed: preferences, speedControl: speedControl, summary: summary };
 })();

@@ -15,11 +15,18 @@ const SW = path.join(ROOT, 'sw.js');
 function shippedFiles(sw) {
   return [...new Set([...sw.matchAll(/'\.\/([^']+)'/g)].map((m) => m[1]))].filter((p) => p && !p.endsWith('/')).sort();
 }
+// Text files are hashed with LF line endings, so a Windows checkout (git core.autocrlf turns
+// LF into CRLF) records the same hash as CI on Linux.
+const TEXT_EXT = /\.(css|html|js|json|webmanifest|txt|svg)$/i;
+function fileBytes(rel, f) {
+  const buf = fs.readFileSync(f);
+  return TEXT_EXT.test(rel) ? Buffer.from(buf.toString('utf8').replace(/\r\n/g, '\n'), 'utf8') : buf;
+}
 function hashFiles(sw) {
   const h = crypto.createHash('sha256');
   for (const rel of shippedFiles(sw)) {
     const f = path.join(ROOT, rel);
-    h.update(rel + '\0' + (fs.existsSync(f) ? crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex') : 'MISSING') + '\n');
+    h.update(rel + '\0' + (fs.existsSync(f) ? crypto.createHash('sha256').update(fileBytes(rel, f)).digest('hex') : 'MISSING') + '\n');
   }
   return h.digest('hex').slice(0, 20);
 }

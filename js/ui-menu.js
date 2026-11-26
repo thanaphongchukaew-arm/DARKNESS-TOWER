@@ -79,12 +79,13 @@
     document.getElementById('menu-bat-1').innerHTML = window.Game.MonsterArt.icon('bat');
     document.getElementById('menu-bat-2').innerHTML = window.Game.MonsterArt.icon('bat');
     var hasSave = window.Game.Save.exists();
+    var canContinue = hasSave || window.Game.HideoutUI.preparation();
     var el = document.getElementById('menu-actions');
     var html = '';
-    if (hasSave) {
+    if (canContinue) {
       html += '<button class="btn-primary" id="btn-continue">' + I('menuContinue') + '<span>' + T('continueGame') + '</span></button>';
     }
-    html += '<button class="' + (hasSave ? 'btn-secondary' : 'btn-primary') + '" id="btn-new">' + I('swordAttack') + '<span>' + T('newGame') + '</span></button>';
+    html += '<button class="' + (canContinue ? 'btn-secondary' : 'btn-primary') + '" id="btn-new">' + I('swordAttack') + '<span>' + T('newGame') + '</span></button>';
     html += '<button class="btn-secondary" id="btn-guide">' + I('codex') + '<span>' + T('guideBtn') + '</span></button>';
     html += '<button class="btn-secondary" id="btn-settings">' + I('settingsGear') + '<span>' + T('settingsBtn') + '</span></button>';
     html += '<button class="btn-secondary" id="btn-credits">' + I('credits') + '<span>' + T('creditsBtn') + '</span></button>';
@@ -118,11 +119,15 @@
       showScreen('screen-guide');
     };
 
-    if (hasSave) {
+    if (canContinue) {
       document.getElementById('btn-continue').onclick = function () {
         SFX('ui_confirm');
         var run = window.Game.Save.read();
-        if (!run) { renderMainMenu(); return; }
+        if (!run) {
+          if (window.Game.HideoutUI.preparation()) window.Game.HideoutUI.open();
+          else renderMainMenu();
+          return;
+        }
         window.Game.State.current = run;
         window.Game.State.normalizeEquipment(run);
         window.Game.State.normalizeRunExtras(run);
@@ -306,16 +311,34 @@
     btn.onclick = function () { SFX('ui_confirm'); onContinue(); };
   }
 
-  // New run flow: intro story -> difficulty -> (Nightmare with Ascension unlocked:
-  // ascension level) -> class -> blessing. See data-classes.js's elite-class unlock
-  // note for how clearing Nightmare gates the 5 Valiant classes.
+  // Difficulty and Ascension are set before reaching the hideout. Class is chosen when departing.
+  var difficultyFromHideout = false;
   var DIFFICULTY_ORDER = ['easy', 'normal', 'hard', 'nightmare'];
   var DIFFICULTY_ICON = { easy: 'heart', normal: 'swordAttack', hard: 'skullMark', nightmare: 'skullFire' };
   var DIFFICULTY_DESC = { easy: 'diffEasyDesc', normal: 'diffNormalDesc', hard: 'diffHardDesc', nightmare: 'diffNightmareDesc' };
 
   function startNewRun() {
+    difficultyFromHideout = false;
     renderDifficultyPick();
     showScreen('screen-difficulty');
+  }
+
+  function openDifficultyFromHideout() {
+    difficultyFromHideout = true;
+    renderDifficultyPick();
+    showScreen('screen-difficulty');
+  }
+
+  function enterHideout() {
+    var G = window.Game, pending = G.State.pending;
+    var previous = difficultyFromHideout && G.HideoutUI.preparation();
+    if (previous) {
+      previous.difficulty = pending.difficulty;
+      previous.ascension = pending.ascension;
+      G.HideoutUI.writePreparation(previous);
+    } else G.HideoutUI.prepare(pending.difficulty, pending.ascension, false);
+    difficultyFromHideout = false;
+    G.HideoutUI.open();
   }
 
   function afterDifficultyPicked() {
@@ -325,8 +348,7 @@
       showScreen('screen-ascension');
     } else {
       pending.ascension = 0;
-      renderClassSelect();
-      showScreen('screen-class');
+      enterHideout();
     }
   }
 
@@ -397,7 +419,16 @@
     });
     document.getElementById('difficulty-sub').textContent = T('difficultySub');
     document.getElementById('difficulty-back').innerHTML = I('back');
-    document.getElementById('difficulty-back').onclick = function () { SFX('ui_back'); renderMainMenu(); showScreen('screen-menu'); };
+    document.getElementById('difficulty-back').onclick = function () {
+      SFX('ui_back');
+      if (difficultyFromHideout) {
+        difficultyFromHideout = false;
+        window.Game.HideoutUI.open();
+      } else {
+        renderMainMenu();
+        showScreen('screen-menu');
+      }
+    };
   }
 
   // Ascension level picker (Nightmare-only, see startNightmareRun above).
@@ -426,8 +457,7 @@
       card.onclick = function () {
         SFX('ui_confirm');
         window.Game.State.pending.ascension = parseInt(card.getAttribute('data-lvl'), 10);
-        renderClassSelect();
-        showScreen('screen-class');
+        enterHideout();
       };
     });
     document.getElementById('ascension-sub').textContent = T('ascensionSub');
@@ -445,11 +475,28 @@
     return T('classLockedSurvivalDesc', { waves: c.unlock.waves });
   }
 
+  // The class's signature mechanic (class-mech.js), so the choice is about play style, not just stats.
+  function classSignatureHtml(c, locked) {
+    var mech = window.Game.ClassMech.info(c.id);
+    if (locked || !mech) return '';
+    return '<div class="class-signature" title="' + String(L(mech, 'desc')).replace(/"/g, '&quot;') + '"><span class="class-signature-name">\u2605 ' + L(mech, 'name') + '</span><span class="class-signature-desc">' + L(mech, 'short') + '</span></div>';
+  }
+
+  function openClassSelect() {
+    renderClassSelect();
+    showScreen('screen-class');
+    window.scrollTo(0, 0);
+  }
+
   function renderClassSelect() {
+    document.getElementById('class-sub').textContent = T('hideoutChooseClass');
     var el = document.getElementById('class-cards');
     var classes = window.Game.Data.classes;
+    var mastery = window.Game.Mastery;
+    var masteryProfile = mastery.profile(window.Game.Save.readMeta());
     el.innerHTML = classes.map(function (c) {
       var locked = c.unlock && !window.Game.State.isClassUnlocked(c.id);
+      var masteryPerk = locked ? null : mastery.equipped(c.id, masteryProfile);
       return '<button class="select-card' + (locked ? ' locked' : '') + '" data-id="' + c.id + '" title="' + String(locked ? classLockedDesc(c) : L(c, 'description')).replace(/"/g, '&quot;') + '">' +
         '<div class="select-card-icon">' + I(c.icon) + (locked ? '<span class="class-lock-badge">' + I('lock') + '</span>' : '') + '</div>' +
         '<div class="select-card-title">' + L(c, 'name') + '</div>' +
@@ -459,6 +506,8 @@
           '<li class="pro"><span class="arrow up">\u25B2</span>' + L(c, 'pros') + '</li>' +
           '<li class="con"><span class="arrow down">\u25BC</span>' + L(c, 'cons') + '</li>' +
         '</ul>') +
+        classSignatureHtml(c, locked) +
+        (locked || !masteryPerk ? '' : '<span class="stat-chip">' + T('masteryPerkName_' + masteryPerk) + '</span>') +
         (locked ? '' :
         '<div class="select-card-stats">' +
           '<span class="stat-chip">HP ' + c.baseStats.hp + '</span>' +
@@ -476,30 +525,21 @@
       card.onclick = function () {
         SFX('ui_confirm');
         var classId = card.getAttribute('data-id');
-        window.Game.State.pending.classId = classId;
-        blessingPickState = { solo: null, pair: null };
-        renderBlessingPick();
-        showScreen('screen-blessing-pick');
+        window.Game.HideoutUI.depart(classId);
       };
     });
     document.getElementById('class-back').innerHTML = I('back');
     document.getElementById('class-back').onclick = function () {
       SFX('ui_back');
-      if (window.Game.State.pending.difficulty === 'nightmare' && window.Game.State.getAscensionUnlocked() > 0) {
-        renderAscensionPick();
-        showScreen('screen-ascension');
-      } else {
-        renderDifficultyPick();
-        showScreen('screen-difficulty');
+      if (window.Game.HideoutUI.preparation()) window.Game.HideoutUI.open();
+      else {
+        renderMainMenu();
+        showScreen('screen-menu');
       }
     };
   }
 
-  // Run-start blessing pick: 3 rolled cards (2 solo blessings, 1 riskier
-  // blessing+curse pair) plus an always-available Skip -- reuses .select-card/
-  // .card-grid exactly like class select. Rolled fresh every visit (fresh
-  // Math.random each render), held in blessingPickState only so the click
-  // handlers below can read back what's currently on screen.
+  // The shrine offers two solo blessings and one pair for each prepared journey.
   function shuffledCopy(arr) {
     var a = arr.slice();
     for (var i = a.length - 1; i > 0; i--) {
@@ -508,8 +548,6 @@
     }
     return a;
   }
-
-  var blessingPickState = { solo: null, pair: null };
 
   function rollBlessingOptions() {
     var D = window.Game.Data;
@@ -522,7 +560,7 @@
       var curseKeys = c.stat ? (Array.isArray(c.stat) ? c.stat : [c.stat]) : [];
       return !curseKeys.some(function (k) { return pairKeys.indexOf(k) !== -1; });
     }) || D.curses[0];
-    blessingPickState = { solo: solo, pair: { blessing: pairBlessing, curse: pairCurse } };
+    return { solo: solo.map(function (b) { return b.id; }), blessing: pairBlessing.id, curse: pairCurse.id };
   }
 
   function blessingCardHtml(b, extraTag) {
@@ -531,21 +569,28 @@
       '<div class="select-card-desc">' + L(b, 'desc') + '</div>';
   }
 
-  // Re-rolling on every call (including a language toggle mid-screen) would swap
-  // out the offered cards from under the player -- only roll fresh options the
-  // first time this screen is entered for the current pending run, then just
-  // re-render the already-rolled cards in the new language.
   function renderBlessingPick() {
-    if (!blessingPickState.solo) rollBlessingOptions();
+    var G = window.Game, D = G.Data, prep = G.HideoutUI.preparation();
+    if (!prep) return;
+    var options = prep.options;
+    if (!options || !Array.isArray(options.solo) || options.solo.length !== 2 ||
+        !options.solo.every(D.getBlessing) || !D.getBlessing(options.blessing) || !D.getCurse(options.curse)) {
+      options = prep.options = rollBlessingOptions();
+      G.HideoutUI.writePreparation(prep);
+    }
+    document.getElementById('blessing-pick-back').innerHTML = I('back');
+    document.getElementById('blessing-pick-back').setAttribute('aria-label', T('hideoutReturn'));
+    document.getElementById('blessing-pick-back').onclick = G.HideoutUI.open;
     document.getElementById('blessing-pick-title').textContent = T('blessingPickTitle');
     document.getElementById('blessing-pick-sub').textContent = T('blessingPickSub');
     document.getElementById('blessing-pick-skip').textContent = T('blessingSkipBtn');
     var el = document.getElementById('blessing-pick-cards');
-    var soloHtml = blessingPickState.solo.map(function (b, i) {
-      return '<button class="select-card" data-kind="solo" data-idx="' + i + '">' + blessingCardHtml(b) + '</button>';
+    var soloHtml = options.solo.map(function (id, i) {
+      return '<button class="select-card" data-kind="solo" data-idx="' + i + '" aria-pressed="' + (prep.blessing === id && !prep.curse) + '">' +
+        blessingCardHtml(D.getBlessing(id)) + '</button>';
     }).join('');
-    var pair = blessingPickState.pair;
-    var pairHtml = '<button class="select-card" data-kind="pair">' +
+    var pair = { blessing: D.getBlessing(options.blessing), curse: D.getCurse(options.curse) };
+    var pairHtml = '<button class="select-card" data-kind="pair" aria-pressed="' + (prep.blessing === options.blessing && prep.curse === options.curse) + '">' +
       '<div class="select-card-icon blessing-pair-art">' + I(pair.blessing.icon) + '<span class="blessing-trade-sign">+</span>' + I(pair.curse.icon) + '</div>' +
       '<div class="select-card-title">' + window.Game.Systems.text('พรพร้อมคำสาป', 'Blessing & curse') + '<span class="stat-chip">' + T('blessingRiskyTag') + '</span></div>' +
       '<div class="blessing-effects"><div class="blessing-effect-positive"><strong>' + L(pair.blessing, 'name') + '</strong><p>' + L(pair.blessing, 'desc') + '</p></div>' +
@@ -555,27 +600,19 @@
     Array.prototype.forEach.call(el.querySelectorAll('.select-card'), function (card) {
       card.onclick = function () {
         SFX('ui_confirm');
-        var pending = window.Game.State.pending;
-        var run = window.Game.State.createRun(pending.difficulty, pending.classId, pending.ascension || 0);
-        if (card.getAttribute('data-kind') === 'solo') {
-          var idx = parseInt(card.getAttribute('data-idx'), 10);
-          window.Game.State.addBlessing(run, blessingPickState.solo[idx].id);
-        } else {
-          window.Game.State.addBlessing(run, blessingPickState.pair.blessing.id);
-          window.Game.State.addCurse(run, blessingPickState.pair.curse.id, true);
-        }
-        window.Game.State.saveNow();
-        window.Game.TowerUI.renderTower();
-        showScreen('screen-tower');
+        var isPair = card.getAttribute('data-kind') === 'pair';
+        prep.blessing = isPair ? options.blessing : options.solo[Number(card.getAttribute('data-idx'))];
+        prep.curse = isPair ? options.curse : null;
+        G.HideoutUI.writePreparation(prep);
+        G.HideoutUI.open();
       };
     });
     document.getElementById('blessing-pick-skip').onclick = function () {
       SFX('ui_cancel');
-      var pending = window.Game.State.pending;
-      window.Game.State.createRun(pending.difficulty, pending.classId, pending.ascension || 0);
-      window.Game.State.saveNow();
-      window.Game.TowerUI.renderTower();
-      showScreen('screen-tower');
+      prep.blessing = null;
+      prep.curse = null;
+      G.HideoutUI.writePreparation(prep);
+      G.HideoutUI.open();
     };
   }
 
@@ -589,6 +626,8 @@
     else if (active.id === 'screen-settings') window.Game.SettingsUI.renderSettings();
     else if (active.id === 'screen-credits') window.Game.SettingsUI.renderCredits();
     else if (active.id === 'screen-ascension') renderAscensionPick();
+    else if (active.id === 'screen-hideout') window.Game.HideoutUI.render();
+    else if (active.id === 'screen-mastery') window.Game.HideoutUI.renderMastery();
     else if (active.id === 'screen-class') renderClassSelect();
     else if (active.id === 'screen-blessing-pick') renderBlessingPick();
     else if (active.id === 'screen-story' && lastStory.kind) renderStory(lastStory.kind, lastStory.onContinue);
@@ -605,6 +644,8 @@
     renderDifficultyPick: renderDifficultyPick,
     renderAscensionPick: renderAscensionPick,
     renderClassSelect: renderClassSelect,
+    openClassSelect: openClassSelect,
+    openDifficultyFromHideout: openDifficultyFromHideout,
     renderBlessingPick: renderBlessingPick,
     renderStory: renderStory,
     confirmModal: confirmModal,

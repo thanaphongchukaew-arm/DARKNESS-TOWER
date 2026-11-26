@@ -115,6 +115,14 @@
 
     // ---- Intro + ending screens. The ending is assembled in order: base[0..], the NPC
     // epilogues, the truth paragraph (only if every fragment was found), then closing. ----
+    hideout: {
+      welcome: 'เจ้ากลับมาที่ห้องเก็บตะเกียงของคนที่เลี้ยงเจ้ามา บนโต๊ะยังมีตะเกียงที่เขาซ่อมค้างไว้ เศษจันทราในมือเจ้าอุ่นขึ้นเมื่อหันไปทางหอคอย',
+      welcomeEn: 'You return to the workshop of the one who raised you. On the bench sits a lantern he never finished mending. The Moon Shard warms in your hand as you turn toward the tower.',
+      returned: 'เจ้าลืมตาที่โต๊ะตัวเดิม ตะเกียงยังดับอยู่เหมือนก่อนออกเดินทาง มีเพียงเศษจันทราที่ยังอุ่น และความทรงจำว่าครั้งก่อนเจ้าขึ้นไปได้ไกลเพียงใด',
+      returnedEn: 'You open your eyes at the same bench. The lantern is dark, just as it was before you left. Only the warmth of the Moon Shard and the memory of how far you climbed remain.',
+      letter: '“หากไฟดับ ให้กลับมาที่โต๊ะนี้ ข้าทิ้งไส้ตะเกียงสำรองไว้ในลิ้นชัก เจ้าเคยซ่อมมันได้ด้วยตัวเองครั้งหนึ่งแล้ว จำได้ไหม” ลายมือคุ้นตาหยุดลงตรงรอยเขม่าที่ขอบกระดาษ',
+      letterEn: '“If the light goes out, come back to this bench. There is a spare wick in the drawer. You fixed it yourself once, remember?” The familiar handwriting ends at a smudge of soot.'
+    },
     screens: {
       intro: {
         title: 'หอคอยแห่งความมืด', titleEn: 'The Darkness Tower',
@@ -123,13 +131,13 @@
           'เงามืดปกคลุมแผ่นดินมานานนับทศวรรษ นับตั้งแต่หอคอยแห่งความมืดผุดขึ้นกลางราตรี ดูดกลืนแสงจันทร์และความหวังของผู้คนไปทีละน้อย',
           'หมู่บ้านรอบหอคอยล่มสลาย พืชผลเหี่ยวเฉา เสียงหอนของสัตว์ร้ายดังก้องอยู่ในความมืด ไม่มีใครที่เดินเข้าไปในหอคอยแล้วกลับออกมาอีกเลย',
           'เจ้าเติบโตในหมู่บ้านตะเกียงสุดท้าย หมู่บ้านที่อยู่ใกล้ตีนหอคอยที่สุด คืนที่หอคอยผุดขึ้น ผู้จุดตะเกียงซึ่งเลี้ยงดูเจ้ามาหยิบตะเกียงเดินเข้าประตูหอคอยไปโดยไม่หันกลับมา ทิ้งไว้เพียง “เศษจันทรา” ชิ้นเล็กที่ยังอุ่นอยู่ในมือของเจ้า',
-          'ตลอดสิบปี เศษจันทราส่องแสงจาง ๆ ทุกครั้งที่เจ้าเข้าใกล้ความจริง เจ้าไม่ใช่คนธรรมดา เจ้าคือผู้ถือแสงคนสุดท้ายที่ยังเชื่อว่ารุ่งอรุณจะหวนคืน เจ้าก้าวเข้าประตูหอคอยเพื่อตามหาผู้ที่ไม่เคยกลับมา... และนำแสงสว่างคืนสู่โลกอีกครั้ง'
+          'ตลอดสิบปี เศษจันทราส่องแสงจาง ๆ ทุกครั้งที่เจ้าเข้าใกล้ความจริง เจ้าไม่ใช่คนธรรมดา เจ้าคือผู้ถือแสงคนสุดท้ายที่ยังเชื่อว่ารุ่งอรุณจะหวนคืน ก่อนตามหาผู้ที่ไม่เคยกลับมา เจ้าแวะห้องเก็บตะเกียงของเขาเป็นครั้งสุดท้าย'
         ],
         bodyEn: [
           'Darkness has choked the land for a decade, ever since the Darkness Tower rose in the dead of night, devouring moonlight and hope alike, piece by piece.',
           'The villages around it withered. Crops rotted in the fields. The howls of monsters echo through the dark, and no one who has entered the tower has ever returned.',
           'You grew up in Last Lamp, the village nearest the tower’s foot. The night the tower rose, the Lamplighter who raised you took a lantern and walked through its gate without looking back, leaving only a “Moon Shard” still warm in your hand.',
-          'For ten years the Shard has glowed faintly whenever you drew near the truth. You are no ordinary soul. You are the last Lightbearer who still believes the dawn will return. You step through the gate to find the one who never came back... and to bring the light home.'
+          'For ten years the Shard has glowed faintly whenever you drew near the truth. You are no ordinary soul. You are the last Lightbearer who still believes the dawn will return. Before setting out to find the one who never came back, you stop at his old workshop.'
         ]
       },
       ending: {
