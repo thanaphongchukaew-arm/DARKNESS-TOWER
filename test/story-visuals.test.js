@@ -103,7 +103,7 @@ test('NPC support works without a companion, once per round, with a strict openi
 });
 test('NPC support can finish a boss and composes with normal companion and Break rewards', () => {
   const f=fixture(5);f.g.Story.ensure(f.run).orinRounds=5;f.run.relics=['break_prism'];f.run.mp=0;
-  let battle=f.g.BattleEngine.createBattle(f.run,5,false);battle.enemies[0].hp=1;battle.enemies[0].breakMeter=75;
+  let battle=f.g.BattleEngine.createBattle(f.run,5,false);battle.enemies[0].hp=1;battle.enemies[0].breakMeter=f.g.Formulas.breakMax(battle.enemies[0])-1;
   const result=f.g.BattleEngine.runCompanionPhase(battle);
   assert.equal(result.victory,true);assert.equal(f.run.mp,4);
   f.run.companionId='ember_fox';battle=f.g.BattleEngine.createBattle(f.run,5,false);battle.enemies[0].hp=100000;

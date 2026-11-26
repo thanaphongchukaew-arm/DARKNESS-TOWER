@@ -18,6 +18,9 @@ const FILES = [
   'js/i18n.js',
   'js/data-classes.js',
   'js/data-skills.js',
+  'js/class-mech.js',
+  'js/class-mech-classes.js',
+  'js/class-mech-valiant.js',
   'js/data-enemies.js',
   'js/data-enemy-names.js',
   'js/data-items.js',
@@ -30,7 +33,9 @@ const FILES = [
   'js/data-achievements.js',
   'js/data-story.js',
   'js/formulas.js',
+  'js/attributes.js',
   'js/save.js',
+  'js/mastery.js',
   'js/minigame.js',
   'js/state.js',
   'js/systems.js',
@@ -43,7 +48,8 @@ const FILES = [
   'js/bond.js',
   'js/battle-engine.js',
   'js/workshop-battle.js',
-  'js/battle-vfx.js'
+  'js/battle-vfx.js',
+  'js/ui-hideout.js'
 ];
 
 function makeLocalStorageStub() {

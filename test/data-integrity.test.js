@@ -21,7 +21,7 @@ test('ids are unique inside every collection', () => {
 });
 
 test('skills have valid shape and point at real classes', () => {
-  const KINDS = new Set(['attack', 'heal', 'buffSelf', 'debuffEnemy']);
+  const KINDS = new Set(['attack', 'heal', 'buffSelf', 'debuffEnemy', 'mech']);   // mech = class command, see class-mech.js
   const bad = [];
   for (const s of D.skills) {
     if (!s.id || !s.name || !s.nameEn) bad.push(s.id + ': missing id/name');

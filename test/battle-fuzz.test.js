@@ -4,6 +4,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { loadGame } = require('./helpers/load-game.js');
+const { primeMech } = require('./helpers/class-mech.js');
 
 const Game = loadGame();
 const { BattleEngine: BE, State, Formulas: F, Data: D } = Game;
@@ -210,12 +211,14 @@ test('skills cannot be cast without enough MP, and MP is only spent on a success
       const run = newRun(cls, 30, null, 'normal');
       const battle = BE.createBattle(run, 1, false);
       const target = battle.enemies.findIndex((e) => e.alive);
-      for (const s of State.learnedSkills(run).filter((x) => x.id !== 'attack' && x.cost > 0 && x.kind !== 'heal')) {
-        battle.run.mp = s.cost - 1; battle.playerAP = 1;
+      for (const s of State.learnedSkills(run).filter((x) => x.id !== 'attack' && BE.skillCost(battle, x).mp > 0 && x.kind !== 'heal')) {
+        primeMech(Game, battle, s);
+        const need = BE.skillCost(battle, s).mp;
+        battle.run.mp = need - 1; battle.playerAP = 1;
         const hp0 = battle.enemies.map((e) => e.hp);
         const r = BE.playerAction(battle, { kind: 'skill', skillId: s.id, targetIndex: target });
-        assert.ok(r.events.some((e) => e.type === 'invalid'), cls + '/' + s.id + ': cast with ' + (s.cost - 1) + ' MP must be rejected');
-        assert.equal(battle.run.mp, s.cost - 1, cls + '/' + s.id + ': failed cast must not spend MP');
+        assert.ok(r.events.some((e) => e.type === 'invalid'), cls + '/' + s.id + ': cast with ' + (need - 1) + ' MP must be rejected');
+        assert.equal(battle.run.mp, need - 1, cls + '/' + s.id + ': failed cast must not spend MP');
         assert.deepEqual(battle.enemies.map((e) => e.hp), hp0);
       }
     }
@@ -247,13 +250,15 @@ test('a successful cast spends EXACTLY the skill cost in MP (and HP-cost skills 
         const battle = BE.createBattle(run, 1, false);
         const target = battle.enemies.findIndex((e) => e.alive);
         run.mp = battle.player.maxMp; battle.playerAP = 1;
-        if (run.mp < s.cost) continue;
+        primeMech(Game, battle, s);
+        const need = BE.skillCost(battle, s).mp;   // a Gunslinger pays half on gun skills
+        if (run.mp < need) continue;
         const mp0 = run.mp, hp0 = run.hp;
         const r = BE.playerAction(battle, { kind: 'skill', skillId: s.id, targetIndex: target });
         if (r.events.some((e) => e.type === 'invalid')) continue;   // e.g. a heal at full HP is legitimately refused
         casts++;
         const regen = r.events.filter((e) => e.type === 'resourceGain' && e.resource === 'mp').reduce((n, e) => n + e.amount, 0);
-        assert.equal(mp0 - run.mp + regen, s.cost, cls + '/' + s.id + ': MP went ' + mp0 + ' -> ' + run.mp + ' for a ' + s.cost + ' MP skill');
+        assert.equal(mp0 - run.mp + regen, need, cls + '/' + s.id + ': MP went ' + mp0 + ' -> ' + run.mp + ' for a ' + need + ' MP skill');
         if (s.hpCost) assert.ok(run.hp <= hp0 - Math.round(battle.player.maxHp * s.hpCost) || battle.over, cls + '/' + s.id + ': HP cost not paid');
       }
     }

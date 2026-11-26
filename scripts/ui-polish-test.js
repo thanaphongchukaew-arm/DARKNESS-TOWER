@@ -137,5 +137,6 @@ app.whenReady().then(async () => {
   } catch (error) { failures.push(error.stack); }
   failures.forEach(message => console.error('FAIL ' + message));
   console.log(failures.length ? 'UI POLISH FAILED' : 'UI POLISH PASSED (desktop, landscape, portrait)');
-  fs.rmSync(profile,{recursive:true,force:true}); app.exit(failures.length ? 1 : 0);
+  try { fs.rmSync(profile,{recursive:true,force:true}); } catch { /* Chromium can hold the temporary profile open until exit. */ }
+  app.exit(failures.length ? 1 : 0);
 });

@@ -54,12 +54,12 @@ async function tour(win, tag) {
   await run(win, "document.getElementById('story-continue').click();");
   await shoot(win, tag + '-05-difficulty');
   await run(win, "document.querySelector('#difficulty-cards [data-id=\"normal\"]').click();");
-  await shoot(win, tag + '-06-class');
-  await run(win, "document.querySelector('#class-cards [data-id=\"blade\"]').click();");
+  await shoot(win, tag + '-06-hideout');
+  await run(win, "document.getElementById('hideout-shrine').click();");
   await shoot(win, tag + '-07-blessing');
-  await run(win, "document.getElementById('blessing-pick-skip').click();");
-  await run(win, "var t=document.getElementById('tip-card-ok'); if(t) t.click();");
-  await shoot(win, tag + '-08-tower');
+  await run(win, "document.getElementById('blessing-pick-skip').click(); document.getElementById('hideout-enter').click();");
+  await shoot(win, tag + '-08-class');
+  await run(win, "document.querySelector('#class-cards [data-id=\"blade\"]').click(); var G=window.Game; G.State.clearBattleMark(G.State.current); G.Main.clearBattleView(); G.TowerUI.renderTower(); G.UI.showScreen('screen-tower'); var t=document.getElementById('tip-card-ok'); if(t) t.click();");
 
   // A mid-game hero so status, shop and battle are not empty.
   await run(win, `

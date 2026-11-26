@@ -11,11 +11,15 @@ const path = require('node:path');
 const SIM = path.join(__dirname, '..', 'scripts', 'balance-sim.js');
 const DIFFS = ['easy', 'normal', 'hard', 'nightmare'];
 const CLASSES = ['blade', 'elementalist', 'cleric', 'berserker', 'ranger'];
+// Re-recorded 2026-11-26 (2): player hits +20%, stagger rarer (16 per power), All-Out x1.1 base, softer
+// mini-bosses, Nightmare ramping x1.22 -> x1.5. Earlier the same day: every class got its signature mechanic (class-mech*.js) and Nightmare
+// enemies ramp from x1.22 on floor 1 to x1.32 by floor 30 to compensate; before that,
+// 2026-11-25: Break-only stagger, attributes, level-gated skills with ranks, less late gold, gear forging.
 const EXPECTED = {
-  easy:      { blade: 101, elementalist: 101, cleric: 101, berserker: 101, ranger: 86 },
-  normal:    { blade: 101, elementalist: 96,  cleric: 100, berserker: 100, ranger: 76 },
-  hard:      { blade: 100, elementalist: 75,  cleric: 85,  berserker: 90,  ranger: 75 },
-  nightmare: { blade: 85,  elementalist: 70,  cleric: 79,  berserker: 100, ranger: 55 }
+  easy:      { blade: 101, elementalist: 101, cleric: 101, berserker: 101, ranger: 101 },
+  normal:    { blade: 101, elementalist: 100, cleric: 101, berserker: 100, ranger: 97 },
+  hard:      { blade: 101, elementalist: 98,  cleric: 100, berserker: 101, ranger: 81 },
+  nightmare: { blade: 86,  elementalist: 73,  cleric: 90,  berserker: 97,  ranger: 70 }
 };
 const TOLERANCE = 15;
 

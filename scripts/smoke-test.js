@@ -74,17 +74,30 @@ const IN_PAGE = async function (TARGET, BUDGET) {
     check(f1 && f1.tagName === 'BUTTON' && f2 && f2 !== f1, 'arrow keys move focus between menu buttons');
     document.documentElement.classList.remove('kbd-nav');
 
-    // ---- new run: story -> difficulty -> class -> blessing ----
+    // ---- new run: story -> difficulty -> hideout -> class -> floor 1 ----
     click('#btn-new'); check(active() === 'screen-story', 'new game shows the intro story');
     click('#story-continue'); check(active() === 'screen-difficulty', 'story leads to difficulty select');
     check(document.querySelectorAll('#difficulty-cards .select-card').length === 4, 'four difficulties are offered'); checkScreenText('difficulty');
     key('Escape'); check(active() === 'screen-menu', 'Esc goes back from difficulty select');
     click('#btn-new'); click('#story-continue'); click('#difficulty-cards [data-id="normal"]');
-    check(active() === 'screen-class' && G.State.pending.difficulty === 'normal', 'picking Normal leads to class select');
+    check(active() === 'screen-hideout' && G.HideoutUI.preparation().difficulty === 'normal', 'picking Normal opens the hideout');
+    check(!G.State.current && !G.Save.exists(), 'the hideout has no active run'); checkScreenText('hideout');
+    click('#hideout-bench'); check(!!modalOpen('modal-root'), 'the Lamplighter’s letter opens'); click('#modal-confirm');
+    click('#hideout-map'); check(active() === 'screen-codex' && !!$('#codex-tab-bestiary'), 'the map opens the Bestiary');
+    click('#codex-back'); check(active() === 'screen-hideout', 'the Bestiary returns to the hideout');
+    click('#hideout-shrine');
+    const shrineOptions = JSON.stringify(G.HideoutUI.preparation().options);
+    click('#blessing-pick-cards [data-kind="solo"]');
+    const selectedBlessing = G.HideoutUI.preparation().blessing;
+    click('#hideout-back'); click('#btn-continue'); click('#hideout-shrine');
+    check(JSON.stringify(G.HideoutUI.preparation().options) === shrineOptions && !!$('#blessing-pick-cards [aria-pressed="true"]'), 'shrine choice and offers survive leaving the hideout');
+    click('#blessing-pick-back'); click('#hideout-enter');
+    check(active() === 'screen-class', 'the hideout door opens class select');
     check(document.querySelectorAll('#class-cards .select-card').length === 29, '29 classes are listed');
     const imgs = Array.from(document.querySelectorAll('#class-cards svg.class-character')).slice(0, 3);
-    click('#class-cards [data-id="blade"]'); check(active() === 'screen-blessing-pick', 'class leads to blessing pick');
-    click('#blessing-pick-skip'); check(active() === 'screen-tower' && G.State.current && G.State.current.difficulty === 'normal', 'run starts on the tower');
+    click('#class-cards [data-id="blade"]');
+    check(active() === 'screen-battle' && G.State.current?.currentFloor === 1 && G.State.current.difficulty === 'normal', 'selecting a class enters floor 1 directly');
+    check(G.State.current?.blessings.includes(selectedBlessing) && !G.HideoutUI.preparation(), 'the shrine’s blessing applies once on departure');
     check(imgs.length === 3, 'class portraits render');
 
     // ---- climb: a generic driver that always presses something sensible ----
@@ -187,7 +200,25 @@ const IN_PAGE = async function (TARGET, BUDGET) {
       check(active() === 'screen-end' && !vis($('#end-checkpoint-btn')), 'defeat offers no checkpoint'); checkScreenText('defeat');
       check(G.State.current === null && !G.Save.read(), 'defeat clears the active and saved run');
       click('#end-menu-btn'); await sleep(60);
-      check(active() === 'screen-menu' && !vis($('#btn-continue')), 'defeat returns to a menu without Continue');
+      check(active() === 'screen-hideout' && G.HideoutUI.preparation().returned, 'defeat returns to the hideout');
+      const mastery = G.Mastery.profile(G.Save.readMeta());
+      check(mastery.coins > 0 && G.Mastery.classRecord(mastery, 'blade').xp > 0, 'first clears pay out both permanent rewards');
+      check(!!$('#hideout-last-run') && !G.HideoutUI.preparation().blessing, 'the hideout keeps a record and resets preparation');
+      click('#hideout-back'); click('#btn-continue'); click('#hideout-enter'); click('#class-cards [data-id="samurai"]');
+      check(active() === 'screen-battle' && G.State.current?.classId === 'samurai' && G.State.current.currentFloor === 1, 'Continue and the hideout door start a fresh run with a new class');
+
+      // ---- the class perk book spends only the between-run wallet ----
+      for (let floor = 1; floor <= 5; floor++) G.Mastery.recordClear(G.State.current, floor);
+      G.Main.showEnd(false);
+      check(!!$('#run-summary .mastery-reward'), 'the run summary shows both permanent rewards');
+      click('#end-menu-btn'); click('#hideout-mastery');
+      check(active() === 'screen-mastery' && $('#mastery-class').value === 'samurai', 'the perk book opens on the last class');
+      const beforePurchase = G.Mastery.profile(G.Save.readMeta()).coins;
+      click('[data-perk="samurai_draw"]');
+      check(G.Mastery.equipped('samurai') === 'samurai_draw' &&
+        G.Mastery.profile(G.Save.readMeta()).coins === beforePurchase - 10, 'purchasing a perk uses Lantern Coins and equips it');
+      click('#mastery-back'); click('#hideout-enter'); click('#class-cards [data-id="samurai"]');
+      check(G.State.current?.masteryPerk === 'samurai_draw' && G.State.current.gold === 0, 'the equipped perk carries into a fresh run with zero tower gold');
 
       // ---- crash overlay ----
       G.Main.showErrorOverlay(new Error('smoke test probe'));

@@ -20,7 +20,7 @@ app.whenReady().then(async()=>{
   await shot('settings','G.SettingsUI.renderSettings();G.UI.showScreen("screen-settings");');
   await shot('classes','G.MenuUI.renderClassSelect();G.UI.showScreen("screen-class");');
   await shot('difficulty','G.MenuUI.renderDifficultyPick();G.UI.showScreen("screen-difficulty");');
-  await shot('blessings','G.MenuUI.renderBlessingPick();G.UI.showScreen("screen-blessing-pick");');
+  await shot('blessings','G.HideoutUI.prepare("normal",0,false);G.MenuUI.renderBlessingPick();G.UI.showScreen("screen-blessing-pick");');
   await shot('tower','G.TowerUI.renderTower();G.UI.showScreen("screen-tower");');
   await shot('shop','G.TowerUI.renderShop();G.UI.showScreen("screen-shop");');
   await shot('shop-no-gold','G.State.current.gold=0;G.TowerUI.renderShop();G.UI.showScreen("screen-shop");');

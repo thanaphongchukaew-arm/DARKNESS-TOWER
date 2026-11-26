@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const {loadGame} = require('./helpers/load-game');
+const { primeMech } = require('./helpers/class-mech.js');
 
 function fixture(classId='elementalist', floor=19) {
   const g=loadGame({random:()=>0.5}), run=g.State.createRun('normal',classId);
@@ -42,7 +43,7 @@ test('name semantics distinguish weapons, elements, thrown flasks, self elixirs,
 test('all 220 skills emit stable animation metadata and their timelines preserve every event exactly once',()=>{
   const definitions=loadGame().Data.skills;
   for(const skill of definitions){
-    const f=fixture(skill.classOnly||'elementalist');f.run.hp-=5;f.battle.playerAP=2;
+    const f=fixture(skill.classOnly||'elementalist');f.run.hp-=5;f.battle.playerAP=2;primeMech(f.g,f.battle,skill);
     const result=f.g.BattleEngine.playerAction(f.battle,{kind:'skill',skillId:skill.id,targetIndex:0});
     assert.notEqual(result.events[0]?.type,'invalid',skill.id);
     const plan=f.g.BattleFX.timeline(result.events), flattened=plan.flatMap(step=>step.events);

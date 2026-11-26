@@ -19,7 +19,8 @@ app.on('window-all-closed',()=>{});
 
 const OUT=path.resolve('previews/battle-layout');
 const SAVE_SHOTS=process.argv.includes('--shots');
-const QUICK=process.argv.includes('--quick');
+const HUD_ONLY=process.argv.includes('--enemy-hud');
+const QUICK=HUD_ONLY||process.argv.includes('--quick');
 
 // [tag, width, height, mobile]. Boundaries: 1250px (hero shrinks), aspect 4/5 (hero re-anchors).
 const VIEWPORTS=[
@@ -51,11 +52,20 @@ const LIVE_VIEWPORTS=['desktop-1440x960','desktop-1000x1251','desktop-1249x900',
 // ---- in-page helpers (installed once per window as window.__lay) -------------------------------
 const INSTALL=require('./lib/layout-measure.js');
 
+const ENEMY_GEOMETRY = `const box=document.getElementById('battle-enemies');return JSON.stringify([box.style.zoom,[...box.querySelectorAll('.enemy-card')].map(c=>[c.offsetHeight,c.offsetWidth,c.querySelector('.enemy-portrait').offsetHeight,c.querySelector('.enemy-portrait').offsetWidth])]);`;
 const STRESS={
  'history-open':`const d=document.getElementById('battle-recent-history');if(d){d.open=true;d.querySelector('ol').innerHTML=Array.from({length:10},(_,i)=>'<li>Action '+i+' with a deliberately long description that wraps onto several lines to stress the layout of the history panel</li>').join('');}`,
  'long-log':`const l=document.getElementById('battle-log');for(let i=0;i<40;i++){const p=document.createElement('div');p.className='log-line';p.textContent='Very long log line number '+i+' that goes on and on to test wrapping inside the battle log container';l.appendChild(p);}`,
  'long-toast':`const t=document.getElementById('battle-toast');t.textContent='A VERY LONG TOAST MESSAGE THAT KEEPS GOING TO SEE IF IT COLLIDES WITH THE HERO OR THE HUD';t.classList.remove('hidden');`,
  'ailments':`const r=G.State.current;r.ailments=[{id:'poison',turns:3},{id:'burn',turns:2},{id:'silence',turns:1},{id:'slow',turns:2}];G.BattleUI.refreshActiveScreen();`,
+ 'enemy-hud':`for(const card of document.querySelectorAll('#battle-enemies .enemy-card')){
+  card.querySelector('.enemy-name').textContent='A very long monster name '.repeat(8);
+  card.querySelector('.enemy-hp-text').textContent='1234567/12345678';
+  card.querySelector('.bar-fill.hp').style.width='12%';
+  card.querySelector('.bar-fill.break').style.width='0%';
+  card.classList.add('downed','broken');
+  card.querySelector('.enemy-effects').innerHTML=G.SystemsUI.ailments([{id:'poison',turns:3},{id:'burn',turns:4},{id:'silence',turns:5}])+G.BattleFX.modifiers([{stat:'defres',amount:-0.2,turnsLeft:4}]);
+ }`,
  'auras':`const p=document.querySelector('#battle-player-panel .player-portrait');p.classList.add('has-poison','has-burn','overdrive-ready');`,
  'levelup':`document.getElementById('screen-battle').classList.add('hero-levelup');`,
  'won':`document.getElementById('screen-battle').classList.add('battle-won');`,
@@ -84,7 +94,7 @@ app.whenReady().then(async()=>{
    {name:'floor100-boss-companion',floor:100,boss:true,companion:'ember_fox',lang:'th'},
    {name:'floor10-submenu',floor:10,lang:'th',submenu:true},
    ...(QUICK?classes.slice(0,2):classes).map(c=>({name:'class-'+c,floor:1,lang:'th',cls:c})),
-   ...Object.entries(groups.by).map(([n,f])=>({name:'enemies-x'+n,floor:f,lang:'en'})),
+   ...Object.entries(groups.by).map(([n,f])=>({name:'enemies-x'+n,floor:f,lang:'en',stress:'enemy-hud'})),
    ...Object.entries(groups.by).map(([n,f])=>({name:'enemies-x'+n+'-companion',floor:f,lang:'th',companion:'ember_fox'})),
    ...(groups.champ?[{name:'champion',floor:groups.champ,lang:'th'}]:[]),
    ...Object.keys(STRESS).flatMap(k=>[{name:'state-'+k,floor:1,lang:'th',stress:k},{name:'state-'+k+'-boss-comp-en',floor:100,boss:true,companion:'ember_fox',lang:'en',stress:k}]),
@@ -93,7 +103,7 @@ app.whenReady().then(async()=>{
   async function startScenario(sc){
    const cls=sc.cls||'blade';
    if(lastCls!==cls){await run(`G.BattleUI.cancelPlayback();G.State.createRun('normal','${cls}');`);lastCls=cls;}
-   await run(`G.I18n.setLang('${sc.lang}');G.BattleUI.cancelPlayback();const run=G.State.current;run.ailments=[];run.companionId=${JSON.stringify(sc.companion||null)};run.currentFloor=${sc.floor};G.State.fullRestore(run);G.BattleUI.startBattle(${sc.floor},${!!sc.boss},false);`);
+   await run(`G.I18n.setLang('${sc.lang}');G.BattleUI.cancelPlayback();const run=G.State.current||G.State.createRun('normal','${cls}');run.ailments=[];run.companionId=${JSON.stringify(sc.companion||null)};run.currentFloor=${sc.floor};G.State.fullRestore(run);G.BattleUI.startBattle(${sc.floor},${!!sc.boss},false);`);
    await run(`await Promise.all([...document.querySelectorAll('.battle-scene-art,.hero-visual img,.enemy-art img')].map(i=>i.decode?i.decode().catch(()=>{}):0));`);
    await run(`const d=document.getElementById('battle-recent-history');if(d)d.open=false;`);
    await settle(QUICK?90:130);
@@ -104,15 +114,20 @@ app.whenReady().then(async()=>{
   async function shot(row){if(SAVE_SHOTS||row.violations.length){fs.mkdirSync(OUT,{recursive:true});fs.writeFileSync(path.join(OUT,(row.viewport+'-'+row.scenario).replace(/[^\w.-]+/g,'_')+(row.violations.length?'-FAIL':'')+'.png'),(await w.webContents.capturePage()).toPNG());}}
 
   for(const sc of scenarios){
+   if(HUD_ONLY&&sc.stress!=='enemy-hud')continue;
    await startScenario(sc);
    if(sc.submenu){await run(`const b=[...document.querySelectorAll('#battle-actions button')].filter(x=>!x.disabled)[1]||document.querySelector('#battle-actions button');b&&b.click();`);await settle(120);}
+   const enemyGeometry = sc.stress === 'enemy-hud' ? await run(ENEMY_GEOMETRY) : null;
    if(sc.stress){await run(STRESS[sc.stress]);await settle(60);}
    const m=await run(`return window.__lay.measure();`);
    const list=[...m.violations];
+   if(enemyGeometry && enemyGeometry !== await run(ENEMY_GEOMETRY)) list.push('HP, Stagger, name or status changed the enemy portrait geometry');
    if(m.isMobile!==mobile)list.push('expected is-mobile='+mobile+' but got '+m.isMobile);
    list.push(...await run(`return window.__lay.layers();`));
    await shot(record(sc,list));
   }
+
+  if(HUD_ONLY){w.destroy();continue;}
 
   // Hero animations frozen at points along their timeline (animations enabled just for this).
   {
@@ -152,7 +167,7 @@ app.whenReady().then(async()=>{
  }
  for(const [i,e] of [...new Map(consoleErrors.map(e=>[e.message,e])).values()].entries())failures.push({viewport:e.viewport,scenario:'console-error#'+i,violations:[e.message]});
  fs.mkdirSync(OUT,{recursive:true});
- fs.writeFileSync(path.join(OUT,'report.json'),JSON.stringify({checks,failures,summary},null,2));
+ fs.writeFileSync(path.join(OUT,HUD_ONLY?'report-enemy-hud.json':'report.json'),JSON.stringify({checks,failures,summary},null,2));
  if(failures.length){
   console.error('Battle layout FAILED: '+failures.length+'/'+checks+' checks');
   const shown=failures.slice(0,40);

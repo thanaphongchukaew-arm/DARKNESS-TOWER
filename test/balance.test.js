@@ -41,10 +41,11 @@ test('arena pays a fraction of tower EXP and materials', () => {
 
 test('gold per enemy grows with EXP but with diminishing returns', () => {
   const { Formulas: F } = loadGame();
-  assert.equal(F.goldForExp(15), 7);
+  assert.equal(F.goldForExp(15), 8);
   assert.ok(F.goldForExp(1000) > F.goldForExp(500));
   assert.ok(F.goldForExp(1000) < 0.4 * 1000, 'well under the old flat 50%');
   assert.ok(F.goldForExp(15) >= 7, 'early game income is unchanged');
+  assert.ok(F.goldForExp(2000) < 0.6 * (2000 * 0.5 / (1 + 2000 / 600)), 'late game pays well under the old curve');
 });
 
 test('every gear source agrees on the item tier table', () => {
@@ -139,13 +140,14 @@ function fixture(classId, floor = 30) {
   return { g, run, battle };
 }
 
-test('Catch Breath heals a martial class for 28% of max HP and costs 7 MP', () => {
+test('Catch Breath heals a martial class for 28% of max HP (times its rank) and costs 7 MP', () => {
   const f = fixture('blade');
+  const rank = f.g.Data.skillPowerMult(f.g.Data.getSkill('catch_breath'), f.run.level);
   f.run.hp = Math.round(f.battle.player.maxHp * 0.3); f.run.mp = 20;
   const before = f.run.hp;
   const res = f.g.BattleEngine.playerAction(f.battle, { kind: 'skill', skillId: 'catch_breath' });
   assert.ok(!res.events.some((e) => e.type === 'invalid'));
-  assert.equal(f.run.hp - before, Math.round(f.battle.player.maxHp * 0.28));
+  assert.equal(f.run.hp - before, Math.round(f.battle.player.maxHp * 0.28 * rank));
   assert.equal(f.run.mp, 13);
 });
 

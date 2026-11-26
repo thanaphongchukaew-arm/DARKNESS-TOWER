@@ -58,9 +58,9 @@ test('ratio damage never collapses to 1 nor explodes, and is scale-invariant', (
   assert.equal(F.tempoGain(90, 100), 0);
 });
 
-test('a weakness hit knocks a regular enemy down, but not twice in a row and never a boss', () => {
+test('only a full stagger bar knocks an enemy down; weakness and crits just fill it faster', () => {
   const { G, run } = fresh('elementalist', 'normal', { random: () => 0.99 });
-  const BE = G.BattleEngine;
+  const BE = G.BattleEngine, F = G.Formulas;
   run.mp = 999;
   const battle = BE.createBattle(run, 2, false);
   const enemy = battle.enemies[0];
@@ -70,22 +70,22 @@ test('a weakness hit knocks a regular enemy down, but not twice in a row and nev
   assert.ok(skill, 'a shared skill exists for ' + weak);
   battle.playerAP = 1;
   let res = BE.playerAction(battle, { kind: 'skill', skillId: skill.id, targetIndex: 0 });
-  assert.ok(res.events.some((e) => e.type === 'downed'), 'weakness downs the enemy');
-  assert.equal(enemy.downed, true);
+  assert.ok(!res.events.some((e) => e.type === 'downed'), 'a weakness hit alone no longer downs the enemy');
+  assert.equal(enemy.breakMeter, F.breakAmount({ power: skill.power, weak: true }), 'weakness fills the bar x1.25');
+  assert.ok(F.breakAmount({ power: 1, crit: true }) > F.breakAmount({ power: 1 }), 'a crit fills it x1.5');
+  enemy.breakMeter = F.breakMax(enemy) - 1;
+  battle.playerAP = 1; run.mp = 999;
+  res = BE.playerAction(battle, { kind: 'skill', skillId: skill.id, targetIndex: 0 });
+  assert.ok(res.events.some((e) => e.type === 'downed') && enemy.downed, 'a full bar knocks it down');
   BE.confirmAllOut(battle, false);
   BE.runEnemyPhase(battle);
   assert.equal(enemy.steady, true);
+  enemy.breakMeter = F.breakMax(enemy) - 1;
   battle.playerAP = 1; run.mp = 999;
   BE.playerAction(battle, { kind: 'skill', skillId: skill.id, targetIndex: 0 });
   assert.equal(enemy.downed, false, 'a steady enemy cannot be downed again straight away');
   const boss = BE.createBattle(run, 5, false);
-  const mini = boss.enemies[0];
-  mini.maxHp = mini.hp = 1e6;
-  const bossWeak = G.Data.getEnemyTemplate(mini.templateId).weak;
-  const bossSkill = G.Data.skills.find((s) => s.kind === 'attack' && s.target === 'singleEnemy' && s.element === bossWeak && s.classOnly === null && !s.martialOnly);
-  run.mp = 999; boss.playerAP = 1; mini.breakMeter = 0;
-  BE.playerAction(boss, { kind: 'skill', skillId: bossSkill.id, targetIndex: 0 });
-  assert.equal(mini.downed, false, 'weakness alone does not floor a boss');
+  assert.ok(F.breakMax(boss.enemies[0]) > F.breakMax(enemy), 'bosses have a longer stagger bar');
 });
 
 test('physical classes get ATK-scaled elemental techniques; casters do not', () => {

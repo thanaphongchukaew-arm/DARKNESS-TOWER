@@ -39,7 +39,9 @@ const IN_PAGE = async function (OPTS) {
   function newRun(cls, level, floor, gold) {
     closeModals();
     const run = S.createRun('normal', cls || 'blade', 0);
-    S.current = run; run.level = level || 1; run.currentFloor = floor || 1; run.gold = gold == null ? 0 : gold; S.fullRestore(run);
+    S.current = run; run.level = level || 1; run.currentFloor = floor || 1; run.gold = gold == null ? 0 : gold;
+    G.Attributes.autoAllocate(run);   // a player who has assigned their attribute points
+    S.fullRestore(run);
     return run;
   }
   const meta = G.Save.readMeta(); meta.battleSpeed = 4; G.Save.writeMeta(meta);
@@ -279,7 +281,9 @@ const IN_PAGE = async function (OPTS) {
       for (const o of opts) {
         const s = D.getSkill(o.getAttribute('data-id')); if (!s) { check(false, cls + ': submenu lists unknown skill ' + o.getAttribute('data-id')); continue; }
         const label = o.querySelector('.submenu-option-cost'); const costText = label ? label.textContent : '';
-        if (s.cost > 0) check(costText.indexOf(s.cost + ' MP') !== -1, cls + '/' + s.id + ': cost label "' + costText + '" != ' + s.cost);
+        // The engine's real cost (class rules change it, e.g. the Gunslinger pays half MP plus bullets).
+        const mpCost = G.BattleEngine.skillCost(b, s).mp;
+        if (mpCost > 0) check(costText.indexOf(mpCost + ' MP') !== -1, cls + '/' + s.id + ': cost label "' + costText + '" != ' + mpCost);
         check(o.disabled === (run.mp < s.cost && !(s.hpCost > 0)) || o.disabled || run.mp >= s.cost, cls + '/' + s.id + ': affordability flag wrong');
       }
       const pick = opts.find((o) => !o.disabled && (D.getSkill(o.getAttribute('data-id')) || {}).kind === 'attack') || opts.find((o) => !o.disabled);

@@ -39,14 +39,25 @@ const DIFFS = opt('diff', mode === 'curve' ? 'normal' : mode === 'arena' ? 'nigh
 const CLASSES = opt('class', mode === 'curve' ? 'blade' : 'blade,elementalist,cleric,berserker,ranger').split(',');
 const RUNS = parseInt(opt('runs', mode === 'curve' ? '12' : mode === 'arena' ? '8' : '30'), 10); const ASC=parseInt(opt('asc','0'),10); const ROUTE=opt('route','');
 const REST_FLOORS = [5, 20, 35, 50, 65, 80, 95];
+// Free attribute points: spent the class's way (default), or all into one attribute with
+// --alloc str|dex|int|end|lck to test a specialised build.
+const ALLOC = opt('alloc', '');
+function spendPoints(G, run) {
+  if (ALLOC) { const n = G.Attributes.unspent(run); if (n) G.Attributes.spend(run, ALLOC, n); }
+  else G.Attributes.autoAllocate(run);
+}
 
+// --nomech a,b: play those classes without their class mechanic (same seed), to measure what it adds.
+const NOMECH = opt('nomech', '').split(',').filter(Boolean);
 function applyTuning(G) {
+  NOMECH.forEach((c) => { delete G.ClassMech.DEFS[c]; });
   if (!process.env.TUNE) return;
   const t = JSON.parse(process.env.TUNE), F = G.Formulas;
   if (t.anchors) { F.FLOOR_SCALE_ANCHORS.length = 0; t.anchors.forEach((a) => F.FLOOR_SCALE_ANCHORS.push(a)); }
   if (t.regular) Object.assign(F.REGULAR_TUNING, t.regular);
   if (t.mini) Object.assign(F.MINIBOSS_TUNING, t.mini);
   if (t.boss) Object.assign(F.FINAL_BOSS_TUNING, t.boss);
+  if (t.nightmare) F.DIFFICULTY.nightmare.statMult = t.nightmare;
 }
 
 function makeBot(G, diff, classId) {
@@ -61,7 +72,8 @@ function makeBot(G, diff, classId) {
   if (startPotions) S.addItem(run, 'p_hp_small', startPotions);
 
   function score(item) {
-    const b = item.statBonus || {};
+    const raw = item.statBonus || {}, fromAttr = G.Attributes.toStats(raw), b = {};
+    ['hp', 'mp', 'atk', 'mag', 'def', 'res', 'spd', 'luk'].forEach((k) => { b[k] = (raw[k] || 0) + fromAttr[k]; });
     return (b[main] || 0) * 3 + (b.def || 0) * 1.5 + (b.res || 0) * 1.5 + (b.hp || 0) * 0.4 + (b.spd || 0) + (b.luk || 0) * 0.5 + (b.mp || 0) * 0.2;
   }
   function slotsFor(kind) { return kind === 'accessory' ? ['accessory1', 'accessory2'] : [kind]; }
@@ -92,6 +104,12 @@ function makeBot(G, diff, classId) {
     const pots = D.items.filter((i) => i.kind === 'consumable' && i.effect && i.effect.type === 'healHp' && i.tier <= tier && i.price == null).sort((a, b) => b.tier - a.tier);
     const pot = pots[0];
     while (pot && (run.inventory[pot.id] || 0) < 4 && run.gold >= F.shopPrice(pot)) { S.spendGold(run, F.shopPrice(pot)); S.addItem(run, pot.id, 1); }
+    // Leftover gold goes into enhancing the cheapest slot, keeping a reserve for the next gear tier.
+    const reserve = 200 + floor * 15;
+    for (;;) {
+      const slots = ['weapon', 'armor', 'shoes', 'accessory1', 'accessory2'].map((slot) => ({ slot, price: S.enhancePrice(run, slot) })).filter((x) => x.price != null).sort((a, b) => a.price - b.price);
+      if (!slots.length || run.gold - slots[0].price < reserve || !S.enhanceSlot(run, slots[0].slot)) break;
+    }
   }
   // One of three random offers, like the real floor-clear reward screen.
   function reward(floor) {
@@ -121,7 +139,12 @@ function makeBot(G, diff, classId) {
   function chooseAction(b) {
     const alive = b.enemies.map((e, i) => ({ e, i })).filter((x) => x.e.alive);
     if (!alive.length) return null;
-    const skills = S.learnedSkills(run).filter((s) => s.cost <= run.mp);
+    // Class commands first (reload when empty, raise a skeleton, shift form...): see class-mech.js.
+    const blocked = (s) => BE.skillBlockReason(b, s);
+    const mechAct = G.ClassMech.botAction(b, blocked);
+    if (mechAct) return mechAct;
+    // Non-mechanic classes keep the original MP-only filter so test/balance-regression's snapshot stays comparable.
+    const skills = S.learnedSkills(run).filter((s) => G.ClassMech.has(run.classId) ? !blocked(s) : s.cost <= run.mp);
     if (run.hp < b.player.maxHp * 0.4) {
       const heal = skills.filter((s) => s.kind === 'heal').sort((a, c) => c.power - a.power)[0];
       if (heal) return { kind: 'skill', skillId: heal.id };
@@ -133,12 +156,12 @@ function makeBot(G, diff, classId) {
     const st = b.player;
     let best = { value: -1 };
     skills.filter((s) => s.kind === 'attack' && !s.hpCost).forEach((s) => {
-      const offense = s.element === 'almighty' ? Math.max(st.atk, st.mag) * 1.4 : (s.element === 'phys' || s.scaleStat === 'atk') ? st.atk : st.mag;
+      const offense = s.element === 'almighty' ? Math.max(st.atk, st.mag) * 1.4 : s.scaleStat === 'mag' ? st.mag : (s.element === 'phys' || s.scaleStat === 'atk') ? st.atk : st.mag;
       const targets = s.target === 'allEnemies' ? alive : alive;
       targets.forEach((x) => {
         const tpl = D.getEnemyTemplate(x.e.templateId) || {};
         const weak = x.e.weakEl || tpl.weak, resist = x.e.resistEl || tpl.resist;
-        let value = offense * s.power * (s.hits || 1) * (s.element === weak ? 1.6 : s.element === resist ? 0.65 : 1);
+        let value = offense * s.power * D.skillPowerMult(s, run.level) * (s.hits || 1) * (s.element === weak ? 1.6 : s.element === resist ? 0.65 : 1);
         if (s.target === 'allEnemies') value *= Math.min(alive.length, 3) * 0.9;
         value -= s.cost * 0.15;
         if (value > best.value) best = { value, skill: s, index: s.target === 'allEnemies' ? weakest.i : x.i };
@@ -189,7 +212,9 @@ function makeBot(G, diff, classId) {
       const rate = wave ? S.getRewardMult(run,'exp') * F.ARENA_EXP_MULT : F.DIFFICULTY[diff].rewardMult * S.getRewardMult(run,'exp');
       stats.exp = BE.getExpReward(b, rate);
       const hp0 = run.hp, mp0 = run.mp;
-      S.addExp(run, stats.exp);
+      const lv = S.addExp(run, stats.exp);
+      spendPoints(G, run);
+      if (lv.leveledUp && !wave) S.fullRestore(run);
       if (wave) { run.hp = hp0; run.mp = mp0; S.clampVitals(run); } // arena level-ups do not heal
       if (!wave) S.addGold(run, BE.getGoldReward(b, F.DIFFICULTY[diff].rewardMult * S.getRewardMult(run,'gold')));
     }
@@ -257,6 +282,32 @@ function survive(diff, classId) {
 }
 
 
+// Gold flow for an immortal bot: battle gold plus the average event payout (see EVENT_GOLD),
+// what it spends, and what it is left holding.
+function econ(diff, classId) {
+  const at = [10, 20, 30, 45, 60, 75, 90, 100], rows = {};
+  for (let i = 0; i < RUNS; i++) {
+    const G = loadGame(); applyTuning(G);
+    const S = G.State, bot = makeBot(G, diff, classId);
+    let earned = 0, spent = 0;
+    const addGold = S.addGold, spendGold = S.spendGold;
+    S.addGold = function (run, n) { earned += n; return addGold.apply(this, arguments); };
+    S.spendGold = function (run, n) { const ok = spendGold.apply(this, arguments); if (ok !== false) spent += n; return ok; };
+    for (let floor = 1; floor <= 100; floor++) {
+      bot.run.currentFloor = floor;
+      // A real run also meets gold events about one floor in four.
+      if (floor % 4 === 2) S.addGold(bot.run, G.Formulas.eventGold ? G.Formulas.eventGold(floor) : 160 + floor * 26);
+      bot.shop(floor);
+      bot.fight(floor, true);
+      bot.afterFloor(floor);
+      if (at.includes(floor)) { const r = rows[floor] = rows[floor] || { earned: [], spent: [], held: [] }; r.earned.push(earned); r.spent.push(spent); r.held.push(bot.run.gold); }
+    }
+  }
+  console.log('\n== econ: ' + diff + ' / ' + classId + ' (' + RUNS + ' runs, immortal bot)');
+  console.log('floor  earned   spent    held');
+  at.forEach((f) => { const r = rows[f]; console.log(pad(f, 5), pad(Math.round(avg(r.earned)), 7), pad(Math.round(avg(r.spent)), 7), pad(Math.round(avg(r.held)), 7)); });
+}
+
 function arena(diff, classId) {
   const at = opt('at','10,30,50,80').split(',').map(Number);
   const res = {}; at.forEach(a=>res[a]={waves:[],exp:[],floorExp:[],lvlBefore:[],lvlAfter:[]});
@@ -280,4 +331,4 @@ function arena(diff, classId) {
   }
   at.forEach(a=>{const r=res[a]; console.log(classId.padEnd(13),'arena@'+a,'waves med',r.waves.sort((x,y)=>x-y)[r.waves.length>>1],'min',r.waves[0],'max',r.waves[r.waves.length-1],'| exp/session',avg(r.exp).toFixed(0),'= '+(avg(r.exp)/avg(r.floorExp)).toFixed(1)+'x floor exp','| lvl',avg(r.lvlBefore).toFixed(0),'->',avg(r.lvlAfter).toFixed(0));});
 }
-DIFFS.forEach((diff) => CLASSES.forEach((classId) => ({curve, survive, arena})[mode](diff, classId)));
+DIFFS.forEach((diff) => CLASSES.forEach((classId) => ({curve, survive, arena, econ})[mode](diff, classId)));

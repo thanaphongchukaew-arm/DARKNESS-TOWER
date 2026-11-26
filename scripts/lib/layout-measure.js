@@ -4,6 +4,12 @@ module.exports = `
 window.__lay=(function(){
  const R=e=>{const r=e.getBoundingClientRect();return {l:r.left,t:r.top,r:r.right,b:r.bottom,w:r.width,h:r.height};};
  const vis=e=>{if(!e)return false;const cs=getComputedStyle(e);if(cs.display==='none'||cs.visibility==='hidden')return false;const r=e.getBoundingClientRect();return r.width>1&&r.height>1;};
+ const controlRect=e=>{
+  const rect=R(e),scroller=e.closest('.enemy-effects');
+  if(!scroller)return rect;
+  const clip=R(scroller);
+  return {...rect,l:Math.max(rect.l,clip.l),r:Math.min(rect.r,clip.r)};
+ };
  const hit=(a,b,tol)=>Math.min(a.r,b.r)-Math.max(a.l,b.l)>(tol||2)&&Math.min(a.b,b.b)-Math.max(a.t,b.t)>(tol||2);
  const fmt=r=>Math.round(r.l)+','+Math.round(r.t)+'-'+Math.round(r.r)+','+Math.round(r.b);
  // opts.dashing: hero is allowed to overlap enemies; opts.box: which hero box to use
@@ -43,7 +49,7 @@ window.__lay=(function(){
   // every interactive control on the battle screen (plus the settings gear) must be clear of every other one
   {const ctl=[...document.querySelectorAll('#screen-battle button, #screen-battle [role=button], #open-settings')].filter(e=>vis(e)&&!e.closest('#battle-submenu'));
    for(let i=0;i<ctl.length;i++)for(let j=i+1;j<ctl.length;j++){const a=ctl[i],b=ctl[j];if(a.contains(b)||b.contains(a))continue;
-    if(hit(R(a),R(b),3))v.push('controls overlap: '+(a.id||a.className||a.tagName).toString().slice(0,24)+' x '+(b.id||b.className||b.tagName).toString().slice(0,24));}}
+    if(hit(controlRect(a),controlRect(b),3))v.push('controls overlap: '+(a.id||a.className||a.tagName).toString().slice(0,24)+' x '+(b.id||b.className||b.tagName).toString().slice(0,24));}}
   // action-button labels: every text node must stay inside its own button and clear of the neighbours' text
   {const nodes=[];for(const b of document.querySelectorAll('#battle-actions button')){if(!vis(b))continue;const br=R(b);
     const walk=document.createTreeWalker(b,NodeFilter.SHOW_TEXT);let n;

@@ -1,6 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { loadGame } = require('./helpers/load-game');
+const { primeMech } = require('./helpers/class-mech.js');
 
 function fixture(cls = 'elementalist', floor = 1) {
   const g = loadGame({ random: () => 0.5 });
@@ -29,7 +30,7 @@ test('weakness increases damage and Break, resistance reduces it, discoveries pe
   template.weak = 'fire'; template.resist = 'ice';
   const weak = act(f, { kind: 'skill', skillId: skill.id, targetIndex: 0 });
   const weakHit = weak.events.find(e => e.type === 'hit');
-  assert.equal(f.enemy.breakMeter, 40);
+  assert.equal(f.enemy.breakMeter, f.g.Formulas.breakAmount({ power: skill.power, weak: true, crit: weakHit.isCrit }));
   skill.element = 'ice';
   const resist = act(f, { kind: 'skill', skillId: skill.id, targetIndex: 0 });
   assert.ok(weakHit.amount > resist.events.find(e => e.type === 'hit').amount);
@@ -92,13 +93,14 @@ test('route choices cannot target cleared, future or final floors and do not aff
 test('Break MP combo is capped once per round and relic + equipment do not double stack', () => {
   const f = fixture(); f.run.relics.push('break_prism'); f.run.equipment.accessory1 = 'c_shatter_prism';
   f.run.talents[10] = 'break_flow'; f.run.mp = 0;
-  f.enemy.breakMeter = 75;
+  const nearFull = f.g.Formulas.breakMax(f.enemy) - 1;
+  f.enemy.breakMeter = nearFull;
   act(f, { kind: 'attack', targetIndex: 0 });
   assert.equal(f.run.mp, 7);
-  f.enemy.breakMeter = 75; f.enemy.broken = false;
+  f.enemy.breakMeter = nearFull; f.enemy.broken = false;
   act(f, { kind: 'attack', targetIndex: 0 });
   assert.equal(f.run.mp, 7);
-  f.battle.round++; f.enemy.breakMeter = 75; f.enemy.broken = false;
+  f.battle.round++; f.enemy.breakMeter = nearFull; f.enemy.broken = false;
   act(f, { kind: 'attack', targetIndex: 0 });
   assert.equal(f.run.mp, 14);
 });
@@ -203,6 +205,7 @@ test('every class can use its learned kit with new talents across early, deep an
       for (const skill of g.State.learnedSkills(run)) {
         const battle = g.BattleEngine.createBattle(run, floor, floor === 100);
         g.State.fullRestore(run); run.hp -= 1;
+        primeMech(g, battle, skill);
         const result = g.BattleEngine.playerAction(battle, { kind: 'skill', skillId: skill.id, targetIndex: 0 });
         assert.notEqual(result.events[0]?.type, 'invalid', cls.id + '/' + skill.id);
         assert.ok(Number.isFinite(run.hp) && Number.isFinite(run.mp), cls.id + '/' + skill.id);
